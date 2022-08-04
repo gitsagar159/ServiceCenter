@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ServiceCenter.Models.CallRegistration
+@{
     ViewBag.Title = "Area List";
     Layout = null;
 }
@@ -87,10 +88,10 @@
                             <div class="row" style="margin-left:-5px">
                                 <div class="text-left">
                                     <div class="row">
-                                        <div class="col-12"><label class="form-label">Job No&nbsp;:  &nbsp;&nbsp;</label> 22G23LOW44</div>
+                                        <div class="col-12"><label class="form-label">Job No&nbsp;:  &nbsp;&nbsp;</label> @Html.Raw(Model.JobNo)</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-12"><label class="form-label">Job Date&nbsp;: &nbsp;&nbsp; </label>23/07/2022</div>
+                                        <div class="col-12"><label class="form-label">Job Date&nbsp;: &nbsp;&nbsp; </label>@Html.Raw(Model.CreationDate.HasValue ? Model.CreationDate.Value.ToString("dd/MM/yyyy"): "-")</div>
                                     </div>
                                 </div>
                                 <div style="margin-left:415px" class="text-right">
@@ -99,8 +100,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            Office 154, 330 North Brand Boulevard
-                                            Glendale, CA 91203, USA
+                                            @Html.Raw(Model.Address)
                                         </div>
                                     </div>
                                 </div>
@@ -109,19 +109,11 @@
                             <div class="row" style="margin-left:-5px">
                                 <div class="text-left">
                                     <div class="row">
-                                        <div class="col-12"><label class="form-label">Repet / Fresh : </label> 22G23LOW44</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" style="margin-left:-5px">
-                                <div class="text-left">
-                                    <div class="row">
                                         <div class="col-12">
-                                            <div class="text-left"><label class="form-label">City : </label> Jamnagar</div>
-                                            <div class="text-left" style="margin-left:130px;margin-top:-27px"><label class="form-label">Mobile : </label> 9327142646</div>
-                                            <div class="text-left" style="margin-left:400px;margin-top:-27px"><label class="form-label">Phone H : </label> 0288 2561487</div>
-                                            <div class="text-left" style="margin-left:570px;margin-top:-27px"><label class="form-label">Phone O : </label> 0288 5623778</div>
+                                            <div class="text-left"><label class="form-label">City : </label> @Html.Raw(Model.CityName)</div>
+                                            <div class="text-left" style="margin-left:130px;margin-top:-27px"><label class="form-label">Mobile : </label> @Html.Raw(Model.MobileNo)</div>
+                                            <div class="text-left" style="margin-left:400px;margin-top:-27px"><label class="form-label">Phone H : </label> @Html.Raw(Model.JobNo)</div>
+                                            <div class="text-left" style="margin-left:570px;margin-top:-27px"><label class="form-label">Phone O : </label> @Html.Raw(Model.JobNo)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -139,11 +131,11 @@
                                         <td style="width:150px;text-align:center"><label class="form-label">Purchase Date</label></td>
                                     </tr>
                                     <tr>
-                                        <td style="width:150px;text-align:center">Hitachi AC</td>
-                                        <td style="width:150px;text-align:center">AJ1220LK</td>
-                                        <td style="width:150px;text-align:center">SR000125</td>
-                                        <td style="width:150px;text-align:center">BILL02154584</td>
-                                        <td style="width:150px;text-align:center">31/12/2007</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.ItemName)</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.ModelName)</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.SrNo)</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.BillNo)</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.PurchaseDate)</td>
                                     </tr>
 
                                     <tr>
@@ -153,10 +145,10 @@
                                         <td style="width:500px;text-align:center" colspan="2"><label class="form-label">Fault Description</label> </td>
                                     </tr>
                                     <tr>
-                                        <td style="width:150px;text-align:center">Local</td>
-                                        <td style="width:150px;text-align:center">Out Warranty</td>
-                                        <td style="width:150px;text-align:center">Praksh Sonagra</td>
-                                        <td style="width:500px;text-align:center" colspan="2"> TEST TEST  TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.CallTypeName)</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.ServTypeName)</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.TechnicianName)</td>
+                                        <td style="width:500px;text-align:center" colspan="2"> @Html.Raw(Model.FaultDesc)</td>
                                     </tr>
 
 
@@ -166,15 +158,15 @@
                                 <table class="table table-responsive table-borderless">
                                     <tr>
                                         <td style="width: 200px;"><label class="form-label">Region for Job Done : </label> </td>
-                                        <td style="width: 700px;"> Region for Job Done </td>
+                                        <td style="width: 700px;"> @Html.Raw(Model.JobDoneRegion) </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 200px;"><label class="form-label">Region for Job Not Done : </label> </td>
-                                        <td style="width: 700px;">Region for Job Not Done </td>
+                                        <td style="width: 700px;">@Html.Raw(Model.JobRegion) </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 200px;"><label class="form-label">Special Instuction : </label> </td>
-                                        <td style="width: 700px;">Special Insruction Special Insruction Special Insruction Special Insruction Special Insruction Special Insruction</td>
+                                        <td style="width: 700px;">@Html.Raw(Model.SpInst)</td>
                                     </tr>
                                 </table>
                             </div>

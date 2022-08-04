@@ -48,5 +48,11 @@ namespace ServiceCenter.Controllers
             }
             
         }
+
+        public ActionResult Logout()
+        {
+            SessionService.DestroyUserSession();
+            return View("Index");
+        }
     }
 }

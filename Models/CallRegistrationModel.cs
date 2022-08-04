@@ -34,6 +34,7 @@ namespace ServiceCenter.Models
         public string IsNew { get; set; }
         public bool CallDeleted { get; set; }
         public string Area { get; set; }
+        public string AreaName { get; set; }
         public long ID { get; set; }
         public string RecipientType { get; set; }
         public DateTime? JobDoneTime { get; set; }
@@ -60,6 +61,7 @@ namespace ServiceCenter.Models
         public string CompComplaintNo { get; set; }
         public string JobNo { get; set; }
         public DateTime? CallDate { get; set; }
+        public string ItemId { get; set; }
         public string ItemName { get; set; }
         public string SrNo { get; set; }
         public string FaultDesc { get; set; }
@@ -110,6 +112,7 @@ namespace ServiceCenter.Models
         public string JobRegion { get; set; }
         public string JobDoneRegion { get; set; }
         public string FaultType { get; set; }
+        public string FaultTypeName { get; set; }
         public string PaymentByCheque { get; set; }
         public string fault_name7 { get; set; }
 

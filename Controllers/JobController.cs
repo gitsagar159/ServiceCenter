@@ -111,32 +111,6 @@ namespace ServiceCenter.Controllers
             return RedirectToAction("JobList", "Job");
         }
 
-
-        public ActionResult PrintWorkorderById()
-        {
-            string CallId = Request["CallId"];
-
-            CallRegistration callRegistration;
-
-            if (!string.IsNullOrEmpty(CallId))
-            {
-                callRegistration = new CallRegistration();
-
-                JobService objJobService = new JobService();
-                callRegistration = objJobService.GetWorkorderDetailByCallId(CallId);
-            }
-            else
-            {
-                callRegistration = new CallRegistration();
-
-                callRegistration.ServiceTypeDD = ServiceTypeDD();
-                callRegistration.CallTypeDD = CallTypeDD();
-                callRegistration.AreaDD = AreaDD();
-            }
-
-            return View(callRegistration);
-        }
-
         public bool IsSessionValid()
         {
             if (Session["User"] != null)
@@ -282,6 +256,20 @@ namespace ServiceCenter.Controllers
 
             return Json(new { data = objCustomerMasterResponce });
         }
+
+        [HttpPost]
+        public JsonResult UpdateCheckboxValueByType(string CheckboxType, string CallId, bool CheckoxValue)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+
+            JobService objJobService = new JobService();
+            objResponceModel = objJobService.UpdateCheckboxValueByType(CheckboxType, CallId, CheckoxValue);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        
 
         #endregion
 

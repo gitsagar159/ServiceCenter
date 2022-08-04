@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ServiceCenter.Models;
 using System.Web.Routing;
+using ServiceCenter.Services;
 
 namespace ServiceCenter.Controllers
 {
@@ -13,12 +14,27 @@ namespace ServiceCenter.Controllers
         // GET: Print
         public ActionResult WorkOrderView(string CallId)
         {
-            return View();
+
+            CallRegistration objCallRegistration = new CallRegistration();
+
+            if(!string.IsNullOrEmpty(CallId))
+            {
+                ReportService objReportService = new ReportService();
+                objCallRegistration = objReportService.GetWorkorderDetailByCallId(CallId);
+            }
+            else
+            {
+                objCallRegistration = new CallRegistration();
+            }
+
+            return View(objCallRegistration);
         }
 
         public ActionResult PrintPreview()
         {
-            var report = new Rotativa.ActionAsPdf("WorkOrderView")
+            string CallId = Request["CallId"];
+
+            var report = new Rotativa.ActionAsPdf("WorkOrderView",new RouteValueDictionary { { "CallId", CallId } })
             {
                 PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
             };

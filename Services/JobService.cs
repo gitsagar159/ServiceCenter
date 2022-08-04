@@ -1193,59 +1193,63 @@ namespace ServiceCenter.Services
 
 
 
-        public CallRegistration GetWorkorderDetailByCallId(string CallId)
-        {
-            CallRegistration ObjCallRegistration = new CallRegistration();
+       
 
+
+        public ResponceModel UpdateCheckboxValueByType(string CheckboxType, string CallId, bool Value)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            strQuery = string.Empty;
+
+            switch (CheckboxType)
+            {
+
+                case "CallAttn":
+                    strQuery = "UPDATE CallRegistration set CallAttn = @Value WHERE Oid = @CallId";
+                    break;
+
+                case "JobDone":
+                    strQuery = "UPDATE CallRegistration set JobDone = @Value WHERE Oid = @CallId";
+                    break;
+
+                default:
+                    strQuery = "";
+                    break;
+            }
 
             try
             {
-                objBaseDAL = new BaseDAL();
-
-                strQuery = @"GetWorkorderPrintData";
-
-                lstParam = new List<SqlParameter>();
-
-                lstParam.AddRange(new SqlParameter[]
-                      {
-                                new SqlParameter("@CallId", CallId),
-                      });
-
-                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
-
-                if (ResDataTable.Rows.Count > 0)
+                if(!string.IsNullOrEmpty(strQuery))
                 {
+                    objBaseDAL = new BaseDAL();
 
-                    DataRow dtRowItem = ResDataTable.Rows[0];
+                    lstParam = new List<SqlParameter>();
 
-                    ObjCallRegistration.Oid = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
-                    ObjCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
-                    ObjCallRegistration.CallDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]) : (DateTime?)null;
-                    ObjCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
-                    ObjCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
-                    ObjCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
-                    ObjCallRegistration.ProductName = dtRowItem["ProductName"] != DBNull.Value ? Convert.ToString(dtRowItem["ProductName"]) : string.Empty;
-                    ObjCallRegistration.PurchaseDate = dtRowItem["PurchaseDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["PurchaseDate"]) : (DateTime?)null;
-                    ObjCallRegistration.BillNo = dtRowItem["BillNo"] != DBNull.Value ? Convert.ToString(dtRowItem["BillNo"]) : string.Empty;
-                    ObjCallRegistration.SrNo = dtRowItem["SrNo"] != DBNull.Value ? Convert.ToString(dtRowItem["SrNo"]) : string.Empty;
-                    ObjCallRegistration.ModelName = dtRowItem["ModelName"] != DBNull.Value ? Convert.ToString(dtRowItem["ModelName"]) : string.Empty;
-                    ObjCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
-                    ObjCallRegistration.TechnicianName = dtRowItem["TechnicianName"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianName"]) : string.Empty;
-                    ObjCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
-                    ObjCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
-                    ObjCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
-                    ObjCallRegistration.JobDoneRegion = dtRowItem["JobDoneRegion"] != DBNull.Value ? Convert.ToString(dtRowItem["JobDoneRegion"]) : string.Empty;
-                    ObjCallRegistration.SpInst = dtRowItem["SpInst"] != DBNull.Value ? Convert.ToString(dtRowItem["SpInst"]) : string.Empty;
-                    ObjCallRegistration.CityName = dtRowItem["CityName"] != DBNull.Value ? Convert.ToString(dtRowItem["CityName"]) : string.Empty;
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@CallId", CallId),
+                                new SqlParameter("@Value", Value),
+                          });
 
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Checkbox value updated in database";
                 }
+
             }
             catch (Exception ex)
             {
                 CommonService.WriteErrorLog(ex);
+
+                objResponceModel = new ResponceModel();
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "Somthing Went Wrong!";
             }
 
-            return ObjCallRegistration;
+            return objResponceModel;
+
         }
 
     }

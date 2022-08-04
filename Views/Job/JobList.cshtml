@@ -134,14 +134,29 @@
                         { "data": "ServTypeName", "autoWidth": true },
                         { "data": "Technician", "autoWidth": true },
                         { "data": "MobileNo", "autoWidth": true },
-                        { "data": "CallAttn", "autoWidth": true },
-                        { "data": "JobDone", "autoWidth": true },
+                        /*{ "data": "CallAttn", "autoWidth": true },
+                         { "data": "JobDone", "autoWidth": true },*/
+                        {
+                            mRender: function (data, type, full) {
+
+                                var CallAttnChecked = full.CallAttn ? "checked" : "";
+                                return '<input type="checkbox" name="chkCallAttn" id="chkCallAttn"  ' + CallAttnChecked + ' data-name="CallAttn" data-id="' + full.Oid + '" data-value="' + full.CallAttn + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var JobDoneChecked = full.JobDone ? "checked" : "";
+                                return '<input type="checkbox" name="chkJobDone" id="chkJobDone" ' + JobDoneChecked + ' data-name="JobDone" data-id="' + full.Oid + '" data-value="' + full.JobDone + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        
                         { "data": "ProductName", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
 
                                 return '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary"> <span class="fas fa-pencil-alt"></span ></a> &nbsp;' +
-                                '&nbsp; <a href="/Print/PrintPreview" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
+                                    '&nbsp; <a href="/Print/PrintPreview?CallId=' + full.Oid + '" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
                             }
                         },
 
@@ -176,12 +191,41 @@
                 */
             }
 
-            
-            /*
-            $('#CallCategory').on('change', function () {
-                datatable.clear().draw();
-            });
-            */
+
+            function fnUpdateCheckboxValueintoDatabase(thiObj) {
+
+                if (thiObj !== undefined) {
+
+                    var checkboxCurrentValue = $(thiObj).attr("data-value");
+
+                    var callId = $(thiObj).attr("data-id");
+                    var checkboxType = $(thiObj).attr("data-name");
+                    var checkboxValue = checkboxCurrentValue == "false" ? true : false;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Job/UpdateCheckboxValueByType",
+                        data: { CheckboxType: checkboxType, CallId: callId, CheckoxValue: checkboxValue },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                    $(thiObj).attr("data-value", checkboxValue ? "true" : "false");
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+                            }
+                        }
+                    });
+
+                }
+            }
+
         </script>
     }
 
