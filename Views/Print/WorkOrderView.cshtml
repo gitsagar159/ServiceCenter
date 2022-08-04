@@ -1,0 +1,226 @@
+﻿@{
+    ViewBag.Title = "Area List";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en" class="default-style">
+
+<head>
+    <title>Invoice - Pages - Appwork</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/uikit.css">
+    <link rel="stylesheet" href="~/Content/assets/css/demo.css">
+
+    <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
+    <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <script src="~/Content/assets/vendor/js/theme-settings.js"></script>
+
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/js/pace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+</head>
+
+<body>
+    <div class="page-loader">
+        <div class="bg-primary"></div>
+    </div>
+
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-2">
+        <div class="layout-inner">
+            <!-- Layout container -->
+            <div class="layout-container">
+                <div class="layout-content">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="padding-left:100px!important;">
+                                <div class="col-sm-12 pb-4 text-center">
+                                    <div class="media align-items-center mb-4">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="media-body text-big font-weight-bold ml-2 size-50">
+                                                    KE SERVICE
+                                                </div>
+                                                Bhojwani Building, Opp. Ambar Cinema-Jamnagar, Pone: 85111 99123 / 85111 99130
+                                                <div class="media-body text-big font-weight-bold ml-2 size-50">
+                                                    WORK ORDER
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <hr class="mb-4">
+
+                            <div class="row" style="margin-left:-5px">
+                                <div class="text-left">
+                                    <div class="row">
+                                        <div class="col-12"><label class="form-label">Job No&nbsp;:  &nbsp;&nbsp;</label> 22G23LOW44</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12"><label class="form-label">Job Date&nbsp;: &nbsp;&nbsp; </label>23/07/2022</div>
+                                    </div>
+                                </div>
+                                <div style="margin-left:415px" class="text-right">
+                                    <div class="row">
+                                        <div class="col-6"><label class="form-label">Customer Name & Address</label></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            Office 154, 330 North Brand Boulevard
+                                            Glendale, CA 91203, USA
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-left:-5px">
+                                <div class="text-left">
+                                    <div class="row">
+                                        <div class="col-12"><label class="form-label">Repet / Fresh : </label> 22G23LOW44</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-left:-5px">
+                                <div class="text-left">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="text-left"><label class="form-label">City : </label> Jamnagar</div>
+                                            <div class="text-left" style="margin-left:130px;margin-top:-27px"><label class="form-label">Mobile : </label> 9327142646</div>
+                                            <div class="text-left" style="margin-left:400px;margin-top:-27px"><label class="form-label">Phone H : </label> 0288 2561487</div>
+                                            <div class="text-left" style="margin-left:570px;margin-top:-27px"><label class="form-label">Phone O : </label> 0288 5623778</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="mb-3">
+
+                            <div class="text-left" style="margin-left:-50px;">
+                                <table class="table table-responsive table-borderless">
+                                    <tr>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Item Name</label> </td>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Model</label></td>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Sr No</label></td>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Bill No</label> </td>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Purchase Date</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:150px;text-align:center">Hitachi AC</td>
+                                        <td style="width:150px;text-align:center">AJ1220LK</td>
+                                        <td style="width:150px;text-align:center">SR000125</td>
+                                        <td style="width:150px;text-align:center">BILL02154584</td>
+                                        <td style="width:150px;text-align:center">31/12/2007</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Type</label> </td>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Service Type</label></td>
+                                        <td style="width:150px;text-align:center"><label class="form-label">Technician</label></td>
+                                        <td style="width:500px;text-align:center" colspan="2"><label class="form-label">Fault Description</label> </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:150px;text-align:center">Local</td>
+                                        <td style="width:150px;text-align:center">Out Warranty</td>
+                                        <td style="width:150px;text-align:center">Praksh Sonagra</td>
+                                        <td style="width:500px;text-align:center" colspan="2"> TEST TEST  TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST</td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                            <div class="text-left" style="margin-left:-10px;">
+                                <table class="table table-responsive table-borderless">
+                                    <tr>
+                                        <td style="width: 200px;"><label class="form-label">Region for Job Done : </label> </td>
+                                        <td style="width: 700px;"> Region for Job Done </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 200px;"><label class="form-label">Region for Job Not Done : </label> </td>
+                                        <td style="width: 700px;">Region for Job Not Done </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 200px;"><label class="form-label">Special Instuction : </label> </td>
+                                        <td style="width: 700px;">Special Insruction Special Insruction Special Insruction Special Insruction Special Insruction Special Insruction</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <hr style="margin-top:300px">
+
+                            <div class="row" style="margin-top:50px">
+                                <div class="text-left" style="margin-left:75px">
+                                    <div class="row">
+                                        <div class="col-12"><label class="form-label">Customer's Signature</label></div>
+                                    </div>
+                                </div>
+                                <div style="margin-left:375px" class="text-right">
+                                    <div class="row">
+                                        <div class="col-12"><label class="form-label">Receiver's Signature</label></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- / Layout container -->
+
+        </div>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-sidenav-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/Content/assets/vendor/js/sidenav.js"></script>
+
+    <!-- Libs -->
+    <script src="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <!-- Demo -->
+    <script src="~/Content/assets/js/demo.js"></script>
+
+</body>
+
+</html>

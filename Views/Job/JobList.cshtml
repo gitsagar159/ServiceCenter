@@ -1,0 +1,190 @@
+﻿@model List<ServiceCenter.Models.CallRegistration>
+
+@{
+    ViewBag.Title = "JobList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+    @*<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+                <form role="form">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Search</label>
+                                <input type="text" class="form-control" name="Keyword" id="Keyword" placeholder="Search Keyword">
+                            </div>
+                        </div>
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Call Category</label>
+                                <select class="custom-select" name="CallCategory" id="CallCategory">
+                                    <option value="0">Select</option>
+                                    <option value="1" style="color:red">Job Done </option>
+                                    <option value="2">Call Open</option>
+                                    <option value="3" style="color:green">New Call(Not Assigned)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col col-md-4 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        Call Register List
+                    </h6>
+                </div>
+                <div class="col col-md-9 text-right pr-4">
+                    <a href="/Job/ServiceCallRegistation" class="btn icon-btn btn-outline-primary mt-2">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblJobList">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Created Date</th>
+                            <th>Call Assign Date</th>
+                            <th>Customer</th>
+                            <th>Address</th>
+                            <th>Call Type</th>
+                            <th>Service Type</th>
+                            <th>Technician</th>
+                            <th>Mobile</th>
+                            <th>Call Attend</th>
+                            <th>Job Done</th>
+                            <th>Product</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                bindDatatable();
+            });
+
+            var hCols = [];
+            var ChId = "";
+            var ValidPrint = 0;
+            var srNo = 1;
+            function bindDatatable() {
+                var table = $('#tblJobList').DataTable({
+                    "paging": true,
+                    "pageLength": $('#PageSize').val(),
+                    "bLengthChange": false,
+                    "autoWidth": true,
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": false,
+                    "orderMulti": false,
+                    "ajax": {
+                        "url": "/Job/GetJobList1",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": function (d) {
+                            d.Keyword = $("#Keyword").val().trim();
+                            d.CallCategory = $('#CallCategory').val();
+                        }
+                    },
+                    "columns": [
+                        { "data": "RowNo", "autoWidth": true },
+                        { "data": "StringCreationDate", "autoWidth": true },
+                        { "data": "StringCallAssignDate", "autoWidth": true },
+                        { "data": "CustomerName", "autoWidth": true },
+                        { "data": "Address", "autoWidth": true },
+                        { "data": "CallTypeName", "autoWidth": true },
+                        { "data": "ServTypeName", "autoWidth": true },
+                        { "data": "Technician", "autoWidth": true },
+                        { "data": "MobileNo", "autoWidth": true },
+                        { "data": "CallAttn", "autoWidth": true },
+                        { "data": "JobDone", "autoWidth": true },
+                        { "data": "ProductName", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary"> <span class="fas fa-pencil-alt"></span ></a> &nbsp;' +
+                                '&nbsp; <a href="/Print/PrintPreview" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
+                            }
+                        },
+
+                    ],
+                    "responsive": true,
+                    "columnDefs": [
+                        { orderable: true, "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] },
+                    ],
+                    "order": [[0, "desc"]],
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                        if (aData.CallAttn == false) {
+                            $('td', nRow).css('background-color', '#D2D2D2');
+                        }
+                    }
+                });
+
+                $("#btnAdvanceSearch").click(function (event) {
+                    event.preventDefault();
+                    table.search(this.value).draw();
+                });
+
+                /*
+                $("#CallCategory").change(function (event) {
+                    event.preventDefault();
+                    table.search(this.value).draw();
+                });
+
+                $("#Keyword").on('blur', function (event) {
+                    event.preventDefault();
+                    table.search(this.value).draw();
+                });
+                */
+            }
+
+            
+            /*
+            $('#CallCategory').on('change', function () {
+                datatable.clear().draw();
+            });
+            */
+        </script>
+    }
+
+</div>
+
+

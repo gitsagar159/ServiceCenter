@@ -1,0 +1,446 @@
+﻿@using ServiceCenter.Models
+@model ServiceCenter.Models.CallRegistration
+
+@{
+    ViewBag.Title = "Service Call Registation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    User ObjUser = new User();
+
+    ObjUser = HttpContext.Current.Session["User"] != null ? (User)HttpContext.Current.Session["User"] : new User();
+
+    if (string.IsNullOrEmpty(Model.Oid))
+    {
+        Model.UserName = ObjUser.name;
+        Model.Modifier = ObjUser.name;
+        Model.CreationDate = DateTime.Now;
+        Model.ModifyDate = DateTime.Now;
+
+    }
+}
+
+@section style {
+
+
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">-->
+    <!-- Font Awesome -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/fontawesome-free/css/all.min.css">-->
+    <!-- Ionicons -->
+    <!--<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">-->
+    <!-- Tempusdominus Bootstrap 4 -->
+    <!--<link rel="stylesheet"
+          href="https://mtechnolab.com/Callregistration/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">-->
+    <!-- JQVMap -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/jqvmap/jqvmap.min.css">-->
+    <!-- DataTables -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet"
+          href="https://mtechnolab.com/Callregistration/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">-->
+    <!-- Select2 -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/select2/css/select2.min.css">-->
+    <!-- CodeMirror -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/codemirror/codemirror.css">
+    <link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/codemirror/theme/monokai.css">-->
+    <!-- Bootstrap Color Picker -->
+    <!--<link rel="stylesheet"
+          href="https://mtechnolab.com/Callregistration/assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">-->
+    <!-- icheck bootstrap -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">-->
+    <!-- Theme style -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/css/adminlte.css">-->
+    <!-- overlayScrollbars -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">-->
+    <!-- Daterange picker -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/daterangepicker/daterangepicker.css">-->
+    <!-- summernote -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/summernote/summernote-bs4.min.css">-->
+    <!-- Toastr -->
+    <!--<link rel="stylesheet" href="https://mtechnolab.com/Callregistration/assets/plugins/toastr/toastr.min.css">-->
+    <!--alert message-->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+}
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="wrapper">
+        <div class="content-wrapper" style="padding-top:2%">
+
+            @using (Html.BeginForm("ServiceCallRegistation", "job", FormMethod.Post, new { @id = "frmCallRegistation" }))
+            {
+                @Html.HiddenFor(m => m.Oid)
+                <!-- User Session Start-->
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="form-label">User Name:</label>
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "User Name", @readonly = true })
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Createion Date</label>
+                            @Html.TextBoxFor(m => m.CreationDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", placeholder = "User Name", @readonly = true })
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Modifier</label>
+                            @Html.TextBoxFor(m => m.Modifier, new { @class = "form-control", placeholder = "Modifier", @readonly = true })
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Modify Date</label>
+                            @Html.TextBoxFor(m => m.ModifyDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", placeholder = "Modify Date", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                <!-- User Session End-->
+
+                <div class="col-sm-12 menu2">
+                    <h6 style="margin-right: 6px">CallAssignDate:</h6>
+                    @Html.TextBoxFor(m => m.CallAssignDate, "{0:dd'/'MM'/'yyyy}", new { @class = "he-21 datepicker", Style = "width:10%;" })
+                </div>
+
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-12">
+                                <div class="card card-warning">
+                                    <!-- /.card-header -->
+                                    <div class="card-body" style="padding: 0 0.25rem;">
+                                        <div class="col-md-12">
+                                            <div class="card-header bgsize-primary-4 white card-header" style="padding:0px;border:0px">
+                                                <h4 class="card-title">Call Registration</h4>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-header bgsize-primary-4 white card-header">
+                                                    <h4 class="card-title">Customer Detail</h4>
+                                                </div>
+                                                <div class="card-body" style="padding: 0.45rem 0.25rem;">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 menu2">
+                                                            <h6 class="mr-10">Customer Code:</h6>
+                                                            <select class="mr-10 he-21" name="Customer" id="Customer" style="width: 20%;">
+                                                            </select>
+                                                            <h6 style="margin-right:13px">Customer Name:</h6>
+                                                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "he-21", Style = "width:45%;" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12 menu2">
+                                                            <h6 class="mr-10">Address:</h6>
+                                                            @Html.TextBoxFor(m => m.Address, new { @class = "mr-10 he-21", Style = "width:22%;" })
+                                                            <h6 style="margin-right:38px">Area:</h6>
+                                                            @Html.DropDownListFor(m => m.Area, Model.AreaDD as SelectList, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                            <h6 style="margin-right:7px">Mobile No:</h6>
+                                                            @Html.TextBoxFor(m => m.MobileNo, new { @class = "he-21", Style = "width:41%;" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:9%;">CallDate:</h6>
+                                                    @Html.TextBoxFor(m => m.CallDate, "{0:dd'/'MM'/'yyyy}", new { @class = "mr-10 he-21", Style = "width:18%;", @readonly = true })
+                                                    <h6 style="margin-right:2%;">ID:</h6>
+                                                    @Html.TextBoxFor(m => m.ID, new { @class = "mr-10 he-21", Style = "width:5%;", @readonly = true })
+                                                    <h6 style="margin-right:1%;">Sr No:</h6>
+                                                    @Html.TextBoxFor(m => m.SrNo, new { @class = "he-21", Style = "width:54.2%;" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:9.7%;">Job No:</h6>
+                                                    @Html.TextBoxFor(m => m.JobNo, new { @class = "mr-10 he-21", Style = "width:18%;", @readonly = true })
+                                                    <h6 style="margin-right:1%;">Deal.Ref/Name:</h6>
+                                                    @Html.TextBoxFor(m => m.DealRef, new { @class = "he-21", Style = "width:58.2%;" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:2.9%;">Comp Complaint No:</h6>
+                                                    @Html.TextBoxFor(m => m.CompComplaintNo, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <h6 style="margin-right:0.5%;">EstimateDate:</h6>
+                                                    @Html.TextBoxFor(m => m.EstimateDate, "{0:dd'/'MM'/'yyyy}", new { @class = "mr-10 he-21 datepicker", Style = "width:20%;" })
+                                                    <h6 style="margin-right:2%;">Payment:</h6>
+                                                    @Html.TextBoxFor(m => m.Payment, new { @class = "he-21", Style = "width:32%;" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:8.7%;">Call Type:</h6>
+                                                    @Html.DropDownListFor(m => m.CallType, Model.CallTypeDD as SelectList, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <h6 style="margin-right:0.5%;">EstConfirmDate:</h6>
+                                                    @Html.TextBoxFor(m => m.EstConfirmDate, "{0:dd'/'MM'/'yyyy}", new { @class = "mr-10 he-21 datepicker", Style = "width:18.7%;" })
+                                                    <h6 style="margin-right:3%;">Estimate:</h6>
+                                                    @Html.TextBoxFor(m => m.Estimate, new { @class = "he-21", Style = "width:31.2%;" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:6.5%;">ServType:</h6>
+                                                    @Html.DropDownListFor(m => m.ServType, Model.ServiceTypeDD as SelectList, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <h6 style="margin-right:0.5%;"></h6>
+                                                    <!--<input type="text" class="mr-10 he-21" name="estconfirmdate" required style="width:18.7%">-->
+                                                    <h6 style="margin-right:3%;"></h6>
+                                                    <!--<input type="text" class="he-21" name="estimate" required style="width:32%">-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:7.7%;">Item Name:</h6>
+                                                    @*@Html.TextBoxFor(m => m.ItemName, new { @class = "mr-10 he-21", Style = "width:18%;" })*@
+                                                    <select class="mr-10 he-21" name="ItemName" id="ItemName" style="width: 20%;"> </select>
+                                                    <h6 style="margin-right:3.3%;">Technician:</h6>
+                                                    @Html.DropDownListFor(m => m.Technician, Model.TechnicianDD as SelectList, new { @class = "mr-10 he-21", Style = "width:58.2%;" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:7.8%;">Fault Desc.:</h6>
+                                                    @Html.TextBoxFor(m => m.FaultDesc, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <h6 style="margin-right:3.5%;">Fault Type:</h6>
+                                                    @Html.DropDownListFor(m => m.FaultType, Model.FaultTypeDD as SelectList, new { @class = "he-21", Style = "width:58.2%;" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:6.8%;">Model Name:</h6>
+                                                    @Html.TextBoxFor(m => m.ModelName, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <h6 style="margin-right:0.5%;"></h6>
+                                                    <!--<input type="text" class="mr-10 he-21" name="estconfirmdate" required style="width:18.7%">-->
+                                                    <h6 style="margin-right:3%;"></h6>
+                                                    <!--<input type="text" class="he-21" name="estimate" required style="width:32%">-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:9.2%;">Sp. Inst.:</h6>
+                                                    @Html.TextBoxFor(m => m.SpInst, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <h6 style="margin-right:0.5%;">Region For Job Done:</h6>
+                                                    @Html.TextBoxFor(m => m.JobDoneRegion, new { @class = "he-21", Style = "width:28%;" })
+                                                    @*<h6 style="margin-right:3%;">Product Name:</h6>
+                                                @Html.TextBoxFor(m => m.ProductName, new { @class = "he-21", Style = "width:16.5%;" })*@
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 menu2">
+                                                    <h6 style="margin-right:0.5%;">Region For Job Not Done:</h6>
+                                                    @Html.TextBoxFor(m => m.ProductName, new { @class = "mr-10 he-21", Style = "width:18%;" })
+                                                    <div class="row" style="display:contents;">
+                                                        <div class="col-sm-12" style="display:contents;" id="text1">
+                                                            @Html.CheckBoxFor(m => m.CallAttn, new { @class = "mr-10 he-21" })
+                                                            <h6 style="margin-right:3%;">Call Auth</h6>
+                                                            @Html.CheckBoxFor(m => m.JobDone, new { @class = "mr-10 he-21" })
+                                                            <h6 style="margin-right:3%;">Job Done</h6>
+                                                            @Html.CheckBoxFor(m => m.RepeatFromTech, new { @class = "mr-10 he-21" })
+                                                            <h6 style="margin-right:3%;">Repeat From Tech</h6>
+                                                            @Html.CheckBoxFor(m => m.CallBack, new { @class = "mr-10 he-21" })
+                                                            <h6 style="margin-right:3%;">Call Back</h6>
+                                                            @Html.CheckBoxFor(m => m.WorkShopIN, new { @class = "mr-10 he-21" })
+                                                            <h6 style="margin-right:3%;">WorkShop IN</h6>
+                                                            @Html.CheckBoxFor(m => m.SMSSent, new { @class = "mr-10 he-21" })
+                                                            <h6 style="margin-right:3%;">SMS Sent</h6>
+                                                        </div>
+                                                    </div>
+                                                    <!--<input type="text" class="he-21" name="estimate" required style="width:32%">-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--</form>-->
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <div class="card">
+                                    <div class="card-header bgsize-primary-4 white card-header">
+                                        <h4 class="card-title">FIELD</h4>
+                                    </div>
+                                    <div class="card-body" style="padding: 0.7% 1.25rem;">
+                                        <div class="row">
+                                            <div class="col-sm-12 menu2" style="display:block;" id="text3">
+                                                <h6 style="margin-right:3%">Bill No:</h6>
+                                                @Html.TextBoxFor(m => m.BillNo, new { @class = "mr-10 he-21", Style = "width:14%;" })
+                                                <h6 style="margin-right:13px">Tech Bill No:</h6>
+                                                @Html.TextBoxFor(m => m.TechBillNo, new { @class = "he-21", Style = "width:20%;;margin-right:7%" })
+                                                @Html.CheckBoxFor(m => m.PaymentPanding, new { @class = "mr-10 he-21" })
+                                                <h6 style="margin-right:3.4%;">Payment Pending</h6>
+                                                <h6 style="margin-right:13px">PurchaseDate:</h6>
+                                                @Html.TextBoxFor(m => m.PurchaseDate, "{0:dd'/'MM'/'yyyy}", new { @class = "he-21 datepicker", Style = "width:21%;" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-header bgsize-primary-4 white card-header" style="border:1px solid steelblue">
+                                    <h4 class="card-title">Call_ItemDetails_Group(64)</h4>
+                                </div>
+                                <div class="card-body" style="padding: 1% 0% 0% 5.5%;">
+                                    <div class="row">
+                                        <div class="col-sm-12 menu2" style="display:block;" id="text2">
+                                            @Html.CheckBoxFor(m => m.Deliver, new { @class = "mr-10 he-21" })
+                                            <h6 style="margin-right:6%;">Delivered</h6>
+                                            @Html.CheckBoxFor(m => m.Canceled, new { @class = "mr-10 he-21" })
+                                            <h6 style="margin-right:6%;">Canceled</h6>
+                                            @Html.CheckBoxFor(m => m.GoAfterCall, new { @class = "mr-10 he-21" })
+                                            <h6 style="margin-right:6%;">Go After Call</h6>
+                                            @Html.CheckBoxFor(m => m.PartPanding, new { @class = "mr-10 he-21" })
+                                            <h6 style="margin-right:1%;">Part Pending</h6>
+                                            <h6 style="margin-right:2%">Payment By:</h6>
+                                            @Html.TextBoxFor(m => m.PaymentBy, new { @class = "mr-10 he-21", Style = "width:7%;" })
+                                            <h6 style="margin-right:2%">Visit Charge:</h6>
+                                            @Html.TextBoxFor(m => m.VisitCharge, new { @class = "he-21", Style = "width:25%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding: 1% 0% 0% 5.5%;">
+                                    <div class="row">
+                                        <div class="col-sm-12 menu2" style="display:block;" id="text2">
+                                            <input type="submit" name="Submit" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+            }
+
+        </div>
+    </div>
+
+    @section scripts{
+
+        <script src="~/Scripts/ProjectJs/CallRegistration.js"></script>
+        <script>
+            LoadCustomerCodeDropDown();
+            setTimeout(function () { GetGeneratedJobNo("0", "0"); }, 500)
+        </script>
+
+        <!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/jquery/jquery.min.js"></script>-->
+        <!-- Bootstrap 4 -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+        <!-- jQuery UI 1.11.4 -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/jquery-ui/jquery-ui.min.js"></script>-->
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <!--<script>$.widget.bridge('uibutton', $.ui.button)</script>-->
+        <!-- ChartJS -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/chart.js/Chart.min.js"></script>-->
+        <!-- Sparkline -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/sparklines/sparkline.js"></script>-->
+        <!-- JQVMap -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/jqvmap/jquery.vmap.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>-->
+        <!-- jQuery Knob Chart -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/jquery-knob/jquery.knob.min.js"></script>-->
+        <!-- bootstrap color picker -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>-->
+        <!-- daterangepicker -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/moment/moment.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/daterangepicker/daterangepicker.js"></script>-->
+        <!-- Tempusdominus Bootstrap 4 -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/raphael/raphael.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/jquery-mapael/maps/usa_states.min.js"></script>-->
+        <!-- Summernote -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/summernote/summernote-bs4.min.js"></script>-->
+        <!-- overlayScrollbars -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>-->
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/js/pages/dashboard.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/js/pages/dashboard2.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/js/pages/dashboard3.js"></script>-->
+        <!-- DataTables  & Plugins -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/jszip/jszip.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/pdfmake/vfs_fonts.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>-->
+        <!-- Select2 -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/select2/js/select2.full.min.js"></script>-->
+        <!-- Summernote -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/summernote/summernote-bs4.min.js"></script>-->
+        <!-- CodeMirror -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/codemirror/codemirror.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/codemirror/mode/css/css.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/codemirror/mode/xml/xml.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>-->
+        <!-- Toastr -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/plugins/toastr/toastr.min.js"></script>-->
+        <!-- AdminLTE for demo purposes -->
+        <!--<script src="https://mtechnolab.com/Callregistration/assets/js/demo.js"></script>
+        <script src="https://mtechnolab.com/Callregistration/assets/js/adminlte.min.js"></script>
+        <script>
+            var url = window.location.href;
+            const lastTwo = url.split('/').slice(-1).join('/');
+            if (lastTwo == "admin") {
+                console.log(lastTwo);
+                $("body").removeClass("sidebar-mini layout-fixed");
+                $("body").addClass("login-page");
+            }
+        </script>
+
+        <script>
+            function checkWidth() {
+                if ($(window).width() >= 514) {
+                    $('.menu2').addClass('d-flex');
+                } else {
+                    $('.menu2').removeClass('d-flex');
+                    //$(".he-21").removeAttr("style");
+                }
+            }
+            $(window).resize(checkWidth);
+            $(document).ready(function () {
+                if ($(window).width() >= 514) {
+                    console.log('refresh');
+                    $('.menu2').addClass('d-flex');
+                    document.getElementById('text1').style.display = 'contents';
+                    document.getElementById('text2').style.display = 'block';
+                    document.getElementById('text3').style.display = 'block';
+                    document.getElementById('answer2').style.display = 'none';
+                    document.getElementById('answer3').style.display = 'none';
+                    $('.width').removeClass('w-100');
+                }
+                else {
+                    $(".he-21").removeAttr("style");
+                    $('.width').removeClass('w-100');
+                    $('.he-21').addClass('w-100');
+                    document.getElementById('answer1').style.display = 'block';
+                    document.getElementById('text1').style.display = 'none';
+                    document.getElementById('text2').style.display = 'none';
+                    document.getElementById('text3').style.display = 'none';
+                    document.getElementById('answer2').style.display = 'block';
+                    document.getElementById('answer3').style.display = 'block';
+                }
+
+            });
+
+        </script>-->
+
+
+
+    }
+
+    @Html.Partial("_CustomerMaster")
+
+    <!-- AdminLTE App -->
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+</div>
+

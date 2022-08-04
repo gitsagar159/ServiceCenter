@@ -1,0 +1,79 @@
+﻿<div class="modal fade" id="customer_modal">
+    <div class="modal-dialog">
+        <form class="modal-content" id="frmCustomerMaster" name="frmCustomerMaster" action="/Job/AddNewCustomer/">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Customer Master
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+
+                <input type="hidden" id="Oid" name="Oid" value="">
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control control-required" id="FirstName" name="FirstName" placeholder="First Name">
+                        <small id="FirstName_ToolTip" class="" style="display:none">Enter First Name</small>
+                    </div>
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control control-required" id="Address" name="Address" placeholder="Address">
+                        <small id="Address_ToolTip" class="" style="display:none">Enter Address</small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0">
+                        <label class="form-label">City Name</label>
+                        <select class="form-control control-required" name="CityName" id="CityName" style="width: 100%"> </select>
+                        <small id="CityName_ToolTip" class="" style="display:none">Select City</small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" id="EMail" name="EMail" placeholder="Email Address">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Mobile No</label>
+                        <input type="text" class="form-control control-required mob-no" id="MobileNo" name="MobileNo" placeholder="Mobile Number">
+                        <small id="MobileNo_ToolTip" class="" style="display:none">Enter Mobile Number</small>
+                    </div>
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Phone Home</label>
+                        <input type="text" class="form-control" id="PhoneH" name="PhoneH" placeholder="Phone Home">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Phone Office</label>
+                        <input type="text" class="form-control" id="PhoneO" name="PhoneO" placeholder="Phone Office">
+                    </div>
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Special Day</label>
+                        <input type="text" class="form-control" id="SpDay" name="SpDay" placeholder="Special Day">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Other Information</label>
+                        <input type="text" class="form-control" id="OtherInfo" name="OtherInfo" placeholder="Other Information">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="return fnSaveCustomerDetails()">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

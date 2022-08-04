@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Service Call Registation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <h4 class="font-weight-bold py-3 mb-4">
+            @ViewBag.Title
+        </h4>
+
+        <div class="card mb-4">
+            <h6 class="card-header">
+                Customer Details
+            </h6>
+            <div class="card-body">
+                <div class="form-inline">
+                    <div class="form-group ">
+                        <label class="form-label mr-sm-2 mb-2 mb-sm-0">Customer Code</label>
+                        <select class="custom-select mr-sm-2 mb-2 mb-sm-0">
+                            <option selected="">Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Customer Name</label>
+                        <input type="password" class="form-control mx-sm-3" style="width: 310px;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Mobile No</label>
+                        <input type="password" class="form-control mx-sm-3">
+                    </div>
+
+                    
+
+                </div>
+
+                <div class="form-inline mt-2">
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <input type="password" class="form-control mx-sm-3">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+</div>
+

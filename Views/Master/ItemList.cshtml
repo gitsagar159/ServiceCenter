@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Item List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        Item List
+                    </h6>
+                </div>
+                <div class="col col-md-9 text-right pr-4">
+                    <a href="/Master/ItemForm" class="btn icon-btn btn-outline-primary mt-2">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+
+            </div>
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblItemList">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Item Name</th>
+                            <th>Status</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                /* $('#tblJobList').DataTable({
+                     responsive: true
+                 });
+                 */
+                //LoadJobListTable();
+
+                fnBindItemListData();
+            });
+
+            function fnBindItemListData() {
+
+                var srNo = 1;
+
+                var sort = "";
+                var table = $('#tblItemList').DataTable({
+                    "destroy": true,
+                    "retrieve": true,
+                    "searching": false,
+                    "bLengthChange": false,
+                    "info": true,
+                    "language":
+                    {
+                        "processing": "<div class='overlay custom-loader-background' style='color:black;'>Please Wait...</div>"
+                    },
+                    "processing": true,
+                    "serverSide": true,
+                    "stateSave": true,
+                    "ajax":
+                    {
+                        "url": "/Master/GetItemList",
+                        "data": function (d) {
+                            /*
+                            d.objSearchOption = {
+                                Records: $('#drpTotalNumberRecords option:selected').val(),
+                                Status: $('#drpStatus option:selected').val(),
+                                Keyword: $("#txtKeyword").val().trim(),
+                                StartDateTime: $("#txtStartDate").val(),
+                                EndDateTime: $("#txtEndDate").val(),
+                                sort: sort
+                            };
+                            */
+                        },
+                        "type": "POST",
+                        "dataType": "JSON"
+                    },
+                    "columns": [
+                        {
+                            mRender: function (data, type, full) {
+
+                                return srNo++;
+                            }
+                        },
+                        { "data": "ItemName", "autoWidth": true },//
+                        {
+                            mRender: function (data, type, full) {
+                                if (full.IsActive === true) {
+                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-success'>Active</a>";
+                                }
+                                else {
+                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-danger'>In Active</a>";
+                                }
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/Master/ItemForm?ItemId=' + full.ItemId + '" class="btn btn-outline-warning btn-sm">Edit</a>' + '   &nbsp;' +
+                                    '<a href="#"  onclick=fnDeleteItem("' + full.ItemId + '"); class="btn btn-outline-warning btn-sm" >Delete</a>';
+                            }
+                        },
+
+                    ]
+                });
+            }
+
+
+
+        </script>
+    }
+
+</div>
+
+

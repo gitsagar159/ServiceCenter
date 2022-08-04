@@ -1,0 +1,8 @@
+-----------------------------------------------------------------------------
+Date : 26-06-2022 01:41:02
+
+System.ArgumentException
+Message : Column 'Message' does not belong to table Table1.
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.UserService.UserLogin(UserLoginModel objUserLoginModel) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\UserService.cs:line 69

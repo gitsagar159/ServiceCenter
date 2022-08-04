@@ -1,0 +1,52 @@
+﻿@model ServiceCenter.Models.ItemMaster
+@{
+    ViewBag.Title = "Item Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-4">
+            <h6 class="card-header">
+                Item Form
+            </h6>
+            <div class="card-body">
+                @*<form id="frmItem">*@
+                    @Html.HiddenFor(m => m.ItemId)
+                    <div class="form-group">
+                        <label class="form-label">Item Name</label>
+                        @Html.TextBoxFor(m => m.ItemName, new { @class = "form-control", @placeholder = "Item Name" })
+                        <small id="ItemNameToolTip" class=""></small>
+                    </div>
+                    <button id="btnsubmit"  class="btn btn-default"> Submit </button>
+                @*</form>*@
+                </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $("#btnsubmit").click(function (e) {
+                    InsertUpdateItem();
+                });   
+            });
+
+
+
+
+        </script>
+    }
+
+</div>
