@@ -6,6 +6,12 @@
     User ObjUser = new User();
 
     ObjUser = (User)HttpContext.Current.Session["User"];
+
+    string UserName = ObjUser != null ? ObjUser.FirstName + " " + ObjUser.LastName : String.Empty;
+    int UserId = ObjUser != null ? ObjUser.id : 0;
+    bool IsMasterAdminLogin = ObjUser != null ? ObjUser.Role == (int)UserRole.MasterAdmin ? true : false : false;
+    string UserImage = ObjUser != null && !string.IsNullOrEmpty(ObjUser.Image) ? ObjUser.Image : "~/Content/assets/img/avatars/avtar.png";
+
 }
 
 <nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center bg-white container-p-x" id="layout-navbar">
@@ -52,8 +58,20 @@
                             @Html.ActionLink("Add Area", "AreaForm", "Master", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Item List", "ItemList", "Master", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Add Item", "ItemForm", "Master", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Technician List", "Technician", "Master", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Technician Add", "TechnicianAddEdit", "Master", null, new { @class = "dropdown-item" })
                         </div>
                     </li>
+                    @if(IsMasterAdminLogin)
+                    { 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">User</a>
+                        <div class="dropdown-menu">
+                            @Html.ActionLink("User List", "Index", "User", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Add User", "UserAddEdit", "User", null, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                    }
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">Report</a>
@@ -101,14 +119,14 @@
             <div class="demo-navbar-user nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
-                        <img src="~/Content/assets/img/avatars/1.png" class="d-block ui-w-30 rounded-circle">
-                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0">@Html.Raw(ObjUser != null && !string.IsNullOrEmpty(ObjUser.name) ? ObjUser.name : "") </span>
+                        <img src="@Html.Raw(UserImage)" class="d-block ui-w-30 rounded-circle">
+                        <span class="px-1 mr-lg-2 ml-2 ml-lg-0">@Html.Raw(UserName) </span>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-person text-lightest"></i> &nbsp; My profile</a>
-                    <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-mail text-lightest"></i> &nbsp; Messages</a>
-                    <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; Account settings</a>
+                    <a href="/User/UserAddEdit?UserId=@Html.Raw(UserId)" class="dropdown-item"><i class="ion ion-ios-person text-lightest"></i> &nbsp; My profile</a>
+                    @*<a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-mail text-lightest"></i> &nbsp; Messages</a>
+                    <a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; Account settings</a>*@
                     <div class="dropdown-divider"></div>
                     <a href="/Login/Logout" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a>
                     @*<i class="ion ion-ios-log-out text-danger"></i> &nbsp; @Html.ActionLink("Log Out", "Logout", "Login", null, new { @class = "dropdown-item" })*@

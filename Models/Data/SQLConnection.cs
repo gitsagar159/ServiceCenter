@@ -11,6 +11,29 @@ namespace ServiceCenter.Models.Data
     {
         static string _staticConnectionString;
 
+        public static SqlConnection StaticSqlConnection(string DBName = "ketan2020")
+        {
+            SqlConnection staticConnection = new SqlConnection();
+            staticConnection.ConnectionString = StaticConnectionString(DBName);
+            return staticConnection;
+
+        }
+
+
+        public static string StaticConnectionString(string DBName)
+        {
+
+            if (!string.IsNullOrEmpty(_staticConnectionString))
+                return _staticConnectionString;
+
+            string con = DBName == "ketan2020" ? ConfigurationManager.ConnectionStrings["KetanServices"].ConnectionString : DBName == "Ketandb" ? ConfigurationManager.ConnectionStrings["KetanERP"].ConnectionString : string.Empty;
+
+            return con;
+
+        }
+
+        /*
+         * 
         public static SqlConnection StaticSqlConnection
         {
             get
@@ -21,6 +44,7 @@ namespace ServiceCenter.Models.Data
                 return staticConnection;
             }
         }
+        
 
         public static string StaticConnectionString
         {
@@ -34,8 +58,8 @@ namespace ServiceCenter.Models.Data
 
                 return con;
             }
-
-
         }
+
+        */
     }
 }

@@ -2,23 +2,28 @@
 @model ServiceCenter.Models.CallRegistration
 
 @{
-    ViewBag.Title = "Service Call Registation";
+    ViewBag.Title = "Call Registation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     User ObjUser = new User();
 
     ObjUser = HttpContext.Current.Session["User"] != null ? (User)HttpContext.Current.Session["User"] : new User();
+    string strJobNo = string.Empty;
 
     if (string.IsNullOrEmpty(Model.Oid))
     {
-        Model.UserName = ObjUser.name;
-        Model.Modifier = ObjUser.name;
+        Model.UserName = ObjUser.UserName;
+        Model.Modifier = ObjUser.UserName;
         Model.CreationDate = DateTime.Now;
         Model.ModifyDate = DateTime.Now;
-        Model.CallAssignDate = DateTime.Now;
+        //Model.CallAssignDate = DateTime.Now;
         Model.CallDate = DateTime.Now;
 
 
+    }
+    else
+    {
+        strJobNo = Model.JobNo;
     }
     string Select2JSONData = !string.IsNullOrEmpty(Model.Select2JSON) ? Model.Select2JSON : "";
 }
@@ -28,47 +33,50 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <style>
+        .required{
+            content: " *";
+            color: red;
+        }
+    </style>
+
 }
 <div class="layout-content">
 
     <!-- Content -->
-    <div class="container-fluid flex-grow-1 container-p-y">
+    <div class="container-fluid flex-grow-1 container-p-y" style="margin-top: -20px !important;">
 
-
+        @*
         @using (Html.BeginForm("ServiceCallRegistation", "job", FormMethod.Post, new { @id = "frmCallRegistation" }))
-        {
-            @*<form id="frmCallRegistation" name="frmCallRegistation" action="/Job/ServiceCallRegistation/">*@
+        {*@
+        <form id="frmCallRegistation" name="frmCallRegistation" action="/Job/ServiceCallRegistation/">
             @Html.HiddenFor(m => m.Oid)
             <!-- User Session Start-->
-            <div class="card mb-2">
-                <div class="card-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label">User Name:</label>
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "User Name", @readonly = true })
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Createion Date</label>
-                            @Html.TextBoxFor(m => m.CreationDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", placeholder = "User Name", @readonly = true })
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Modifier</label>
-                            @Html.TextBoxFor(m => m.Modifier, new { @class = "form-control", placeholder = "Modifier", @readonly = true })
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Modify Date</label>
-                            @Html.TextBoxFor(m => m.ModifyDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", placeholder = "Modify Date", @readonly = true })
-                        </div>
+            <div class="card mb-1">
+                <div class="card-body" style="padding-bottom: 10px !important; padding-top: 10px !important">
+                    <div class="form-inline">
+                        <label class="form-label mr-sm-3">User Name</label>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control mr-sm-2 mb-2 mb-sm-0", placeholder = "User Name", @readonly = true })
+
+                        <label class="form-label mr-sm-3">Createion Date</label>
+                        @Html.TextBoxFor(m => m.CreationDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control mr-sm-2 mb-2 mb-sm-0", placeholder = "User Name", @readonly = true })
+
+                        <label class="form-label mr-sm-3">Modifier</label>
+                        @Html.TextBoxFor(m => m.Modifier, new { @class = "form-control mr-sm-2 mb-2 mb-sm-0", placeholder = "Modifier", @readonly = true })
+
+                        <label class="form-label mr-sm-3">Modify Date</label>
+                        @Html.TextBoxFor(m => m.ModifyDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control mr-sm-2 mb-2 mb-sm-0", placeholder = "Modify Date", @readonly = true })
+
                     </div>
                 </div>
             </div>
 
-            <div class="card mb-2">
-                <div class="card-body">
+            <div class="card mb-1">
+                <div class="card-body" style="padding-bottom: 10px !important; padding-top: 10px !important">
                     <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Customer Code</label>
-                            <select class="form-control" name="Customer" id="Customer">
+                            <select class="form-control" name="Customer" id="Customer" style="width:200px;">
                             </select>
                         </div>
                         <div class="form-group col-md-1 pt-2">
@@ -87,22 +95,20 @@
 
 
                         </div>
-                        <div class="form-group col-md-4">
-                            <label class="form-label">Customer Name:</label>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Customer Name<span class="required"> *</span></label>
                             @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control control-required" })
                             <small id="CustomerName_ToolTip" class="" style="display:none">Enter Customer Name</small>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Mobile No</label>
                             @Html.TextBoxFor(m => m.MobileNo, new { @class = "form-control" })
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Area</label>
                             @Html.DropDownListFor(m => m.Area, Model.AreaDD as SelectList, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-8">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Address</label>
                             @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
                         </div>
@@ -111,13 +117,13 @@
             </div>
 
             <div class="card mb-2">
-                <div class="card-body">
+                <div class="card-body" style="padding-bottom: 10px !important; padding-top: 10px !important">
                     <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Call Assign Date</label>
                             @Html.TextBoxFor(m => m.CallAssignDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", @readonly = true })
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Call Date:</label>
                             @Html.TextBoxFor(m => m.CallDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", @readonly = true })
                         </div>
@@ -125,104 +131,96 @@
                             <label class="form-label">ID</label>
                             @Html.TextBoxFor(m => m.ID, new { @class = "form-control", @readonly = true })
                         </div>
-                        <div class="form-group col-md-4">
-                            <label class="form-label">Sr No</label>
-                            @Html.TextBoxFor(m => m.SrNo, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Job No:</label>
                             @Html.TextBoxFor(m => m.JobNo, new { @class = "form-control", @readonly = true })
                         </div>
-                        <div class="form-group col-md-9">
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Sr No</label>
+                            @Html.TextBoxFor(m => m.SrNo, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group col-md-2">
                             <label style="margin-right:1%;">Deal.Ref/Name:</label>
                             @Html.TextBoxFor(m => m.DealRef, new { @class = "form-control", })
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Commpany Complaint No</label>
-                            @Html.TextBoxFor(m => m.CompComplaintNo, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Estimate Date</label>
-                            @Html.TextBoxFor(m => m.EstimateDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control datepicker-features" })
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label">Payment</label>
-                            @Html.TextBoxFor(m => m.Payment, new { @class = "form-control", @type = "number" })
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Call Type</label>
                             @Html.DropDownListFor(m => m.CallType, Model.CallTypeDD as SelectList, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Estimate Confirm Date</label>
-                            @Html.TextBoxFor(m => m.EstConfirmDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control datepicker-features" })
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label">Estimate</label>
-                            @Html.TextBoxFor(m => m.Estimate, new { @class = "form-control", @type = "number" })
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Servive Type</label>
                             @Html.DropDownListFor(m => m.ServType, Model.ServiceTypeDD as SelectList, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Item Name</label>
-                            <select class="form-control control-required" name="ItemName" id="ItemName"> </select>
-                            <small id="ItemName_ToolTip" class="" style="display:none">Select Item Name</small>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Estimate Date</label>
+                            @Html.TextBoxFor(m => m.EstimateDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control datepicker-features" })
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label">Technician</label>
-                            <select class="form-control" name="Technician" id="Technician"></select>
-                            @*@Html.DropDownListFor(m => m.Technician, Model.TechnicianDD as SelectList, new { @class = "form-control" })*@
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Estimate Confirm Date</label>
+                            @Html.TextBoxFor(m => m.EstConfirmDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control datepicker-features" })
                         </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Payment</label>
+                            @Html.TextBoxFor(m => m.Payment, new { @class = "form-control", @type = "number" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Estimate</label>
+                            @Html.TextBoxFor(m => m.Estimate, new { @class = "form-control", @type = "number" })
+                        </div>
+
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Fault Type</label>
-                            @*@Html.DropDownListFor(m => m.FaultType, Model.FaultTypeDD as SelectList, new { @class = "form-control" })*@
-                            <select class="form-control" name="FaultType" id="FaultType"></select>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Commpany Complaint No</label>
+                            @Html.TextBoxFor(m => m.CompComplaintNo, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-9">
-                            <label class="form-label">Fault Description</label>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Item Name<span class="required"> *</span></label>
+                            <select class="form-control control-required" name="ItemName" id="ItemName" style="width:200px;"> </select>
+                            <small id="ItemName_ToolTip" class="" style="display:none">Select Item Name</small>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Technician</label>
+                            <select class="form-control" name="Technician" id="Technician" style="width:200px;"></select>
+                            @Html.HiddenFor(m => m.TechnicianName)
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Fault Type</label>
+                            <select class="form-control" name="FaultType" id="FaultType" style="width:200px;"></select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Fault Description <span class="required"> *</span></label>
                             @Html.TextBoxFor(m => m.FaultDesc, new { @class = "form-control control-required" })
                             <small id="FaultDesc_ToolTip" class="" style="display:none">Enter Fault Description</small>
                         </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label class="form-label">Model Name</label>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Model Name <span class="required"> *</span></label>
                             @Html.TextBoxFor(m => m.ModelName, new { @class = "form-control control-required" })
                             <small id="ModelName_ToolTip" class="" style="display:none">Enter Model Name</small>
                         </div>
-                        <div class="form-group col-md-3">
+                    </div>
+                    <div class="form-row">
+
+                        <div class="form-group col-md-2">
                             <label class="form-label">Region For Job Done</label>
                             @Html.TextBoxFor(m => m.JobRegion, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="form-label">Region For Job Not Done:</label>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Region For Job Not Done</label>
                             @Html.TextBoxFor(m => m.JobDoneRegion, new { @class = "form-control" })
                         </div>
-
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Special Insuction</label>
                             @Html.TextBoxFor(m => m.SpInst, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-9">
+                        <div class="form-group col-md-6">
                             <div class="form-row form-inline" style="padding: 4% 0 0 4%;">
                                 <label class="custom-control custom-checkbox mr-sm-2 mb-2 mb-sm-0">
                                     @Html.CheckBoxFor(m => m.CallAttn, new { @class = "custom-control-input" })
-                                    <span class="custom-control-label">Call Auth</span>
+                                    <span class="custom-control-label">Call Attn</span>
                                 </label>
                                 <label class="custom-control custom-checkbox mr-sm-2 mb-2 mb-sm-0">
                                     @Html.CheckBoxFor(m => m.JobDone, new { @class = "custom-control-input" })
@@ -246,13 +244,17 @@
                                 </label>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="form-row">
+
                     </div>
 
                     <!--</form>-->
                 </div>
             </div>
             <div class="card mb-2">
-                <div class="card-body">
+                <div class="card-body" style="padding-bottom: 10px !important; padding-top: 10px !important">
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label class="form-label">Bill No</label>
@@ -277,9 +279,9 @@
             </div>
 
             <div class="card mb-2">
-                <div class="card-body">
+                <div class="card-body" style="padding-bottom: 10px !important; padding-top: 10px !important">
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                             <div class="form-row form-inline" style="padding: 4% 0 0 4%;">
                                 <label class="custom-control custom-checkbox mr-sm-2 mb-2 mb-sm-0">
                                     @Html.CheckBoxFor(m => m.Deliver, new { @class = "custom-control-input" })
@@ -299,20 +301,30 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Payment Via</label>
-                            @Html.TextBoxFor(m => m.PaymentBy, new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.PaymentBy, Model.PaymentByDD as SelectList, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label class="form-label">Visit Charge</label>
                             @Html.TextBoxFor(m => m.VisitCharge, new { @class = "form-control" })
                         </div>
+                        <div class="form-group col-md-3 pt-4">
+                            @*<button class="btn btn-primary" type="submit" onclick="return fnValidateFormById('frmCallRegistation');">Submit</button>*@
+                            <button class="btn btn-primary mr-2" type="button" onclick="fnSaveCallReisterDetails('frmCallRegistation', false);">Submit</button>
+                            @if (Model != null && !string.IsNullOrEmpty(Model.Oid))
+                            {
+                                <button class="btn btn-primary" type="button" onclick="fnSaveCallReisterDetails('frmCallRegistation', true);">Submit & Print</button>
+                            }
+
+
+                        </div>
                     </div>
-                    <button class="btn btn-primary" type="submit" onclick="return fnValidateFormById('frmCallRegistation');">Submit</button>
+
                 </div>
             </div>
-            @*</form>*@
-        }
+        </form>
+        @*}*@
 
 
     </div>
@@ -326,33 +338,48 @@
             $(document).ready(function ()
             {
                 LoadCustomerCodeDropDown();
-                setTimeout(function () {
 
-                    GetGeneratedJobNo("0", "0");
+                var oid = "@Model.Oid"
 
-                }, 500);
-
-
-
-
-                    if (Oid !== "")
+                if (oid !== "")
                 {
+                    IsEdit = true;
+
+                    $("#CallType").attr("readonly", true); 
+                    $("#ServType").attr("readonly", true); 
+
                     var select2JsonData = '@Select2JSONData';
+
+                    if (select2JsonData !== "" || select2JsonData !== undefined) {
 
                         var objSelect2Json = JSON.parse(select2JsonData.replace(/&quot;/g, '"')); //JSON.parse(select2JsonData);
 
-                    var customerOption = new Option(objSelect2Json.Select2Customer.text, objSelect2Json.Select2Customer.id, false, false);
-                    $('#Customer').append(customerOption).trigger('change');
+                        var customerOption = new Option(objSelect2Json.Select2Customer.text, objSelect2Json.Select2Customer.id, false, false);
+                        $('#Customer').append(customerOption).trigger('change');
 
-                    var itemOption = new Option(objSelect2Json.Select2Item.text, objSelect2Json.Select2Item.id, false, false);
-                    $('#ItemName').append(itemOption).trigger('change');
+                        var itemOption = new Option(objSelect2Json.Select2Item.text, objSelect2Json.Select2Item.id, false, false);
+                        $('#ItemName').append(itemOption).trigger('change');
 
-                    var technicianOption = new Option(objSelect2Json.Select2Technician.text, objSelect2Json.Select2Technician.id, false, false);
-                    $('#Technician').append(technicianOption).trigger('change');
+                        var technicianOption = new Option(objSelect2Json.Select2Technician.text, objSelect2Json.Select2Technician.id, false, false);
+                        $('#Technician').append(technicianOption).trigger('change');
 
-                    var faultTypeOption = new Option(objSelect2Json.Select2FaultType.text, objSelect2Json.Select2FaultType.id, false, false);
-                    $('#FaultType').append(faultTypeOption).trigger('change');
+                        var faultTypeOption = new Option(objSelect2Json.Select2FaultType.text, objSelect2Json.Select2FaultType.id, false, false);
+                        $('#FaultType').append(faultTypeOption).trigger('change');
 
+                    }
+
+                    var jobNo = "@strJobNo";
+
+                    $("#JobNo").val(jobNo);
+
+                }
+                else {
+                    IsEdit = false;
+                    setTimeout(function () {
+
+                        GetGeneratedJobNo("0", "0");
+
+                    }, 500);
                 }
 
 
@@ -367,6 +394,7 @@
     }
 
     @Html.Partial("_CustomerMaster")
+
 
     <!-- AdminLTE App -->
     <!-- / Content -->

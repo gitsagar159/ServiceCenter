@@ -54,19 +54,50 @@
     <Reference Include="EPPlus.System.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
       <HintPath>packages\EPPlus.System.Drawing.6.0.0\lib\net452\EPPlus.System.Drawing.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="RestSharp, Version=104.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.104.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encodings.Web, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.5.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.5.0.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -138,19 +169,24 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\APIController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\APIModel.cs" />
     <Compile Include="Models\CallRegistrationModel.cs" />
+    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\Data\BaseDAL.cs" />
     <Compile Include="Models\Data\SQLConnection.cs" />
     <Compile Include="Models\MasterModel.cs" />
+    <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommonService.cs" />
@@ -158,6 +194,7 @@
     <Compile Include="Services\MasterService.cs" />
     <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\SessionService.cs" />
+    <Compile Include="Services\APIService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -174,7 +211,12 @@
     <Content Include="Content\assets\css\alt\adminlte.pages.min.css" />
     <Content Include="Content\assets\css\alt\adminlte.plugins.css" />
     <Content Include="Content\assets\css\alt\adminlte.plugins.min.css" />
+    <Content Include="Content\assets\css\datatable\buttons.bootstrap.min.css" />
+    <Content Include="Content\assets\css\datatable\datatables.min.css" />
     <Content Include="Content\assets\css\demo.css" />
+    <Content Include="Content\assets\css\KSCustome.css" />
+    <Content Include="Content\assets\icon\network_service.ico" />
+    <Content Include="Content\assets\icon\service_manager.ico" />
     <Content Include="Content\assets\img\avatars\1-small.png" />
     <Content Include="Content\assets\img\avatars\1.png" />
     <Content Include="Content\assets\img\avatars\10-small.png" />
@@ -216,6 +258,7 @@
     <Content Include="Content\assets\img\bg\7.jpg" />
     <Content Include="Content\assets\img\bg\8.jpg" />
     <Content Include="Content\assets\img\bg\9.jpg" />
+    <Content Include="Content\assets\img\login_logo.svg" />
     <Content Include="Content\assets\img\logo.png" />
     <Content Include="Content\assets\img\uikit\adidas.jpg" />
     <Content Include="Content\assets\img\uikit\backpack.jpg" />
@@ -246,6 +289,11 @@
     <Content Include="Content\assets\js\dashboards_dashboard-3.js" />
     <Content Include="Content\assets\js\dashboards_dashboard-4.js" />
     <Content Include="Content\assets\js\dashboards_dashboard-5.js" />
+    <Content Include="Content\assets\js\datatable\buttons.bootstrap.min.js" />
+    <Content Include="Content\assets\js\datatable\buttons.colVis.min.js" />
+    <Content Include="Content\assets\js\datatable\buttons.print.min.js" />
+    <Content Include="Content\assets\js\datatable\datatables.min.js" />
+    <Content Include="Content\assets\js\datatable\datatables.script.js" />
     <Content Include="Content\assets\js\demo.js" />
     <Content Include="Content\assets\js\forms_custom-controls.js" />
     <Content Include="Content\assets\js\forms_dual-listbox.js" />
@@ -664,6 +712,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ProjectJs\CallRegistration.js" />
     <Content Include="Scripts\ProjectJs\Common.js" />
+    <Content Include="Scripts\ProjectJs\JobList.js" />
     <Content Include="Scripts\ProjectJs\MasterForms.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -696,10 +745,19 @@
     <Content Include="Views\Master\UserDetail.cshtml" />
     <Content Include="Views\Print\WorkOrderView.cshtml" />
     <Content Include="Views\Report\CallRegistrationReport.cshtml" />
+    <Content Include="Views\Master\Technician.cshtml" />
+    <Content Include="Views\Master\TechnicianAddEdit.cshtml" />
+    <Content Include="Views\Job\_BillDetailModal.cshtml" />
+    <Content Include="Views\Job\_JobListAdvanceFilter.cshtml" />
+    <Content Include="Views\Job\_TechnicianCallAssignModal.cshtml" />
+    <Content Include="Views\User\UserAddEdit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Job\_JobNoModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\ErrorLog\" />
+    <Folder Include="Views\API\" />
     <Folder Include="Views\Area\" />
   </ItemGroup>
   <ItemGroup>

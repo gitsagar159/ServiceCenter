@@ -9,9 +9,9 @@ namespace ServiceCenter.Models.Data
 {
     public class BaseDAL : SQLConnection
     {
-        public DataTable GetResultDataTable(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams)
+        public DataTable GetResultDataTable(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams, string DBName = "ketan2020")
         {
-            var staticConnection = StaticSqlConnection;
+            var staticConnection = StaticSqlConnection(DBName);
 
             var command = new SqlCommand
             {
@@ -48,9 +48,9 @@ namespace ServiceCenter.Models.Data
             }
         }
 
-        public DataSet GetResultDataSet(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams)
+        public DataSet GetResultDataSet(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams, string DBName = "ketan2020")
         {
-            var staticConnection = StaticSqlConnection;
+            var staticConnection = StaticSqlConnection(DBName);
 
             var command = new SqlCommand
             {
@@ -86,11 +86,11 @@ namespace ServiceCenter.Models.Data
             }
         }
 
-        public int ExeccuteStoreCommand(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams, bool blnLastId = false)
+        public int ExeccuteStoreCommand(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams, bool blnLastId = false, string DBName = "ketan2020")
         {
             int intLastId = 0;
 
-            var staticConnection = StaticSqlConnection;
+            var staticConnection = StaticSqlConnection(DBName);
 
             var command = new SqlCommand
             {

@@ -1,18 +1,24 @@
 ﻿@model List<ServiceCenter.Models.CallRegistration>
 
 @{
-    ViewBag.Title = "JobList";
+    ViewBag.Title = "Job List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section style {
 
-    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">*@
 
-    @*<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />*@
-    @*<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Content/assets/css/datatable/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/datatable/buttons.bootstrap.min.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 }
-
+<div class="loading" style="display:none"></div>
 <div class="layout-content">
 
     <!-- Content -->
@@ -21,14 +27,15 @@
         <div class="card mb-2">
             <div class="card-body" style="padding: 3px 24px 0px 24px">
                 <form role="form">
+                    <input type="hidden" name="hdnCheckboxArray" id="hdnCheckboxArray" value="" />
                     <div class="row">
-                        <div class="col col-md-3">
+                        <div class="col col-md-2">
                             <div class="form-group">
-                                <label class="form-label">Search</label>
-                                <input type="text" class="form-control" name="Keyword" id="Keyword" placeholder="Search Keyword">
+                                <label class="form-label">Mobile No</label>
+                                <input type="text" class="form-control" name="MobileNo" id="MobileNo" placeholder="MobileNo">
                             </div>
                         </div>
-                        <div class="col col-md-3">
+                        <div class="col col-md-2">
                             <div class="form-group">
                                 <label class="form-label">Call Category</label>
                                 <select class="custom-select" name="CallCategory" id="CallCategory">
@@ -39,8 +46,17 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col col-md-4 pt-4">
+                        <div class="col col-md-2 pt-4">
                             <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                        <div class="col col-md-2 pt-4">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btnAdvanceFiter" data-toggle="modal" data-target="#JobListAdvanceFilter_modal"><span class="fas fa-filter"></span>&nbsp;&nbsp; Advance Filter</a>
+                        </div>
+                        <div class="col col-md-2 pt-4">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btnAssignCall" data-toggle="modal" data-target="#TechnicianCallAssign_modal" style="display:none"><span class="fas fa-clipboard-check"></span>&nbsp;&nbsp; Assing Technician</a>
+                        </div>
+                        <div class="col col-md-2 pt-4">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btnExportCalls" onclick="fnCallRegistrationDataForTechnician()" style="display:none"><span class="far fa-file-excel"></span>&nbsp;&nbsp; Export</a>
                         </div>
                     </div>
                 </form>
@@ -55,6 +71,12 @@
                     </h6>
                 </div>
                 <div class="col col-md-9 text-right pr-4">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#JobnNo_modal" class="btn btn-outline-primary mt-2 mr-5">
+                        <span class="fas fa-phone"></span> <span class="fas fa-long-arrow-alt-right"></span> <span class="fas fa-phone"></span>
+                    </a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#billnodetail_modal" class="btn icon-btn btn-outline-primary mt-2 mr-5">
+                        <span class="fas fa-phone"></span>
+                    </a>
                     <a href="/Job/ServiceCallRegistation" class="btn icon-btn btn-outline-primary mt-2">
                         <span class="fa fa-plus-circle"></span>
                     </a>
@@ -66,17 +88,34 @@
                     <thead>
                         <tr>
                             <th>Sr No.</th>
+                            <th><input type="checkbox" name="chkSelectionAll" id="chkSelectionAll" class="selectionAll" onchange="fnSelectAllCheckboxes(this)"></th>
                             <th>Created Date</th>
                             <th>Call Assign Date</th>
+                            <th>Job No.</th>
+                            <th>Company com. No.</th>
                             <th>Customer</th>
                             <th>Address</th>
+                            <th>Mobile</th>
                             <th>Call Type</th>
                             <th>Service Type</th>
+                            <th>Technician Type</th>
                             <th>Technician</th>
-                            <th>Mobile</th>
-                            <th>Call Attend</th>
                             <th>Job Done</th>
-                            <th>Product</th>
+                            <th>Call Attend</th>
+                            <th>Item Name</th>
+                            <th>Model Name</th>
+                            <th>Produt Sr. No.</th>
+                            <th>Fault Description</th>
+                            <th>Special Inst</th>
+                            <th>Purchase Date</th>
+                            <th>Repeat From Tech</th>
+                            <th>Call Back</th>
+                            <th>WorkShop IN</th>
+                            <th>Go After Call</th>
+                            <th>Deliver</th>
+                            <th>Part Panding</th>
+                            <th>Job Not Done Region</th>
+                            <th>User</th>
                             <th>Edit</th>
                         </tr>
                     </thead>
@@ -86,6 +125,10 @@
             </div>
         </div>
     </div>
+    @Html.Partial("_BillDetailModal")
+    @Html.Partial("_JobListAdvanceFilter")
+    @Html.Partial("_TechnicianCallAssignModal")
+    @Html.Partial("_JobNoModal")
     <!-- / Content -->
     <!-- Layout footer -->
     @Html.Partial("FooterBar")
@@ -93,20 +136,49 @@
 
     @section scripts {
 
-        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        @*<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.js"></script>
+            <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js" type="text/javascript"></script>
+        *@
+
+        <script src="~/Content/assets/js/datatable/datatables.min.js"></script>
+        <script src="~/Content/assets/js/datatable/datatables.script.js"></script>
+        <script src="~/Content/assets/js/datatable/buttons.colVis.min.js"></script>
+        <script src="~/Content/assets/js/datatable/buttons.print.min.js"></script>
+        <script src="~/Content/assets/js/datatable/buttons.bootstrap.min.js"></script>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/Common.js"></script>
+        <script src="~/Scripts/ProjectJs/JobList.js"></script>
 
         <script>
 
+            var billDetailJSON = null;
+            var objAdvanceFilter;
+            var isPageInit = true;
+
             $(document).ready(function () {
+
+                fnManageJobListSearchJson();
+
                 bindDatatable();
+
             });
+
+            var CallIdsForSelectAll = "";
+
+
 
             var hCols = [];
             var ChId = "";
             var ValidPrint = 0;
             var srNo = 1;
+            var table;
             function bindDatatable() {
-                var table = $('#tblJobList').DataTable({
+
+                table = $('#tblJobList').DataTable({
                     "paging": true,
                     "pageLength": $('#PageSize').val(),
                     "bLengthChange": false,
@@ -114,35 +186,98 @@
                     "processing": true,
                     "serverSide": true,
                     "filter": false,
+                    "responsive": true,
                     "orderMulti": false,
                     "ajax": {
                         "url": "/Job/GetJobList1",
                         "type": "POST",
                         "datatype": "json",
                         "data": function (d) {
-                            d.Keyword = $("#Keyword").val().trim();
+
+                            d.CustomerName = objAdvanceFilter.CustomerName;
+                            d.CallType = objAdvanceFilter.CallType;
+                            d.ServType = objAdvanceFilter.ServType;
+                            d.Technician = objAdvanceFilter.Technician;
+                            d.TechnicianType = objAdvanceFilter.TechnicianType;
+                            d.MobileNo = objAdvanceFilter.MobileNo;
+                            d.CallAttn = objAdvanceFilter.CallAttn;
+                            d.JobDone = objAdvanceFilter.JobDone;
+                            d.JobNo = objAdvanceFilter.JobNo;
+                            d.ItemName = objAdvanceFilter.ItemName;
+                            d.Deliver = objAdvanceFilter.Deliver;
+                            d.Canceled = objAdvanceFilter.Canceled;
+                            d.PartPanding = objAdvanceFilter.PartPanding;
+                            d.CallCategory = objAdvanceFilter.CallCategory;
+                            d.FromDate = objAdvanceFilter.FromDate;
+                            d.ToDate = objAdvanceFilter.ToDate;
+                            d.CompComplaintNo = objAdvanceFilter.CompComplaintNo;
+                            d.IsCompComplaintNo = objAdvanceFilter.IsCompComplaintNo;
+                            d.CallAssignFromDate = objAdvanceFilter.CallAssignFromDate;
+                            d.CallAssignToDate = objAdvanceFilter.CallAssignToDate;
+                            d.CallBack = objAdvanceFilter.CallBack;
+                            d.WorkShopIN = objAdvanceFilter.WorkShopIN;
+                            d.PaymentPanding = objAdvanceFilter.PaymentPanding;
+                            d.UserName = objAdvanceFilter.UserName;
+
+
+                            /*
+                            d.CustomerName = $("#CustomerName").val().trim();
+                            d.CallType = $("#CallType").val()
+                            d.ServType = $("#ServType").val();
+                            d.Technician = $("#Technician").val();
+                            d.TechnicianType = $("#TechnicianType").val();
+                            d.MobileNo = $("#MobileNo").val().trim();
+                            d.CallAttn = $("#CallAttn").val();
+                            d.JobDone = $("#JobDone").val();
+                            d.JobNo = $("#JobNo").val().trim();
+                            d.ItemName = $("#ItemName").val();
+                            d.Deliver = $("#Deliver").val();
+                            d.Canceled = $("#Canceled").val();
+                            d.PartPanding = $("#PartPanding").val();
                             d.CallCategory = $('#CallCategory').val();
+                            d.FromDate = $("#FromDate").val();
+                            d.ToDate = $('#ToDate').val();
+                            d.CompComplaintNo = $("#CompComplaintNo").val();
+                            d.IsCompComplaintNo = $("#IsCompComplaintNo").val();
+                            d.CallAssignFromDate = $("#CallAssignFromDate").val();
+                            d.CallAssignToDate = $("#CallAssignToDate").val();
+                            d.CallBack = $("#CallBack").val();
+                            d.WorkShopIN = $("#WorkShopIN").val();
+                            d.UserName = $("#UserName").val();
+                            */
                         }
                     },
                     "columns": [
                         { "data": "RowNo", "autoWidth": true },
-                        { "data": "StringCreationDate", "autoWidth": true },
-                        { "data": "StringCallAssignDate", "autoWidth": true },
-                        { "data": "CustomerName", "autoWidth": true },
-                        { "data": "Address", "autoWidth": true },
-                        { "data": "CallTypeName", "autoWidth": true },
-                        { "data": "ServTypeName", "autoWidth": true },
-                        { "data": "Technician", "autoWidth": true },
-                        { "data": "MobileNo", "autoWidth": true },
-                        /*{ "data": "CallAttn", "autoWidth": true },
-                         { "data": "JobDone", "autoWidth": true },*/
                         {
                             mRender: function (data, type, full) {
 
-                                var CallAttnChecked = full.CallAttn ? "checked" : "";
-                                return '<input type="checkbox" name="chkCallAttn" id="chkCallAttn"  ' + CallAttnChecked + ' data-name="CallAttn" data-id="' + full.Oid + '" data-value="' + full.CallAttn + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                                return '<input type="checkbox" name="chkSelection" id="chkSelection" class="selection" data-name="selection" data-id="' + full.Oid + '" data-value="' + full.Oid + '" onchange="updateCheckboxes(this)">'
                             }
                         },
+                        { "data": "StringCreationDate", "autoWidth": true },
+                        { "data": "StringCallAssignDate", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" target="_blank"> ' + full.JobNo + ' </a>'
+
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var strCompComplaintNo = full.CompComplaintNo;
+                                return '<input type="text" name="txtCompComplaintNo" id="txtCompComplaintNo" value="' + strCompComplaintNo + '" data-id="' + full.Oid + '" onkeydown="fnUpdateCompComplaintNoIntoDatabase(this)">'
+                            }
+                        },
+                        { "data": "CustomerName", "autoWidth": true },
+                        { "data": "Address", "autoWidth": true },
+                        { "data": "MobileNo", "autoWidth": true },
+                        { "data": "CallTypeName", "autoWidth": true },
+                        { "data": "ServTypeName", "autoWidth": true },
+                        { "data": "TechnicianType", "autoWidth": true },
+                        { "data": "Technician", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
 
@@ -150,45 +285,311 @@
                                 return '<input type="checkbox" name="chkJobDone" id="chkJobDone" ' + JobDoneChecked + ' data-name="JobDone" data-id="' + full.Oid + '" data-value="' + full.JobDone + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
                             }
                         },
-                        
-                        { "data": "ProductName", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
 
-                                return '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary"> <span class="fas fa-pencil-alt"></span ></a> &nbsp;' +
+                                var CallAttnChecked = full.CallAttn ? "checked" : "";
+                                return '<input type="checkbox" name="chkCallAttn" id="chkCallAttn"  ' + CallAttnChecked + ' data-name="CallAttn" data-id="' + full.Oid + '" data-value="' + full.CallAttn + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        { "data": "ItemName", "autoWidth": true },
+                        { "data": "ModelName", "autoWidth": true },
+                        { "data": "SrNo", "autoWidth": true },
+                        { "data": "FaultDesc", "autoWidth": true },
+                        { "data": "SpInst", "autoWidth": true },
+                        { "data": "StringPurchaseDate", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var RepeatFromTechChecked = full.RepeatFromTech ? "checked" : "";
+                                return '<input type="checkbox" name="chkRepeatFromTech" id="chkCallAttn"  ' + RepeatFromTechChecked + ' data-name="RepeatFromTech" data-id="' + full.Oid + '" data-value="' + full.RepeatFromTech + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var CallBackChecked = full.CallBack ? "checked" : "";
+                                return '<input type="checkbox" name="chkCallBack" id="chkCallBack" ' + CallBackChecked + ' data-name="CallBack" data-id="' + full.Oid + '" data-value="' + full.CallBack + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var WorkShopINChecked = full.WorkShopIN ? "checked" : "";
+                                return '<input type="checkbox" name="chkWorkShopIN" id="chkWorkShopIN"  ' + WorkShopINChecked + ' data-name="WorkShopIN" data-id="' + full.Oid + '" data-value="' + full.WorkShopIN + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var GoAfterCallChecked = full.GoAfterCall ? "checked" : "";
+                                return '<input type="checkbox" name="chkGoAfterCall" id="chkGoAfterCall"  ' + GoAfterCallChecked + ' data-name="GoAfterCall" data-id="' + full.Oid + '" data-value="' + full.GoAfterCall + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var DeliverChecked = full.Deliver ? "checked" : "";
+                                return '<input type="checkbox" name="chkDeliver" id="chkDeliver" ' + DeliverChecked + ' data-name="Deliver" data-id="' + full.Oid + '" data-value="' + full.Deliver + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var PartPandingChecked = full.PartPanding ? "checked" : "";
+                                return '<input type="checkbox" name="chkPartPanding" id="chkPartPanding" ' + PartPandingChecked + ' data-name="PartPanding" data-id="' + full.Oid + '" data-value="' + full.PartPanding + '" onchange="fnUpdateCheckboxValueintoDatabase(this)">'
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var strJobDoneRegion = full.JobDoneRegion;
+                                return '<input type="text" name="txtJobDoneRegion" id="txtJobDoneRegion" value="' + strJobDoneRegion + '" data-id="' + full.Oid + '" onkeydown="fnUpdateJobDoneRegionIntoDatabase(this)">'
+                            }
+                        },
+                        { "data": "UserName", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary" target="_blank"> <span class="fas fa-pencil-alt"></span ></a> &nbsp;' +
                                     '&nbsp; <a href="/Print/PrintPreview?CallId=' + full.Oid + '" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
                             }
                         },
 
+
                     ],
-                    "responsive": true,
-                    "columnDefs": [
-                        { orderable: true, "targets": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] },
-                    ],
-                    "order": [[0, "desc"]],
+
+                    "fixedHeader": {
+                        header: true,
+                    },
+                    'columnDefs': [{
+                        'targets': [0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], // column index (start from 0)
+                        'orderable': false, // set orderable false for selected columns
+                    }],
+                    "order": [[2, "DESC"]],
+                    "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                        $(nRow).attr('id', aData.Oid); // or whatever you choose to set as the id
+                    },
                     "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                        if (aData.CallAttn == false) {
-                            $('td', nRow).css('background-color', '#D2D2D2');
+                        if (aData.IsNew.toLowerCase === 'true' && aData.Technician === '') {
+                            $('td', nRow).css('color', '#ef1a1a');
                         }
-                    }
+                        if (aData.JobDone === false && aData.Technician !== "") {
+                            $('td', nRow).css('color', '#100f0f');
+                        }
+                        if (aData.JobDone === true) {
+                            $('td', nRow).css('color', 'green');
+                        }
+
+                        var objCheckBox = nRow.cells[1].lastChild;
+
+                        if ($.inArray(nRow.id, checkboxes) != -1) {
+
+                            $(objCheckBox).prop('checked', true);
+                        }
+                        else {
+                            $(objCheckBox).prop('checked', false);
+                        }
+                    },
+                    'drawCallback': function (response) {
+                        CallIdsForSelectAll = response.json.Oids;
+                        changeDataTablePageNo(isPageInit);
+                        isPageInit = false;
+                    },
+                    "initComplete": function (settings, json) {
+                        goToPageNumber();
+                    },
                 });
 
                 $("#btnAdvanceSearch").click(function (event) {
                     event.preventDefault();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    checkboxes = [];
+                    $(".selection").prop("checked", false);
+                    $(".selectionAll").prop("checked", false);
+
+                    $("#btnAssignCall").hide();
+                    $("#btnExportCalls").hide();
+
                     table.search(this.value).draw();
+
                 });
 
-                /*
-                $("#CallCategory").change(function (event) {
+                $("#btnFilter").click(function (event) {
                     event.preventDefault();
-                    table.search(this.value).draw();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    checkboxes = [];
+                    $(".selection").prop("checked", false);
+                    $(".selectionAll").prop("checked", false);
+                    fnButtonShowHide();
+
+
+                    table.draw();
+
+                    $("#btnAdvanceFiter").removeClass("btn-primary");
+                    $("#btnAdvanceFiter").addClass("btn-success");
+
+                    $("#JobListAdvanceFilter_modal").modal("hide");
                 });
 
-                $("#Keyword").on('blur', function (event) {
+                $("#btnFilterClear").click(function (event) {
                     event.preventDefault();
-                    table.search(this.value).draw();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    $("#btnAdvanceFiter").removeClass("btn-success");
+                    $("#btnAdvanceFiter").addClass("btn-primary");
+
+                    fnClearAllInputOfAdvanceFilter();
+
+                    $("#JobListAdvanceFilter_modal").modal("hide");
+
+
+                    checkboxes = [];
+                    $(".selection").prop("checked", false);
+                    $(".selectionAll").prop("checked", false);
+                    fnButtonShowHide();
+
+
+                    table.draw();
+
+
                 });
-                */
+            }
+
+
+            var currentPage = 0;
+
+            function goToPageNumber() {
+                var tablePageInfo = table.page.info();
+                var totalPages = tablePageInfo.pages;
+
+                var lastPageNo = parseInt(localStorage.getItem('SelectedPageNo') == null ? "0" : localStorage.getItem('SelectedPageNo'));
+
+                if (lastPageNo >= 0 && lastPageNo <= totalPages) {
+                    table.page(lastPageNo).draw(false);
+                }
+
+
+            }
+
+            function changeDataTablePageNo(isPageInit) {
+                var tablePageInfoCurrent = table.page.info();
+                var currentPageNo = tablePageInfoCurrent.page;
+
+                //var lastPageNo = parseInt(localStorage.getItem('SelectedPageNo') == null ? "0" : localStorage.getItem('SelectedPageNo'));
+
+                //currentPage = currentPageNo;
+
+                if (!isPageInit) {
+                    localStorage.setItem('SelectedPageNo', currentPageNo);
+                }
+
+
+
+
+            }
+
+            var checkboxes = []
+
+            function updateCheckboxes(checkbox) {
+                //Get the row id
+                var id = $(checkbox).attr("data-id").toUpperCase();
+                //Check the array for the id
+                var arrPos = checkboxes.indexOf(id);
+                //If it exists and we unchecked it, remove it
+                if (arrPos > -1 && !$(checkbox).is(':checked')) {
+                    checkboxes.splice(arrPos, 1);
+                }
+                //Else it doesn't exist and we checked it
+                else if ($(checkbox).is(':checked')) {
+                    checkboxes.push(id);
+                }
+
+                if (checkboxes.length > 0) {
+                    $("#btnAssignCall").show();
+                    $("#btnExportCalls").show();
+                }
+                else {
+                    $("#btnAssignCall").hide();
+                    $("#btnExportCalls").hide();
+                }
+
+
+                //Finally update the hidden input
+                $("#hdnCheckboxArray").val(checkboxes);
+            }
+
+            function fnUpdateCompComplaintNoIntoDatabase(thiObj) {
+
+                if (event.key === 'Enter') {
+
+                    var compComplaintNo = thiObj.value;
+                    var callId = $(thiObj).attr("data-id");
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Job/UpdateCompComplaintNoByCallId",
+                        data: { CompComplaintNo: compComplaintNo, CallId: callId },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+                            }
+                        }
+                    });
+
+                }
+
+            }
+
+            function fnUpdateJobDoneRegionIntoDatabase(thiObj) {
+
+                if (event.key === 'Enter') {
+
+                    var jobDoneRegion = thiObj.value;
+                    var callId = $(thiObj).attr("data-id");
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Job/UpdateJobDoneRegionByCallId",
+                        data: { JobDoneRegion: jobDoneRegion, CallId: callId },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+                            }
+                        }
+                    });
+
+                }
+
             }
 
 
@@ -225,6 +626,161 @@
 
                 }
             }
+
+            function GetBillDetailByBillNoAndDate() {
+
+                var IsValidForm = fnValidateFormById('frmBillNoDetail');
+
+
+                if (IsValidForm) {
+
+
+                    var billNo = $("#BillNo").val();
+                    var billDate = $("#BillDate").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Job/GetBillDetailsByBillNo",
+                        data: { BillNo: billNo, BillDate: billDate },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var objBillData = result.data.BillData;
+
+                                billDetailJSON = objBillData;
+
+                                $('#tblBillNoDetail tbody').empty();
+                                for (var i = 0; i < objBillData.length; i++) {
+                                    console.log('objBillData[' + i + '].InvoiceDate :' + objBillData[i].InvoiceDate);
+                                    console.log('objBillData[' + i + '].StringInvoiceDate :' + objBillData[i].StringInvoiceDate);
+
+                                    var dataRow = '<tr> <td> <a href="javascript:void(0)" data-json="' + i + '" onclick="LoadBillDetailDataOnCallRegistration(this)">' + objBillData[i].ProductName + '</a></td><td>' + objBillData[i].CustomerName + '</td><td>' + objBillData[i].MobileNo + '</td><td>' + objBillData[i].ItemName + '</td><td>' + objBillData[i].SerialNo + '</td></tr>';
+                                    $('#tblBillNoDetail tbody').append(dataRow);
+                                }
+
+                                $('#tblBillNoDetail').show();
+                            }
+                        }
+                    });
+
+                }
+
+                return IsValidForm;
+
+            }
+
+            function LoadBillDetailDataOnCallRegistration(objThis) {
+
+                if (confirm('Do you want to create new call for this product?')) {
+
+                    var jsonDataNo = parseInt($(objThis).attr("data-json"));
+
+                    var jsonData = JSON.parse(billDetailJSON[jsonDataNo].BillDetailJSON);
+
+                    if (jsonData !== null || jsonData !== "" || jsonData !== undefined) {
+                        var billDetails = {
+                            BillNo: jsonData.BillNo,
+                            InvoiceDate: jsonData.InvoiceDate,
+                            CustomerName: jsonData.CustomerName,
+                            Address: jsonData.Address,
+                            MobileNo: jsonData.MobileNo,
+                            CityName: jsonData.CityName,
+                            ItemName: jsonData.ItemName,
+                            ProductName: jsonData.ProductName,
+                            StringInvoiceDate: jsonData.StringInvoiceDate,
+                            SerialNo: jsonData.SerialNo
+                        };
+
+                        console.log(billDetails);
+
+                        $(".loading").show();
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Job/CreateNewCallFromBillDetails",
+                            data: { objBillDetails: billDetails },
+                            cache: true,
+                            async: true,
+                            success: function (result) {
+                                $(".loading").hide();
+                                if (result !== null) {
+                                    var objBillData = result.data;
+
+                                    if (objBillData.Responce) {
+                                        toastr["success"](objBillData.Message);
+                                    }
+                                    else {
+                                        toastr["error"](objBillData.Message);
+                                    }
+
+
+                                    $("#billnodetail_modal").modal("hide");
+                                    setTimeout(function () {
+                                        window.location.href = "/Job/JobList";
+                                    }, 1000);
+
+
+                                }
+
+                            }
+                        });
+
+                    }
+
+                }
+
+
+            }
+
+            function fnAssignMultipleCallToTechnician() {
+
+                var IsValidForm = fnValidateFormById("frmTechnicianCallAssign");
+
+                if (IsValidForm) {
+
+                    if (confirm('Do you want these call to selected Technician?')) {
+
+                        if (checkboxes !== null) {
+
+                            var callIds = checkboxes.join(", ");
+                            var technicianId = $("#TechnicianId").val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Job/AssignMultipleCallToTechnician",
+                                data: { CallIds: callIds, TechnicianId: technicianId },
+                                cache: true,
+                                async: true,
+                                success: function (result) {
+
+                                    if (result !== null) {
+                                        var objResponce = result.data;
+
+                                        if (objResponce.Responce) {
+                                            toastr["success"](objResponce.Message);
+                                            //$('#tblJobList').dataTable().fnClearTable();
+                                            //bindDatatable()
+                                            table.ajax.reload(null, false)
+                                        }
+                                        else {
+                                            toastr["error"](objResponce.Message);
+                                        }
+
+
+                                        $("#TechnicianCallAssign_modal").modal("hide");
+                                    }
+
+                                }
+                            });
+
+                        }
+                    }
+
+                }
+
+
+            }
+
 
         </script>
     }

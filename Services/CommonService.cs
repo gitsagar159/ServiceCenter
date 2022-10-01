@@ -34,6 +34,39 @@ namespace ServiceCenter.Services
             return DateTime.Now.ToString("hh':'mm':'ss");
         }
 
+        public static void WriteTraceLog(string strTrace)
+        {
+            
+            string TraceLogFolderPath = HttpContext.Current.Server.MapPath("~/Content/TraceLog");
+            
+
+            if (!Directory.Exists(TraceLogFolderPath))
+            {
+                Directory.CreateDirectory(TraceLogFolderPath);
+            }
+
+            string TraceFileName = "TraceLogLog_" + DateTime.Now.ToString("dd_MM_yyyy") + ".txt";
+
+            string TraceFilePath = Path.Combine(TraceLogFolderPath, TraceFileName);
+
+            if (!File.Exists(TraceFilePath))
+            {
+                using (FileStream fs = File.Create(TraceFilePath))
+                {
+
+                }
+
+                // write file
+                WriteTraceInFile(TraceFilePath, strTrace);
+            }
+            else
+            {
+                // write file
+                WriteTraceInFile(TraceFilePath, strTrace);
+            }
+
+        }
+
         public static void WriteErrorLog(Exception ex)
         {
             //string ErrorLogFolderPath = Application.CommonAppDataPath;
@@ -68,6 +101,21 @@ namespace ServiceCenter.Services
                 WriteExceptioninInFile(ErrorFilePath, ex);
             }
 
+        }
+
+        private static void WriteTraceInFile(string FilePath, string strTrace)
+        {
+            using (StreamWriter writer = new StreamWriter(FilePath, true))
+            {
+                writer.WriteLine("-----------------------------------------------------------------------------");
+                writer.WriteLine("Date : " + DateTime.Now.ToString());
+                writer.WriteLine();
+
+                if(!string.IsNullOrEmpty(strTrace))
+                {
+                    writer.WriteLine(strTrace);
+                }
+            }
         }
 
         private static void WriteExceptioninInFile(string FilePath, Exception ex)

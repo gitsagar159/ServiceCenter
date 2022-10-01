@@ -23,40 +23,48 @@ namespace ServiceCenter.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetAreaList()
+        public JsonResult GetAreaList()
         {
-            JsonResult result;
             try
             {
                 // Initialization.
-                var search = Request.Form.GetValues("search[value]")?[0];
                 var draw = Request.Form.GetValues("draw")?[0];
                 var order = Convert.ToInt32(Request.Form.GetValues("order[0][column]")?[0]);
                 var orderDir = Request.Form.GetValues("order[0][dir]")?[0];
                 var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
                 var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
 
+                string AreaName = string.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["AreaName"]))
+                    AreaName = Convert.ToString(Request.Form["AreaName"]).Trim();
+
 
                 AreaMasterListDataModel objAreaMasterListDataModel = new AreaMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objAreaMasterListDataModel = objJobService.GetAreaList(order, orderDir.ToUpper(), startRec, pageSize, search);
+                objAreaMasterListDataModel = objJobService.GetAreaList(order, orderDir.ToUpper(), startRec, pageSize, AreaName);
 
 
-                result = Json(new
+                return Json(new
                 {
                     draw = Convert.ToInt32(draw),
                     recordsTotal = objAreaMasterListDataModel.RecordCount,
-                    recordsFiltered = objAreaMasterListDataModel.AreaMasterList.Count,
+                    recordsFiltered = objAreaMasterListDataModel.RecordCount,
                     data = objAreaMasterListDataModel.AreaMasterList
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
             }
-            return result;
         }
 
 
@@ -114,40 +122,48 @@ namespace ServiceCenter.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetItemList()
+        public JsonResult GetItemList()
         {
-            JsonResult result;
             try
             {
                 // Initialization.
-                var search = Request.Form.GetValues("search[value]")?[0];
                 var draw = Request.Form.GetValues("draw")?[0];
                 var order = Convert.ToInt32(Request.Form.GetValues("order[0][column]")?[0]);
                 var orderDir = Request.Form.GetValues("order[0][dir]")?[0];
                 var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
                 var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
 
+                string ItemName = string.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["ItemName"]))
+                    ItemName = Convert.ToString(Request.Form["ItemName"]).Trim();
+
 
                 ItemMasterListDataModel objItemMasterListDataModel = new ItemMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objItemMasterListDataModel = objJobService.GetItemList(order, orderDir.ToUpper(), startRec, pageSize, search);
+                objItemMasterListDataModel = objJobService.GetItemList(order, orderDir.ToUpper(), startRec, pageSize, ItemName);
 
 
-                result = Json(new
+                return Json(new
                 {
                     draw = Convert.ToInt32(draw),
                     recordsTotal = objItemMasterListDataModel.RecordCount,
-                    recordsFiltered = objItemMasterListDataModel.ItemMasterList.Count,
+                    recordsFiltered = objItemMasterListDataModel.RecordCount,
                     data = objItemMasterListDataModel.ItemMasterList
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
             }
-            return result;
         }
 
 
@@ -173,7 +189,7 @@ namespace ServiceCenter.Controllers
             ResponceModel objResponceModel = new ResponceModel();
 
             MasterService obMasterService = new MasterService();
-            objResponceModel = obMasterService.InsertUpdateItem(objItemMaster.ItemId, objItemMaster.ItemName);
+            objResponceModel = obMasterService.InsertUpdateItem(objItemMaster.ItemId, objItemMaster.ItemName, objItemMaster.TechnicianId);
 
             return Json(new { data = objResponceModel });
         }
@@ -195,10 +211,139 @@ namespace ServiceCenter.Controllers
 
         #region Technician
 
-        public ActionResult AddTechnician()
+        public ActionResult Technician()
         {
+            if (!IsSessionValid())
+                return RedirectToAction("Index", "Login");
+
             return View();
         }
+
+        [HttpPost]
+        public JsonResult GetTechnicianList()
+        {
+            try
+            {
+                var draw = Convert.ToInt32(Request.Form["draw"]);
+                var order = Convert.ToInt32(Request.Form["order[0][column]"]);
+                var orderDir = Request.Form["order[0][dir]"];
+                var startRec = Convert.ToInt32(Request.Form["start"]);
+                var pageSize = Convert.ToInt32(Request.Form["length"]);
+
+                string MobileNo = string.Empty, TechnicianName = String.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["MobileNo"]))
+                    MobileNo = Convert.ToString(Request.Form["MobileNo"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["TechnicianName"]))
+                    TechnicianName = Convert.ToString(Request.Form["TechnicianName"]).Trim();
+
+                TechnicianListDataModel objTechnicianListDataModel = new TechnicianListDataModel();
+
+                MasterService objMasterService = new MasterService();
+                objTechnicianListDataModel = objMasterService.GetTechnicianList(order, orderDir.ToUpper(), startRec, pageSize, TechnicianName, MobileNo);
+
+
+                return Json(new
+                {
+                    draw = Convert.ToInt32(draw),
+                    recordsTotal = objTechnicianListDataModel.RecordCount,
+                    recordsFiltered = objTechnicianListDataModel.RecordCount,
+                    data = objTechnicianListDataModel.TechnicianList
+                }, JsonRequestBehavior.AllowGet); 
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
+            }
+
+        }
+
+        public ActionResult TechnicianAddEdit()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Index", "Login");
+
+            string TechnicianId = Request["TechnicianId"];
+
+            TechnicianMaster objTechnicianMaster;
+
+            if (!string.IsNullOrEmpty(TechnicianId))
+            {
+
+                objTechnicianMaster = new TechnicianMaster();
+
+                MasterService objMasterService = new MasterService();
+                objTechnicianMaster = objMasterService.GetTechnicianDetailById(TechnicianId);
+
+                string TechTypeId = objTechnicianMaster.TechType;
+
+                objTechnicianMaster.TechnicianTypeDD = TechnicianTypeDD(TechTypeId);
+
+
+            }
+            else
+            {
+                objTechnicianMaster = new TechnicianMaster();
+                objTechnicianMaster.TechnicianTypeDD = TechnicianTypeDD();
+            }
+
+            return View(objTechnicianMaster);
+
+        }
+
+        [HttpPost]
+        public ActionResult TechnicianAddEdit(TechnicianMaster objTechnicianMaster)
+        {
+            string ErrorMsg = string.Empty;
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+                ErrorMsg = message;
+
+            }
+
+            MasterService objMasterService = new MasterService();
+            objTechnicianMaster = objMasterService.AdUpdateTechnicianDetail(objTechnicianMaster);
+
+            if(objTechnicianMaster.Responce == false)
+            {
+                objTechnicianMaster.TechnicianTypeDD = TechnicianTypeDD();
+
+                ViewBag.ErrorMessage = objTechnicianMaster.Message;
+
+                return View(objTechnicianMaster); 
+            }
+            else
+            {
+                return RedirectToAction("Technician", "Master");
+            }
+
+            
+        }
+
+        public SelectList TechnicianTypeDD(string SelectedValue = "")
+        {
+            List<SelectListItem> ListItem = new List<SelectListItem>();
+
+            MasterService objMasterService = new MasterService();
+            ListItem = objMasterService.GetTechnicianTypeList(SelectedValue);
+
+            return new SelectList(ListItem, "Value", "Text");
+        }
+
         #endregion
 
         #region Common Method

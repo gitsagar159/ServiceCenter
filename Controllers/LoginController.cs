@@ -26,7 +26,7 @@ namespace ServiceCenter.Controllers
 
         public ActionResult Login(UserLoginModel objUserLoginModel)
         {
-            if(objUserLoginModel != null && !string.IsNullOrEmpty(objUserLoginModel.name) && !string.IsNullOrEmpty(objUserLoginModel.password))
+            if(objUserLoginModel != null && !string.IsNullOrEmpty(objUserLoginModel.UserName) && !string.IsNullOrEmpty(objUserLoginModel.Password))
             {
                 UserService objUserService = new UserService();
                 User objUser = objUserService.UserLogin(objUserLoginModel);

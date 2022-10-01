@@ -36,7 +36,7 @@ namespace ServiceCenter.Controllers
 
             var report = new Rotativa.ActionAsPdf("WorkOrderView",new RouteValueDictionary { { "CallId", CallId } })
             {
-                PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
+                PageMargins = { Left = 0, Bottom = 0, Right = 0, Top = 0 },
             };
             return report;
         }
@@ -54,6 +54,7 @@ namespace ServiceCenter.Controllers
                 FileName = "Work_Order_" + strDateTime + ".pdf"
             };
         }
+
 
     }
 }

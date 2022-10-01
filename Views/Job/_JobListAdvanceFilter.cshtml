@@ -1,0 +1,178 @@
+﻿<div class="modal fade" id="JobListAdvanceFilter_modal">
+    <div class="modal-dialog">
+        <form class="modal-content" id="frmAdvanceFilter" name="frmAdvanceFilter">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Advance Filter
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">From Date</label>
+                        <input type="text" class="form-control datepicker-features" id="FromDate" name="FromDate" placeholder="From Date">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">To Date</label>
+                        <input type="text" class="form-control datepicker-features" id="ToDate" name="ToDate" placeholder="To Date">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Job No</label>
+                        <input type="text" class="form-control" id="JobNo" name="MobileNo" placeholder="JobNo">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Comp Complaint No</label>
+                        <input type="text" class="form-control" id="CompComplaintNo" name="CompComplaintNo" placeholder="Comp Complaint No">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="CustomerName" name="CustomerName" placeholder="Customer Name">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Call Type</label>
+                        <select class="custom-select" name="CallType" id="CallType">
+                            <option selected="" value="">Select</option>
+                            <option value="0">Local</option>
+                            <option value="1">Workshop</option>
+                            <option value="2">Out-Station</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Service Type</label>
+                        <select class="custom-select" name="ServType" id="ServType">
+                            <option selected="" value="">Select</option>
+                            <option value="0">In-Warranty</option>
+                            <option value="1">Out-Warranty</option>
+                            <option value="2">Installation</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Mobile No</label>
+                        <input type="text" class="form-control" id="MobileNo" name="MobileNo" placeholder="Mobile No">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Technician</label>
+                        <select class="form-control" name="Technician" id="Technician"></select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Technician Type</label>
+                        <select class="form-control" name="TechnicianType" id="TechnicianType">
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Item</label>
+                        <select class="form-control control-required" name="ItemName" id="ItemName"> </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Call Attend</label>
+                        <select class="custom-select" name="CallAttn" id="CallAttn">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Job Done</label>
+                        <select class="custom-select" name="JobDone" id="JobDone">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Deliver</label>
+                        <select class="custom-select" name="Deliver" id="Deliver">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Canceled</label>
+                        <select class="custom-select" name="Canceled" id="Canceled">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Part Panding</label>
+                        <select class="custom-select" name="PartPanding" id="PartPanding">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Call Assi From Date</label>
+                        <input type="text" class="form-control datepicker-features" id="CallAssignFromDate" name="CallAssignFromDate" placeholder="Call Assi From Date">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Call Assi To Date</label>
+                        <input type="text" class="form-control datepicker-features" id="CallAssignToDate" name="CallAssignToDate" placeholder="Call Assi To Date">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Call Back</label>
+                        <select class="custom-select" name="CallBack" id="CallBack">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Workshop IN</label>
+                        <select class="custom-select" name="WorkShopIN" id="WorkShopIN">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Is Comp Complaint No</label>
+                        <select class="custom-select" name="IsCompComplaintNo" id="IsCompComplaintNo">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label class="form-label">Payment Panding</label>
+                        <select class="custom-select" name="PaymentPanding" id="PaymentPanding">
+                            <option selected="" value="">Select</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-3">
+                        <label class="form-label">User</label>
+                        <select class="form-control" name="UserName" id="UserName"></select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnFilter">Apply Filter</button>
+                <button type="button" class="btn btn-danger" id="btnFilterClear">Clear Fiter</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+
+    </div>
+</div>

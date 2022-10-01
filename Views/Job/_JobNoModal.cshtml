@@ -1,0 +1,27 @@
+﻿<div class="modal fade" id="JobnNo_modal">
+    <div class="modal-dialog">
+        <form class="modal-content" id="frmJobNo" name="frmJobNo">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Create New Call From Job No
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group col mb-0">
+                        <label class="form-label">Job No</label>
+                        <input type="text" class="form-control control-required" id="OldJobNo" name="OldJobNo" placeholder="Old Job No" style="text-transform:uppercase">
+                        <small id="OldJobNo_ToolTip" class="" style="display:none">Enter Old Job No</small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="return fnCreateNewCallFromOldJonNo()">Copy Call</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "User List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section style {
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+    @*<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+
+                @if (ViewBag.SuccessMessage != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        @Html.Raw(ViewBag.SuccessMessage);
+                    </div>
+                }
+                <form role="form">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">User Name</label>
+                                <input type="text" class="form-control" name="UserName" id="UserName" placeholder="Search User Name">
+                            </div>
+                        </div>
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Mobile No</label>
+                                <input type="text" class="form-control" name="MobileNo" id="MobileNo" placeholder="Search Mobile No">
+                            </div>
+                        </div>
+                        <div class="col col-md-4 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        User List
+                    </h6>
+                </div>
+                <div class="col col-md-9 text-right pr-4">
+                    <a href="/User/UserAddEdit" class="btn icon-btn btn-outline-primary mt-2">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblUser">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>User Name</th>
+                            <th>Role</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                bindDatatable();
+            });
+
+            var hCols = [];
+            var ChId = "";
+            var ValidPrint = 0;
+            var srNo = 1;
+            function bindDatatable() {
+                var table = $('#tblUser').DataTable({
+                    "paging": true,
+                    "pageLength": $('#PageSize').val(),
+                    "bLengthChange": false,
+                    "autoWidth": true,
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": false,
+                    "orderMulti": false,
+                    "ajax": {
+                        "url": "/User/GetUserList",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": function (d) {
+                            d.UserName = $("#UserName").val().trim();
+                            d.MobileNo = $("#MobileNo").val().trim();
+                        }
+                    },
+                    "columns": [
+                        { "data": "RowNo", "autoWidth": true },
+                        { "data": "FirstName", "autoWidth": true },
+                        { "data": "LastName", "autoWidth": true },
+                        { "data": "UserName", "autoWidth": true },
+                        { "data": "StringRole", "autoWidth": true },
+                        { "data": "Mobile", "autoWidth": true },
+                        { "data": "Email", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+
+                                if (full.IsActive === true) {
+                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-success'>Active</a>";
+                                }
+                                else {
+                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-danger'>In Active</a>";
+                                }
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/User/UserAddEdit?UserId=' + full.id + '" class="btn icon-btn btn-sm btn-outline-primary"> <span class="fas fa-pencil-alt"></span ></a>'
+                            }
+                        },
+
+                    ],
+                    "responsive": true,
+                    "columnDefs": [
+                        { orderable: true, "targets": [1, 2, 3] },
+                    ],
+                    "order": [[1, "ASC"]],
+                });
+
+                $("#btnAdvanceSearch").click(function (event) {
+                    event.preventDefault();
+                    table.search(this.value).draw();
+                });
+
+            }
+
+        </script>
+    }
+
+</div>
+
+
+
+

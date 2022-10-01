@@ -1,4 +1,5 @@
-﻿
+﻿var billDetailJSON = null;
+var IsEdit = false;
 /*
 
 $("#Customer").select2({
@@ -29,14 +30,6 @@ $("#Customer").select2({
 });
 
 */
-
-
-$(function () {
-    $('#CallAssignDate').on('change', function (e) {
-
-        $("#CallDate").val($(this).val());
-    });
-});
 
 
 function LoadCustomerCodeDropDown() {
@@ -220,7 +213,9 @@ $(function () {
         var callTypeId = this.value;
         var serviceTypeId = $('#ServType').val();
 
-        GetGeneratedJobNo(serviceTypeId, callTypeId);
+        if (IsEdit === false) {
+            GetGeneratedJobNo(serviceTypeId, callTypeId);
+        }
     });
 
     $('#ServType').on('change', function (e) {
@@ -228,7 +223,9 @@ $(function () {
         var servTypeId = this.value;
         var callTypeId = $('#CallType').val();
 
-        GetGeneratedJobNo(servTypeId, callTypeId);
+        if (IsEdit === false) {
+            GetGeneratedJobNo(servTypeId, callTypeId);
+        }
     });
 });
 
@@ -283,7 +280,8 @@ function UpdateJobNo(serviceTypeId, callTypeId, jobIdNo) {
     var currentDate = new Date()
 
     var currentYear = currentDate.getFullYear().toString().substr(-2);
-    var currentMonth = currentDate.getMonth();
+    var currentMonth = currentDate.getMonth() + 1;
+    var currentDay = currentDate.getDate();
 
     var strMonthCode = "";
 
@@ -354,7 +352,7 @@ function UpdateJobNo(serviceTypeId, callTypeId, jobIdNo) {
             break;
     }
 
-    JobNo = currentYear + strMonthCode + strCallTypeCode + strServiceTypeCode + LatestJobIdNo;
+    JobNo = currentYear + strMonthCode + currentDay + strCallTypeCode + strServiceTypeCode + LatestJobIdNo;
 
 
     $("#JobNo").val(JobNo);
@@ -364,7 +362,7 @@ function UpdateJobNo(serviceTypeId, callTypeId, jobIdNo) {
 
 function fnCustomerEditModalShow(thisObj) {
 
-    
+
 
     var customerId = $(thisObj).attr("data-Oid");
 
@@ -396,7 +394,7 @@ function fnCustomerEditModalShow(thisObj) {
 
                     var cityOption = new Option(objSelect2Json.Select2City.text, objSelect2Json.Select2City.id, false, false);
                     $("#customer_modal").find('#CityName').append(cityOption).trigger('change');
-                    
+
                 }
                 $("#customer_modal").modal("show");
 
@@ -404,11 +402,11 @@ function fnCustomerEditModalShow(thisObj) {
         });
 
 
-        
+
 
     }
 
-    
+
 
 }
 
@@ -435,7 +433,7 @@ function fnSaveCustomerDetails() {
                     //console.log(customerObj);
                     if (customerObj.Responce) {
                         toastr["success"](customerObj.Message);
-                        var data = { id: customerObj.Oid, text: (customerObj.FirstName + " " + customerObj.LastName)};
+                        var data = { id: customerObj.Oid, text: (customerObj.FirstName + " " + customerObj.LastName) };
 
                         var newOption = new Option(data.text, data.id, false, false);
                         $('#Customer').append(newOption).trigger('change');
@@ -459,12 +457,12 @@ function fnSaveCustomerDetails() {
 }
 
 
-function fnSaveCallReisterDetails(formId) {
+function fnSaveCallReisterDetails(formId, isPrint) {
 
 
     var IsValidForm = fnValidateFormById(formId);
 
-    /*
+
     if (IsValidForm) {
 
         var callRegisterForm = $("#" + formId);
@@ -474,15 +472,31 @@ function fnSaveCallReisterDetails(formId) {
         $.ajax({
             type: "POST",
             url: url,
-            data: customerForm.serialize(),
+            data: callRegisterForm.serialize(),
             success: function (result) {
                 if (result !== null) {
+
                     var callRegisterResponce = result.data;
+
                     if (callRegisterResponce.Responce) {
-                        toastr["success"](callRegisterResponce.Responce);
+                        toastr["success"](callRegisterResponce.Message);
+                        var callid = callRegisterResponce.Oid;
+                        var isEditCall = callRegisterResponce.IsEdit;
+
+                        if (isPrint && isEditCall) {
+
+                            setTimeout(function () {
+                                var printURL = "/Print/PrintPreview?CallId=" + callid;
+                                window.open(printURL, '_blank');
+
+                            }, 1000);
+
+
+                        }
+                        setTimeout(function () { window.location.href = "/Job/JobList" }, 2000);
                     }
                     else {
-                        toastr["error"](callRegisterResponce.Responce);
+                        toastr["error"](callRegisterResponce.Message);
                     }
                 }
             },
@@ -492,8 +506,10 @@ function fnSaveCallReisterDetails(formId) {
                 console.log("some Error");
             }
         });
-    }*/
+    }
 
     return IsValidForm;
 }
+
+
 

@@ -36,10 +36,15 @@ namespace ServiceCenter.Controllers
                     DateTime dtFromDate = DateTime.ParseExact(Convert.ToString(Request.Form["FromDate"]).Trim(), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                     DateTime dtToDate = DateTime.ParseExact(Convert.ToString(Request.Form["ToDate"]).Trim(), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
+                    int intCallCategory = 0;
+
+                    if (!string.IsNullOrEmpty(Request.Form["CallCategory"]))
+                        intCallCategory = Convert.ToInt32(Request.Form["CallCategory"]);
+
                     CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
 
                     ReportService objReportService = new ReportService();
-                    objCallRegistrationListDataModel = objReportService.GetCallRegistrationReportList(order, orderDir.ToUpper(), startRec, pageSize, dtFromDate, dtToDate);
+                    objCallRegistrationListDataModel = objReportService.GetCallRegistrationReportList(order, orderDir.ToUpper(), startRec, pageSize, dtFromDate, dtToDate, intCallCategory);
 
                     return Json(new
                     {
@@ -80,9 +85,11 @@ namespace ServiceCenter.Controllers
 
         #region  Export
 
-        [HttpGet]
-        public ActionResult ExportCallRegisterData(string FromDate, string ToDate)
+        [HttpPost]
+        public JsonResult ExportCallRegisterData(string FromDate, string ToDate, string CallCategory)
         {
+            ExcelReportResponce objExcelReportResponce = new ExcelReportResponce();
+
             byte[] FileData = null;
             string strFileName = string.Empty;
 
@@ -91,23 +98,47 @@ namespace ServiceCenter.Controllers
                 DateTime dtFromDate = DateTime.ParseExact(Convert.ToString(FromDate), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                 DateTime dtToDate = DateTime.ParseExact(Convert.ToString(ToDate), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
+                int intCallCategory = 0;
+                int.TryParse(CallCategory, out intCallCategory);
 
                 ReportService objReportService = new ReportService();
-                FileData = objReportService.GetCallRegisterExportData(dtFromDate, dtToDate);
+                FileData = objReportService.GetCallRegisterExportData(dtFromDate, dtToDate, intCallCategory);
 
-                strFileName = "Call_Registration_Report_" + DateTime.Now.ToString("dd'_'MM'_'yyyy'_'hhmmss") + ".xlsx";
+                if (FileData != null)
+                {
+                    objExcelReportResponce.Base64String = Convert.ToBase64String(FileData, 0, FileData.Length);
+                    objExcelReportResponce.FileName = "Call_Registration_Report_" + DateTime.Now.ToString("dd'_'MM'_'yyyy'_'hhmmss") + ".xlsx";
 
+                }
             }
 
-            if (FileData != null)
+            return Json(new { data = objExcelReportResponce });
+        }
+
+        [HttpPost]
+        public JsonResult ExportCallRegisterDataForTechnician(string CallIds)
+        {
+            ExcelReportResponce objExcelReportResponce = new ExcelReportResponce();
+
+            byte[] FileData = null;
+            string strFileName = string.Empty;
+
+            if (!string.IsNullOrEmpty(CallIds) )
             {
-                return File(FileData, "application/octet-stream", strFileName);
+                ReportService objReportService = new ReportService();
+                FileData = objReportService.GetCallRegisterExportForTechnician(CallIds);
+
+                if(FileData != null)
+                {
+                    objExcelReportResponce.Base64String = Convert.ToBase64String(FileData, 0, FileData.Length);
+                    objExcelReportResponce.FileName = "Technician_Calls_" + DateTime.Now.ToString("dd'_'MM'_'yyyy'_'hhmmss") + ".xlsx";
+                }
             }
-            else
-            {
-                return new EmptyResult();
-            }
+
+            return Json(new { data = objExcelReportResponce });
+
         }
         #endregion
+
     }
 }

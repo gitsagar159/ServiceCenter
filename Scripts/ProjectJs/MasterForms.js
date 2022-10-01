@@ -1,4 +1,41 @@
 ﻿
+
+(function () {
+
+    $('#City').select2({
+        placeholder: "City Name",
+        minimumInputLength: 3,
+        allowClear: true,
+        delay: 250,
+        cache: true,
+        ajax: {
+            url: "/Job/GetCityList",
+            dataType: 'json',
+            type: 'Get',
+            data: function (params) {
+                var query = {
+                    match: params.term,
+                    page: params.page || 1,
+                    pageSize: params.pageSize || 5
+                }
+                return query;
+            },
+            processResults: function (data, params) {
+                console.log(params);
+                return {
+                    results: data.items,
+                    page: params.page,
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                }
+            },
+        },
+    });
+
+});
+
+
 function InsertUpdateArea() {
 
     var blnIsValidForm = true;
@@ -118,6 +155,8 @@ function InsertUpdateItem() {
 
         objItem.ItemId = $("#ItemId").val();
         objItem.ItemName = ItemName;
+        objItem.TechnicianId = $("#Technician").val();
+
 
         $.ajax({
             type: "POST",

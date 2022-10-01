@@ -68,11 +68,13 @@ namespace ServiceCenter.Controllers
                 string strTechnicianId = Convert.ToString(callRegistration.Technician);
                 string strAreaId = Convert.ToString(callRegistration.Area);
                 string strFaultTypeId = Convert.ToString(callRegistration.FaultType);
+                string strPaymentBy = Convert.ToString(callRegistration.PaymentBy);
 
 
                 callRegistration.ServiceTypeDD = ServiceTypeDD(strServType);
                 callRegistration.CallTypeDD = CallTypeDD(strCallType);
                 callRegistration.AreaDD = AreaDD(strAreaId);
+                callRegistration.PaymentByDD = PaymentByDD(strPaymentBy);
 
             }
             else
@@ -82,6 +84,7 @@ namespace ServiceCenter.Controllers
                 callRegistration.ServiceTypeDD = ServiceTypeDD();
                 callRegistration.CallTypeDD = CallTypeDD();
                 callRegistration.AreaDD = AreaDD();
+                callRegistration.PaymentByDD = PaymentByDD();
             }
 
             return View(callRegistration);
@@ -90,6 +93,9 @@ namespace ServiceCenter.Controllers
         [HttpPost]
         public ActionResult ServiceCallRegistation(CallRegistration callRegistration)
         {
+
+            CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : " + callRegistration.CallAssignDate);
+
             string ErrorMsg = string.Empty;
 
             if (!ModelState.IsValid)
@@ -102,13 +108,13 @@ namespace ServiceCenter.Controllers
 
             }
 
-            ResponceModel objResponce = new ResponceModel();
+            CallRegistration objCallRegistrationResponce = new CallRegistration();
 
             JobService objJobService = new JobService();
-            objResponce = objJobService.InsertUpdateCallRegistration(callRegistration);
+            objCallRegistrationResponce = objJobService.InsertUpdateCallRegistration(callRegistration);
 
-            //return Json(new { data = objResponce });
-            return RedirectToAction("JobList", "Job");
+            return Json(new { data = objCallRegistrationResponce });
+            //return RedirectToAction("JobList", "Job");
         }
 
         public bool IsSessionValid()
@@ -170,19 +176,80 @@ namespace ServiceCenter.Controllers
                 var startRec = Convert.ToInt32(Request.Form["start"]);
                 var pageSize = Convert.ToInt32(Request.Form["length"]);
 
-                string strKeyword = string.Empty;
+                string MobileNo = string.Empty, CustomerName = string.Empty, Technician = string.Empty, TechnicianType = string.Empty, JobNo = string.Empty, ItemName = string.Empty, CompComplaintNo = string.Empty, UserName = string.Empty;
                 int intCallCategory = 0;
+                int? CallType, ServType;
+                bool? CallAttn, JobDone, Deliver, Canceled, PartPanding, IsCompComplaintNo, CallBack, WorkShopIN, PaymentPanding;
+                DateTime? FromDate, ToDate, CallAssignFromDate, CallAssignToDate;
 
-                if (!string.IsNullOrEmpty(Request.Form["Keyword"]))
-                    strKeyword = Convert.ToString(Request.Form["Keyword"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["CustomerName"]))
+                    CustomerName = Convert.ToString(Request.Form["CustomerName"]).Trim();
+
+                CallType = !string.IsNullOrEmpty(Request.Form["CallType"]) ? Convert.ToInt32(Request.Form["CallType"]) : (int?)null;
+
+                ServType = !string.IsNullOrEmpty(Request.Form["ServType"]) ? Convert.ToInt32(Request.Form["ServType"]) : (int?)null;
+
+                if (!string.IsNullOrEmpty(Request.Form["Technician"]))
+                    Technician = Convert.ToString(Request.Form["Technician"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["TechnicianType"]))
+                    TechnicianType = Convert.ToString(Request.Form["TechnicianType"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["MobileNo"]))
+                    MobileNo = Convert.ToString(Request.Form["MobileNo"]).Trim();
+
+                CallAttn = !string.IsNullOrEmpty(Request.Form["CallAttn"]) ? Convert.ToBoolean(Request.Form["CallAttn"]) : (bool?)null;
+
+                JobDone = !string.IsNullOrEmpty(Request.Form["JobDone"]) ? Convert.ToBoolean(Request.Form["JobDone"]) : (bool?)null;
+
+                if (!string.IsNullOrEmpty(Request.Form["JobNo"]))
+                    JobNo = Convert.ToString(Request.Form["JobNo"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["CompComplaintNo"]))
+                    CompComplaintNo = Convert.ToString(Request.Form["CompComplaintNo"]).Trim();
+
+                 
+                IsCompComplaintNo = !string.IsNullOrEmpty(Request.Form["IsCompComplaintNo"]) ? Convert.ToBoolean(Request.Form["IsCompComplaintNo"]) : (bool?)null;
+
+                if (!string.IsNullOrEmpty(Request.Form["ItemName"]))
+                    ItemName = Convert.ToString(Request.Form["ItemName"]).Trim();
+
+                Deliver = !string.IsNullOrEmpty(Request.Form["Deliver"]) ? Convert.ToBoolean(Request.Form["Deliver"]) : (bool?)null;
+
+                Canceled = !string.IsNullOrEmpty(Request.Form["Canceled"]) ? Convert.ToBoolean(Request.Form["Canceled"]) : (bool?)null;
+
+                FromDate = !string.IsNullOrEmpty(Request.Form["FromDate"]) ? DateTime.ParseExact(Request.Form["FromDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+                ToDate = !string.IsNullOrEmpty(Request.Form["ToDate"]) ? DateTime.ParseExact(Request.Form["ToDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+
+                PartPanding = !string.IsNullOrEmpty(Request.Form["PartPanding"]) ? Convert.ToBoolean(Request.Form["PartPanding"]) : (bool?)null;
+
+
+                CallAssignFromDate = !string.IsNullOrEmpty(Request.Form["CallAssignFromDate"]) ? DateTime.ParseExact(Request.Form["CallAssignFromDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+                CallAssignToDate = !string.IsNullOrEmpty(Request.Form["CallAssignToDate"]) ? DateTime.ParseExact(Request.Form["CallAssignToDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+
+                CallBack = !string.IsNullOrEmpty(Request.Form["CallBack"]) ? Convert.ToBoolean(Request.Form["CallBack"]) : (bool?)null;
+
+                WorkShopIN = !string.IsNullOrEmpty(Request.Form["WorkShopIN"]) ? Convert.ToBoolean(Request.Form["WorkShopIN"]) : (bool?)null;
+
+                PaymentPanding = !string.IsNullOrEmpty(Request.Form["PaymentPanding"]) ? Convert.ToBoolean(Request.Form["PaymentPanding"]) : (bool?)null;
+
 
                 if (!string.IsNullOrEmpty(Request.Form["CallCategory"]))
                     intCallCategory = Convert.ToInt32(Request.Form["CallCategory"]);
 
+                if (!string.IsNullOrEmpty(Request.Form["UserName"]))
+                    UserName = Convert.ToString(Request.Form["UserName"]).Trim();
+
                 CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
 
                 JobService objJobService = new JobService();
-                objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(order, orderDir.ToUpper(), startRec, pageSize, strKeyword, intCallCategory);
+                objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(order, orderDir.ToUpper(), startRec, pageSize, CustomerName, CallType, ServType, Technician, TechnicianType, MobileNo, CallAttn, JobDone, JobNo, CompComplaintNo, ItemName, Deliver, Canceled, PartPanding, IsCompComplaintNo, FromDate, ToDate, CallAssignFromDate, CallAssignToDate, CallBack, WorkShopIN, PaymentPanding, UserName, intCallCategory);
+
 
                 
                 return Json(new
@@ -190,7 +257,8 @@ namespace ServiceCenter.Controllers
                     draw = Convert.ToInt32(draw),
                     recordsTotal = objCallRegistrationListDataModel.RecordCount,
                     recordsFiltered = objCallRegistrationListDataModel.RecordCount,
-                    data = objCallRegistrationListDataModel.CallRegistrationList
+                    data = objCallRegistrationListDataModel.CallRegistrationList,
+                    Oids = objCallRegistrationListDataModel.Oids
                 }, JsonRequestBehavior.AllowGet);
                 
             }
@@ -202,7 +270,8 @@ namespace ServiceCenter.Controllers
                     draw = Convert.ToInt32(0),
                     recordsTotal = 0,
                     recordsFiltered = 0,
-                    data = string.Empty
+                    data = string.Empty,
+                    Oids = string.Empty
                 });
             }
             
@@ -269,7 +338,99 @@ namespace ServiceCenter.Controllers
             return Json(new { data = objResponceModel });
         }
 
-        
+        [HttpPost]
+        public JsonResult UpdateCompComplaintNoByCallId(string CompComplaintNo, string CallId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            JobService objJobService = new JobService();
+            objResponceModel = objJobService.UpdateCompComplaintNoByCallId(CompComplaintNo, CallId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateJobDoneRegionByCallId(string JobDoneRegion, string CallId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            JobService objJobService = new JobService();
+            objResponceModel = objJobService.UpdateJobDoneRegionByCallId(JobDoneRegion, CallId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult GetBillDetailsByBillNo(string BillNo, string BillDate)
+        {
+            BillDetailsDataModel objBillDetailsDataModel = new BillDetailsDataModel();
+
+            JobService objJobService = new JobService();
+            objBillDetailsDataModel = objJobService.GetBillDetailsByBillNo(BillNo, BillDate);
+
+            return Json(new { data = objBillDetailsDataModel });
+        }
+
+        [HttpPost]
+        public JsonResult CreateNewCallFromBillDetails(BillDetails objBillDetails)
+        {
+            CommonService.WriteTraceLog("Controller_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
+
+            ResponceModel objResponceModel = new ResponceModel();
+
+            if (objBillDetails != null && !string.IsNullOrEmpty(objBillDetails.CustomerName) && !string.IsNullOrEmpty(objBillDetails.MobileNo) && !string.IsNullOrEmpty(objBillDetails.Address) && !string.IsNullOrEmpty(objBillDetails.BillNo))
+            {
+                JobService objJobService = new JobService();
+                objResponceModel = objJobService.CreateNewCallFromBillDetails(objBillDetails);
+            }
+            else
+            {
+                objResponceModel = new ResponceModel() { Responce = false, Message = "Somthing went wrong, Data is missing "};
+
+            }
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult CreateNewCallFromOldJonNo(string OldJobNo)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            if (!string.IsNullOrEmpty(OldJobNo))
+            {
+                JobService objJobService = new JobService();
+                objResponceModel = objJobService.CreateNewCallFromOldJonNo(OldJobNo);
+            }
+            else
+            {
+                objResponceModel = new ResponceModel() { Responce = false, Message = "Somthing went wrong, Data is missing " };
+
+            }
+
+            return Json(new { data = objResponceModel });
+        }
+
+
+        [HttpPost]
+        public JsonResult AssignMultipleCallToTechnician(string CallIds, string TechnicianId)
+        {
+
+            ResponceModel objResponceModel = new ResponceModel();
+
+            if (!string.IsNullOrEmpty(CallIds))
+            {
+                JobService objJobService = new JobService();
+                objResponceModel = objJobService.AssignMultipleCallToTechnician(CallIds, TechnicianId);
+            }
+            else
+            {
+                objResponceModel = new ResponceModel() { Responce = false, Message = "Somthing went wrong, Data is missing " };
+
+            }
+
+            return Json(new { data = objResponceModel });
+        }
 
         #endregion
 
@@ -339,6 +500,22 @@ namespace ServiceCenter.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetTechnicianTypeList(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstTechnicianType = new List<Select2>();
+
+            JobService objJobService = new JobService();
+            lstTechnicianType = objJobService.GetTechnicianTypeList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstTechnicianType,
+                total_count = lstTechnicianType.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetFaultTypeList(string match, int page = 1, int pageSize = 5)
         {
             List<Select2> lstFaultType = new List<Select2>();
@@ -355,6 +532,21 @@ namespace ServiceCenter.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetUserList(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstUser = new List<Select2>();
+
+            JobService objJobService = new JobService();
+            lstUser = objJobService.GetUserList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstUser,
+                total_count = lstUser.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
 
@@ -365,7 +557,7 @@ namespace ServiceCenter.Controllers
 
             ListItem.Add(new SelectListItem { Text = "In-Warranty", Value = "0", Selected = SelectedValue == "0" ? true : false });
             ListItem.Add(new SelectListItem { Text = "Out-Warranty", Value = "1", Selected = SelectedValue == "1" ? true : false });
-            ListItem.Add(new SelectListItem { Text = "Installation ", Value = "2", Selected = SelectedValue == "2" ? true : false });
+            ListItem.Add(new SelectListItem { Text = "Installation", Value = "2", Selected = SelectedValue == "2" ? true : false });
 
             return new SelectList(ListItem, "Value", "Text");
         }
@@ -391,11 +583,22 @@ namespace ServiceCenter.Controllers
             return new SelectList(ListItem, "Value", "Text");
         }
 
+        public SelectList PaymentByDD(string SelectedValue = "")
+        {
+            List<SelectListItem> ListItem = new List<SelectListItem>();
+
+            ListItem.Add(new SelectListItem { Text = "Cash", Value = "0", Selected = SelectedValue == "0" ? true : false });
+            ListItem.Add(new SelectListItem { Text = "Check", Value = "1", Selected = SelectedValue == "1" ? true : false });
+            ListItem.Add(new SelectListItem { Text = "Online", Value = "2", Selected = SelectedValue == "2" ? true : false });
+
+            return new SelectList(ListItem, "Value", "Text");
+        }
+
 
         //
 
         #endregion
 
-        
+
     }
 }

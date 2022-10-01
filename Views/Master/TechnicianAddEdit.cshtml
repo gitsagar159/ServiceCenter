@@ -1,0 +1,170 @@
+﻿@using ServiceCenter.Models
+@model ServiceCenter.Models.TechnicianMaster
+@{
+    ViewBag.Title = "Add Edit Technician";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    string Select2JSONData = !string.IsNullOrEmpty(Model.Select2JSON) ? Model.Select2JSON : "";
+}
+
+@section style {
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+
+        @using (Html.BeginForm("TechnicianAddEdit", "Master", FormMethod.Post, new { @id = "frmTechnicianAddEdit" }))
+        {
+
+            @Html.HiddenFor(m => m.Oid)
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="form-label">User Name:</label>
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "User Name", @readonly = true })
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Createion Date</label>
+                            @Html.TextBoxFor(m => m.CreationDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", placeholder = "User Name", @readonly = true })
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Modifier</label>
+                            @Html.TextBoxFor(m => m.Modifier, new { @class = "form-control", placeholder = "Modifier", @readonly = true })
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="form-label">Modify Date</label>
+                            @Html.TextBoxFor(m => m.ModifyDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control", placeholder = "Modify Date", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-body">
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            @Html.Raw(ViewBag.ErrorMessage);
+                        </div>
+                    }
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Technician Name</label>
+                            @Html.TextBoxFor(m => m.Technician, new { @class = "form-control control-required" })
+                            <small id="CustomerName_ToolTip" class="" style="display:none">Enter Technician Name</small>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Mobile No</label>
+                            @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control control-required mob-no" })
+                            <small id="Mobile_ToolTip" class="" style="display:none">Enter Mobile No.</small>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Area</label>
+                            @Html.DropDownListFor(m => m.TechType, Model.TechnicianTypeDD as SelectList, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Address</label>
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">City</label>
+                            <select class="form-control" name="City" id="City"></select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Home Phone No</label>
+                            @Html.TextBoxFor(m => m.PhoneH, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Office Phone No</label>
+                            @Html.TextBoxFor(m => m.PhoneO, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" onclick="return fnValidateFormById('frmTechnicianAddEdit');">Submit</button>
+                </div>
+            </div>
+        }
+
+
+    </div>
+
+    @section scripts{
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script>
+
+            $(document).ready(function ()
+            {
+
+
+                $('#City').select2({
+                    placeholder: "Customer code",
+                    minimumInputLength: 3,
+                    allowClear: true,
+                    delay: 250,
+                    cache: true,
+                    ajax: {
+                        url: "/Job/GetCityList",
+                        dataType: 'json',
+                        type: 'Get',
+                        data: function (params) {
+                            var query = {
+                                match: params.term,
+                                page: params.page || 1,
+                                pageSize: params.pageSize || 5
+                            }
+                            return query;
+                        },
+                        processResults: function (data, params) {
+                            console.log(params);
+                            return {
+                                results: data.items,
+                                page: params.page,
+                                pagination: {
+                                    more: (params.page * 5) < data.total_count
+                                }
+                            }
+                        },
+                    },
+                });
+
+                var Oid = "@Html.Raw(Model != null && !string.IsNullOrEmpty(Model.Oid) ? Model.Oid : "")";
+
+                 if (Oid !== "")
+                {
+                     var select2JsonData = '@Select2JSONData';
+
+                     if (select2JsonData !== "" || select2JsonData !== undefined) {
+
+                         var objSelect2Json = JSON.parse(select2JsonData.replace(/&quot;/g, '"')); //JSON.parse(select2JsonData);
+
+                         var cityOption = new Option(objSelect2Json.Select2City.text, objSelect2Json.Select2City.id, false, false);
+                         $('#City').append(cityOption).trigger('change');
+
+                     }
+
+                    
+                }
+
+            });
+
+
+        </script>
+
+
+    }
+
+    @Html.Partial("FooterBar")
+
+</div>
+

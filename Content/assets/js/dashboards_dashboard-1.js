@@ -1,17 +1,18 @@
 $(function() {
-  var chart1 = new Chart(document.getElementById('statistics-chart-1').getContext("2d"), {
+  var chart1 = new Chart(document.getElementById('statistics-chart-1'), {
     type: 'line',
-    data: {
-      labels: ['2016-10', '2016-11', '2016-12', '2017-01', '2017-02', '2017-03', '2017-04', '2017-05'],
+      data: {
+
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       datasets: [{
-        label: 'Visits',
-        data: [93, 25, 95, 59, 46, 68, 4, 41],
+          label: '2022',
+          data: [0, 0, 0, 2430, 3047, 1549, 0, 143, 0, 0, 0, 0],
         borderWidth: 1,
         backgroundColor: 'rgba(28,180,255,.05)',
         borderColor: 'rgba(28,180,255,1)'
       }, {
-        label: 'Returns',
-        data: [83, 1, 43, 28, 56, 82, 80, 66],
+          label: '2021',
+          data: [2023, 2199, 3027, 2713, 2261, 3258, 2737, 1910, 2512, 3063, 3228, 1811],
         borderWidth: 1,
         borderDash: [5, 5],
         backgroundColor: 'rgba(136, 151, 170, 0.1)',

@@ -1,0 +1,27 @@
+﻿<div class="modal fade" id="TechnicianCallAssign_modal">
+    <div class="modal-dialog">
+        <form class="modal-content" id="frmTechnicianCallAssign" name="frmTechnicianCallAssign">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Technician Call Assign
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-row">
+                    <div class="form-group col-12 mb-0">
+                        <label class="form-label">Technician</label>
+                        <select class="form-control control-required" name="TechnicianId" id="TechnicianId" style="width:100%!important"></select>
+                        <small id="TechnicianId_ToolTip" class="" style="display:none">Select Technician</small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="return fnAssignMultipleCallToTechnician()">Assign Technician</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+
+    </div>
+</div>

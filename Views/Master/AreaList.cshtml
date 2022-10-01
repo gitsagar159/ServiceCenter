@@ -6,12 +6,33 @@
 @section style {
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 }
 
 <div class="layout-content">
 
     <!-- Content -->
     <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+                <form role="form">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Search</label>
+                                <input type="text" class="form-control" name="AreaName" id="AreaName" placeholder="Area Name">
+                            </div>
+                        </div>
+                        <div class="col col-md-4 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="card">
             <div class="row">
@@ -51,62 +72,45 @@
     @section scripts {
         <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
         <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        @*<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.js"></script>*@
+        <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script>
 
             $(document).ready(function () {
-                /* $('#tblJobList').DataTable({
-                     responsive: true
-                 });
-                 */
-                //LoadJobListTable();
-
                 fnBindAreaListData();
             });
 
+            var hCols = [];
+            var ChId = "";
+            var ValidPrint = 0;
+            var srNo = 1;
+            var table;
+
             function fnBindAreaListData() {
 
-                var srNo = 1;
-
-                var sort = "";
-                var table = $('#tblAreaList').DataTable({
-                    "destroy": true,
-                    "retrieve": true,
-                    "searching": false,
+                table = $('#tblAreaList').DataTable({
+                    "paging": true,
+                    "pageLength": $('#PageSize').val(),
                     "bLengthChange": false,
-                    "info": true,
-                    "language":
-                    {
-                        "processing": "<div class='overlay custom-loader-background' style='color:black;'>Please Wait...</div>"
-                    },
+                    "autoWidth": true,
                     "processing": true,
                     "serverSide": true,
-                    "stateSave": true,
+                    "filter": false,
+                    "responsive": true,
+                    "orderMulti": false,
                     "ajax":
                     {
                         "url": "/Master/GetAreaList",
                         "data": function (d) {
-                            /*
-                            d.objSearchOption = {
-                                Records: $('#drpTotalNumberRecords option:selected').val(),
-                                Status: $('#drpStatus option:selected').val(),
-                                Keyword: $("#txtKeyword").val().trim(),
-                                StartDateTime: $("#txtStartDate").val(),
-                                EndDateTime: $("#txtEndDate").val(),
-                                sort: sort
-                            };
-                            */
+                            d.AreaName = $("#AreaName").val().trim();
                         },
                         "type": "POST",
                         "dataType": "JSON"
                     },
                     "columns": [
-                        {
-                            mRender: function (data, type, full) {
-
-                                return srNo++;
-                            }
-                        },
+                        { "data": "RowNo", "autoWidth": true },
                         { "data": "AreaName", "autoWidth": true },//
                         {
                             mRender: function (data, type, full) {
@@ -125,48 +129,21 @@
                                     '<a href="#"  onclick=fnDeleteArea("' + full.AreaId + '"); class="btn btn-outline-warning btn-sm" >Delete</a>';
                             }
                         },
-                        /*
-                        {
-                            mRender: function (data, type, full) {
-                                if (full.Status === true) {
-                                    return "<span class='blue'>Confirmed</span>";
-                                }
-                                else {
-                                    return "<span class='blue'>Pending</span>";
-                                }
-                            }
-                        },
 
-                        {
-                            mRender: function (data, type, full) {
-                                return moment(full.CreatedDate).format('MMMM Do YYYY, h:mm:ss a');
-                                //'<a href="#" data-toggle="modal" data-target="#Deletemodal" onclick=fnDeleteSetId("' + full.ProjectId + '");><i class="fas fa-trash"> Delete</i></a>';
-                            }
-                        },
-
-                        */
-
-                    ]
+                    ],
+                    "fixedHeader": {
+                        header: true,
+                    },
+                    "columnDefs": [
+                        { orderable: true, "targets": [1,] },
+                    ],
+                    "order": [[0, "desc"]],
                 });
-                /*
-                $('#txtStartDate, #txtEndDate').on('input', function () {
-                    table.draw();
-                });
-                $('#txtKeyword').on('keyup', function () {
+
+                $("#btnAdvanceSearch").click(function (event) {
+                    event.preventDefault();
                     table.search(this.value).draw();
                 });
-                $("#drpStatus").change(function () {
-                    table.search(this.value).draw();
-                });
-                $("#drpTotalNumberRecords").change(function () {
-                    table.search(this.value).draw();
-                });
-                $(".btn-sm").click(function (event) {
-                    sort = $(this).prop("id");
-                    table.draw();
-                });
-                */
-
             }
 
 

@@ -17,16 +17,6 @@ namespace ServiceCenter.Models
         public int CallCategory { get; set; }
     }
 
-
-
-    public class JobDashboard
-    {
-        public long TotalJobCount { get; set; }
-        public long JobDoneCount { get; set; }
-        public long OpenJobCount { get; set; }
-        public long NewJobCount { get; set; }
-    }
-
     public class CallRegistration: ResponceModel
     {
         public long RowNo { get; set; }
@@ -78,18 +68,22 @@ namespace ServiceCenter.Models
         public string ModelName { get; set; }
         public string ItemGroup { get; set; }
         public DateTime? PurchaseDate { get; set; }
+        public string StringPurchaseDate { get; set; }
         public string BillNo { get; set; }
         public string ShowRoom { get; set; }
         public string TechBillNo { get; set; }
         public string DealRef { get; set; }
         public string Technician { get; set; }
+        public string Technician_Old { get; set; }
         public string TechnicianName { get; set; }
-        
+        public string TechnicianType { get; set; }
+
         public float Amount { get; set; }
         public string SIGN { get; set; }
         public string Warranty { get; set; }
         public bool CallAttn { get; set; }
         public bool JobDone { get; set; }
+        public bool JobDone_Old { get; set; }
         public bool Deliver { get; set; }
         public bool SMSSent { get; set; }
         public decimal Estimate { get; set; }
@@ -122,8 +116,13 @@ namespace ServiceCenter.Models
         public SelectList TechnicianDD { get; set; }
         public SelectList AreaDD { get; set; }
         public SelectList FaultTypeDD { get; set; }
+        public SelectList PaymentByDD { get; set; }
 
         public string Select2JSON { get; set; }
+
+        public string PhoneH { get; set; }
+        public string PhoneO { get; set; }
+        public bool IsEdit { get; set; }
     }
 
     public class CallRegistrationSelect2Data
@@ -140,6 +139,9 @@ namespace ServiceCenter.Models
         public List<CallRegistration> CallRegistrationList { get; set; }  //= new List<CallRegistration>();
 
         public int RecordCount { get; set; }
+
+        public string Oids { get; set; }
+
     }
 
     public class ResultList<T>
@@ -202,6 +204,35 @@ namespace ServiceCenter.Models
         public int iSortingCols { get; set; }
         public string sColumns { get; set; }
         public int CallCategory { get; set; }
+    }
+
+    public class BillDetails
+    {
+        //CustomerId CustomerName    Address MobileNo    City PinCode ProductId ProductName ProductModel SalesId InvoiceDate
+        public string BillNo { get; set; }
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public string Address { get; set; }
+        public string MobileNo { get; set; }
+        public string CityName { get; set; }
+        public string PinCode { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string ProductModel { get; set; }
+        public int SalesId { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public string StringInvoiceDate { get; set; }
+        public string ItemName { get; set; }
+        public string SerialNo { get; set; }
+
+        public string BillDetailJSON { get; set; }
+
+
+    }
+
+    public class BillDetailsDataModel
+    {
+        public List<BillDetails> BillData { get; set; }
     }
 
 }
