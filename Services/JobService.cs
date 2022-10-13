@@ -84,7 +84,7 @@ namespace ServiceCenter.Services
             return lstCallRegistration;
         }
 
-        public CallRegistrationListDataModel GetCallRegisterListBySP(int SortCol, string SortDir, int PageIndex, int PageSize, string CustomerName, int? CallType, int? ServType, string Technician, string TechnicianType, string MobileNo, bool? CallAttn, bool? JobDone, string JobNo, string CompComplaintNo, string ItemName, bool? Deliver, bool? Canceled, bool? PartPanding, bool? IsCompComplaintNo, DateTime? FromDate, DateTime? ToDate, DateTime? CallAssignFromDate, DateTime? CallAssignToDate, bool? CallBack, bool? WorkShopIN, bool? PaymentPanding, string UserName, int CallCategory)
+        public CallRegistrationListDataModel GetCallRegisterListBySP(int SortCol, string SortDir, int PageIndex, int PageSize, string CustomerName, int? CallType, int? ServType, string Technician, string TechnicianType, string MobileNo, bool? CallAttn, bool? JobDone, string JobNo, string CompComplaintNo, string ItemName, bool? Deliver, bool? Canceled, bool? PartPanding, bool? IsCompComplaintNo, DateTime? FromDate, DateTime? ToDate, DateTime? CallAssignFromDate, DateTime? CallAssignToDate, bool? CallBack, bool? WorkShopIN, bool? PaymentPanding, string UserName, DateTime? ModifyFromDate, DateTime? ModifyToDate, int CallCategory)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
             objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
@@ -135,9 +135,11 @@ namespace ServiceCenter.Services
                 
                 SqlParameter UserName_Param = !string.IsNullOrEmpty(UserName) ? new SqlParameter() { ParameterName = "@UserName", Value = UserName } : new SqlParameter() { ParameterName = "@UserName", Value = DBNull.Value };
 
+                SqlParameter ModifyFromDate_Param = ModifyFromDate.HasValue ? new SqlParameter() { ParameterName = "@ModifyFromDate", Value = ModifyFromDate } : new SqlParameter() { ParameterName = "@ModifyFromDate", Value = DBNull.Value };
+                SqlParameter ModifyToDate_Param = ModifyToDate.HasValue ? new SqlParameter() { ParameterName = "@ModifyToDate", Value = ModifyToDate } : new SqlParameter() { ParameterName = "@ModifyToDate", Value = DBNull.Value };
 
                 lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, CustomerName_Param, CallType_Param, ServType_Param, Technician_Param, TechnicianType_Param, MobileNo_Param, CallAttn_Param,
-                    JobDone_Param, JobNo_Param, CompComplaintNo_Param, ItemName_Param, Deliver_Param, Canceled_Param, PartPanding_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, CallCategory_Param, TotalRecordCount_Param });
+                    JobDone_Param, JobNo_Param, CompComplaintNo_Param, ItemName_Param, Deliver_Param, Canceled_Param, PartPanding_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, ModifyFromDate_Param, ModifyToDate_Param, CallCategory_Param, TotalRecordCount_Param });
 
                 StringBuilder SBJobListSP = new StringBuilder();
 

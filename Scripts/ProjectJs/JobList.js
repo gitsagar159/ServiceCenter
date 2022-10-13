@@ -288,10 +288,12 @@ function fnButtonShowHide()
     if (checkboxes.length > 0) {
         $("#btnAssignCall").show();
         $("#btnExportCalls").show();
+        $("#btnPrintMultipleWorkorder").show();
     }
     else {
         $("#btnAssignCall").hide();
         $("#btnExportCalls").hide();
+        $("#btnPrintMultipleWorkorder").hide();
     }
 }
 
@@ -332,6 +334,8 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.PaymentPanding = "";
         objAdvanceFilter.UserName = "";
         objAdvanceFilter.UserNameText = "";
+        objAdvanceFilter.ModifyFromDate = "";
+        objAdvanceFilter.ModifyToDate = "";
 
 
         localStorage.setItem('JobListAdvanceFilter', JSON.stringify(objAdvanceFilter));
@@ -374,10 +378,14 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.UserName = $("#UserName").val();
         objAdvanceFilter.UserNameText = $("#UserName option:selected").text();
 
+        objAdvanceFilter.ModifyFromDate = $("#ModifyFromDate").val();
+        objAdvanceFilter.ModifyToDate = $("#ModifyToDate").val();
+
+
         localStorage.setItem('JobListAdvanceFilter', JSON.stringify(objAdvanceFilter));
     }
 
-    if (btnId === "btnFilterClear")
+    if (btnId === "btnFilterClear" || btnId === "btnClearSearch" )
     {
 
         fnClearAllInputOfAdvanceFilter();
@@ -416,6 +424,9 @@ function fnManageJobListSearchJson(btnId)
 
         objAdvanceFilter.UserName = $("#UserName").val();
         objAdvanceFilter.UserNameText = $("#UserName option:selected").text();
+
+        objAdvanceFilter.ModifyFromDate = $("#ModifyFromDate").val();
+        objAdvanceFilter.ModifyToDate = $("#ModifyToDate").val();
 
         localStorage.setItem('JobListAdvanceFilter', JSON.stringify(objAdvanceFilter));
     }
@@ -462,6 +473,9 @@ function fnManageJobListSearchJson(btnId)
         var UserNameOption = new Option(objAdvanceFilter.UserNameText, objAdvanceFilter.UserName === null ? "" : objAdvanceFilter.UserName, false, false);
         $("#UserName").append(UserNameOption).trigger('change');
 
+        $("#ModifyFromDate").val(objAdvanceFilter.ModifyFromDate);
+        $('#ModifyToDate').val(objAdvanceFilter.ModifyToDate);
+
         $("#btnAdvanceFiter").removeClass("btn-primary");
         $("#btnAdvanceFiter").addClass("btn-success");
     }
@@ -503,6 +517,9 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.UserName = $("#UserName").val();
         objAdvanceFilter.UserNameText = $("#UserName option:selected").text();
 
+        objAdvanceFilter.ModifyFromDate = $("#ModifyFromDate").val();
+        objAdvanceFilter.ModifyToDate = $("#ModifyToDate").val();
+
     }
 
     localStorage.setItem('JobListAdvanceFilter', JSON.stringify(objAdvanceFilter));
@@ -510,8 +527,15 @@ function fnManageJobListSearchJson(btnId)
 
 function fnClearAllInputOfAdvanceFilter()
 {
-    $('#frmAdvanceFilter').find('input:text').val('');
 
+    $('#frmJobListFilter').find('input:text').val('');
+    $("#frmJobListFilter").find("select").each(function () {
+
+        $(this).prop('selectedIndex', "0");
+
+    });
+
+    $('#frmAdvanceFilter').find('input:text').val('');
     $("#frmAdvanceFilter").find("select").each(function () {
 
         $(this).prop('selectedIndex', "");
@@ -522,6 +546,48 @@ function fnClearAllInputOfAdvanceFilter()
     $("#TechnicianType").val('').trigger('change');
     $("#ItemName").val('').trigger('change');
     $("#UserName").val('').trigger('change');
+}
+
+function fnGenerateMultipleWordOrderPDF() {
+
+    if (checkboxes !== null) {
+
+        var callIds = checkboxes.join(", ");
+
+        $(".loading").show();
+
+        $.ajax({
+            type: "POST",
+            url: "/Print/MultipleWorkorderPrintPreview",
+            data: { CallIds: callIds },
+            cache: true,
+            async: true,
+            success: function (result) {
+                $(".loading").hide();
+                if (result !== null) {
+                    var objFileData = result.data;
+
+                    if (objFileData.Base64String !== "" || objFileData.Base64String !== undefined) {
+
+                        var fileName = objFileData.FileName;
+                        var bytes = Base64ToBytes(objFileData.Base64String);
+                        var blob = new Blob([bytes], { type: "application/pdf" });
+                        
+                        var fileURL = URL.createObjectURL(blob);
+                        window.open(fileURL);
+
+                    }
+                    else {
+                        toastr["error"]("Somthing Went Wrong");
+                    }
+                }
+
+            }
+        });
+
+    }
+
+
 }
 
 

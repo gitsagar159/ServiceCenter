@@ -14,4 +14,9 @@ namespace ServiceCenter.Models
         public string Base64String { get; set; }
         public string FileName { get; set; }
     }
+
+    public class PdfPrintResponce : ExcelReportResponce
+    {
+        
+    }
 }

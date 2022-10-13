@@ -26,7 +26,7 @@
 
         <div class="card mb-2">
             <div class="card-body" style="padding: 3px 24px 0px 24px">
-                <form role="form">
+                <form role="form" id="frmJobListFilter">
                     <input type="hidden" name="hdnCheckboxArray" id="hdnCheckboxArray" value="" />
                     <div class="row">
                         <div class="col col-md-2">
@@ -48,15 +48,13 @@
                         </div>
                         <div class="col col-md-2 pt-4">
                             <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                            <button type="submit" class="btn btn-danger" id="btnClearSearch">Clear</button>
                         </div>
-                        <div class="col col-md-2 pt-4">
+                        <div class="col col-md-6 pt-4">
                             <a href="javascript:void(0)" class="btn btn-primary" id="btnAdvanceFiter" data-toggle="modal" data-target="#JobListAdvanceFilter_modal"><span class="fas fa-filter"></span>&nbsp;&nbsp; Advance Filter</a>
-                        </div>
-                        <div class="col col-md-2 pt-4">
                             <a href="javascript:void(0)" class="btn btn-primary" id="btnAssignCall" data-toggle="modal" data-target="#TechnicianCallAssign_modal" style="display:none"><span class="fas fa-clipboard-check"></span>&nbsp;&nbsp; Assing Technician</a>
-                        </div>
-                        <div class="col col-md-2 pt-4">
                             <a href="javascript:void(0)" class="btn btn-primary" id="btnExportCalls" onclick="fnCallRegistrationDataForTechnician()" style="display:none"><span class="far fa-file-excel"></span>&nbsp;&nbsp; Export</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btnPrintMultipleWorkorder" onclick="fnGenerateMultipleWordOrderPDF()" style="display:none"><span class="far fa-file-alt"></span>&nbsp;&nbsp; Print All W/O</a>
                         </div>
                     </div>
                 </form>
@@ -218,6 +216,8 @@
                             d.WorkShopIN = objAdvanceFilter.WorkShopIN;
                             d.PaymentPanding = objAdvanceFilter.PaymentPanding;
                             d.UserName = objAdvanceFilter.UserName;
+                            d.ModifyFromDate = objAdvanceFilter.ModifyFromDate;
+                            d.ModifyToDate = objAdvanceFilter.ModifyToDate;
 
 
                             /*
@@ -414,6 +414,7 @@
 
                     $("#btnAssignCall").hide();
                     $("#btnExportCalls").hide();
+                    $("#btnPrintMultipleWorkorder").hide();
 
                     table.search(this.value).draw();
 
@@ -463,8 +464,35 @@
 
                     table.draw();
 
+                });
+
+
+                $("#btnClearSearch").click(function (event) {
+                    event.preventDefault();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    $("#btnAdvanceFiter").removeClass("btn-success");
+                    $("#btnAdvanceFiter").addClass("btn-primary");
+
+                    fnClearAllInputOfAdvanceFilter();
+
+                    $("#JobListAdvanceFilter_modal").modal("hide");
+
+
+                    checkboxes = [];
+                    $(".selection").prop("checked", false);
+                    $(".selectionAll").prop("checked", false);
+                    fnButtonShowHide();
+
+
+                    table.draw();
 
                 });
+
+                
             }
 
 
@@ -519,10 +547,12 @@
                 if (checkboxes.length > 0) {
                     $("#btnAssignCall").show();
                     $("#btnExportCalls").show();
+                    $("#btnPrintMultipleWorkorder").show();
                 }
                 else {
                     $("#btnAssignCall").hide();
                     $("#btnExportCalls").hide();
+                    $("#btnPrintMultipleWorkorder").hide();
                 }
 
 

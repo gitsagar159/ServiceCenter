@@ -180,7 +180,7 @@ namespace ServiceCenter.Controllers
                 int intCallCategory = 0;
                 int? CallType, ServType;
                 bool? CallAttn, JobDone, Deliver, Canceled, PartPanding, IsCompComplaintNo, CallBack, WorkShopIN, PaymentPanding;
-                DateTime? FromDate, ToDate, CallAssignFromDate, CallAssignToDate;
+                DateTime? FromDate, ToDate, CallAssignFromDate, CallAssignToDate, ModifyFromDate, ModifyToDate;
 
 
                 if (!string.IsNullOrEmpty(Request.Form["CustomerName"]))
@@ -245,10 +245,14 @@ namespace ServiceCenter.Controllers
                 if (!string.IsNullOrEmpty(Request.Form["UserName"]))
                     UserName = Convert.ToString(Request.Form["UserName"]).Trim();
 
+                ModifyFromDate = !string.IsNullOrEmpty(Request.Form["ModifyFromDate"]) ? DateTime.ParseExact(Request.Form["ModifyFromDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+                ModifyToDate = !string.IsNullOrEmpty(Request.Form["ModifyToDate"]) ? DateTime.ParseExact(Request.Form["ModifyToDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
                 CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
 
                 JobService objJobService = new JobService();
-                objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(order, orderDir.ToUpper(), startRec, pageSize, CustomerName, CallType, ServType, Technician, TechnicianType, MobileNo, CallAttn, JobDone, JobNo, CompComplaintNo, ItemName, Deliver, Canceled, PartPanding, IsCompComplaintNo, FromDate, ToDate, CallAssignFromDate, CallAssignToDate, CallBack, WorkShopIN, PaymentPanding, UserName, intCallCategory);
+                objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(order, orderDir.ToUpper(), startRec, pageSize, CustomerName, CallType, ServType, Technician, TechnicianType, MobileNo, CallAttn, JobDone, JobNo, CompComplaintNo, ItemName, Deliver, Canceled, PartPanding, IsCompComplaintNo, FromDate, ToDate, CallAssignFromDate, CallAssignToDate, CallBack, WorkShopIN, PaymentPanding, UserName, ModifyFromDate, ModifyToDate,  intCallCategory);
 
 
                 
