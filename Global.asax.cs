@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Hangfire;
 
 namespace ServiceCenter
 {
@@ -16,6 +17,12 @@ namespace ServiceCenter
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Storage is the only thing required for basic configuration.
+            // Just discover what configuration options do you have.
+            GlobalConfiguration.Configuration.UseSqlServerStorage("KetanServices");
+            //.UseActivator(...)
+            //.UseLogProvider(...)
         }
     }
 }

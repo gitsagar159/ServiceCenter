@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "SendTestMail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SendTestMail</h2>
+
+@using (Html.BeginForm("SendTestMail", "User", FormMethod.Post, new { @id = "frmSendTestMail" }))
+{
+
+
+    <div class="card mb-1">
+        <div class="card-body" style="padding-bottom: 10px !important; padding-top: 10px !important">
+            <div class="form-inline">
+                <label class="form-label mr-sm-3">User Name</label>
+                @Html.TextBox("ToEmail", "dsagar159@gmai.com", new { @class = "form-control mr-sm-2 mb-2 mb-sm-0", placeholder = "To Email" })
+
+
+                <button class="btn btn-primary" type="submit" >Submit</button>
+
+            </div>
+        </div>
+    </div>
+}

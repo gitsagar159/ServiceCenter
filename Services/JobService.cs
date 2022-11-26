@@ -1873,6 +1873,7 @@ namespace ServiceCenter.Services
                             objBillDetails.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
                             objBillDetails.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
                             objBillDetails.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objBillDetails.MobileNo2 = dtRowItem["MobileNo2"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo2"]) : string.Empty;
                             objBillDetails.CityName = dtRowItem["City"] != DBNull.Value ? Convert.ToString(dtRowItem["City"]) : string.Empty;
                             objBillDetails.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
                             objBillDetails.PinCode = dtRowItem["PinCode"] != DBNull.Value ? Convert.ToString(dtRowItem["PinCode"]) : string.Empty;
@@ -1931,6 +1932,7 @@ namespace ServiceCenter.Services
                 SqlParameter BillDate_Param = new SqlParameter() { ParameterName = "@BillDate", SqlDbType = SqlDbType.DateTime, Direction = ParameterDirection.Input, Value = dtBillDate };
                 SqlParameter CustomerName_Param = new SqlParameter() { ParameterName = "@CustomerName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.CustomerName };
                 SqlParameter CustomerMobileNo_Param = new SqlParameter() { ParameterName = "@CustomerMobileNo", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.MobileNo };
+                SqlParameter CustomerMobileNo2_Param = new SqlParameter() { ParameterName = "@CustomerMobileNo2", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.MobileNo2 };
                 SqlParameter CustomerAddress_Param = new SqlParameter() { ParameterName = "@CustomerAddress", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.Address };
                 SqlParameter CustomerCityName_Param = new SqlParameter() { ParameterName = "@CustomerCityName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.CityName };
                 SqlParameter ItemName_Param = new SqlParameter() { ParameterName = "@ItemName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.ItemName };
@@ -1939,7 +1941,7 @@ namespace ServiceCenter.Services
                 SqlParameter SerialNo_Param = new SqlParameter() { ParameterName = "@SerialNo", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.SerialNo };
 
 
-                lstParam.AddRange(new SqlParameter[] { BillNo_Param, BillDate_Param,  CustomerName_Param, CustomerMobileNo_Param, CustomerAddress_Param, CustomerCityName_Param, ItemName_Param, ProductName_Param, LoginUserId_Param, SerialNo_Param });
+                lstParam.AddRange(new SqlParameter[] { BillNo_Param, BillDate_Param,  CustomerName_Param, CustomerMobileNo_Param, CustomerMobileNo2_Param, CustomerAddress_Param, CustomerCityName_Param, ItemName_Param, ProductName_Param, LoginUserId_Param, SerialNo_Param });
 
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 

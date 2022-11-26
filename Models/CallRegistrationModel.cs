@@ -214,6 +214,7 @@ namespace ServiceCenter.Models
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public string MobileNo { get; set; }
+        public string MobileNo2 { get; set; }
         public string CityName { get; set; }
         public string PinCode { get; set; }
         public int ProductId { get; set; }

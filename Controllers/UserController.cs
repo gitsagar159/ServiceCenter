@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Hangfire;
 using ServiceCenter.Models;
 using ServiceCenter.Services;
 
@@ -174,5 +178,116 @@ namespace ServiceCenter.Controllers
             }
         }
         #endregion
+
+        public ActionResult SendTestMail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendTestMail(string ToEmail)
+        {
+
+            try
+            {
+
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("mail4dudhaiya@ymail.com");
+
+                //receiver email adress
+                mailMessage.To.Add("dsagar159@gmail.com");
+
+                //subject of the email
+                mailMessage.Subject = "This is a subject";
+
+                //attach the file
+                mailMessage.Body = "Body of the email";
+                mailMessage.IsBodyHtml = true;
+
+                //SMTP client
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+                //port number for Yahoo
+                smtpClient.Port = 465;
+                //credentials to login in to yahoo account
+                smtpClient.Credentials = new NetworkCredential("mail4dudhaiya@ymail.com", "Whoiam@159");
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.Timeout = 100000;
+
+                smtpClient.UseDefaultCredentials = true;
+
+                //enabled SSL
+                smtpClient.EnableSsl = true;
+                //Send an email
+                smtpClient.Send(mailMessage);
+
+
+                /*
+                string FromEmail = "sagar_dudhaiya@ymail.com";
+                string Pasword = "Whoiam@159";
+                string DisplayName = "Test Mail";
+
+                MailMessage myMessage = new MailMessage();
+                myMessage.To.Add("dsagar159@gmail.com");
+                myMessage.From = new MailAddress(FromEmail, DisplayName);
+                myMessage.Subject = "Testint email Service";
+                myMessage.Body = "Hello Sagar";
+                myMessage.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.EnableSsl = true;
+                    smtp.Host = "smtp.mail.yahoo.com";
+                    smtp.Port = 587;
+                    smtp.UseDefaultCredentials = true;
+                    smtp.Credentials = new NetworkCredential(FromEmail, Pasword);
+                    //smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    //smtp.SendCompleted += (s, e) => { smtp.Dispose(); };
+                    smtp.Send(myMessage);
+                }
+                */
+
+                /*
+                 * 
+                 * Y ahoo Mail
+
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress("sagar_dudhaiya@ymail.com");
+
+                //receiver email adress
+                mailMessage.To.Add("dsagar159@gmail.com");
+
+                //subject of the email
+                mailMessage.Subject = "This is a subject";
+
+                //attach the file
+                mailMessage.Body = "Body of the email";
+                mailMessage.IsBodyHtml = true;
+
+                //SMTP client
+                SmtpClient smtpClient = new SmtpClient("smtp.mail.yahoo.com");
+                //port number for Yahoo
+                smtpClient.Port = 587;
+                //credentials to login in to yahoo account
+                smtpClient.Credentials = new NetworkCredential("sagar_dudhaiya@ymail.com", "Whoiam@159");
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.Timeout = 10000;
+
+                smtpClient.UseDefaultCredentials = true;
+
+                //enabled SSL
+                smtpClient.EnableSsl = false;
+                //Send an email
+                smtpClient.Send(mailMessage);
+                */
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return View();
+        }
     }
 }

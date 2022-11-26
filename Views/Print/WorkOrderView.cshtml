@@ -136,7 +136,7 @@
                                         <td style="width:150px;text-align:center">@Html.Raw(Model.ModelName)</td>
                                         <td style="width:150px;text-align:center">@Html.Raw(Model.SrNo)</td>
                                         <td style="width:150px;text-align:center">@Html.Raw(Model.BillNo)</td>
-                                        <td style="width:150px;text-align:center">@Html.Raw(Model.CreationDate.HasValue ? Model.CreationDate.Value.ToString("dd'/'MM'/'yyyy") : "-")</td>
+                                        <td style="width:150px;text-align:center">@Html.Raw(Model.PurchaseDate.HasValue ? Model.PurchaseDate.Value.ToString("dd'/'MM'/'yyyy") : "-")</td>
                                     </tr>
 
                                     <tr class="mb-3 mt-5">
