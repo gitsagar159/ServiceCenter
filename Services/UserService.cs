@@ -6,6 +6,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Net;
+using System.Net.Sockets;
 
 namespace ServiceCenter.Services
 {
@@ -20,6 +22,9 @@ namespace ServiceCenter.Services
         {
 
             User objUser = new User();
+            string strIpAddress = GetIpAddress();
+
+            string LoginSessionId = string.Empty;
 
             if (objUserLoginModel != null && !string.IsNullOrEmpty(objUserLoginModel.UserName) && !string.IsNullOrEmpty(objUserLoginModel.Password))
             {
@@ -27,6 +32,7 @@ namespace ServiceCenter.Services
 
                 try
                 {
+                    
                     objBaseDAL = new BaseDAL();
                     strQuery = "UserLogin";
                     lstParam = new List<SqlParameter>();
@@ -35,6 +41,8 @@ namespace ServiceCenter.Services
                           {
                                 new SqlParameter("@name", objUserLoginModel.UserName),
                                 new SqlParameter("@password", objUserLoginModel.Password),
+                                new SqlParameter("@ipaddress", strIpAddress),
+
                           });
 
                     DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
@@ -69,9 +77,21 @@ namespace ServiceCenter.Services
                                 objUser.Mobile = dtRow["Mobile"] != DBNull.Value ? Convert.ToString(dtRow["Mobile"]) : string.Empty;
                                 objUser.Role = dtRow["Role"] != DBNull.Value ? Convert.ToInt32(dtRow["Role"]) : 0;
                                 objUser.Image = dtRow["Image"] != DBNull.Value ? Convert.ToString(dtRow["Image"]) : string.Empty;
+
+                                LoginActivity objLoginActivity = new LoginActivity();
+
+                                objLoginActivity.UserName = objUser.UserName;
+                                objLoginActivity.IPAddress = strIpAddress;
+                                objLoginActivity.LoginTime = DateTime.Now;
+
+                                LoginSessionId = RegisterLoginSession(objLoginActivity);
+
+                                objUser.LoginSessionId = LoginSessionId;
                             }
                         }
                     }
+
+                    
 
                 }
                 catch (Exception ex)
@@ -254,5 +274,453 @@ namespace ServiceCenter.Services
             }
             return objUserListDataModel;
         }
+
+
+        public List<string> GetAllWindowsUserNames()
+        {
+            List<string> lstWindowsUsers = new List<string>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"SELECT LOWER(UserName) as UserName FROM WindowsUsers WHERE IsActive = 1 AND IsDelete = 0";
+
+                lstParam = new List<SqlParameter>();
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    string strWindowsUserName = string.Empty;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        strWindowsUserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                        if(!string.IsNullOrEmpty(strWindowsUserName))
+                        {
+                            lstWindowsUsers.Add(strWindowsUserName);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return lstWindowsUsers;
+        }
+
+        public bool WindowsUserAuthentication()
+        {
+            bool IsValidUSer = false;
+
+            string strCurrentWindowsUser = HttpContext.Current.User.Identity.Name;
+
+            List<string> lstWindowsUsers = GetAllWindowsUserNames();
+
+            if(lstWindowsUsers != null && lstWindowsUsers.Count > 0 && !string.IsNullOrEmpty(strCurrentWindowsUser))
+            {
+                IsValidUSer = lstWindowsUsers.Contains(strCurrentWindowsUser.ToLower());
+            }
+
+            return IsValidUSer;
+
+        }
+
+        public void EnterWinowsUserNameInDB()
+        {
+            bool IsUserExist = false;
+
+            string strCurrentWindowsUser = HttpContext.Current.User.Identity.Name;
+
+            List<string> lstWindowsUsers = GetAllWindowsUserNames();
+
+            if (lstWindowsUsers != null && lstWindowsUsers.Count > 0 && !string.IsNullOrEmpty(strCurrentWindowsUser))
+            {
+                IsUserExist = lstWindowsUsers.Contains(strCurrentWindowsUser.ToLower());
+            }
+
+            if(!IsUserExist)
+            {
+                try
+                {
+                    objBaseDAL = new BaseDAL();
+                    strQuery = @"INSERT INTO WindowsUsers(UserName, IsActive, CreatedOn, CreatedBy, UpdatedOn, UpdatedBy) VALUES(@UserName, @IsActive, @CreatedOn, @CreatedBy, @UpdatedOn, @UpdatedBy)";
+
+                    lstParam = new List<SqlParameter>();
+
+
+                    
+                    SqlParameter UserName_Param = !string.IsNullOrEmpty(strCurrentWindowsUser) ? new SqlParameter() { ParameterName = "@UserName", Value = strCurrentWindowsUser, SqlDbType = SqlDbType.VarChar } : new SqlParameter() { ParameterName = "@UserName", Value = DBNull.Value };
+                    SqlParameter IsActive_Param = new SqlParameter() { ParameterName = "@IsActive", Value = true };
+                    SqlParameter CreatedOn_Param =  new SqlParameter() { ParameterName = "@CreatedOn", Value = DateTime.Now };
+                    SqlParameter CreatedBy_Param = new SqlParameter() { ParameterName = "@CreatedBy", Value = 1 };
+                    SqlParameter UpdatedOn_Param = new SqlParameter() { ParameterName = "@UpdatedOn", Value = DateTime.Now };
+                    SqlParameter UpdatedBy_Param = new SqlParameter() { ParameterName = "@UpdatedBy", Value = 1 };
+
+                    lstParam.AddRange(new SqlParameter[] { UserName_Param, IsActive_Param, CreatedOn_Param, CreatedBy_Param, UpdatedOn_Param, UpdatedBy_Param});
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+                }
+
+            }
+
+        }
+        public string GetIpAddress()
+        {
+            string strIPAddress = string.Empty;
+
+            //var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            //string LocalIP = host.AddressList[2].AddressFamily == AddressFamily.InterNetwork ?  host.AddressList[2].ToString() : String.Empty;
+
+            strIPAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (string.IsNullOrEmpty(strIPAddress))
+            {
+                strIPAddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }   
+
+
+            return strIPAddress;
+        }
+
+
+        public String RegisterLoginSession(LoginActivity objLoginActivity)
+        {
+            string LoginSessionId = string.Empty;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"INSERT INTO LoginActivity(LoginSessionId, UserName, LoginTime, IPAddress) VALUES(@LoginSessionId, @UserName, @LoginTime, @IPAddress)";
+
+                Guid id = Guid.NewGuid();
+
+                LoginSessionId = id.ToString().ToUpper();
+
+                objLoginActivity.LoginSessionId = LoginSessionId;
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                         {
+                                new SqlParameter("@LoginSessionId", objLoginActivity.LoginSessionId),
+                                new SqlParameter("@UserName", objLoginActivity.UserName),
+                                new SqlParameter("@LoginTime", objLoginActivity.LoginTime),
+                                new SqlParameter("@IPAddress", objLoginActivity.IPAddress),
+                         });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return LoginSessionId;
+        }
+
+        public void RegisterLogoutDetail(string LoginSessionId)
+        {
+            if(!string.IsNullOrEmpty(LoginSessionId))
+            {
+                try
+                {
+                    objBaseDAL = new BaseDAL();
+                    strQuery = @"UPDATE LoginActivity SET LogoutTime = GETDATE() WHERE LoginSessionId = @LoginSessionId";
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                             {
+                                new SqlParameter("@LoginSessionId", LoginSessionId),
+                             });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+                }
+            }
+        }
+
+        public UserPageRightsList GetUserPagesRightsListByUserId(int LoginUserId)
+        {
+            UserPageRightsList objUserPageRightsList = new UserPageRightsList();
+            objUserPageRightsList.lstUserPageRights = new List<UserPageRights>();
+
+            if (LoginUserId > 0)
+            {
+                try
+                {
+                    objBaseDAL = new BaseDAL();
+                    strQuery = @"SELECT 
+	                                    P.PageName, UPR.PageCode, UPR.ListRights, UPR.AddRights, UPR.EditRights, UPR.DeleteRights, UPR.PrintRights, UPR.ExportRights 
+                                    FROM 
+	                                    UserPageRights UPR LEFT JOIN Pages P ON P.PageCode = UPR.PageCode
+                                    WHERE UserId = @LoginUserId";
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                             {
+                                new SqlParameter("@LoginUserId", LoginUserId),
+                             });
+
+                    DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                    if (ResDataTable.Rows.Count > 0)
+                    {
+                        UserPageRights objUserPageRights;
+
+                        foreach (DataRow dtRowItem in ResDataTable.Rows)
+                        {
+                            objUserPageRights = new UserPageRights();
+
+
+                            //objUserPageRights.Id = dtRowItem["Id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Id"]) : 0;
+                            objUserPageRights.PageName = dtRowItem["PageName"] != DBNull.Value ? Convert.ToString(dtRowItem["PageName"]) : string.Empty;
+                            objUserPageRights.PageCode = dtRowItem["PageCode"] != DBNull.Value ? Convert.ToString(dtRowItem["PageCode"]) : string.Empty;
+                            objUserPageRights.UserId = LoginUserId;
+                            objUserPageRights.ListRights = dtRowItem["ListRights"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["ListRights"]) : false;
+                            objUserPageRights.AddRights = dtRowItem["AddRights"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["AddRights"]) : false;
+                            objUserPageRights.EditRights = dtRowItem["EditRights"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["EditRights"]) : false;
+                            objUserPageRights.DeleteRights = dtRowItem["DeleteRights"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["DeleteRights"]) : false;
+                            objUserPageRights.PrintRights = dtRowItem["PrintRights"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PrintRights"]) : false;
+                            objUserPageRights.ExportRights = dtRowItem["ExportRights"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["ExportRights"]) : false;
+
+                            objUserPageRightsList.lstUserPageRights.Add(objUserPageRights);
+
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+                }
+
+                
+            }
+            return objUserPageRightsList;
+        }
+
+
+        public ResponceModel UpdateUserPageRightsByPageCodeAndUserId(string PageCode, int UserId, bool CheckboxValue, string CheckboxType)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            string UserName = UserSesionDetail != null ? UserSesionDetail.UserName : string.Empty;
+
+            strQuery = string.Empty;
+
+            switch (CheckboxType)
+            {
+                case "ListRights":
+                    strQuery = "UPDATE UserPageRights SET ListRights = @CheckboxValue WHERE PageCode = @PageCode AND UserId = @UserId";
+                    break;
+                case "AddRights":
+                    strQuery = "UPDATE UserPageRights SET AddRights = @CheckboxValue WHERE PageCode = @PageCode AND UserId = @UserId";
+                    break;
+                case "EditRights":
+                    strQuery = "UPDATE UserPageRights SET EditRights = @CheckboxValue WHERE PageCode = @PageCode AND UserId = @UserId";
+                    break;
+                case "DeleteRights":
+                    strQuery = "UPDATE UserPageRights SET DeleteRights = @CheckboxValue WHERE PageCode = @PageCode AND UserId = @UserId";
+                    break;
+                case "PrintRights":
+                    strQuery = "UPDATE UserPageRights SET PrintRights = @CheckboxValue WHERE PageCode = @PageCode AND UserId = @UserId";
+                    break;
+                case "ExportRights":
+                    strQuery = "UPDATE UserPageRights SET ExportRights = @CheckboxValue WHERE PageCode = @PageCode AND UserId = @UserId";
+                    break;
+                default:
+                    strQuery = "";
+                    break;
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(strQuery))
+                {
+                    objBaseDAL = new BaseDAL();
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@UserId", UserId),
+                                new SqlParameter("@PageCode", PageCode),
+                                new SqlParameter("@CheckboxValue", CheckboxValue),
+
+                          });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Page Rights Updated";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+
+                objResponceModel = new ResponceModel();
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "Somthing Went Wrong!";
+            }
+
+            return objResponceModel;
+
+        }
+
+        public ResponceModel UpdateAllUserPageRightsByUserId(int UserId, bool CheckboxValue, string CheckboxType)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            string UserName = UserSesionDetail != null ? UserSesionDetail.UserName : string.Empty;
+
+            strQuery = string.Empty;
+
+            switch (CheckboxType)
+            {
+                case "ListRights":
+                    strQuery = "UPDATE UserPageRights SET ListRights = @CheckboxValue WHERE UserId = @UserId";
+                    break;
+                case "AddRights":
+                    strQuery = "UPDATE UserPageRights SET AddRights = @CheckboxValue WHERE UserId = @UserId";
+                    break;
+                case "EditRights":
+                    strQuery = "UPDATE UserPageRights SET EditRights = @CheckboxValue WHERE UserId = @UserId";
+                    break;
+                case "DeleteRights":
+                    strQuery = "UPDATE UserPageRights SET DeleteRights = @CheckboxValue WHERE UserId = @UserId";
+                    break;
+                case "PrintRights":
+                    strQuery = "UPDATE UserPageRights SET PrintRights = @CheckboxValue WHERE UserId = @UserId";
+                    break;
+                case "ExportRights":
+                    strQuery = "UPDATE UserPageRights SET ExportRights = @CheckboxValue WHERE UserId = @UserId";
+                    break;
+                default:
+                    strQuery = "";
+                    break;
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(strQuery))
+                {
+                    objBaseDAL = new BaseDAL();
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@UserId", UserId),
+                                new SqlParameter("@CheckboxValue", CheckboxValue),
+
+                          });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Page Rights Updated";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+
+                objResponceModel = new ResponceModel();
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "Somthing Went Wrong!";
+            }
+
+            return objResponceModel;
+
+        }
+
+        public List<Select2> GetUserList(string UserName)
+        {
+            List<Select2> lstUser = new List<Select2>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+
+                if (!string.IsNullOrEmpty(UserName))
+                {
+                    strQuery = @"SELECT 
+                                        id,
+	                                    UserName
+                                    FROM 
+	                                    users 
+                                    WHERE 
+	                                    UserName LIKE CONCAT('%', @UserName,'%') 
+                                    ORDER BY UserName ASC  ";
+
+                }
+                else
+                {
+                    strQuery = @"SELECT 
+                                        id,
+	                                    UserName
+                                    FROM 
+	                                    users 
+                                    ORDER BY UserName ASC ";
+                }
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@UserName", UserName),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    Select2 objSelect2;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objSelect2 = new Select2();
+
+                        objSelect2.id = dtRowItem["id"] != DBNull.Value ? Convert.ToString(dtRowItem["id"]) : string.Empty;
+                        objSelect2.text = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                        lstUser.Add(objSelect2);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return lstUser;
+        }
+
     }
 }

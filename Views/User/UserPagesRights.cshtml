@@ -1,0 +1,426 @@
+﻿@{
+    ViewBag.Title = "UserPagesRights";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section style {
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+                <form role="form">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">User Name</label>
+                                <select class="form-control" name="Username" id="Username"> </select>
+                            </div>
+                        </div>
+                        <div class="col col-md-4 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        Area List
+                    </h6>
+                </div>
+                <div class="col col-md-9 text-right pr-4">
+                    <a href="/Master/AreaForm" class="btn icon-btn btn-outline-primary mt-2">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+
+            </div>
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblUserPagesRights">
+                    <thead>
+                        <tr>
+                            <th>Page Name</th>
+                            <th>Page Code</th>
+                            <th>List Rights <input type="checkbox" class="clsAllListRights" name="chkAllListRights" id="chkAllListRights" data-name="ListRights" data-userid="" onchange="fnAllCheckboxCheckUncheck(this)"></th>
+                            <th>Add Rights <input type="checkbox" class="clsAllAddRights" name="chkAllAddRights" id="chkAllAddRights" data-name="AddRights" data-userid="" onchange="fnAllCheckboxCheckUncheck(this)"></th>
+                            <th>Edit Rights <input type="checkbox" class="clsAllEditRights" name="chkAllEditRights" id="chkAllEditRights" data-name="EditRights" data-userid="" onchange="fnAllCheckboxCheckUncheck(this)"></th>
+                            <th>Delete Rights <input type="checkbox" class="clsAllDeleteRights" name="chkAllDeleteRights" id="chkAllDeleteRights" data-name="DeleteRights" data-userid="" onchange="fnAllCheckboxCheckUncheck(this)"></th>
+                            <th>Print Rights <input type="checkbox" class="clsAllPrintRights" name="chkAllPrintRights" id="chkAllPrintRights" data-name="PrintRights" data-userid="" onchange="fnAllCheckboxCheckUncheck(this)"></th>
+                            <th>Export Rights <input type="checkbox" class="clsAllExportRights" name="chkAllExportRights" id="chkAllExportRights" data-name="ExportRights" data-userid="" onchange="fnAllCheckboxCheckUncheck(this)"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        @*<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.js"></script>*@
+        <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+
+                bindUserNameDD();
+
+            });
+
+            var totalRightsPages = 0;
+
+
+            function bindUserNameDD() {
+
+                $('#Username').select2({
+                    placeholder: "User Name",
+                    minimumInputLength: 3,
+                    allowClear: true,
+                    delay: 250,
+                    cache: true,
+                    ajax: {
+                        url: "/User/GetUserList",
+                        dataType: 'json',
+                        type: 'Get',
+                        data: function (params) {
+                            var query = {
+                                match: params.term,
+                                page: params.page || 1,
+                                pageSize: params.pageSize || 5
+                            }
+                            return query;
+                        },
+                        processResults: function (data, params) {
+                            console.log(params);
+                            return {
+                                results: data.items,
+                                page: params.page,
+                                pagination: {
+                                    more: (params.page * 5) < data.total_count
+                                }
+                            }
+                        },
+                    },
+                });
+            }
+
+
+            $('#Username').on('change', function (e) {
+                var optionSelected = $("option:selected", this);
+                var userId = this.value;
+
+                console.log(userId);
+
+                GetUserPagesRightsList(userId)
+            });
+
+
+            function GetUserPagesRightsList(userId) {
+
+                if (userId === 0) {
+
+                    toastr["error"]("Please select user");
+                }
+                else {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/User/GetUserPagesRightsList",
+                        data: { UserId: userId },
+                        //contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+
+                            if (result.UserPageRightsList !== null && result.UserPageRightsList.length > 0) {
+                                //BindUserPagesRightsTable(result.UserPageRightsList)
+
+                                var tr = "";
+
+                                $('#tblUserPagesRights tbody').empty();
+
+                                totalRightsPages = result.UserPageRightsList.length;
+
+                                var chkListRightsCount = 0, chkAddRightsCount = 0, chkEditRightsCount = 0, chkDeleteRightsCount = 0, chkPrintRightsCount = 0, chkExportRightsCount = 0;
+
+                                for (var i = 0; i < totalRightsPages; i++) {
+                                    var pageName = "<td>" + result.UserPageRightsList[i].PageName + "</td>";
+                                    var pageCode = "<td>" + result.UserPageRightsList[i].PageCode + "</td>";
+
+                                    chkListRightsCount = result.UserPageRightsList[i].AddRights ? chkListRightsCount + 1 : chkListRightsCount + 0;
+                                    var listRightsChecked = result.UserPageRightsList[i].ListRights ? "checked" : "";
+                                    var listRights = "<td><input type='checkbox' class='clsListRights' name='chkListRights' id='chkListRights' " + listRightsChecked + " data-name='ListRights' data-id='" + result.UserPageRightsList[i].PageCode + "_" + result.UserPageRightsList[i].UserId + "' data-value='" + result.UserPageRightsList[i].ListRights + "' onchange='fnUpdateUserPageRightsByPageCode(this)' > </td>";
+
+                                    chkAddRightsCount = result.UserPageRightsList[i].AddRights ? chkAddRightsCount + 1 : chkAddRightsCount + 0;
+                                    var addRightsChecked = result.UserPageRightsList[i].AddRights ? "checked" : "";
+                                    var addRights = "<td><input type='checkbox' class='clsAddRights' name='chkAddRights' id='chkAddRights' " + addRightsChecked + " data-name='AddRights' data-id='" + result.UserPageRightsList[i].PageCode + "_" + result.UserPageRightsList[i].UserId + "' data-value='" + result.UserPageRightsList[i].AddRights + "' onchange='fnUpdateUserPageRightsByPageCode(this)' > </td>";
+
+                                    chkEditRightsCount = result.UserPageRightsList[i].EditRights ? chkEditRightsCount + 1 : chkEditRightsCount + 0;
+                                    var editRightsChecked = result.UserPageRightsList[i].EditRights ? "checked" : "";
+                                    var editRights = "<td><input type='checkbox' class='clsEditRights' name='chkEditRights' id='chkEditRights' " + editRightsChecked + " data-name='EditRights' data-id='" + result.UserPageRightsList[i].PageCode + "_" + result.UserPageRightsList[i].UserId + "' data-value='" + result.UserPageRightsList[i].Edit + "' onchange='fnUpdateUserPageRightsByPageCode(this)' > </td>";
+
+                                    chkDeleteRightsCount = result.UserPageRightsList[i].DeleteRights ? chkDeleteRightsCount + 1 : chkDeleteRightsCount + 0;
+                                    var deleteRightsChecked = result.UserPageRightsList[i].DeleteRights ? "checked" : "";
+                                    var deleteRights = "<td><input type='checkbox' class='clsDeleteRights' name='chkDeleteRights' id='chkDeleteRights' " + deleteRightsChecked + " data-name='DeleteRights' data-id='" + result.UserPageRightsList[i].PageCode + "_" + result.UserPageRightsList[i].UserId + "' data-value='" + result.UserPageRightsList[i].DeleteRights + "' onchange='fnUpdateUserPageRightsByPageCode(this)' > </td>";
+
+                                    chkPrintRightsCount = result.UserPageRightsList[i].PrintRights ? chkPrintRightsCount + 1 : chkPrintRightsCount + 0;
+                                    var printRightsChecked = result.UserPageRightsList[i].PrintRights ? "checked" : "";
+                                    var printRights = "<td><input type='checkbox' class='clsPrintRights' name='chkPrintRights' id='chkPrintRights' " + printRightsChecked + " data-name='PrintRights' data-id='" + result.UserPageRightsList[i].PageCode + "_" + result.UserPageRightsList[i].UserId + "' data-value='" + result.UserPageRightsList[i].PrintRights + "' onchange='fnUpdateUserPageRightsByPageCode(this)' > </td>";
+
+                                    chkExportRightsCount = result.UserPageRightsList[i].ExportRights ? chkExportRightsCount + 1 : chkExportRightsCount + 0;
+                                    var exportRightsChecked = result.UserPageRightsList[i].ExportRights ? "checked" : "";
+                                    var exportRights = "<td><input type='checkbox' class='clsExportRights' name='chkExportRights' id='chkExportRights' " + exportRightsChecked + " data-name='ExportRights' data-id='" + result.UserPageRightsList[i].PageCode + "_" + result.UserPageRightsList[i].UserId + "' data-value='" + result.UserPageRightsList[i].ExportRights + "' onchange='fnUpdateUserPageRightsByPageCode(this)' > </td>";
+
+                                    tr = "<tr>" + pageName + pageCode + listRights + addRights + editRights + deleteRights + printRights + exportRights + "</tr>";
+
+                                    $('#tblUserPagesRights tbody').append(tr);
+                                }
+
+                                var userId = result.UserPageRightsList[0].UserId;
+
+
+                                if (totalRightsPages == chkListRightsCount) {
+
+                                    $("#chkAllListRights").prop('checked', true);
+                                    $("#chkAllListRights").attr("data-value", "true")
+                                }
+                                else {
+                                    $("#chkAllListRights").attr("data-value", "false")
+                                }
+
+                                if (totalRightsPages == chkAddRightsCount) {
+
+                                    $("#chkAllAddRights").prop('checked', true);
+                                    $("#chkAllAddRights").attr("data-value", "true")
+                                }
+                                else {
+                                    $("#chkAllAddRights").attr("data-value", "false")
+                                }
+
+
+                                if (totalRightsPages == chkEditRightsCount) {
+
+                                    $("#chkAllEditRights").prop('checked', true);
+                                    $("#chkAllEditRights").attr("data-value", "true")
+                                }
+                                else {
+                                    $("#chkAllEditRights").attr("data-value", "false")
+                                }
+
+                                if (totalRightsPages == chkDeleteRightsCount) {
+
+                                    $("#chkAllDeleteRights").prop('checked', true);
+                                    $("#chkAllDeleteRights").attr("data-value", "true")
+                                }
+                                else {
+                                    $("#chkAllDeleteRights").attr("data-value", "false")
+                                }
+
+                                if (totalRightsPages == chkPrintRightsCount) {
+
+                                    $("#chkAllPrintRights").prop('checked', true);
+                                    $("#chkAllPrintRights").attr("data-value", "true")
+                                }
+                                else {
+                                    $("#chkAllPrintRights").attr("data-value", "false")
+                                }
+
+                                if (totalRightsPages == chkExportRightsCount) {
+
+                                    $("#chkAllExportRights").prop('checked', true);
+                                    $("#chkAllExportRights").attr("data-value", "true")
+                                }
+                                else {
+                                    $("#chkAllExportRights").attr("data-value", "false")
+                                }
+
+
+                                $("#chkAllListRights").attr('data-userid', userId);
+                                $("#chkAllAddRights").attr('data-userid', userId);
+                                $("#chkAllEditRights").attr('data-userid', userId);
+                                $("#chkAllDeleteRights").attr('data-userid', userId);
+                                $("#chkAllPrintRights").attr('data-userid', userId);
+                                $("#chkAllExportRights").attr('data-userid', userId);
+
+                            }
+                            else if (result.Responce === false) {
+                                toastr["error"](result.Message);
+                            }
+                        },
+                        failure: function (result) {
+                            console.log(result.responseText);
+                        },
+                        error: function (result) {
+                            console.log(result.responseText);
+                        }
+                    });
+                }
+
+
+            }
+
+
+            function fnUpdateUserPageRightsByPageCode(thiObj) {
+
+                if (thiObj !== "") {
+
+                    var currentChekboxDataId = $(thiObj).attr("data-id");
+
+                    var dataArray = currentChekboxDataId.split("_");
+
+
+                    var pageCode = dataArray[0];
+                    var userId = dataArray[1];
+
+                    var checkboxType = $(thiObj).attr("data-name");
+
+                    var checkboxCurrentValue = $(thiObj).attr("data-value");
+                    var checkboxValue = checkboxCurrentValue == "false" ? true : false;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/User/UpdateUserPageRightsByPageCodeAndUserId",
+                        data: { PageCode: pageCode, UserId: userId, CheckboxValue: checkboxValue, CheckboxType: checkboxType },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                    $(thiObj).attr("data-value", checkboxValue ? "true" : "false");
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+                            }
+                        }
+                    });
+
+
+                    fnUpdateMainCheckboxByIndividualRightsUpdate(checkboxType);
+
+                }
+
+            }
+
+            function fnAllCheckboxCheckUncheck(thiObj) {
+                if (thiObj !== "") {
+
+                    var currentCheckboxstatus = $(thiObj).is(":checked");
+
+                    var checkboxType = $(thiObj).attr("data-name");
+                    var userId = $(thiObj).attr("data-userid");
+
+                    var checkboxCurrentValue = $(thiObj).attr("data-value");
+                    var checkboxValue = checkboxCurrentValue == "false" ? true : false;
+
+                    switch (checkboxType) {
+                        case "ListRights":
+                            currentCheckboxstatus == true ? $(".clsListRights").prop('checked', true) : $(".clsListRights").prop('checked', false);
+                            currentCheckboxstatus == true ? $(".clsListRights").attr("data-value", "true") : $(".clsListRights").attr("data-value", "false");
+                            break;
+                        case "AddRights":
+                            currentCheckboxstatus == true ? $(".clsAddRights").prop('checked', true) : $(".clsAddRights").prop('checked', false);
+                            currentCheckboxstatus == true ? $(".clsAddRights").attr("data-value", "true") : $(".clsAddRights").attr("data-value", "false");
+                            break;
+                        case "EditRights":
+                            currentCheckboxstatus == true ? $(".clsEditRights").prop('checked', true) : $(".clsEditRights").prop('checked', false);
+                            currentCheckboxstatus == true ? $(".clsEditRights").attr("data-value", "true") : $(".clsEditRights").attr("data-value", "false");
+                            break;
+                        case "DeleteRights":
+                            currentCheckboxstatus == true ? $(".clsDeleteRights").prop('checked', true) : $(".clsDeleteRights").prop('checked', false);
+                            currentCheckboxstatus == true ? $(".clsDeleteRights").attr("data-value", "true") : $(".clsDeleteRights").attr("data-value", "false");
+                            break;
+                        case "PrintRights":
+                            currentCheckboxstatus == true ? $(".clsPrintRights").prop('checked', true) : $(".clsPrintRights").prop('checked', false);
+                            currentCheckboxstatus == true ? $(".clsPrintRights").attr("data-value", "true") : $(".clsPrintRights").attr("data-value", "false");
+                            break;
+                        case "ExportRights":
+                            currentCheckboxstatus == true ? $(".clsExportRights").prop('checked', true) : $(".clsExportRights").prop('checked', false);
+                            currentCheckboxstatus == true ? $(".clsExportRights").attr("data-value", "true") : $(".clsExportRights").attr("data-value", "false");
+                            break;
+
+                    }
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/User/UpdateAllUserPageRightsByUserId",
+                        data: { UserId: userId, CheckboxValue: checkboxValue, CheckboxType: checkboxType },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                    $(thiObj).attr("data-value", checkboxValue ? "true" : "false");
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            function fnUpdateMainCheckboxByIndividualRightsUpdate(rightsName)
+            {
+                var checkedCount = 0;
+                var className = ".cls" + rightsName;
+                var idName = "#chkAll" + rightsName;
+                var checkboxCurrentStatus = false;
+
+
+                $(className).each(function () {
+                    checkboxCurrentStatus = $(this).is(":checked");
+
+                    if (checkboxCurrentStatus === true)
+                    {
+                        checkedCount = checkedCount + 1;
+                    }
+                });
+
+                if (totalRightsPages == checkedCount) {
+                    $(idName).prop('checked', true);
+                    $(idName).attr("data-value", "true");
+                }
+                else {
+                    $(idName).prop('checked', false);
+                    $(idName).attr("data-value", "false");
+                }
+                
+
+            }
+
+
+        </script>
+    }
+
+</div>
+
+

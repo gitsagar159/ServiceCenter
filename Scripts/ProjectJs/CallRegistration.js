@@ -239,6 +239,7 @@ function LoadCustomerDetailsByCustomerId(customerId) {
             if (data !== null) {
                 $("#CustomerName").val(data.FirstName + " " + data.LastName);
                 $("#Address").val(data.Address);
+                $("#Pincode").val(data.Pincode);
                 $("#MobileNo").val(data.MobileNo);
             }
 
@@ -380,6 +381,7 @@ function fnCustomerEditModalShow(thisObj) {
                     $("#customer_modal").find("#FirstName").val(data.FirstName);
                     $("#customer_modal").find("#LastName").val(data.LastName);
                     $("#customer_modal").find("#Address").val(data.Address);
+                    $("#customer_modal").find("#Pincode").val(data.Pincode);
 
                     $("#customer_modal").find("#EMail").val(data.EMail);
                     $("#customer_modal").find("#MobileNo").val(data.MobileNo);

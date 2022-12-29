@@ -1,0 +1,61 @@
+﻿@model ServiceCenter.Models.clsIPAddress
+@{
+    ViewBag.Title = "IP Address Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-4">
+            <h6 class="card-header">
+                IP Address Form
+            </h6>
+            <div class="card-body">
+                <div class="form-row">
+                    @Html.HiddenFor(m => m.Id)
+                    <div class="form-group col-md-12">
+                        <label class="form-label">IP Address</label>
+                        @Html.TextBoxFor(m => m.IP, new { @class = "form-control", @placeholder = "IP Address" })
+                        <small id="IPAddressToolTip" class=""></small>
+                    </div>
+                    <button id="btnsubmit" class="btn btn-default"> Submit </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $("#btnsubmit").click(function (e) {
+                    InsertUpdateIPAddress();
+                });
+            });
+
+
+
+
+
+
+        </script>
+    }
+
+</div>

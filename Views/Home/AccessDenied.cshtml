@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "AccessDenied";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="align-content:center">
+    
+        <div style="float:left">
+            <img src="~/Content/assets/img/lock.png" style="height:500px; width:500px;" />
+        </div>
+        <div style="float: left; padding-top: 11%;">
+            <h2>You don't have access to page, Please contact Admin</h2>
+            @Html.ActionLink("Go To Dashboard", "Dashboard", "Job")
+        </div>
+</div>
+
+

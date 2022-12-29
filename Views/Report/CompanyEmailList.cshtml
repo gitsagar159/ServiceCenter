@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Company Email List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+                <form role="form">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Company Name</label>
+                                <input type="text" class="form-control" name="ItemCompanyName" id="ItemCompanyName" placeholder="Company Name">
+                            </div>
+                        </div>
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="text" class="form-control" name="CompanyEmail" id="CompanyEmail" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="col col-md-4 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        Company Email List
+                    </h6>
+                </div>
+                <div class="col col-md-9 text-right pr-4">
+                    <a href="/Report/CompanyEmailForm" class="btn icon-btn btn-outline-primary mt-2">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+
+            </div>
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblCompanyEmailList">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        @*<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.js"></script>*@
+        <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                fnBindCompanyEmailListData();
+            });
+
+            var hCols = [];
+            var ChId = "";
+            var ValidPrint = 0;
+            var srNo = 1;
+            var table;
+
+            function fnBindCompanyEmailListData() {
+
+                table = $('#tblCompanyEmailList').DataTable({
+                    "paging": true,
+                    "pageLength": $('#PageSize').val(),
+                    "bLengthChange": false,
+                    "autoWidth": true,
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": false,
+                    "responsive": true,
+                    "orderMulti": false,
+                    "ajax":
+                    {
+                        "url": "/Report/GetCompanyEmailList",
+                        "data": function (d) {
+                            d.ItemCompanyName = $("#ItemCompanyName").val().trim();
+                            d.CompanyEmail = $("#CompanyEmail").val().trim();
+                        },
+                        "type": "POST",
+                        "dataType": "JSON"
+                    },
+                    "columns": [
+                        { "data": "RowNo", "autoWidth": true },
+                        { "data": "ItemCompanyName", "autoWidth": true },
+                        { "data": "CompanyEmail", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/Report/CompanyEmailForm?Id=' + full.Id + '" class="btn btn-outline-warning btn-sm">Edit</a>' + '   &nbsp;' +
+                                    '<a href="#"  onclick=fnDeleteCompanyEmail("' + full.Id + '"); class="btn btn-outline-warning btn-sm" >Delete</a>';
+                            }
+                        },
+
+                    ],
+                    "fixedHeader": {
+                        header: true,
+                    },
+                    "columnDefs": [
+                        { orderable: true, "targets": [1,] },
+                    ],
+                    "order": [[0, "desc"]],
+                });
+
+                $("#btnAdvanceSearch").click(function (event) {
+                    event.preventDefault();
+                    table.search(this.value).draw();
+                });
+            }
+
+
+            function fnDeleteCompanyEmail(id) {
+
+                if (confirm('Are you sure you want to Delete Company Email?')) {
+
+                    if (id === "") {
+
+                        toastr["error"]("Something went wrong");
+                    }
+                    else {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Report/DeleteAreaById",
+                            data: { Id: id },
+                            //contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                console.log("return");
+                                if (result.data !== null) {
+                                    if (result.data.Responce === false) {
+                                        toastr["error"](result.data.Message);
+                                    }
+                                    else {
+                                        toastr["success"](result.data.Message);
+
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 1000);
+                                    }
+                                }
+                            },
+                            failure: function (result) {
+                                console.log(result.responseText);
+                            },
+                            error: function (result) {
+                                console.log(result.responseText);
+                            }
+                        });
+                    }
+                }
+
+            }
+
+
+
+        </script>
+    }
+
+</div>
+
+

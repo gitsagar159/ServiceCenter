@@ -1,0 +1,139 @@
+﻿@model ServiceCenter.Models.ItemForSendCompanyReport
+@{
+    ViewBag.Title = "Company Email Add Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+
+        
+
+            @Html.HiddenFor(m => m.Id)
+
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Company Name</label>
+                            @Html.TextBoxFor(m => m.ItemCompanyName, new { @class = "form-control control-required" })
+                            <small id="ItemCompanyName_ToolTip" class="" style="display:none">Enter Company Name</small>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Email</label>
+                            @Html.TextBoxFor(m => m.CompanyEmail, new { @class = "form-control control-required" })
+                            <small id="CompanyEmail_ToolTip" class="" style="display:none">Enter Company Email</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" onclick="return InsertUpdateCompanyEmail();">Submit</button>
+                </div>
+            </div>
+        
+
+
+    </div>
+
+    @Html.Partial("FooterBar")
+
+    @section scripts {
+
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $("#btnsubmit").click(function (e) {
+                    InsertUpdateCompanyEmail();
+                });
+            });
+
+
+
+
+            function InsertUpdateCompanyEmail() {
+
+                var blnIsValidForm = true;
+
+                var itemCompanyName = $("#ItemCompanyName").val();
+                var companyEmail = $("#CompanyEmail").val();
+
+                if (itemCompanyName === "") {
+                    $("#ItemCompanyName").addClass("is-invalid");
+                    $("#ItemCompanyName_ToolTip").addClass("invalid-feedback").html("Please Company Name");
+
+                    blnIsValidForm = false;
+                }
+                else {
+                    $("#ItemCompanyName").removeClass("is-invalid");
+                    $("#ItemCompanyName_ToolTip").removeClass("invalid-feedback").html("");
+                }
+
+                if (companyEmail === "") {
+                    $("#companyEmail").addClass("is-invalid");
+                    $("#CompanyEmail_ToolTip").addClass("invalid-feedback").html("Please Company Email");
+
+                    blnIsValidForm = false;
+                }
+                else {
+                    $("#companyEmail").removeClass("is-invalid");
+                    $("#CompanyEmail_ToolTip").removeClass("invalid-feedback").html("");
+                }
+
+
+
+                if (blnIsValidForm)
+                {
+
+                    var objCompanyEmail = new Object();
+
+                    objCompanyEmail.Id = $("#Id").val();
+                    objCompanyEmail.ItemCompanyName = $("#ItemCompanyName").val();
+                    objCompanyEmail.CompanyEmail = $("#CompanyEmail").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Report/CompanyEmailForm",
+                        data: JSON.stringify(objCompanyEmail),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            console.log("return");
+                            if (result.data !== null) {
+                                if (result.data.Responce === false) {
+                                    $("#ItemCompanyName").addClass("is-invalid");
+                                    $("#ItemCompanyName_ToolTip").addClass("invalid-feedback").html(result.data.Message);
+                                    blnIsValidForm = false;
+                                }
+                                else {
+                                    toastr["success"](result.data.Message);
+
+                                    setTimeout(function () {
+                                        window.location.href = "/Report/CompanyEmailList";
+                                    }, 2000);
+
+                                }
+                            }
+                        },
+                        failure: function (result) {
+                            alert(data.responseText);
+                        },
+                        error: function (result) {
+                            alert(data.responseText);
+                        }
+                    });
+                }
+
+                return blnIsValidForm;
+            }
+
+
+        </script>
+    }
+
+
+</div>
+

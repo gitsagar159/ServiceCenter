@@ -10,6 +10,7 @@ using Hangfire;
 using ServiceCenter.Models;
 using ServiceCenter.Services;
 
+
 namespace ServiceCenter.Controllers
 {
     public class UserController : Controller
@@ -22,7 +23,7 @@ namespace ServiceCenter.Controllers
 
             User UserSesionDetail = SessionService.GetUserSessionValues();
 
-            if(UserSesionDetail.Role != (int)UserRole.MasterAdmin)
+            if (UserSesionDetail.Role != (int)UserRole.MasterAdmin)
                 return RedirectToAction("Dashboard", "Job");
 
             return View();
@@ -47,7 +48,7 @@ namespace ServiceCenter.Controllers
                 ViewBag.UserRoleDD = UserRoleDD(objUser.Role.ToString());
                 return View(objUser);
             }
-            else if(UserSesionDetail.Role == (int)UserRole.MasterAdmin && UserId == 0)
+            else if (UserSesionDetail.Role == (int)UserRole.MasterAdmin && UserId == 0)
             {
                 ViewBag.UserRoleDD = UserRoleDD("2");
                 return View(new User());
@@ -56,7 +57,7 @@ namespace ServiceCenter.Controllers
             {
                 return RedirectToAction("Dashboard", "Job");
             }
-            
+
         }
 
         [HttpPost]
@@ -96,6 +97,16 @@ namespace ServiceCenter.Controllers
 
 
         }
+
+        public ActionResult UserPagesRights()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            return View();
+        }
+
+        
 
         #region DropDwon
 
@@ -162,6 +173,84 @@ namespace ServiceCenter.Controllers
 
         }
 
+
+        [HttpPost]
+        public JsonResult GetUserPagesRightsList()
+        {
+            try
+            {
+                int UserId = 0;
+
+                if (!string.IsNullOrEmpty(Request.Form["UserId"]))
+                    UserId = Convert.ToInt32(Request.Form["UserId"]);
+
+                User UserSesionDetail = SessionService.GetUserSessionValues();
+
+                UserService objUserService = new UserService();
+
+                UserPageRightsList objUserPageRightsList = objUserService.GetUserPagesRightsListByUserId(UserId);
+
+                return Json(new
+                {
+                    UserPageRightsList = objUserPageRightsList.lstUserPageRights,
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    Message = "Somthing went wrong",
+                    Responce = false,
+                    UserPageRightsList = string.Empty
+                });
+            }
+
+        }
+
+        [HttpPost]
+        public JsonResult UpdateUserPageRightsByPageCodeAndUserId(string PageCode, int UserId, bool CheckboxValue, string CheckboxType)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+
+            UserService objUserService = new UserService();
+            objResponceModel = objUserService.UpdateUserPageRightsByPageCodeAndUserId(PageCode, UserId, CheckboxValue, CheckboxType);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateAllUserPageRightsByUserId(int UserId, bool CheckboxValue, string CheckboxType)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+
+            UserService objUserService = new UserService();
+            objResponceModel = objUserService.UpdateAllUserPageRightsByUserId(UserId, CheckboxValue, CheckboxType);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        
+
+        public JsonResult GetUserList(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstUser = new List<Select2>();
+
+            UserService objUserService = new UserService();
+            lstUser = objUserService.GetUserList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstUser,
+                total_count = lstUser.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Common Method
@@ -187,107 +276,20 @@ namespace ServiceCenter.Controllers
         [HttpPost]
         public ActionResult SendTestMail(string ToEmail)
         {
+            //EmailService objEmailSerice = new EmailService();
+            //objEmailSerice.Sendmail("dsagar159@gmail.com", "Test Mail", "Test subject", "");
 
-            try
-            {
+            DateTime TodayDate = DateTime.Now;
+            DateTime FromDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 0, 0, 0);
+            DateTime ToDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 10, 30, 0);
 
-
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("mail4dudhaiya@ymail.com");
-
-                //receiver email adress
-                mailMessage.To.Add("dsagar159@gmail.com");
-
-                //subject of the email
-                mailMessage.Subject = "This is a subject";
-
-                //attach the file
-                mailMessage.Body = "Body of the email";
-                mailMessage.IsBodyHtml = true;
-
-                //SMTP client
-                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-                //port number for Yahoo
-                smtpClient.Port = 465;
-                //credentials to login in to yahoo account
-                smtpClient.Credentials = new NetworkCredential("mail4dudhaiya@ymail.com", "Whoiam@159");
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpClient.Timeout = 100000;
-
-                smtpClient.UseDefaultCredentials = true;
-
-                //enabled SSL
-                smtpClient.EnableSsl = true;
-                //Send an email
-                smtpClient.Send(mailMessage);
-
-
-                /*
-                string FromEmail = "sagar_dudhaiya@ymail.com";
-                string Pasword = "Whoiam@159";
-                string DisplayName = "Test Mail";
-
-                MailMessage myMessage = new MailMessage();
-                myMessage.To.Add("dsagar159@gmail.com");
-                myMessage.From = new MailAddress(FromEmail, DisplayName);
-                myMessage.Subject = "Testint email Service";
-                myMessage.Body = "Hello Sagar";
-                myMessage.IsBodyHtml = true;
-
-                using (SmtpClient smtp = new SmtpClient())
-                {
-                    smtp.EnableSsl = true;
-                    smtp.Host = "smtp.mail.yahoo.com";
-                    smtp.Port = 587;
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = new NetworkCredential(FromEmail, Pasword);
-                    //smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    //smtp.SendCompleted += (s, e) => { smtp.Dispose(); };
-                    smtp.Send(myMessage);
-                }
-                */
-
-                /*
-                 * 
-                 * Y ahoo Mail
-
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress("sagar_dudhaiya@ymail.com");
-
-                //receiver email adress
-                mailMessage.To.Add("dsagar159@gmail.com");
-
-                //subject of the email
-                mailMessage.Subject = "This is a subject";
-
-                //attach the file
-                mailMessage.Body = "Body of the email";
-                mailMessage.IsBodyHtml = true;
-
-                //SMTP client
-                SmtpClient smtpClient = new SmtpClient("smtp.mail.yahoo.com");
-                //port number for Yahoo
-                smtpClient.Port = 587;
-                //credentials to login in to yahoo account
-                smtpClient.Credentials = new NetworkCredential("sagar_dudhaiya@ymail.com", "Whoiam@159");
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpClient.Timeout = 10000;
-
-                smtpClient.UseDefaultCredentials = true;
-
-                //enabled SSL
-                smtpClient.EnableSsl = false;
-                //Send an email
-                smtpClient.Send(mailMessage);
-                */
-
-            }
-            catch (Exception ex)
-            {
-                CommonService.WriteErrorLog(ex);
-            }
+            ReportService objReportService = new ReportService();
+            objReportService.GenerateCompanyViseReport(FromDate, ToDate);
 
             return View();
         }
+
+
+
     }
 }

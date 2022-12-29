@@ -61,6 +61,7 @@ namespace ServiceCenter.Models
         public string CustomerName { get; set; }
         public string MobileNo { get; set; }
         public string Address { get; set; }
+        public string Pincode { get; set; }
         public string ProductName { get; set; }
         public int ServType { get; set; }
         public string ServTypeName { get; set; }
@@ -169,6 +170,7 @@ namespace ServiceCenter.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
+        public string Pincode { get; set; }
         public string CityId { get; set; }
         public string CityName { get; set; }
         public string PhoneH { get; set; }
@@ -216,7 +218,7 @@ namespace ServiceCenter.Models
         public string MobileNo { get; set; }
         public string MobileNo2 { get; set; }
         public string CityName { get; set; }
-        public string PinCode { get; set; }
+        public string Pincode { get; set; }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductModel { get; set; }

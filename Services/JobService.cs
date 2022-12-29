@@ -37,7 +37,8 @@ namespace ServiceCenter.Services
 	                            convert(varchar, CR.CreationDate, 22) AS  CreationDate,
 	                            convert(varchar, CR.CallAssignDate, 22) AS  CallAssignDate,
 	                            CR.CustomerName, 
-	                            CR.Address, 
+	                            CR.Address,
+                                CR.Pincode,
 	                            CR.CallType, 
 	                            CR.ServType, 
 	                            T.Technician, 
@@ -64,6 +65,7 @@ namespace ServiceCenter.Services
                         objCallRegistration.Oid = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
                         objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
                         objCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
+                        objCallRegistration.Pincode = dtRowItem["Pincode"] != DBNull.Value ? Convert.ToString(dtRowItem["Pincode"]) : string.Empty;
                         objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
                         objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
                         objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
@@ -84,7 +86,7 @@ namespace ServiceCenter.Services
             return lstCallRegistration;
         }
 
-        public CallRegistrationListDataModel GetCallRegisterListBySP(int SortCol, string SortDir, int PageIndex, int PageSize, string CustomerName, int? CallType, int? ServType, string Technician, string TechnicianType, string MobileNo, bool? CallAttn, bool? JobDone, string JobNo, string CompComplaintNo, string ItemName, bool? Deliver, bool? Canceled, bool? PartPanding, bool? IsCompComplaintNo, DateTime? FromDate, DateTime? ToDate, DateTime? CallAssignFromDate, DateTime? CallAssignToDate, bool? CallBack, bool? WorkShopIN, bool? PaymentPanding, string UserName, DateTime? ModifyFromDate, DateTime? ModifyToDate, int CallCategory)
+        public CallRegistrationListDataModel GetCallRegisterListBySP(int SortCol, string SortDir, int PageIndex, int PageSize, string CustomerName, int? CallType, int? ServType, string Technician, string TechnicianType, string MobileNo, bool? CallAttn, bool? JobDone, string JobNo, string CompComplaintNo, string ItemName, bool? Deliver, bool? Canceled, bool? PartPanding, bool? IsCompComplaintNo, DateTime? FromDate, DateTime? ToDate, DateTime? CallAssignFromDate, DateTime? CallAssignToDate, bool? CallBack, bool? WorkShopIN, bool? PaymentPanding, bool? GoAfterCall, bool? RepeatFromTech, string UserName, DateTime? ModifyFromDate, DateTime? ModifyToDate, int CallCategory)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
             objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
@@ -123,6 +125,9 @@ namespace ServiceCenter.Services
                 SqlParameter Deliver_Param = Deliver.HasValue ? new SqlParameter() { ParameterName = "@Deliver", Value = Deliver } : new SqlParameter() { ParameterName = "@Deliver", Value = DBNull.Value };
                 SqlParameter Canceled_Param = Canceled.HasValue ? new SqlParameter() { ParameterName = "@Canceled" , Value = Canceled  } : new SqlParameter() { ParameterName = "@Canceled", Value = DBNull.Value };
                 SqlParameter PartPanding_Param = PartPanding.HasValue ? new SqlParameter() { ParameterName = "@PartPanding", Value = PartPanding } : new SqlParameter() { ParameterName = "@PartPanding", Value = DBNull.Value };
+                SqlParameter GoAfterCall_Param = GoAfterCall.HasValue ? new SqlParameter() { ParameterName = "@GoAfterCall", Value = GoAfterCall } : new SqlParameter() { ParameterName = "@GoAfterCall", Value = DBNull.Value };
+                SqlParameter RepeatFromTech_Param = RepeatFromTech.HasValue ? new SqlParameter() { ParameterName = "@RepeatFromTech", Value = RepeatFromTech } : new SqlParameter() { ParameterName = "@RepeatFromTech", Value = DBNull.Value };
+
                 SqlParameter IsCompComplaintNo_Param = IsCompComplaintNo.HasValue ? new SqlParameter() { ParameterName = "@IsCompComplaintNo", Value = IsCompComplaintNo } : new SqlParameter() { ParameterName = "@IsCompComplaintNo", Value = DBNull.Value };
                 SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
                 SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
@@ -139,7 +144,7 @@ namespace ServiceCenter.Services
                 SqlParameter ModifyToDate_Param = ModifyToDate.HasValue ? new SqlParameter() { ParameterName = "@ModifyToDate", Value = ModifyToDate } : new SqlParameter() { ParameterName = "@ModifyToDate", Value = DBNull.Value };
 
                 lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, CustomerName_Param, CallType_Param, ServType_Param, Technician_Param, TechnicianType_Param, MobileNo_Param, CallAttn_Param,
-                    JobDone_Param, JobNo_Param, CompComplaintNo_Param, ItemName_Param, Deliver_Param, Canceled_Param, PartPanding_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, ModifyFromDate_Param, ModifyToDate_Param, CallCategory_Param, TotalRecordCount_Param });
+                    JobDone_Param, JobNo_Param, CompComplaintNo_Param, ItemName_Param, Deliver_Param, Canceled_Param, PartPanding_Param, GoAfterCall_Param, RepeatFromTech_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, ModifyFromDate_Param, ModifyToDate_Param, CallCategory_Param, TotalRecordCount_Param });
 
                 StringBuilder SBJobListSP = new StringBuilder();
 
@@ -199,6 +204,7 @@ namespace ServiceCenter.Services
                             objCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
                             objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
                             objCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
+                            objCallRegistration.Pincode = dtRowItem["Pincode"] != DBNull.Value ? Convert.ToString(dtRowItem["Pincode"]) : string.Empty;
                             objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
                             objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
                             objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
@@ -273,6 +279,7 @@ namespace ServiceCenter.Services
 	                            CR.Customer,
 	                            CR.CustomerName,
 	                            CR.Address,
+                                CR.Pincode,
 	                            CR.Area AS AreaId,
 	                            A.AreaName AS AreaName, 
 	                            CR.MobileNo,
@@ -298,6 +305,7 @@ namespace ServiceCenter.Services
 	                            CR.ModelName,
 	                            CR.SpInst,
 	                            CR.JobDoneRegion,
+                                CR.JobRegion,
 	                            CR.ProductName,
 	                            CR.CallAttn,
 	                            CR.JobDone,
@@ -355,6 +363,8 @@ namespace ServiceCenter.Services
                     objSelect2Data.Select2Customer = new Select2() { id = ObjCallRegistration.Customer, text = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty };
 
                     ObjCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
+                    ObjCallRegistration.Pincode = dtRowItem["Pincode"] != DBNull.Value ? Convert.ToString(dtRowItem["Pincode"]) : string.Empty;
+
                     ObjCallRegistration.Area = dtRowItem["AreaId"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaId"]) : string.Empty;
 
                     objSelect2Data.Select2Area = new Select2() { id = ObjCallRegistration.Area, text = dtRowItem["AreaName"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaName"]) : string.Empty };
@@ -391,6 +401,7 @@ namespace ServiceCenter.Services
                     ObjCallRegistration.ModelName = dtRowItem["ModelName"] != DBNull.Value ? Convert.ToString(dtRowItem["ModelName"]) : string.Empty;
                     ObjCallRegistration.SpInst = dtRowItem["SpInst"] != DBNull.Value ? Convert.ToString(dtRowItem["SpInst"]) : string.Empty;
                     ObjCallRegistration.JobDoneRegion = dtRowItem["JobDoneRegion"] != DBNull.Value ? Convert.ToString(dtRowItem["JobDoneRegion"]) : string.Empty;
+                    ObjCallRegistration.JobRegion = dtRowItem["JobRegion"] != DBNull.Value ? Convert.ToString(dtRowItem["JobRegion"]) : string.Empty;
                     ObjCallRegistration.ProductName = dtRowItem["ProductName"] != DBNull.Value ? Convert.ToString(dtRowItem["ProductName"]) : string.Empty;
                     ObjCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
                     ObjCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
@@ -437,11 +448,16 @@ namespace ServiceCenter.Services
             if (objCallRegistration != null)
             {
 
+                UpdatePincodeForCustomerMaster(objCallRegistration.Customer, objCallRegistration.Pincode);
+
                 User UserSesionDetail = SessionService.GetUserSessionValues();
                 bool blnNewCallSMS = false, blnTechnicianAssignSMS = false, blnJobDoneSMS = false;
 
+                objCallRegistration.JobDoneTime = objCallRegistration.JobDone ? DateTime.Now : (DateTime?)null;
+
                 try
                 {
+                    
                     objBaseDAL = new BaseDAL();
                     string InsertQuery = @"INSERT INTO 
 	                                            CallRegistration(
@@ -449,6 +465,7 @@ namespace ServiceCenter.Services
 	                                            Customer,
 	                                            CustomerName,
 	                                            Address,
+                                                Pincode,
 	                                            Area, 
 	                                            MobileNo,
 	                                            CallDate,
@@ -497,6 +514,7 @@ namespace ServiceCenter.Services
 	                                            CAST(@Customer AS UNIQUEIDENTIFIER),
 	                                            @CustomerName,
 	                                            @Address,
+                                                @Pincode,
 	                                            CAST(@Area AS UNIQUEIDENTIFIER),
 	                                            @MobileNo,
 	                                            @CallDate,
@@ -548,6 +566,7 @@ namespace ServiceCenter.Services
                                                 Customer = CAST(@Customer AS UNIQUEIDENTIFIER),
                                                 CustomerName =  @CustomerName,
                                                 Address = @Address,
+                                                Pincode = @Pincode,
                                                 Area  = CAST(@Area AS UNIQUEIDENTIFIER),
                                                 MobileNo = @MobileNo,
                                                 SrNo = @SrNo,
@@ -610,6 +629,7 @@ namespace ServiceCenter.Services
                     SqlParameter CustomerName_Param = !string.IsNullOrEmpty(objCallRegistration.CustomerName) ? new SqlParameter() { ParameterName = "@CustomerName", Value = objCallRegistration.CustomerName } : new SqlParameter() { ParameterName = "@CustomerName", Value = DBNull.Value };
                     SqlParameter MobileNo_Param = !string.IsNullOrEmpty(objCallRegistration.MobileNo) ? new SqlParameter() { ParameterName = "@MobileNo", Value = objCallRegistration.MobileNo } : new SqlParameter() { ParameterName = "@MobileNo", Value = DBNull.Value };
                     SqlParameter Address_Param = !string.IsNullOrEmpty(objCallRegistration.Address) ? new SqlParameter() { ParameterName = "@Address", Value = objCallRegistration.Address } : new SqlParameter() { ParameterName = "@Address", Value = DBNull.Value };
+                    SqlParameter Pincode_Param = !string.IsNullOrEmpty(objCallRegistration.Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = objCallRegistration.Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };                    
                     SqlParameter ProductName_Param = !string.IsNullOrEmpty(objCallRegistration.ProductName) ? new SqlParameter() { ParameterName = "@ProductName", Value = objCallRegistration.ProductName } : new SqlParameter() { ParameterName = "@ProductName", Value = DBNull.Value };
                     SqlParameter ServType_Param = new SqlParameter() { ParameterName = "@ServType", Value = objCallRegistration.ServType };
                     SqlParameter SpInst_Param = !string.IsNullOrEmpty(objCallRegistration.SpInst) ? new SqlParameter() { ParameterName = "@SpInst", Value = objCallRegistration.SpInst } : new SqlParameter() { ParameterName = "@SpInst", Value = DBNull.Value };
@@ -621,6 +641,7 @@ namespace ServiceCenter.Services
                     SqlParameter Technician_Param = !string.IsNullOrEmpty(objCallRegistration.Technician) ? new SqlParameter() { ParameterName = "@Technician", Value = objCallRegistration.Technician } : new SqlParameter() { ParameterName = "@Technician", Value = DBNull.Value };
                     SqlParameter CallAttn_Param = new SqlParameter() { ParameterName = "@CallAttn", Value = objCallRegistration.CallAttn };
                     SqlParameter JobDone_Param = new SqlParameter() { ParameterName = "@JobDone", Value = objCallRegistration.JobDone };
+                    SqlParameter JobDoneTime_Param = objCallRegistration.JobDoneTime.HasValue ? new SqlParameter() { ParameterName = "@JobDoneTime", Value = objCallRegistration.JobDoneTime.Value } : new SqlParameter() { ParameterName = "@JobDoneTime", Value = DBNull.Value };
                     SqlParameter Deliver_Param = new SqlParameter() { ParameterName = "@Deliver", Value = objCallRegistration.Deliver };
                     SqlParameter SMSSent_Param = new SqlParameter() { ParameterName = "@SMSSent", Value = objCallRegistration.SMSSent };
                     SqlParameter Estimate_Param = new SqlParameter() { ParameterName = "@Estimate", Value = objCallRegistration.Estimate };
@@ -641,6 +662,8 @@ namespace ServiceCenter.Services
                     SqlParameter Modifier_Param = !string.IsNullOrEmpty(UserSesionDetail.UserName) ? new SqlParameter() { ParameterName = "@Modifier", Value = UserSesionDetail.UserName } : new SqlParameter() { ParameterName = "@Modifier", Value = "" };
                     SqlParameter ModifyDate_Param = new SqlParameter() { ParameterName = "@ModifyDate", Value = DateTime.Now };
 
+
+                    
 
                     lstParam.AddRange(new SqlParameter[]
                                                     {
@@ -663,6 +686,7 @@ namespace ServiceCenter.Services
                                                         CustomerName_Param,
                                                         MobileNo_Param,
                                                         Address_Param,
+                                                        Pincode_Param,
                                                         ProductName_Param,
                                                         ServType_Param,
                                                         SpInst_Param,
@@ -1156,7 +1180,8 @@ namespace ServiceCenter.Services
 	                            CM.CustCode, 
 	                            CM.FirstName, 
 	                            CM.LastName, 
-	                            CM.Address, 
+	                            CM.Address,
+                                CM.Pincode,
 	                            CM.CityName AS CityId,
 	                            C.CityName AS CityName, 
 	                            CM.PhoneH, 
@@ -1189,6 +1214,7 @@ namespace ServiceCenter.Services
                     objCustomerMaster.FirstName = dtRowItem["FirstName"] != DBNull.Value ? Convert.ToString(dtRowItem["FirstName"]) : string.Empty;
                     objCustomerMaster.LastName = dtRowItem["LastName"] != DBNull.Value ? Convert.ToString(dtRowItem["LastName"]) : string.Empty;
                     objCustomerMaster.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
+                    objCustomerMaster.Pincode = dtRowItem["Pincode"] != DBNull.Value ? Convert.ToString(dtRowItem["Pincode"]) : string.Empty;
 
                     objCustomerMaster.CityId = dtRowItem["CityId"] != DBNull.Value ? Convert.ToString(dtRowItem["CityId"]) : string.Empty;
                     objCustomerMaster.CityName = dtRowItem["CityName"] != DBNull.Value ? Convert.ToString(dtRowItem["CityName"]) : string.Empty;
@@ -1567,6 +1593,7 @@ namespace ServiceCenter.Services
                     SqlParameter FirstName_Param = !string.IsNullOrEmpty(ObjCustomerMaster.FirstName) ? new SqlParameter() { ParameterName = "@FirstName", Value = ObjCustomerMaster.FirstName } : new SqlParameter() { ParameterName = "@FirstName", Value = DBNull.Value };
                     SqlParameter LastName_Param = !string.IsNullOrEmpty(ObjCustomerMaster.LastName) ? new SqlParameter() { ParameterName = "@LastName", Value = ObjCustomerMaster.LastName } : new SqlParameter() { ParameterName = "@LastName", Value = DBNull.Value };
                     SqlParameter Address_Param = !string.IsNullOrEmpty(ObjCustomerMaster.Address) ? new SqlParameter() { ParameterName = "@Address", Value = ObjCustomerMaster.Address } : new SqlParameter() { ParameterName = "@Address", Value = DBNull.Value };
+                    SqlParameter Pincode_Param = !string.IsNullOrEmpty(ObjCustomerMaster.Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = ObjCustomerMaster.Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };
                     SqlParameter CityId_Param = !string.IsNullOrEmpty(ObjCustomerMaster.CityId) ? new SqlParameter() { ParameterName = "@CityId", Value = ObjCustomerMaster.CityId } : new SqlParameter() { ParameterName = "@CityId", Value = DBNull.Value };
                     SqlParameter PhoneH_Param = !string.IsNullOrEmpty(ObjCustomerMaster.PhoneH) ? new SqlParameter() { ParameterName = "@PhoneH", Value = ObjCustomerMaster.PhoneH } : new SqlParameter() { ParameterName = "@PhoneH", Value = DBNull.Value };
                     SqlParameter PhoneO_Param = !string.IsNullOrEmpty(ObjCustomerMaster.PhoneO) ? new SqlParameter() { ParameterName = "@PhoneO", Value = ObjCustomerMaster.PhoneO } : new SqlParameter() { ParameterName = "@PhoneO", Value = DBNull.Value };
@@ -1577,7 +1604,7 @@ namespace ServiceCenter.Services
                     SqlParameter LoginUserId_Param = UserSesionDetail != null ? new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id } : new SqlParameter() { ParameterName = "@LoginUserId", Value = DBNull.Value };
                     SqlParameter CustomerId_Param = new SqlParameter() { ParameterName = "@CustomerId", SqlDbType = SqlDbType.UniqueIdentifier, Direction = ParameterDirection.Output };
 
-                    lstParam.AddRange(new SqlParameter[] { Oid_Param, FirstName_Param, LastName_Param, Address_Param, CityId_Param, PhoneH_Param, PhoneO_Param, MobileNo_Param, EMail_Param, OtherInfo_Param, SpDay_Param, LoginUserId_Param, CustomerId_Param });
+                    lstParam.AddRange(new SqlParameter[] { Oid_Param, FirstName_Param, LastName_Param, Address_Param, Pincode_Param, CityId_Param, PhoneH_Param, PhoneO_Param, MobileNo_Param, EMail_Param, OtherInfo_Param, SpDay_Param, LoginUserId_Param, CustomerId_Param });
 
                     DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -1826,6 +1853,46 @@ namespace ServiceCenter.Services
 
         }
 
+        public ResponceModel UpdateJobRegionByCallId(string JobRegion, string CallId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            string UserName = UserSesionDetail != null ? UserSesionDetail.UserName : string.Empty;
+
+            strQuery = @"UPDATE CallRegistration set JobRegion = @JobRegion, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@JobRegion", JobRegion),
+                                new SqlParameter("@CallId", CallId),
+                                new SqlParameter("@UserName", UserName),
+                      });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                objResponceModel.Responce = true;
+                objResponceModel.Message = "Region For Job Done updated in database";
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+
+                objResponceModel = new ResponceModel();
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "Somthing Went Wrong!";
+            }
+
+            return objResponceModel;
+
+        }
         
 
         public BillDetailsDataModel GetBillDetailsByBillNo(string BillNo, string BillDate)
@@ -1875,8 +1942,7 @@ namespace ServiceCenter.Services
                             objBillDetails.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
                             objBillDetails.MobileNo2 = dtRowItem["MobileNo2"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo2"]) : string.Empty;
                             objBillDetails.CityName = dtRowItem["City"] != DBNull.Value ? Convert.ToString(dtRowItem["City"]) : string.Empty;
-                            objBillDetails.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
-                            objBillDetails.PinCode = dtRowItem["PinCode"] != DBNull.Value ? Convert.ToString(dtRowItem["PinCode"]) : string.Empty;
+                            objBillDetails.Pincode = dtRowItem["Pincode"] != DBNull.Value ? Convert.ToString(dtRowItem["Pincode"]) : string.Empty;
                             objBillDetails.ProductId = dtRowItem["ProductId"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ProductId"]) : 0;
                             objBillDetails.ProductName = dtRowItem["ProductName"] != DBNull.Value ? Convert.ToString(dtRowItem["ProductName"]) : string.Empty;
                             objBillDetails.ProductModel = dtRowItem["ProductModel"] != DBNull.Value ? Convert.ToString(dtRowItem["ProductModel"]) : string.Empty;
@@ -1932,8 +1998,9 @@ namespace ServiceCenter.Services
                 SqlParameter BillDate_Param = new SqlParameter() { ParameterName = "@BillDate", SqlDbType = SqlDbType.DateTime, Direction = ParameterDirection.Input, Value = dtBillDate };
                 SqlParameter CustomerName_Param = new SqlParameter() { ParameterName = "@CustomerName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.CustomerName };
                 SqlParameter CustomerMobileNo_Param = new SqlParameter() { ParameterName = "@CustomerMobileNo", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.MobileNo };
-                SqlParameter CustomerMobileNo2_Param = new SqlParameter() { ParameterName = "@CustomerMobileNo2", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.MobileNo2 };
+                SqlParameter CustomerMobileNo2_Param = !string.IsNullOrEmpty(objBillDetails.MobileNo2) ? new SqlParameter() { ParameterName = "@CustomerMobileNo2", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.MobileNo2 } : new SqlParameter() { ParameterName = "@CustomerMobileNo2", Value = DBNull.Value };
                 SqlParameter CustomerAddress_Param = new SqlParameter() { ParameterName = "@CustomerAddress", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.Address };
+                SqlParameter CustomerPincode_Param = new SqlParameter() { ParameterName = "@CustomerPincode", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.Pincode };
                 SqlParameter CustomerCityName_Param = new SqlParameter() { ParameterName = "@CustomerCityName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.CityName };
                 SqlParameter ItemName_Param = new SqlParameter() { ParameterName = "@ItemName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.ItemName };
                 SqlParameter ProductName_Param = new SqlParameter() { ParameterName = "@ProductName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.ProductName };
@@ -1941,7 +2008,7 @@ namespace ServiceCenter.Services
                 SqlParameter SerialNo_Param = new SqlParameter() { ParameterName = "@SerialNo", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.SerialNo };
 
 
-                lstParam.AddRange(new SqlParameter[] { BillNo_Param, BillDate_Param,  CustomerName_Param, CustomerMobileNo_Param, CustomerMobileNo2_Param, CustomerAddress_Param, CustomerCityName_Param, ItemName_Param, ProductName_Param, LoginUserId_Param, SerialNo_Param });
+                lstParam.AddRange(new SqlParameter[] { BillNo_Param, BillDate_Param,  CustomerName_Param, CustomerMobileNo_Param, CustomerMobileNo2_Param, CustomerAddress_Param, CustomerPincode_Param, CustomerCityName_Param, ItemName_Param, ProductName_Param, LoginUserId_Param, SerialNo_Param });
 
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -2142,8 +2209,31 @@ namespace ServiceCenter.Services
                 objAPIService.SendSMSForCall(JobSMSSendCategory.CallRegister, objJobDetailForSMS);
             }
 
-            
+        }
 
+        public void UpdatePincodeForCustomerMaster(string CustomerId, string Pincode)
+        {
+
+            strQuery = @"UpdatePincodeForCustomerMaster";
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@CstomerId", new Guid(CustomerId)),
+                                new SqlParameter("@Pincode", Pincode),
+                      });
+
+                objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
         }
 
     }

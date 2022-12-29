@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using ServiceCenter.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -179,6 +181,50 @@ namespace ServiceCenter.Services
             }
 
             return strServiceTypeName;
+        }
+
+        public static bool CheckForRightsByPageNameAndUserId(string strPageCode, PageRightsEnum objPageRightEnum)
+        {
+            bool AccessToPage = false;
+
+            if(!string.IsNullOrEmpty(strPageCode))
+            {
+                UserPageRightsList objUserPageRightsList = new UserPageRightsList();
+
+                objUserPageRightsList = SessionService.GetUserPageRightsSessionValues();
+
+                if(objUserPageRightsList != null && objUserPageRightsList.lstUserPageRights.Count > 0)
+                {
+
+                    switch (objPageRightEnum)
+                    {
+                        case PageRightsEnum.List:
+                            AccessToPage = objUserPageRightsList.lstUserPageRights.Where(x => x.PageCode == strPageCode).FirstOrDefault().ListRights;
+                            break;
+                        case PageRightsEnum.Add:
+                            AccessToPage = objUserPageRightsList.lstUserPageRights.Where(x => x.PageCode == strPageCode).FirstOrDefault().AddRights;
+                            break;
+                        case PageRightsEnum.Edit:
+                            AccessToPage = objUserPageRightsList.lstUserPageRights.Where(x => x.PageCode == strPageCode).FirstOrDefault().EditRights;
+                            break;
+                        case PageRightsEnum.Delete:
+                            AccessToPage = objUserPageRightsList.lstUserPageRights.Where(x => x.PageCode == strPageCode).FirstOrDefault().DeleteRights;
+                            break;
+                        case PageRightsEnum.Print:
+                            AccessToPage = objUserPageRightsList.lstUserPageRights.Where(x => x.PageCode == strPageCode).FirstOrDefault().PrintRights;
+                            break;
+                        case PageRightsEnum.Export:
+                            AccessToPage = objUserPageRightsList.lstUserPageRights.Where(x => x.PageCode == strPageCode).FirstOrDefault().ExportRights;
+                            break;
+                    }
+
+                }
+
+            }
+
+
+            return AccessToPage;
+
         }
     }
 }

@@ -316,12 +316,14 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.MobileNo = $("#MobileNo").val().trim();
         objAdvanceFilter.CallAttn = "";
         objAdvanceFilter.JobDone = "";
+        objAdvanceFilter.GoAfterCall = "";
         objAdvanceFilter.JobNo = "";
         objAdvanceFilter.ItemName = "";
         objAdvanceFilter.ItemNameText = "";
         objAdvanceFilter.Deliver = "";
         objAdvanceFilter.Canceled = "";
         objAdvanceFilter.PartPanding = "";
+        objAdvanceFilter.RepeatFromTech = "";
         objAdvanceFilter.CallCategory = $('#CallCategory').val();
         objAdvanceFilter.FromDate = "";
         objAdvanceFilter.ToDate = "";
@@ -356,6 +358,7 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.MobileNo = $("#MobileNo").val().trim();
         objAdvanceFilter.CallAttn = $("#CallAttn").val();
         objAdvanceFilter.JobDone = $("#JobDone").val();
+        objAdvanceFilter.GoAfterCall = $("#GoAfterCall").val();
         objAdvanceFilter.JobNo = $("#JobNo").val().trim();
 
         objAdvanceFilter.ItemName = $("#ItemName").val();
@@ -364,6 +367,7 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.Deliver = $("#Deliver").val();
         objAdvanceFilter.Canceled = $("#Canceled").val();
         objAdvanceFilter.PartPanding = $("#PartPanding").val();
+        objAdvanceFilter.RepeatFromTech = $("#RepeatFromTech").val(); 
         objAdvanceFilter.CallCategory = $('#CallCategory').val();
         objAdvanceFilter.FromDate = $("#FromDate").val();
         objAdvanceFilter.ToDate = $('#ToDate').val();
@@ -403,6 +407,7 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.MobileNo = $("#MobileNo").val().trim();
         objAdvanceFilter.CallAttn = $("#CallAttn").val();
         objAdvanceFilter.JobDone = $("#JobDone").val();
+        objAdvanceFilter.GoAfterCall = $("#GoAfterCall").val();
         objAdvanceFilter.JobNo = $("#JobNo").val().trim();
 
         objAdvanceFilter.ItemName = $("#ItemName").val();
@@ -411,6 +416,7 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.Deliver = $("#Deliver").val();
         objAdvanceFilter.Canceled = $("#Canceled").val();
         objAdvanceFilter.PartPanding = $("#PartPanding").val();
+        objAdvanceFilter.RepeatFromTech = $("#RepeatFromTech").val(); 
         objAdvanceFilter.CallCategory = "0";//$('#CallCategory').val();
         objAdvanceFilter.FromDate = $("#FromDate").val();
         objAdvanceFilter.ToDate = $('#ToDate').val();
@@ -451,6 +457,7 @@ function fnManageJobListSearchJson(btnId)
         $("#MobileNo").val(objAdvanceFilter.MobileNo);
         $("#CallAttn").val(objAdvanceFilter.CallAttn);
         $("#JobDone").val(objAdvanceFilter.JobDone);
+        $("#GoAfterCall").val(objAdvanceFilter.GoAfterCall);
         $("#JobNo").val().trim(objAdvanceFilter.JobNo);
 
         var ItemNameOption = new Option(objAdvanceFilter.ItemNameText, objAdvanceFilter.ItemName === null ? "" : objAdvanceFilter.ItemName, false, false);
@@ -459,6 +466,7 @@ function fnManageJobListSearchJson(btnId)
         $("#Deliver").val(objAdvanceFilter.Deliver);
         $("#Canceled").val(objAdvanceFilter.Canceled);
         $("#PartPanding").val(objAdvanceFilter.PartPanding);
+        $("#RepeatFromTech").val(objAdvanceFilter.RepeatFromTech); 
         $('#CallCategory').val(objAdvanceFilter.CallCategory);
         $("#FromDate").val(objAdvanceFilter.FromDate);
         $('#ToDate').val(objAdvanceFilter.ToDate);
@@ -495,6 +503,7 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.MobileNo = $("#MobileNo").val().trim();
         objAdvanceFilter.CallAttn = $("#CallAttn").val();
         objAdvanceFilter.JobDone = $("#JobDone").val();
+        objAdvanceFilter.GoAfterCall = $("#GoAfterCall").val();
         objAdvanceFilter.JobNo = $("#JobNo").val().trim();
 
         objAdvanceFilter.ItemName = $("#ItemName").val();
@@ -503,6 +512,7 @@ function fnManageJobListSearchJson(btnId)
         objAdvanceFilter.Deliver = $("#Deliver").val();
         objAdvanceFilter.Canceled = $("#Canceled").val();
         objAdvanceFilter.PartPanding = $("#PartPanding").val();
+        objAdvanceFilter.RepeatFromTech = $("#RepeatFromTech").val(); 
         objAdvanceFilter.CallCategory = $('#CallCategory').val();
         objAdvanceFilter.FromDate = $("#FromDate").val();
         objAdvanceFilter.ToDate = $('#ToDate').val();

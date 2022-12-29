@@ -17,7 +17,7 @@ namespace ServiceCenter.Controllers
         public ActionResult Dashboard()
         {
             if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Logout", "Login");
 
             JobDashboard objJobDashboard = new JobDashboard();
 
@@ -30,19 +30,11 @@ namespace ServiceCenter.Controllers
         public ActionResult JobList()
         {
             if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Logout", "Login");
 
-            /*
-            List<CallRegistration> lstCallRegistration = new List<CallRegistration>();
+            if (!CommonService.CheckForRightsByPageNameAndUserId("JOBALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
 
-            JobService objJobService = new JobService();
-            //lstCallRegistration = objJobService.GetCallRegisterList();
-
-            CallRegistrationListDataModel objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(1, "ASC", 1, 20, "a");
-            lstCallRegistration = objCallRegistrationListDataModel.CallRegistrationList;
-
-            return View(lstCallRegistration);
-            */
 
             return View();
         }
@@ -50,7 +42,11 @@ namespace ServiceCenter.Controllers
         public ActionResult ServiceCallRegistation()
         {
             if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("JOBALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
 
             string CallId = Request["CallId"];
 
@@ -179,7 +175,7 @@ namespace ServiceCenter.Controllers
                 string MobileNo = string.Empty, CustomerName = string.Empty, Technician = string.Empty, TechnicianType = string.Empty, JobNo = string.Empty, ItemName = string.Empty, CompComplaintNo = string.Empty, UserName = string.Empty;
                 int intCallCategory = 0;
                 int? CallType, ServType;
-                bool? CallAttn, JobDone, Deliver, Canceled, PartPanding, IsCompComplaintNo, CallBack, WorkShopIN, PaymentPanding;
+                bool? CallAttn, JobDone, Deliver, Canceled, PartPanding, IsCompComplaintNo, CallBack, WorkShopIN, PaymentPanding, GoAfterCall, RepeatFromTech;
                 DateTime? FromDate, ToDate, CallAssignFromDate, CallAssignToDate, ModifyFromDate, ModifyToDate;
 
 
@@ -203,13 +199,15 @@ namespace ServiceCenter.Controllers
 
                 JobDone = !string.IsNullOrEmpty(Request.Form["JobDone"]) ? Convert.ToBoolean(Request.Form["JobDone"]) : (bool?)null;
 
+                GoAfterCall = !string.IsNullOrEmpty(Request.Form["GoAfterCall"]) ? Convert.ToBoolean(Request.Form["GoAfterCall"]) : (bool?)null;
+
                 if (!string.IsNullOrEmpty(Request.Form["JobNo"]))
                     JobNo = Convert.ToString(Request.Form["JobNo"]).Trim();
 
                 if (!string.IsNullOrEmpty(Request.Form["CompComplaintNo"]))
                     CompComplaintNo = Convert.ToString(Request.Form["CompComplaintNo"]).Trim();
 
-                 
+
                 IsCompComplaintNo = !string.IsNullOrEmpty(Request.Form["IsCompComplaintNo"]) ? Convert.ToBoolean(Request.Form["IsCompComplaintNo"]) : (bool?)null;
 
                 if (!string.IsNullOrEmpty(Request.Form["ItemName"]))
@@ -226,6 +224,7 @@ namespace ServiceCenter.Controllers
 
                 PartPanding = !string.IsNullOrEmpty(Request.Form["PartPanding"]) ? Convert.ToBoolean(Request.Form["PartPanding"]) : (bool?)null;
 
+                RepeatFromTech = !string.IsNullOrEmpty(Request.Form["RepeatFromTech"]) ? Convert.ToBoolean(Request.Form["RepeatFromTech"]) : (bool?)null;
 
                 CallAssignFromDate = !string.IsNullOrEmpty(Request.Form["CallAssignFromDate"]) ? DateTime.ParseExact(Request.Form["CallAssignFromDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
 
@@ -252,10 +251,10 @@ namespace ServiceCenter.Controllers
                 CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
 
                 JobService objJobService = new JobService();
-                objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(order, orderDir.ToUpper(), startRec, pageSize, CustomerName, CallType, ServType, Technician, TechnicianType, MobileNo, CallAttn, JobDone, JobNo, CompComplaintNo, ItemName, Deliver, Canceled, PartPanding, IsCompComplaintNo, FromDate, ToDate, CallAssignFromDate, CallAssignToDate, CallBack, WorkShopIN, PaymentPanding, UserName, ModifyFromDate, ModifyToDate,  intCallCategory);
+                objCallRegistrationListDataModel = objJobService.GetCallRegisterListBySP(order, orderDir.ToUpper(), startRec, pageSize, CustomerName, CallType, ServType, Technician, TechnicianType, MobileNo, CallAttn, JobDone, JobNo, CompComplaintNo, ItemName, Deliver, Canceled, PartPanding, IsCompComplaintNo, FromDate, ToDate, CallAssignFromDate, CallAssignToDate, CallBack, WorkShopIN, PaymentPanding, GoAfterCall, RepeatFromTech, UserName, ModifyFromDate, ModifyToDate, intCallCategory);
 
 
-                
+
                 return Json(new
                 {
                     draw = Convert.ToInt32(draw),
@@ -264,7 +263,7 @@ namespace ServiceCenter.Controllers
                     data = objCallRegistrationListDataModel.CallRegistrationList,
                     Oids = objCallRegistrationListDataModel.Oids
                 }, JsonRequestBehavior.AllowGet);
-                
+
             }
             catch (Exception e)
             {
@@ -278,9 +277,9 @@ namespace ServiceCenter.Controllers
                     Oids = string.Empty
                 });
             }
-            
+
         }
-        
+
         /*
         public ActionResult GetJobList1(JqueryDatatableParam param)
         {
@@ -365,6 +364,17 @@ namespace ServiceCenter.Controllers
         }
 
         [HttpPost]
+        public JsonResult UpdateJobRegionByCallId(string JobDoneRegion, string CallId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            JobService objJobService = new JobService();
+            objResponceModel = objJobService.UpdateJobRegionByCallId(JobDoneRegion, CallId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
         public JsonResult GetBillDetailsByBillNo(string BillNo, string BillDate)
         {
             BillDetailsDataModel objBillDetailsDataModel = new BillDetailsDataModel();
@@ -389,7 +399,7 @@ namespace ServiceCenter.Controllers
             }
             else
             {
-                objResponceModel = new ResponceModel() { Responce = false, Message = "Somthing went wrong, Data is missing "};
+                objResponceModel = new ResponceModel() { Responce = false, Message = "Somthing went wrong, Data is missing " };
 
             }
 
@@ -576,7 +586,7 @@ namespace ServiceCenter.Controllers
 
             return new SelectList(ListItem, "Value", "Text");
         }
-      
+
         public SelectList AreaDD(string SelectedValue = "")
         {
             List<SelectListItem> ListItem = new List<SelectListItem>();

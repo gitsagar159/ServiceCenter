@@ -237,3 +237,106 @@ function fnDeleteItem(ItemId) {
     }
 
 }
+
+
+
+
+
+function InsertUpdateIPAddress() {
+
+    var blnIsValidForm = true;
+
+    var IPAddress = $("#IP").val();
+
+    if (IPAddress === "") {
+        $("#IP").addClass("is-invalid");
+        $("#IPAddressToolTip").addClass("invalid-feedback").html("Please IP Address");
+
+        blnIsValidForm = false;
+    }
+    else {
+
+        var objItem = new Object();
+
+        objItem.Id = $("#Id").val();
+        objItem.IP = IPAddress;
+
+        $.ajax({
+            type: "POST",
+            url: "/Master/IPAddressForm",
+            data: JSON.stringify(objItem),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log("return");
+                if (result.data !== null) {
+                    if (result.data.Responce === false) {
+                        $("#IP").addClass("is-invalid");
+                        $("#IPAddressToolTip").addClass("invalid-feedback").html(result.data.Message);
+                        blnIsValidForm = false;
+                    }
+                    else {
+                        toastr["success"](result.data.Message);
+
+                        setTimeout(function () {
+                            window.location.href = "/Master/IPAddressList";
+                        }, 2000);
+
+                    }
+                }
+            },
+            failure: function (result) {
+                alert(data.responseText);
+            },
+            error: function (result) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    return blnIsValidForm;
+}
+
+
+function fnDeleteIPAddress(ipAddressId) {
+
+    if (confirm('Are you sure you want to Delete IP Address?')) {
+
+        if (ipAddressId === 0) {
+
+            toastr["error"]("Something went wrong");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/Master/DeleteIPAddressById",
+                data: { IPAddressId: ipAddressId },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log("return");
+                    if (result.data !== null) {
+                        if (result.data.Responce === false) {
+                            toastr["error"](result.data.Message);
+                        }
+                        else {
+                            toastr["success"](result.data.Message);
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    }
+                },
+                failure: function (result) {
+                    console.log(result.responseText);
+                },
+                error: function (result) {
+                    console.log(result.responseText);
+                }
+            });
+        }
+    }
+
+}

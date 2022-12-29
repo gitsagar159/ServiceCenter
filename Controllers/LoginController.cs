@@ -26,9 +26,13 @@ namespace ServiceCenter.Controllers
 
         public ActionResult Login(UserLoginModel objUserLoginModel)
         {
-            if(objUserLoginModel != null && !string.IsNullOrEmpty(objUserLoginModel.UserName) && !string.IsNullOrEmpty(objUserLoginModel.Password))
+            
+
+            if (objUserLoginModel != null && !string.IsNullOrEmpty(objUserLoginModel.UserName) && !string.IsNullOrEmpty(objUserLoginModel.Password))
             {
+
                 UserService objUserService = new UserService();
+
                 User objUser = objUserService.UserLogin(objUserLoginModel);
 
                 if(objUser.Responce)
@@ -51,7 +55,18 @@ namespace ServiceCenter.Controllers
 
         public ActionResult Logout()
         {
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            if(UserSesionDetail != null)
+            {
+                UserService objUserService = new UserService();
+
+                objUserService.RegisterLogoutDetail(UserSesionDetail.LoginSessionId);
+            }
+
             SessionService.DestroyUserSession();
+
             return View("Index");
         }
     }

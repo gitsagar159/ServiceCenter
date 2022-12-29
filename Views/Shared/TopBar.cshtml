@@ -60,6 +60,7 @@
                             @Html.ActionLink("Add Item", "ItemForm", "Master", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Technician List", "Technician", "Master", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Technician Add", "TechnicianAddEdit", "Master", null, new { @class = "dropdown-item" })
+                            
                         </div>
                     </li>
                     @if(IsMasterAdminLogin)
@@ -69,6 +70,8 @@
                         <div class="dropdown-menu">
                             @Html.ActionLink("User List", "Index", "User", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Add User", "UserAddEdit", "User", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("IP Address", "IPAddressList", "Master", null, new { @class = "dropdown-item" })
+                            @Html.ActionLink("User Page Rights", "UserPagesRights", "User", null, new { @class = "dropdown-item" })
                         </div>
                     </li>
                     }
@@ -77,6 +80,11 @@
                         <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">Report</a>
                         <div class="dropdown-menu">
                             @Html.ActionLink("Call Registration", "CallRegistrationReport", "Report", null, new { @class = "dropdown-item" })
+                            @if (IsMasterAdminLogin)
+                            {
+                                @Html.ActionLink("Daily Mail Report Status", "DailyMailReportStatus", "Report", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Company Emails", "CompanyEmailList", "Report", null, new { @class = "dropdown-item" })
+                            }
                         </div>
                     </li>
 

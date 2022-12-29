@@ -15,9 +15,11 @@ namespace ServiceCenter.Controllers
 
         public ActionResult AreaList()
         {
-            /*if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
-            */
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ARAALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
 
             return View();
         }
@@ -70,6 +72,13 @@ namespace ServiceCenter.Controllers
 
         public ActionResult AreaForm()
         {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ARAALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
+
             AreaMaster objAreaMaster = new AreaMaster(); ;
 
             string AreaId = Request["AreaId"];
@@ -114,9 +123,11 @@ namespace ServiceCenter.Controllers
 
         public ActionResult ItemList()
         {
-            /*if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
-            */
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
 
             return View();
         }
@@ -169,7 +180,13 @@ namespace ServiceCenter.Controllers
 
         public ActionResult ItemForm()
         {
-            ItemMaster objItemMaster = new ItemMaster(); ;
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
+            ItemMaster objItemMaster = new ItemMaster();
 
             string ItemId = Request["ItemId"];
 
@@ -214,7 +231,10 @@ namespace ServiceCenter.Controllers
         public ActionResult Technician()
         {
             if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("TECALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
 
             return View();
         }
@@ -270,7 +290,10 @@ namespace ServiceCenter.Controllers
         public ActionResult TechnicianAddEdit()
         {
             if (!IsSessionValid())
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("TECALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
 
             string TechnicianId = Request["TechnicianId"];
 
@@ -360,6 +383,112 @@ namespace ServiceCenter.Controllers
             }
         }
         #endregion
+
+        #region Ip Address
+
+        public ActionResult IPAddressList()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("IPAALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetIPAddressList()
+        {
+            try
+            {
+                // Initialization.
+                var draw = Request.Form.GetValues("draw")?[0];
+                var order = Convert.ToInt32(Request.Form.GetValues("order[0][column]")?[0]);
+                var orderDir = Request.Form.GetValues("order[0][dir]")?[0];
+                var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
+                var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
+
+                string IPAddress = string.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["IPAddress"]))
+                    IPAddress = Convert.ToString(Request.Form["IPAddress"]).Trim();
+
+
+                IPAddressMasterListDataModel objIPAddressMasterListDataModel = new IPAddressMasterListDataModel();
+
+                MasterService objJobService = new MasterService();
+                objIPAddressMasterListDataModel = objJobService.GetIPAddressList(order, orderDir.ToUpper(), startRec, pageSize, IPAddress);
+
+
+                return Json(new
+                {
+                    draw = Convert.ToInt32(draw),
+                    recordsTotal = objIPAddressMasterListDataModel.RecordCount,
+                    recordsFiltered = objIPAddressMasterListDataModel.RecordCount,
+                    data = objIPAddressMasterListDataModel.IPAddressMasterList
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
+            }
+        }
+
+
+        public ActionResult IPAddressForm()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("IPAALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
+            clsIPAddress objIPAddress = new clsIPAddress(); ;
+
+            string IPAddressId = Request["IPAddressId"];
+
+            if (!string.IsNullOrEmpty(IPAddressId))
+            {
+                MasterService obMasterService = new MasterService();
+                objIPAddress = obMasterService.GetIPAddressDetails(IPAddressId);
+            }
+
+            return View(objIPAddress);
+        }
+
+        [HttpPost]
+        public JsonResult IPAddressForm(clsIPAddress objIPAddress)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+
+            objResponceModel = obMasterService.InsertUpdateIPAddress(objIPAddress.Id, objIPAddress.IP);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteIPAddressById(int IPAddressId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.DeleteIPAddressById(IPAddressId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        #endregion
+
 
         #region Test Print PDF 
 

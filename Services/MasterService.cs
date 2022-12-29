@@ -105,7 +105,6 @@ namespace ServiceCenter.Services
             return objAreaMaster;
         }
 
-        [HttpPost]
         public AreaMasterListDataModel GetAreaList(int SortCol, string SortDir, int PageIndex, int PageSize, string AreaName)
         {
             AreaMasterListDataModel objAreaMasterListDataModel = new AreaMasterListDataModel();
@@ -668,6 +667,205 @@ namespace ServiceCenter.Services
             }
 
             return lstTechnicianType;
+        }
+
+        #endregion
+
+        #region IP Address
+
+
+        public IPAddressMasterListDataModel GetIPAddressList(int SortCol, string SortDir, int PageIndex, int PageSize, string IPAddress)
+        {
+            IPAddressMasterListDataModel objIPAddressListDataModel = new IPAddressMasterListDataModel();
+            objIPAddressListDataModel.IPAddressMasterList = new List<clsIPAddress>();
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"IPAddressList";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter SortCol_Param = new SqlParameter() { ParameterName = "@SortCol", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = SortCol };
+                SqlParameter SortDir_Param = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
+                SqlParameter PageIndex_Param = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
+                SqlParameter PageSize_Param = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
+                SqlParameter IPAddress_Param = new SqlParameter() { ParameterName = "@IPAddress", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = IPAddress };
+                SqlParameter TotalRecordCount_Param = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
+
+                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, IPAddress_Param, TotalRecordCount_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                TotalRecordCount = Convert.ToInt32(TotalRecordCount_Param.Value);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    clsIPAddress objIPAddress;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objIPAddress = new clsIPAddress();
+
+                        objIPAddress.RowNo = dtRowItem["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowItem["RowNo"]) : 0;
+                        objIPAddress.Id = dtRowItem["Id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Id"]) : 0;
+                        objIPAddress.IP = dtRowItem["IP"] != DBNull.Value ? Convert.ToString(dtRowItem["IP"]) : string.Empty;
+                        objIPAddress.IsActive = dtRowItem["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["IsActive"]) : false;
+
+                        objIPAddressListDataModel.IPAddressMasterList.Add(objIPAddress);
+
+                    }
+                    objIPAddressListDataModel.RecordCount = TotalRecordCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objIPAddressListDataModel;
+        }
+
+
+        public clsIPAddress GetIPAddressDetails(string IPAddressId)
+        {
+            clsIPAddress objIPAddress = new clsIPAddress();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"select Id, IP from IPAddress WHERE Id = @IPAddressId";
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                         {
+                                new SqlParameter("@IPAddressId", IPAddressId),
+                         });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowItem = ResDataTable.Rows[0];
+
+                    objIPAddress.Id = dtRowItem["Id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Id"]) : 0;
+                    objIPAddress.IP = dtRowItem["IP"] != DBNull.Value ? Convert.ToString(dtRowItem["IP"]) : string.Empty;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objIPAddress;
+        }
+
+
+        public ResponceModel InsertUpdateIPAddress(int IPAddressId, string IPAddress)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"InsertUpdateIPAddress";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter ItemIdParam = new SqlParameter();
+
+                if (IPAddressId > 0)
+                {
+                    ItemIdParam = new SqlParameter() { ParameterName = "@IPAddressId", Value = IPAddressId };
+                }
+                else
+                {
+                    ItemIdParam = new SqlParameter() { ParameterName = "@IPAddressId", Value = DBNull.Value };
+                }
+
+                SqlParameter IPAddressId_Param = IPAddressId > 0 ? new SqlParameter() { ParameterName = "@IPAddressId", Value = IPAddressId } : new SqlParameter() { ParameterName = "@IPAddressId", Value = DBNull.Value };
+                SqlParameter IPAddress_Param = new SqlParameter() { ParameterName = "@IPAddress", Value = IPAddress };
+                SqlParameter LoginUserId_Param = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
+
+                lstParam.AddRange(new SqlParameter[] { IPAddressId_Param, IPAddress_Param, LoginUserId_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowItem = ResDataTable.Rows[0];
+
+                    objResponceModel.Message = dtRowItem["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowItem["ResponceMesage"]) : string.Empty;
+                    objResponceModel.Responce = dtRowItem["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["OprationSuceess"]) : false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+        }
+
+        public ResponceModel DeleteIPAddressById(int IPaddressId)
+        {
+
+            ResponceModel objResponceModel;
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"Update IPAddress set IsDelete = 1 WHERE Id = @IPaddressId";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter ItemIdParam = new SqlParameter();
+
+                if (IPaddressId > 0)
+                {
+                    ItemIdParam = new SqlParameter() { ParameterName = "@IPaddressId", Value = IPaddressId };
+                }
+                else
+                {
+                    ItemIdParam = new SqlParameter() { ParameterName = "@IPaddressId", Value = DBNull.Value };
+                }
+
+                lstParam.AddRange(new SqlParameter[] { ItemIdParam });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "IP Address Deleted Succesfuly";
+                objResponceModel.Responce = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Somthing Went Wrong";
+                objResponceModel.Responce = false;
+
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+
         }
 
         #endregion

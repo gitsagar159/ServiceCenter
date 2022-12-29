@@ -20,7 +20,7 @@ namespace ServiceCenter
 
             // Storage is the only thing required for basic configuration.
             // Just discover what configuration options do you have.
-            GlobalConfiguration.Configuration.UseSqlServerStorage("KetanServices");
+            //GlobalConfiguration.Configuration.UseSqlServerStorage("KetanServices");
             //.UseActivator(...)
             //.UseLogProvider(...)
         }

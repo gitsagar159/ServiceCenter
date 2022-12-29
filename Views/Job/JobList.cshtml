@@ -1,8 +1,16 @@
-﻿@model List<ServiceCenter.Models.CallRegistration>
+﻿@using ServiceCenter.Services;
+@using ServiceCenter.Models;
 
+@model List<ServiceCenter.Models.CallRegistration>
 @{
     ViewBag.Title = "Job List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    bool blnAddRights = CommonService.CheckForRightsByPageNameAndUserId("JOBALL", PageRightsEnum.Add);
+    bool blnEditRights = CommonService.CheckForRightsByPageNameAndUserId("JOBALL", PageRightsEnum.Edit);
+    bool blnDeleteRights = CommonService.CheckForRightsByPageNameAndUserId("JOBALL", PageRightsEnum.Delete);
+    bool blnPrintRights = CommonService.CheckForRightsByPageNameAndUserId("JOBALL", PageRightsEnum.Print);
+
 }
 
 @section style {
@@ -68,7 +76,7 @@
                         Call Register List
                     </h6>
                 </div>
-                <div class="col col-md-9 text-right pr-4">
+                <div class="col col-md-9 text-right pr-4" id="AddNewCalls">
                     <a href="javascript:void(0)" data-toggle="modal" data-target="#JobnNo_modal" class="btn btn-outline-primary mt-2 mr-5">
                         <span class="fas fa-phone"></span> <span class="fas fa-long-arrow-alt-right"></span> <span class="fas fa-phone"></span>
                     </a>
@@ -113,6 +121,7 @@
                             <th>Deliver</th>
                             <th>Part Panding</th>
                             <th>Job Not Done Region</th>
+                            <th>Job Done Region</th>
                             <th>User</th>
                             <th>Edit</th>
                         </tr>
@@ -157,11 +166,26 @@
             var objAdvanceFilter;
             var isPageInit = true;
 
+            var blnAddRights = "@blnAddRights";
+            var blnEditRights = "@blnEditRights";
+            var blnDeleteRights = "@blnDeleteRights";
+            var blnPrintRights = "@blnDeleteRights";
+
+            
+
             $(document).ready(function () {
 
                 fnManageJobListSearchJson();
 
                 bindDatatable();
+
+                if (blnAddRights == 'True') {
+
+                    $("#AddNewCalls").css("display","block");
+                }
+                else {
+                    $("#AddNewCalls").css("display", "none");
+                }
 
             });
 
@@ -200,11 +224,13 @@
                             d.MobileNo = objAdvanceFilter.MobileNo;
                             d.CallAttn = objAdvanceFilter.CallAttn;
                             d.JobDone = objAdvanceFilter.JobDone;
+                            d.GoAfterCall = objAdvanceFilter.GoAfterCall;
                             d.JobNo = objAdvanceFilter.JobNo;
                             d.ItemName = objAdvanceFilter.ItemName;
                             d.Deliver = objAdvanceFilter.Deliver;
                             d.Canceled = objAdvanceFilter.Canceled;
                             d.PartPanding = objAdvanceFilter.PartPanding;
+                            d.RepeatFromTech = objAdvanceFilter.RepeatFromTech;
                             d.CallCategory = objAdvanceFilter.CallCategory;
                             d.FromDate = objAdvanceFilter.FromDate;
                             d.ToDate = objAdvanceFilter.ToDate;
@@ -347,12 +373,22 @@
                                 return '<input type="text" name="txtJobDoneRegion" id="txtJobDoneRegion" value="' + strJobDoneRegion + '" data-id="' + full.Oid + '" onkeydown="fnUpdateJobDoneRegionIntoDatabase(this)">'
                             }
                         },
+                        {
+                            mRender: function (data, type, full) {
+
+                                var strJobRegion = full.JobRegion;
+                                return '<input type="text" name="txtJobRegion" id="txtJobRegion" value="' + strJobRegion + '" data-id="' + full.Oid + '" onkeydown="fnUpdateJobRegionIntoDatabase(this)">'
+                            }
+                        },
                         { "data": "UserName", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
 
-                                return '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary" target="_blank"> <span class="fas fa-pencil-alt"></span ></a> &nbsp;' +
-                                    '&nbsp; <a href="/Print/PrintPreview?CallId=' + full.Oid + '" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
+                                var editHtml = blnEditRights == 'True' ? '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary" target="_blank"> <span class="fas fa-pencil-alt"></span ></a>' : '';
+                                var deleteHtml = '<a href="/Print/PrintPreview?CallId=' + full.Oid + '" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
+                                    
+                                return editHtml + '&nbsp; &nbsp; ' + deleteHtml;
+                                    
                             }
                         },
 
@@ -492,7 +528,7 @@
 
                 });
 
-                
+
             }
 
 
@@ -623,6 +659,38 @@
             }
 
 
+            function fnUpdateJobRegionIntoDatabase(thiObj) {
+
+                if (event.key === 'Enter') {
+
+                    var jobRegion = thiObj.value;
+                    var callId = $(thiObj).attr("data-id");
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Job/UpdateJobRegionByCallId",
+                        data: { JobDoneRegion: jobRegion, CallId: callId },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+                            }
+                        }
+                    });
+
+                }
+
+            }
+
+
             function fnUpdateCheckboxValueintoDatabase(thiObj) {
 
                 if (thiObj !== undefined) {
@@ -713,6 +781,7 @@
                             InvoiceDate: jsonData.InvoiceDate,
                             CustomerName: jsonData.CustomerName,
                             Address: jsonData.Address,
+                            Pincode: jsonData.Pincode,
                             MobileNo: jsonData.MobileNo,
                             MobileNo2: jsonData.MobileNo2,
                             CityName: jsonData.CityName,

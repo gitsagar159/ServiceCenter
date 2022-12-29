@@ -17,55 +17,58 @@ namespace ServiceCenter.Controllers
     public class HangfireJobController : Controller
     {
         // GET: HangfireJob
-        [HttpPost]
-        public JsonResult Job1()
+        
+        public ActionResult SendCompanyReportMorning()
         {
-            RecurringJob.AddOrUpdate("easyjob", () => Console.Write("Easy!"), Cron.Daily);
 
-            return Json(new { data = "Ok" });
-        }
+            DateTime TodayDate = DateTime.Now;
+            DateTime FromDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 0, 0, 0);
+            DateTime ToDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 11, 00, 0);
 
-        public async Task<ActionResult> SendEmail()
-        {
-            await SendMailAsync("dsagar159@gmail.com", "Test Subject", "Test Message");
+            ReportService objReportService = new ReportService();
+            objReportService.GenerateCompanyViseReport(FromDate, ToDate);
 
             return Json(0, JsonRequestBehavior.AllowGet);
         }
 
-        public async static Task SendMailAsync(string toEmail, string subject, string message)
+        public ActionResult SendCompanyReportNoon()
         {
+            DateTime TodayDate = DateTime.Now;
+            DateTime FromDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 11, 00, 0);
+            DateTime ToDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 16, 00, 0);
 
-            try
-            {
-                string FromEmail = "mail4dudhaiya@gmail.com";
-                string Pasword = "Mylife@159";
-                string DisplayName = "Test Mail";
+            ReportService objReportService = new ReportService();
+            objReportService.GenerateCompanyViseReport(FromDate, ToDate);
 
-                MailMessage myMessage = new MailMessage();
-                myMessage.To.Add(toEmail);
-                myMessage.From = new MailAddress(FromEmail, DisplayName);
-                myMessage.Subject = subject;
-                myMessage.Body = message;
-                myMessage.IsBodyHtml = true;
-
-                using(SmtpClient smtp = new SmtpClient())
-                {
-                    smtp.EnableSsl = true;
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.Port = 587;
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = new NetworkCredential(FromEmail, Pasword);
-                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtp.SendCompleted += (s, e) => { smtp.Dispose(); };
-                    await smtp.SendMailAsync(myMessage);
-
-                }
-
-            }
-            catch(Exception ex)
-            {
-
-            }
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult SendCompanyReportEvening()
+        {
+            DateTime TodayDate = DateTime.Now;
+            DateTime FromDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 16, 00, 0);
+            DateTime ToDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 20, 00, 0);
+
+            ReportService objReportService = new ReportService();
+            objReportService.GenerateCompanyViseReport(FromDate, ToDate);
+
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+        
+
+        /*
+        public async Task<ActionResult> SendCompanyReportNoon()
+        {
+            DateTime TodayDate = DateTime.Now;
+            DateTime FromDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 10, 30, 0);
+            DateTime ToDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 13, 30, 0);
+
+            ReportService objReportService = new ReportService();
+            objReportService.GenerateCompanyViseReport(FromDate, ToDate);
+
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+        */
+
     }
 }

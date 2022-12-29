@@ -100,7 +100,7 @@
                             @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control control-required" })
                             <small id="CustomerName_ToolTip" class="" style="display:none">Enter Customer Name</small>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-1">
                             <label class="form-label">Mobile No</label>
                             @Html.TextBoxFor(m => m.MobileNo, new { @class = "form-control" })
                         </div>
@@ -111,6 +111,11 @@
                         <div class="form-group col-md-2">
                             <label class="form-label">Address</label>
                             @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label class="form-label">Pincode<span class="required"> *</span></label>
+                            @Html.TextBoxFor(m => m.Pincode, new { @class = "form-control control-required" })
+                            <small id="Pincode_ToolTip" class="" style="display:none">Enter Pin code</small>
                         </div>
                     </div>
                 </div>

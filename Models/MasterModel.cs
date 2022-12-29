@@ -130,4 +130,28 @@ namespace ServiceCenter.Models
     }
 
     #endregion
+
+    #region IP Address
+
+    public class clsIPAddress
+    {
+        public int RowNo { get; set; }
+        public int Id { get; set; }
+        public string IP { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? UpdatedOn { get; set; }
+        public int UpdatedBy { get; set; }
+    }
+
+    public class IPAddressMasterListDataModel
+    {
+        public List<clsIPAddress> IPAddressMasterList { get; set; }
+
+        public int RecordCount { get; set; }
+    }
+
+    #endregion
 }
