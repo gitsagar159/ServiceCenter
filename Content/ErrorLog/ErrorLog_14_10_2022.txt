@@ -1,0 +1,92 @@
+-----------------------------------------------------------------------------
+Date : 14-10-2022 11:53:27
+
+System.Net.Mail.SmtpException
+Message : Failure sending mail.
+StackTrace :    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 207
+System.IO.IOException
+Message : Unable to read data from the transport connection: net_io_connectionclosed.
+StackTrace :    at System.Net.Mail.SmtpReplyReaderFactory.ProcessRead(Byte[] buffer, Int32 offset, Int32 read, Boolean readLine)
+   at System.Net.Mail.SmtpReplyReaderFactory.ReadLines(SmtpReplyReader caller, Boolean oneLine)
+   at System.Net.Mail.SmtpReplyReaderFactory.ReadLine(SmtpReplyReader caller)
+   at System.Net.Mail.CheckCommand.Send(SmtpConnection conn, String& response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+-----------------------------------------------------------------------------
+Date : 14-10-2022 12:19:40
+
+System.Net.Mail.SmtpException
+Message : Failure sending mail.
+StackTrace :    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 234
+System.IO.IOException
+Message : Unable to read data from the transport connection: net_io_connectionclosed.
+StackTrace :    at System.Net.Mail.SmtpReplyReaderFactory.ProcessRead(Byte[] buffer, Int32 offset, Int32 read, Boolean readLine)
+   at System.Net.Mail.SmtpReplyReaderFactory.ReadLines(SmtpReplyReader caller, Boolean oneLine)
+   at System.Net.Mail.SmtpReplyReaderFactory.ReadLine(SmtpReplyReader caller)
+   at System.Net.Mail.CheckCommand.Send(SmtpConnection conn, String& response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+-----------------------------------------------------------------------------
+Date : 14-10-2022 12:49:33
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 237
+-----------------------------------------------------------------------------
+Date : 14-10-2022 12:51:18
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 237
+-----------------------------------------------------------------------------
+Date : 14-10-2022 12:55:46
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 237
+-----------------------------------------------------------------------------
+Date : 14-10-2022 13:01:29
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 237
+-----------------------------------------------------------------------------
+Date : 14-10-2022 14:14:30
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 239
+-----------------------------------------------------------------------------
+Date : 14-10-2022 14:15:07
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Controllers.UserController.SendTestMail() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Controllers\UserController.cs:line 239

@@ -97,6 +97,7 @@
                             <th><input type="checkbox" name="chkSelectionAll" id="chkSelectionAll" class="selectionAll" onchange="fnSelectAllCheckboxes(this)"></th>
                             <th>Created Date</th>
                             <th>Call Assign Date</th>
+                            <th>Modify Date</th>
                             <th>Job No.</th>
                             <th>Company com. No.</th>
                             <th>Customer</th>
@@ -171,7 +172,7 @@
             var blnDeleteRights = "@blnDeleteRights";
             var blnPrintRights = "@blnDeleteRights";
 
-            
+
 
             $(document).ready(function () {
 
@@ -226,7 +227,11 @@
                             d.JobDone = objAdvanceFilter.JobDone;
                             d.GoAfterCall = objAdvanceFilter.GoAfterCall;
                             d.JobNo = objAdvanceFilter.JobNo;
+                            d.SrNo = objAdvanceFilter.SrNo;
                             d.ItemName = objAdvanceFilter.ItemName;
+                            d.ItemKeyword = objAdvanceFilter.ItemKeyword;
+                            d.Pincode = objAdvanceFilter.Pincode;
+                            d.WorkShopIN = objAdvanceFilter.ItemKeyword;
                             d.Deliver = objAdvanceFilter.Deliver;
                             d.Canceled = objAdvanceFilter.Canceled;
                             d.PartPanding = objAdvanceFilter.PartPanding;
@@ -242,6 +247,9 @@
                             d.WorkShopIN = objAdvanceFilter.WorkShopIN;
                             d.PaymentPanding = objAdvanceFilter.PaymentPanding;
                             d.UserName = objAdvanceFilter.UserName;
+                            d.FaultType = objAdvanceFilter.FaultType;
+                            d.FaultDesc = objAdvanceFilter.FaultDesc;
+                            d.Area = objAdvanceFilter.Area;
                             d.ModifyFromDate = objAdvanceFilter.ModifyFromDate;
                             d.ModifyToDate = objAdvanceFilter.ModifyToDate;
 
@@ -283,6 +291,7 @@
                         },
                         { "data": "StringCreationDate", "autoWidth": true },
                         { "data": "StringCallAssignDate", "autoWidth": true },
+                        { "data": "ModifyDateString", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
 
@@ -386,9 +395,9 @@
 
                                 var editHtml = blnEditRights == 'True' ? '<a href="/Job/ServiceCallRegistation?CallId=' + full.Oid + '" class="btn icon-btn btn-sm btn-outline-primary" target="_blank"> <span class="fas fa-pencil-alt"></span ></a>' : '';
                                 var deleteHtml = '<a href="/Print/PrintPreview?CallId=' + full.Oid + '" target="_blank"  class="btn icon-btn btn-sm btn-outline-primary"><span class="far fa-file-alt" ></span ></a>'
-                                    
+
                                 return editHtml + '&nbsp; &nbsp; ' + deleteHtml;
-                                    
+
                             }
                         },
 
@@ -717,6 +726,7 @@
                                 }
                                 else {
                                     toastr["error"](resObj.Message);
+                                    $(thiObj).prop("checked", false);
                                 }
                             }
                         }
@@ -844,11 +854,12 @@
 
                             var callIds = checkboxes.join(", ");
                             var technicianId = $("#TechnicianId").val();
+                            var callAssignDate = $("#CallAssignDate").val();
 
                             $.ajax({
                                 type: "POST",
                                 url: "/Job/AssignMultipleCallToTechnician",
-                                data: { CallIds: callIds, TechnicianId: technicianId },
+                                data: { CallIds: callIds, TechnicianId: technicianId, CallAssignDate: callAssignDate },
                                 cache: true,
                                 async: true,
                                 success: function (result) {
@@ -860,15 +871,22 @@
                                             toastr["success"](objResponce.Message);
                                             //$('#tblJobList').dataTable().fnClearTable();
                                             //bindDatatable()
-                                            table.ajax.reload(null, false)
+                                            table.ajax.reload(null, false);
                                         }
                                         else {
                                             toastr["error"](objResponce.Message);
                                         }
 
-
+                                        $("#TechnicianCallAssign_modal").find("#TechnicianId").val(null).trigger('change');
+                                        $("#TechnicianCallAssign_modal").find("#CallAssignDate").val("");
                                         $("#TechnicianCallAssign_modal").modal("hide");
+
+                                        $("#btnAssignCall").hide();
+                                        $("#btnExportCalls").hide();
+                                        $("#btnPrintMultipleWorkorder").hide();
                                     }
+
+                                    checkboxes = [];
 
                                 }
                             });

@@ -1,0 +1,65 @@
+﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+
+@{
+    ViewBag.Title = "Service Type Report Item Vise";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 0px 24px 16px 24px">
+                @using (Html.BeginForm("ServiceTypeReportDailyItemVise", "Report", FormMethod.Post, new { @id = "frmServiceTypeReportDailyItemVise", @class = "form-inline mt-4" }))
+                {
+
+                    <div class="form-group mr-5">
+                        <label class="form-label mr-3">From Date</label>
+                        <input type="text" class="form-control datepicker-features" name="FromDate" id="FromDate" placeholder="From Date">
+                        <small id="FromDate_ToolTip" class="" style="display:none">Enter From Date</small>
+                    </div>
+                    <div class="form-group mr-5">
+                        <label class="form-label mr-3">To Date</label>
+                        <input type="text" class="form-control datepicker-features" name="ToDate" id="ToDate" placeholder="To Date">
+                        <small id="ToDate_ToolTip" class="" style="display:none">Enter To Date</small>
+                    </div>
+                    <div class="form-group mr-5">
+                        <button type="submit" class="btn btn-primary" id="btnSubmit"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                    </div>
+                }
+                </div>
+        </div>
+
+        @Html.Partial("_ServiceTypeReport", Model)
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+
+            });
+
+
+
+            $("#btnSubmit").click(function () {
+
+                $("#frmServiceTypeReportDailyItemVise").submit();
+
+            });
+
+        </script>
+    }
+
+</div>
+
+

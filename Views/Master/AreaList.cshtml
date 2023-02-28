@@ -22,8 +22,14 @@
                     <div class="row">
                         <div class="col col-md-3">
                             <div class="form-group">
-                                <label class="form-label">Search</label>
+                                <label class="form-label">Area</label>
                                 <input type="text" class="form-control" name="AreaName" id="AreaName" placeholder="Area Name">
+                            </div>
+                        </div>
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Pincode</label>
+                                <input type="text" class="form-control" name="AreaPincode" id="AreaPincode" placeholder="Area Name">
                             </div>
                         </div>
                         <div class="col col-md-4 pt-4">
@@ -54,6 +60,7 @@
                         <tr>
                             <th>Sr. No</th>
                             <th>Area Name</th>
+                            <th>Area Pincode</th>
                             <th>Status</th>
                             <th>Operation</th>
                         </tr>
@@ -105,13 +112,15 @@
                         "url": "/Master/GetAreaList",
                         "data": function (d) {
                             d.AreaName = $("#AreaName").val().trim();
+                            d.AreaPincode = $("#AreaPincode").val().trim();
                         },
                         "type": "POST",
                         "dataType": "JSON"
                     },
                     "columns": [
                         { "data": "RowNo", "autoWidth": true },
-                        { "data": "AreaName", "autoWidth": true },//
+                        { "data": "AreaName", "autoWidth": true },
+                        { "data": "AreaPincode", "autoWidth": true },//
                         {
                             mRender: function (data, type, full) {
                                 if (full.IsActive === true) {

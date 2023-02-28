@@ -1,0 +1,16 @@
+-----------------------------------------------------------------------------
+Date : 26-11-2022 15:38:07
+
+System.ArgumentException
+Message : Column 'UserName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.UserService.GetAllWindowsUserNames() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\UserService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 26-11-2022 15:39:55
+
+System.ArgumentException
+Message : Column 'UserName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.UserService.GetAllWindowsUserNames() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\UserService.cs:line 280

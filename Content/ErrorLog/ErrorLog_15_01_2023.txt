@@ -1,0 +1,8 @@
+-----------------------------------------------------------------------------
+Date : 15-01-2023 20:24:17
+
+System.ArgumentException
+Message : Column 'TechnicianType' does not belong to table Table.
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.PendingCallReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 1177

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceCenter.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -30,6 +31,14 @@ namespace ServiceCenter.Controllers
         public ActionResult AccessDenied()
         {
             return View();
+        }
+
+        public void ReadXmlFromSP()
+        {
+            UserService objUserService = new UserService();
+            objUserService.ReadXmlFromSP();
+
+
         }
     }
 }

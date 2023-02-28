@@ -36,16 +36,18 @@ namespace ServiceCenter.Controllers
                 var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
                 var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
 
-                string AreaName = string.Empty;
+                string AreaName = string.Empty, AreaPincode = string.Empty;
 
                 if (!string.IsNullOrEmpty(Request.Form["AreaName"]))
                     AreaName = Convert.ToString(Request.Form["AreaName"]).Trim();
 
+                if (!string.IsNullOrEmpty(Request.Form["AreaPincode"]))
+                    AreaPincode = Convert.ToString(Request.Form["AreaPincode"]).Trim();
 
                 AreaMasterListDataModel objAreaMasterListDataModel = new AreaMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objAreaMasterListDataModel = objJobService.GetAreaList(order, orderDir.ToUpper(), startRec, pageSize, AreaName);
+                objAreaMasterListDataModel = objJobService.GetAreaList(order, orderDir.ToUpper(), startRec, pageSize, AreaName, AreaPincode);
 
 
                 return Json(new
@@ -99,7 +101,7 @@ namespace ServiceCenter.Controllers
             ResponceModel objResponceModel = new ResponceModel();
 
             MasterService obMasterService = new MasterService();
-            objResponceModel = obMasterService.InsertUpdateArea(objAreaMaster.AreaId, objAreaMaster.AreaName);
+            objResponceModel = obMasterService.InsertUpdateArea(objAreaMaster);
 
             return Json(new { data = objResponceModel });
         }
@@ -144,16 +146,19 @@ namespace ServiceCenter.Controllers
                 var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
                 var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
 
-                string ItemName = string.Empty;
+                string ItemName = string.Empty, ItemKeyword = string.Empty;
 
                 if (!string.IsNullOrEmpty(Request.Form["ItemName"]))
                     ItemName = Convert.ToString(Request.Form["ItemName"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["ItemKeyword"]))
+                    ItemKeyword = Convert.ToString(Request.Form["ItemKeyword"]).Trim();
 
 
                 ItemMasterListDataModel objItemMasterListDataModel = new ItemMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objItemMasterListDataModel = objJobService.GetItemList(order, orderDir.ToUpper(), startRec, pageSize, ItemName);
+                objItemMasterListDataModel = objJobService.GetItemList(order, orderDir.ToUpper(), startRec, pageSize, ItemName, ItemKeyword);
 
 
                 return Json(new
@@ -176,7 +181,6 @@ namespace ServiceCenter.Controllers
                 });
             }
         }
-
 
         public ActionResult ItemForm()
         {
@@ -206,7 +210,7 @@ namespace ServiceCenter.Controllers
             ResponceModel objResponceModel = new ResponceModel();
 
             MasterService obMasterService = new MasterService();
-            objResponceModel = obMasterService.InsertUpdateItem(objItemMaster.ItemId, objItemMaster.ItemName, objItemMaster.TechnicianId);
+            objResponceModel = obMasterService.InsertUpdateItem(objItemMaster);
 
             return Json(new { data = objResponceModel });
         }

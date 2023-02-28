@@ -19,53 +19,68 @@ namespace ServiceCenter.Services
         private List<SqlParameter> lstParam;
 
         #region Area
-        public ResponceModel InsertUpdateArea(string AreaId, string AreaName)
+        public ResponceModel InsertUpdateArea(AreaMaster objAreaMaster)
         {
             ResponceModel objResponceModel = new ResponceModel();
 
             User UserSesionDetail = SessionService.GetUserSessionValues();
 
-            try
+            if(objAreaMaster != null && !string.IsNullOrEmpty(objAreaMaster.AreaName) && !string.IsNullOrEmpty(objAreaMaster.AreaPincode))
             {
-                objBaseDAL = new BaseDAL();
 
-                strQuery = @"InsertUpdateAreaDetail";
-
-                lstParam = new List<SqlParameter>();
-
-                SqlParameter AreaIdParam = new SqlParameter();
-
-                if (!string.IsNullOrEmpty(AreaId))
+                try
                 {
-                    AreaIdParam = new SqlParameter() { ParameterName = "@AreaId", Value = AreaId.ToUpper() };
+                    objBaseDAL = new BaseDAL();
+
+                    strQuery = @"InsertUpdateAreaDetail";
+
+                    lstParam = new List<SqlParameter>();
+
+                    SqlParameter AreaIdParam = new SqlParameter();
+
+                    if (!string.IsNullOrEmpty(objAreaMaster.AreaId))
+                    {
+                        AreaIdParam = new SqlParameter() { ParameterName = "@AreaId", Value = objAreaMaster.AreaId.ToUpper() };
+                    }
+                    else
+                    {
+                        AreaIdParam = new SqlParameter() { ParameterName = "@AreaId", Value = DBNull.Value };
+                    }
+
+
+                    SqlParameter AreaNameParam = new SqlParameter() { ParameterName = "@AreaName", Value = objAreaMaster.AreaName };
+                    SqlParameter AreaPincodeParam = new SqlParameter() { ParameterName = "@AreaPincode", Value = objAreaMaster.AreaPincode };
+                    SqlParameter LoginUserIdParam = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
+
+                    lstParam.AddRange(new SqlParameter[] { AreaIdParam, AreaNameParam, AreaPincodeParam, LoginUserIdParam });
+
+                    DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+
+                    if (ResDataTable.Rows.Count > 0)
+                    {
+                        DataRow dtRowItem = ResDataTable.Rows[0];
+
+                        objResponceModel.Message = dtRowItem["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowItem["ResponceMesage"]) : string.Empty;
+                        objResponceModel.Responce = dtRowItem["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["OprationSuceess"]) : false;
+
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    AreaIdParam = new SqlParameter() { ParameterName = "@AreaId", Value = DBNull.Value };
+                    CommonService.WriteErrorLog(ex);
                 }
 
-                
-                SqlParameter AreaNameParam = new SqlParameter() { ParameterName = "@AreaName", Value = AreaName };
-                SqlParameter LoginUserIdParam = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
-
-                lstParam.AddRange(new SqlParameter[] { AreaIdParam, AreaNameParam, LoginUserIdParam });
-
-                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
-
-
-                if (ResDataTable.Rows.Count > 0)
-                {
-                    DataRow dtRowItem = ResDataTable.Rows[0];
-
-                    objResponceModel.Message = dtRowItem["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowItem["ResponceMesage"]) : string.Empty;
-                    objResponceModel.Responce = dtRowItem["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["OprationSuceess"]) : false;
-
-                }
             }
-            catch (Exception ex)
+            else
             {
-                CommonService.WriteErrorLog(ex);
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Please Enter proper data";
+                objResponceModel.Responce = false;
+
             }
+            
 
             return objResponceModel;
         }
@@ -105,7 +120,7 @@ namespace ServiceCenter.Services
             return objAreaMaster;
         }
 
-        public AreaMasterListDataModel GetAreaList(int SortCol, string SortDir, int PageIndex, int PageSize, string AreaName)
+        public AreaMasterListDataModel GetAreaList(int SortCol, string SortDir, int PageIndex, int PageSize, string AreaName, string AreaPincode)
         {
             AreaMasterListDataModel objAreaMasterListDataModel = new AreaMasterListDataModel();
             objAreaMasterListDataModel.AreaMasterList = new List<AreaMasterListModel>();
@@ -125,10 +140,11 @@ namespace ServiceCenter.Services
                 SqlParameter SortDirParam = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
                 SqlParameter PageIndexParam = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
                 SqlParameter PageSizeParam = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
-                SqlParameter AreaNameParam = new SqlParameter() { ParameterName = "@AreaName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = AreaName };
+                SqlParameter AreaNameParam = !string.IsNullOrEmpty(AreaName) ? new SqlParameter() { ParameterName = "@AreaName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = AreaName } : new SqlParameter() { ParameterName = "@AreaName", Value = DBNull.Value }; ;
+                SqlParameter AreaPincodeParam = !string.IsNullOrEmpty(AreaPincode) ? new SqlParameter() { ParameterName = "@AreaPincode", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = AreaPincode } : new SqlParameter() { ParameterName = "@AreaPincode", Value = DBNull.Value }; ;
                 SqlParameter TotalRecordCountParam = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
 
-                lstParam.AddRange(new SqlParameter[] { SortColParam, SortDirParam, PageIndexParam, PageSizeParam, AreaNameParam, TotalRecordCountParam });
+                lstParam.AddRange(new SqlParameter[] { SortColParam, SortDirParam, PageIndexParam, PageSizeParam, AreaNameParam, AreaPincodeParam, TotalRecordCountParam });
 
                 DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -145,6 +161,7 @@ namespace ServiceCenter.Services
                         objAreaMaster.RowNo = dtRowItem["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowItem["RowNo"]) : 0;
                         objAreaMaster.AreaId = dtRowItem["AreaId"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaId"]) : string.Empty;
                         objAreaMaster.AreaName = dtRowItem["AreaName"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaName"]) : string.Empty;
+                        objAreaMaster.AreaPincode = dtRowItem["AreaPincode"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaPincode"]) : string.Empty;
                         objAreaMaster.IsActive = dtRowItem["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["IsActive"]) : false;
 
                         objAreaMasterListDataModel.AreaMasterList.Add(objAreaMaster);
@@ -214,7 +231,7 @@ namespace ServiceCenter.Services
         #endregion
 
         #region Item
-        public ResponceModel InsertUpdateItem(string ItemId, string ItemName, string TechnicianId)
+        public ResponceModel InsertUpdateItem(ItemMaster objItemMaster)
         {
             ResponceModel objResponceModel = new ResponceModel();
 
@@ -230,20 +247,21 @@ namespace ServiceCenter.Services
 
                 SqlParameter ItemIdParam = new SqlParameter();
 
-                if (!string.IsNullOrEmpty(ItemId))
+                if (!string.IsNullOrEmpty(objItemMaster.ItemId))
                 {
-                    ItemIdParam = new SqlParameter() { ParameterName = "@ItemId", Value = ItemId.ToUpper() };
+                    ItemIdParam = new SqlParameter() { ParameterName = "@ItemId", Value = objItemMaster.ItemId.ToUpper() };
                 }
                 else
                 {
                     ItemIdParam = new SqlParameter() { ParameterName = "@ItemId", Value = DBNull.Value };
                 }
 
-                SqlParameter TechnicianIdParam = !string.IsNullOrEmpty(TechnicianId) ? new SqlParameter() { ParameterName = "@TechnicianId", Value =  TechnicianId.ToUpper() } : new SqlParameter() { ParameterName = "@TechnicianId", Value = DBNull.Value };
-                SqlParameter ItemNameParam = new SqlParameter() { ParameterName = "@ItemName", Value = ItemName };
+                SqlParameter TechnicianIdParam = !string.IsNullOrEmpty(objItemMaster.TechnicianId) ? new SqlParameter() { ParameterName = "@TechnicianId", Value = objItemMaster.TechnicianId.ToUpper() } : new SqlParameter() { ParameterName = "@TechnicianId", Value = DBNull.Value };
+                SqlParameter ItemNameParam = new SqlParameter() { ParameterName = "@ItemName", Value = objItemMaster.ItemName };
+                SqlParameter ItemKeywordParam = new SqlParameter() { ParameterName = "@ItemKeyword", Value = objItemMaster.ItemKeyword };
                 SqlParameter LoginUserIdParam = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
 
-                lstParam.AddRange(new SqlParameter[] { ItemIdParam, ItemNameParam, TechnicianIdParam, LoginUserIdParam });
+                lstParam.AddRange(new SqlParameter[] { ItemIdParam, ItemNameParam, ItemKeywordParam, TechnicianIdParam, LoginUserIdParam });
 
                 DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -272,7 +290,7 @@ namespace ServiceCenter.Services
             try
             {
                 objBaseDAL = new BaseDAL();
-                strQuery = @"select ItemId, ItemName from ItemMaster WHERE ItemId = @ItemId";
+                strQuery = @"select ItemId, ItemName, ItemKeyword from ItemMaster WHERE ItemId = @ItemId";
 
                 lstParam = new List<SqlParameter>();
 
@@ -289,6 +307,7 @@ namespace ServiceCenter.Services
 
                     objItemMaster.ItemId = dtRowItem["ItemId"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemId"]) : string.Empty;
                     objItemMaster.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                    objItemMaster.ItemKeyword = dtRowItem["ItemKeyword"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemKeyword"]) : string.Empty;
                 }
 
             }
@@ -300,7 +319,7 @@ namespace ServiceCenter.Services
             return objItemMaster;
         }
 
-        public ItemMasterListDataModel GetItemList(int SortCol, string SortDir, int PageIndex, int PageSize, string ItemName)
+        public ItemMasterListDataModel GetItemList(int SortCol, string SortDir, int PageIndex, int PageSize, string ItemName, string ItemKeyword)
         {
             ItemMasterListDataModel objItemMasterListDataModel = new ItemMasterListDataModel();
             objItemMasterListDataModel.ItemMasterList = new List<ItemMasterListModel>();
@@ -321,9 +340,10 @@ namespace ServiceCenter.Services
                 SqlParameter PageIndexParam = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
                 SqlParameter PageSizeParam = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
                 SqlParameter ItemNameParam = new SqlParameter() { ParameterName = "@ItemName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = ItemName };
+                SqlParameter ItemKeywordParam = !string.IsNullOrEmpty(ItemKeyword) ? new SqlParameter() { ParameterName = "@ItemKeyword", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = ItemKeyword } : new SqlParameter() { ParameterName = "@ItemKeyword", Value = DBNull.Value };
                 SqlParameter TotalRecordCountParam = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
 
-                lstParam.AddRange(new SqlParameter[] { SortColParam, SortDirParam, PageIndexParam, PageSizeParam, ItemNameParam, TotalRecordCountParam });
+                lstParam.AddRange(new SqlParameter[] { SortColParam, SortDirParam, PageIndexParam, PageSizeParam, ItemNameParam, ItemKeywordParam, TotalRecordCountParam });
 
                 DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -340,6 +360,7 @@ namespace ServiceCenter.Services
                         objItemMaster.RowNo = dtRowItem["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowItem["RowNo"]) : 0;
                         objItemMaster.ItemId = dtRowItem["ItemId"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemId"]) : string.Empty;
                         objItemMaster.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                        objItemMaster.ItemKeyword = dtRowItem["ItemKeyword"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemKeyword"]) : string.Empty;
                         objItemMaster.IsActive = dtRowItem["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["IsActive"]) : false;
                         objItemMaster.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
 

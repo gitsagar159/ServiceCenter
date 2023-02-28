@@ -1,0 +1,247 @@
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:15:38
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:16:52
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:17:08
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:18:18
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:18:46
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:21:09
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:23:38
+
+System.InvalidOperationException
+Message : The ConnectionString property has not been initialized.
+StackTrace :    at System.Data.SqlClient.SqlConnection.PermissionDemand()
+   at System.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenterMailer.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 36
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 280
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:54:15
+
+System.IO.InvalidDataException
+Message : Failed to load configuration from file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\bin\Debug\netcoreapp3.1\appsettings.json'.
+StackTrace :    at Microsoft.Extensions.Configuration.FileConfigurationProvider.HandleException(ExceptionDispatchInfo info)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at ServiceCenterMailer.Models.Data.BaseDAL..ctor() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Models\Data\BaseDAL.cs:line 21
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 272
+System.FormatException
+Message : Could not parse the JSON file.
+StackTrace :    at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+System.Text.Json.JsonReaderException
+Message : '"' is invalid after a property name. Expected a ':'. LineNumber: 14 | BytePositionInLine: 23.
+StackTrace :    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumePropertyName()
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenUntilAfterAllCommentsAreSkipped(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextToken(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenOrRollback(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonDocument.Parse(ReadOnlySpan`1 utf8JsonSpan, JsonReaderOptions readerOptions, MetadataDb& database, StackRowStack& stack)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 utf8Json, JsonReaderOptions readerOptions, Byte[] extraRentedArrayPoolBytes, PooledByteBufferWriter extraPooledByteBufferWriter)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 json, JsonDocumentOptions options)
+   at System.Text.Json.JsonDocument.Parse(String json, JsonDocumentOptions options)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.Parse(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:58:49
+
+System.IO.InvalidDataException
+Message : Failed to load configuration from file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\bin\Debug\netcoreapp3.1\appsettings.json'.
+StackTrace :    at Microsoft.Extensions.Configuration.FileConfigurationProvider.HandleException(ExceptionDispatchInfo info)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 282
+System.FormatException
+Message : Could not parse the JSON file.
+StackTrace :    at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+System.Text.Json.JsonReaderException
+Message : '"' is invalid after a property name. Expected a ':'. LineNumber: 14 | BytePositionInLine: 23.
+StackTrace :    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumePropertyName()
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenUntilAfterAllCommentsAreSkipped(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextToken(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenOrRollback(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonDocument.Parse(ReadOnlySpan`1 utf8JsonSpan, JsonReaderOptions readerOptions, MetadataDb& database, StackRowStack& stack)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 utf8Json, JsonReaderOptions readerOptions, Byte[] extraRentedArrayPoolBytes, PooledByteBufferWriter extraPooledByteBufferWriter)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 json, JsonDocumentOptions options)
+   at System.Text.Json.JsonDocument.Parse(String json, JsonDocumentOptions options)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.Parse(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+-----------------------------------------------------------------------------
+Date : 20-12-2022 20:59:05
+
+System.IO.InvalidDataException
+Message : Failed to load configuration from file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\bin\Debug\netcoreapp3.1\appsettings.json'.
+StackTrace :    at Microsoft.Extensions.Configuration.FileConfigurationProvider.HandleException(ExceptionDispatchInfo info)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 282
+System.FormatException
+Message : Could not parse the JSON file.
+StackTrace :    at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+System.Text.Json.JsonReaderException
+Message : '"' is invalid after a property name. Expected a ':'. LineNumber: 14 | BytePositionInLine: 23.
+StackTrace :    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumePropertyName()
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenUntilAfterAllCommentsAreSkipped(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextToken(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenOrRollback(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonDocument.Parse(ReadOnlySpan`1 utf8JsonSpan, JsonReaderOptions readerOptions, MetadataDb& database, StackRowStack& stack)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 utf8Json, JsonReaderOptions readerOptions, Byte[] extraRentedArrayPoolBytes, PooledByteBufferWriter extraPooledByteBufferWriter)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 json, JsonDocumentOptions options)
+   at System.Text.Json.JsonDocument.Parse(String json, JsonDocumentOptions options)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.Parse(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+-----------------------------------------------------------------------------
+Date : 20-12-2022 21:01:38
+
+System.IO.InvalidDataException
+Message : Failed to load configuration from file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\bin\Debug\netcoreapp3.1\appsettings.json'.
+StackTrace :    at Microsoft.Extensions.Configuration.FileConfigurationProvider.HandleException(ExceptionDispatchInfo info)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 282
+System.FormatException
+Message : Could not parse the JSON file.
+StackTrace :    at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+System.Text.Json.JsonReaderException
+Message : '"' is invalid after a property name. Expected a ':'. LineNumber: 14 | BytePositionInLine: 23.
+StackTrace :    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumePropertyName()
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenUntilAfterAllCommentsAreSkipped(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextToken(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenOrRollback(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonDocument.Parse(ReadOnlySpan`1 utf8JsonSpan, JsonReaderOptions readerOptions, MetadataDb& database, StackRowStack& stack)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 utf8Json, JsonReaderOptions readerOptions, Byte[] extraRentedArrayPoolBytes, PooledByteBufferWriter extraPooledByteBufferWriter)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 json, JsonDocumentOptions options)
+   at System.Text.Json.JsonDocument.Parse(String json, JsonDocumentOptions options)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.Parse(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+-----------------------------------------------------------------------------
+Date : 20-12-2022 21:02:44
+
+System.IO.InvalidDataException
+Message : Failed to load configuration from file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\bin\Debug\netcoreapp3.1\appsettings.json'.
+StackTrace :    at Microsoft.Extensions.Configuration.FileConfigurationProvider.HandleException(ExceptionDispatchInfo info)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load()
+   at Microsoft.Extensions.Configuration.ConfigurationRoot..ctor(IList`1 providers)
+   at Microsoft.Extensions.Configuration.ConfigurationBuilder.Build()
+   at ServiceCenterMailer.Services.ReportService.GetItemListForCompanyReport() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenterMailer\ServiceCenterMailer\Services\ReportService.cs:line 282
+System.FormatException
+Message : Could not parse the JSON file.
+StackTrace :    at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)
+   at Microsoft.Extensions.Configuration.FileConfigurationProvider.Load(Boolean reload)
+System.Text.Json.JsonReaderException
+Message : '"' is invalid after a property name. Expected a ':'. LineNumber: 14 | BytePositionInLine: 23.
+StackTrace :    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumePropertyName()
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenUntilAfterAllCommentsAreSkipped(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextToken(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ConsumeNextTokenOrRollback(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.JsonDocument.Parse(ReadOnlySpan`1 utf8JsonSpan, JsonReaderOptions readerOptions, MetadataDb& database, StackRowStack& stack)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 utf8Json, JsonReaderOptions readerOptions, Byte[] extraRentedArrayPoolBytes, PooledByteBufferWriter extraPooledByteBufferWriter)
+   at System.Text.Json.JsonDocument.Parse(ReadOnlyMemory`1 json, JsonDocumentOptions options)
+   at System.Text.Json.JsonDocument.Parse(String json, JsonDocumentOptions options)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.ParseStream(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationFileParser.Parse(Stream input)
+   at Microsoft.Extensions.Configuration.Json.JsonConfigurationProvider.Load(Stream stream)

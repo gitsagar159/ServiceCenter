@@ -1,0 +1,460 @@
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:46:49
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:46:56
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:47:08
+
+System.Data.SqlClient.SqlException
+Message : Conversion failed when converting from a character string to uniqueidentifier.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at System.Data.Common.DataAdapter.FillLoadDataRow(SchemaMapping mapping)
+   at System.Data.Common.DataAdapter.FillFromReader(DataSet dataset, DataTable datatable, String srcTable, DataReaderContainer dataReader, Int32 startRecord, Int32 maxRecords, DataColumn parentChapterColumn, Object parentChapterValue)
+   at System.Data.Common.DataAdapter.Fill(DataTable[] dataTables, IDataReader dataReader, Int32 startRecord, Int32 maxRecords)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:47:22
+
+System.Data.SqlClient.SqlException
+Message : Conversion failed when converting from a character string to uniqueidentifier.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at System.Data.Common.DataAdapter.FillLoadDataRow(SchemaMapping mapping)
+   at System.Data.Common.DataAdapter.FillFromReader(DataSet dataset, DataTable datatable, String srcTable, DataReaderContainer dataReader, Int32 startRecord, Int32 maxRecords, DataColumn parentChapterColumn, Object parentChapterValue)
+   at System.Data.Common.DataAdapter.Fill(DataTable[] dataTables, IDataReader dataReader, Int32 startRecord, Int32 maxRecords)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:47:43
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:48:34
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:48:38
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:49:11
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:50:26
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:52:07
+
+System.ArgumentException
+Message : Column 'CompComplaintNo' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 129
+-----------------------------------------------------------------------------
+Date : 16-08-2022 10:54:29
+
+System.Data.SqlClient.SqlException
+Message : Conversion failed when converting from a character string to uniqueidentifier.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at System.Data.Common.DataAdapter.FillLoadDataRow(SchemaMapping mapping)
+   at System.Data.Common.DataAdapter.FillFromReader(DataSet dataset, DataTable datatable, String srcTable, DataReaderContainer dataReader, Int32 startRecord, Int32 maxRecords, DataColumn parentChapterColumn, Object parentChapterValue)
+   at System.Data.Common.DataAdapter.Fill(DataTable[] dataTables, IDataReader dataReader, Int32 startRecord, Int32 maxRecords)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+-----------------------------------------------------------------------------
+Date : 16-08-2022 12:35:55
+
+System.ArgumentException
+Message : Column 'AreaId' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.GetCallRegisterExportData(DateTime FromDate, DateTime ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 149
+-----------------------------------------------------------------------------
+Date : 16-08-2022 12:50:49
+
+System.ArgumentException
+Message : Column 'CallDate' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.GetCallRegisterExportData(DateTime FromDate, DateTime ToDate)
+-----------------------------------------------------------------------------
+Date : 16-08-2022 12:51:51
+
+System.ArgumentException
+Message : Column 'EstConfirmDate' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.GetCallRegisterExportData(DateTime FromDate, DateTime ToDate)
+-----------------------------------------------------------------------------
+Date : 16-08-2022 12:52:17
+
+System.ArgumentException
+Message : Column 'Estimate' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.GetCallRegisterExportData(DateTime FromDate, DateTime ToDate)
+-----------------------------------------------------------------------------
+Date : 16-08-2022 12:54:23
+
+System.ArgumentException
+Message : Column 'TechnicianName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.GetCallRegisterExportData(DateTime FromDate, DateTime ToDate)
+-----------------------------------------------------------------------------
+Date : 16-08-2022 13:44:43
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 78
+   at ServiceCenter.Services.JobService.GetDashboardData() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 662
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 13:46:28
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.ReportService.GetCallRegistrationReportList(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, DateTime FromDate, DateTime ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 47
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 13:51:13
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.ReportService.GetCallRegistrationReportList(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, DateTime FromDate, DateTime ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 47
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 19:45:54
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 78
+   at ServiceCenter.Services.JobService.GetDashboardData() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 662
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:00:51
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:32:40
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 78
+   at ServiceCenter.Services.JobService.GetDashboardData() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 662
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:35:02
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:36:28
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:48:36
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 78
+   at ServiceCenter.Services.JobService.GetDashboardData() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 662
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:50:22
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:51:44
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:53:45
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 
+-----------------------------------------------------------------------------
+Date : 16-08-2022 21:01:29
+
+System.Data.SqlClient.SqlException
+Message : Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataTable(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 40
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 113
+System.ComponentModel.Win32Exception
+Message : The wait operation timed out
+StackTrace : 

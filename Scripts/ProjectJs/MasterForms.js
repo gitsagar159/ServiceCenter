@@ -41,10 +41,17 @@ function InsertUpdateArea() {
     var blnIsValidForm = true;
 
     var areaName = $("#AreaName").val();
+    var areaPincode = $("#AreaPincode").val();
 
     if (areaName === "") {
         $("#AreaName").addClass("is-invalid");
         $("#AreaNameToolTip").addClass("invalid-feedback").html("Please Enter Area Name");
+
+        blnIsValidForm = false;
+    }
+    else if (areaPincode === "") {
+        $("#AreaPincode").addClass("is-invalid");
+        $("#AreaPincodeToolTip").addClass("invalid-feedback").html("Please Enter Area Pincode");
 
         blnIsValidForm = false;
     }
@@ -54,6 +61,7 @@ function InsertUpdateArea() {
 
         objArea.AreaId = $("#AreaId").val();
         objArea.AreaName = areaName;
+        objArea.AreaPincode = areaPincode;
 
         $.ajax({
             type: "POST",
@@ -142,6 +150,7 @@ function InsertUpdateItem() {
     var blnIsValidForm = true;
 
     var ItemName = $("#ItemName").val();
+    var ItemKeyword = $("#ItemKeyword").val();
 
     if (ItemName === "") {
         $("#ItemName").addClass("is-invalid");
@@ -156,6 +165,7 @@ function InsertUpdateItem() {
         objItem.ItemId = $("#ItemId").val();
         objItem.ItemName = ItemName;
         objItem.TechnicianId = $("#Technician").val();
+        objItem.ItemKeyword = ItemKeyword;
 
 
         $.ajax({

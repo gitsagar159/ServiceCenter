@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group col-3">
                         <label class="form-label">Job No</label>
-                        <input type="text" class="form-control" id="JobNo" name="MobileNo" placeholder="JobNo">
+                        <input type="text" class="form-control" id="JobNo" name="JobNo" placeholder="JobNo">
                     </div>
                     <div class="form-group col-3">
                         <label class="form-label">Comp Complaint No</label>
@@ -60,16 +60,16 @@
                 <div class="form-row">
                     <div class="form-group col-3">
                         <label class="form-label">Technician</label>
-                        <select class="form-control" name="Technician" id="Technician"></select>
+                        <select class="form-control" name="Technician" id="Technician" multiple="multiple"></select>
                     </div>
                     <div class="form-group col-3">
                         <label class="form-label">Technician Type</label>
-                        <select class="form-control" name="TechnicianType" id="TechnicianType">
+                        <select class="form-control" name="TechnicianType" id="TechnicianType" multiple="multiple">
                         </select>
                     </div>
                     <div class="form-group col-3">
                         <label class="form-label">Item</label>
-                        <select class="form-control control-required" name="ItemName" id="ItemName"> </select>
+                        <select class="form-control control-required" name="ItemName" id="ItemName" multiple="multiple"> </select>
                     </div>
                     <div class="form-group col-3">
                         <label class="form-label">Call Attend</label>
@@ -173,7 +173,7 @@
 
                     <div class="form-group col-3">
                         <label class="form-label">User</label>
-                        <select class="form-control" name="UserName" id="UserName"></select>
+                        <select class="form-control" name="UserName" id="UserName" multiple="multiple"></select>
                     </div>
                     <div class="form-group col-3">
                         <label class="form-label">Go After Call</label>
@@ -191,8 +191,29 @@
                             <option value="false">No</option>
                         </select>
                     </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Serial No</label>
+                        <input type="text" class="form-control" id="SrNo" name="SrNo" placeholder="Serial Number">
+                    </div>
                 </div>
-
+                <div class="form-row">
+                    <div class="form-group col-3">
+                        <label class="form-label">Area</label>
+                        <select class="form-control" name="Area" id="Area" multiple="multiple"></select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Pincode</label>
+                        <input type="text" class="form-control" id="Pincode" name="Pincode" placeholder="Pincode">
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Fault Type</label>
+                        <select class="form-control" name="FaultType" id="FaultType" multiple="multiple"></select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label class="form-label">Item Keyword</label>
+                        <input type="text" class="form-control" id="ItemKeyword" name="ItemKeyword" placeholder="Item Keyword">
+                    </div>
+                </div>
 
 
             </div>

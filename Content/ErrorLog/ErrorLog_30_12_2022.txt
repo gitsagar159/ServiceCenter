@@ -1,0 +1,38 @@
+-----------------------------------------------------------------------------
+Date : 30-12-2022 18:34:05
+
+System.Data.SqlClient.SqlException
+Message : Conversion failed when converting from a character string to uniqueidentifier.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at System.Data.Common.DataAdapter.FillLoadDataRow(SchemaMapping mapping)
+   at System.Data.Common.DataAdapter.FillFromReader(DataSet dataset, DataTable datatable, String srcTable, DataReaderContainer dataReader, Int32 startRecord, Int32 maxRecords, DataColumn parentChapterColumn, Object parentChapterValue)
+   at System.Data.Common.DataAdapter.Fill(DataSet dataSet, String srcTable, IDataReader dataReader, Int32 startRecord, Int32 maxRecords)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 78
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String CompComplaintNo, String ItemName, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 183
+-----------------------------------------------------------------------------
+Date : 30-12-2022 18:34:09
+
+System.Data.SqlClient.SqlException
+Message : Conversion failed when converting from a character string to uniqueidentifier.
+StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at System.Data.Common.DataAdapter.FillLoadDataRow(SchemaMapping mapping)
+   at System.Data.Common.DataAdapter.FillFromReader(DataSet dataset, DataTable datatable, String srcTable, DataReaderContainer dataReader, Int32 startRecord, Int32 maxRecords, DataColumn parentChapterColumn, Object parentChapterValue)
+   at System.Data.Common.DataAdapter.Fill(DataSet dataSet, String srcTable, IDataReader dataReader, Int32 startRecord, Int32 maxRecords)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 78
+   at ServiceCenter.Services.JobService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String CompComplaintNo, String ItemName, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\JobService.cs:line 183

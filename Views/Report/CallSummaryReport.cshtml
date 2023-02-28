@@ -1,0 +1,211 @@
+﻿
+@{
+    ViewBag.Title = "Call Summary Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 0px 24px 16px 24px">
+                <form role="form" class="form-inline mt-4">
+                    <div class="form-group mr-5">
+                        <label class="form-label mr-3">From Date</label>
+                        <input type="text" class="form-control datepicker-features" name="FromDate" id="FromDate" placeholder="From Date">
+                        <small id="FromDate_ToolTip" class="" style="display:none">Enter From Date</small>
+                    </div>
+                    <div class="form-group mr-5">
+                        <label class="form-label mr-3">To Date</label>
+                        <input type="text" class="form-control datepicker-features" name="ToDate" id="ToDate" placeholder="To Date">
+                        <small id="ToDate_ToolTip" class="" style="display:none">Enter To Date</small>
+                    </div>
+
+                    <div class="form-group mr-5">
+                        <button type="button" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <h6 class="card-header with-elements">
+                        <div class="card-header-title" style="text-align:center">IW | OW | IN Calls</div>
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table card-table" id="tblServiceTypeCalls">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>IW | OW | IN</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <h6 class="card-header with-elements">
+                        <div class="card-header-title" style="text-align:center">Call type Calls</div>
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table card-table" id="tblCallTypeCalls">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Local | Workshop | Out Station</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Sale stats -->
+                <div class="card mb-4">
+                    <h6 class="card-header with-elements">
+                        <div class="card-header-title" style="text-align:center">User Vise Calls</div>
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table card-table" id="tblUserCalls">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>User Name</th>
+                                    <th>Count(Only Out Warranty)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- / Sale stats -->
+            </div>
+            <div class="col-md-6">
+                <!-- Sale stats -->
+                <div class="card mb-4">
+                    <h6 class="card-header with-elements">
+                        <div class="card-header-title" style="text-align:center">Item Vise Calls</div>
+                    </h6>
+                    <div class="table-responsive">
+                        <table class="table card-table" id="tblItemCalls">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Count(Only Out Warranty)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- / Sale stats -->
+
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+        <script>
+
+            $(document).ready(function () {
+
+                GetCallSummaryReportData("", "");
+
+            });
+
+            $("#btnAdvanceSearch").click(function () {
+
+                var fromdate = $("#FromDate").val();
+                var todate = $("#ToDate").val();
+
+                GetCallSummaryReportData(fromdate, todate);
+
+            });
+
+            function GetCallSummaryReportData(fromDate, toDate) {
+
+
+                var Url = "/Report/GetCallSummaryReportData"
+
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    data: { FromDate: fromDate, ToDate: toDate },
+                    cache: false,
+                    success: function (result) {
+                        if (result !== null && result.data !== null) {
+                            $("#fromDate").html(result.data.fromdate);
+                            $("#todate").html(result.data.todate);
+
+                            var serviceTypeCalls = result.data.ServiceTypeViseCallCountList;
+                            var callTypeCalls = result.data.CallTypeViseCallCountList;
+                            var userCalls = result.data.UserViseCallCountList;
+                            var itemCalls = result.data.ItemViseCallCountList;
+
+                            $('#tblServiceTypeCalls').find("tbody").empty();
+
+                            $.each(serviceTypeCalls, function (i, item) {
+
+                                $('#tblServiceTypeCalls').append('<tr><td>' + serviceTypeCalls[i].ServiceType + '</td><td>' + serviceTypeCalls[i].CallCount + '</td></tr>');
+                            });
+
+                            $('#tblCallTypeCalls').find("tbody").empty();
+
+                            $.each(callTypeCalls, function (i, item) {
+
+                                $('#tblCallTypeCalls').append('<tr><td>' + callTypeCalls[i].CallType + '</td><td>' + callTypeCalls[i].CallCount + '</td></tr>');
+                            });
+
+                            $('#tblUserCalls').find("tbody").empty();
+
+                            $.each(userCalls, function (i, item) {
+
+                                $('#tblUserCalls').append('<tr><td>' + userCalls[i].UserName + '</td><td>' + userCalls[i].CallCount + '</td></tr>');
+                            });
+
+                            $('#tblItemCalls').find("tbody").empty();
+
+                            $.each(itemCalls, function (i, item) {
+
+                                $('#tblItemCalls').append('<tr><td>' + itemCalls[i].ItemName + '</td><td>' + itemCalls[i].CallCount + '</td></tr>');
+                            });
+
+                        }
+                        // Ajax call completed successfully
+                        //alert("Form Submited Successfully");
+                    },
+                    error: function (data) {
+
+                        // Some error in ajax call
+                        alert("some Error");
+                    }
+                });
+            }
+
+
+        </script>
+    }
+
+</div>
+
+

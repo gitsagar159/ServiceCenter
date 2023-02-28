@@ -14,16 +14,27 @@
                 Area Form
             </h6>
             <div class="card-body">
-                @*<form id="frmArea">*@
-                    @Html.HiddenFor(m => m.AreaId)
-                    <div class="form-group">
+
+                @Html.HiddenFor(m => m.AreaId)
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
                         <label class="form-label">Area Name</label>
                         @Html.TextBoxFor(m => m.AreaName, new { @class = "form-control", @placeholder = "Area Name" })
                         <small id="AreaNameToolTip" class=""></small>
                     </div>
-                    <button id="btnsubmit"  class="btn btn-default"> Submit </button>
-                @*</form>*@
+                    <div class="form-group col-md-6">
+                        <label class="form-label">Area Pincode</label>
+                        @Html.TextBoxFor(m => m.AreaPincode, new { @class = "form-control", @placeholder = "Area Pincode" })
+                        <small id="AreaPincodeToolTip" class=""></small>
+                    </div>
                 </div>
+
+                <button id="btnsubmit" class="btn btn-default"> Submit </button>
+
+
+
+            </div>
         </div>
 
     </div>

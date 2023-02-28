@@ -1,6 +1,8 @@
-﻿using OfficeOpenXml;
+﻿using Newtonsoft.Json;
+using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using Org.BouncyCastle.Asn1.Ocsp;
+using RestSharp.Serializers;
 using ServiceCenter.Models;
 using ServiceCenter.Models.Data;
 using System;
@@ -116,8 +118,6 @@ namespace ServiceCenter.Services
             }
             return objCallRegistrationListDataModel;
         }
-
-
         public byte[] GetCallRegisterExportData(DateTime FromDate, DateTime ToDate, int CallCategory)
         {
             byte[] bytes = null;
@@ -354,7 +354,6 @@ namespace ServiceCenter.Services
 
             return bytes;
         }
-
         public byte[] GetCallRegisterExportForTechnician(string CallIds)
         {
             byte[] bytes = null;
@@ -590,7 +589,6 @@ namespace ServiceCenter.Services
 
             return bytes;
         }
-
         public CallRegistration GetWorkorderDetailByCallId(string CallId)
         {
             CallRegistration ObjCallRegistration = new CallRegistration();
@@ -649,7 +647,6 @@ namespace ServiceCenter.Services
 
             return ObjCallRegistration;
         }
-
         public List<ItemForSendCompanyReport> GetItemListForCompanyReport()
         {
             List<ItemForSendCompanyReport> lstItemList = new List<ItemForSendCompanyReport>();
@@ -689,7 +686,6 @@ namespace ServiceCenter.Services
 
             return lstItemList; 
         }
-
         public byte[] GetCallRegisterDataForCmpanyReport(DateTime FromDate, DateTime ToDate, string CompanyName, int CallCategory)
         {
             byte[] bytes = null;
@@ -927,8 +923,6 @@ namespace ServiceCenter.Services
 
             return bytes;
         }
-
-
         public List<ItemForSendCompanyReport> GenerateCompanyViseReport(DateTime FromDate, DateTime ToDate)
         {
 
@@ -1058,8 +1052,6 @@ namespace ServiceCenter.Services
 
 
         }
-
-
         public DailyMailReportStatusListDataModel GetDailyReportMailList(int SortCol, string SortDir, int PageIndex, int PageSize, string CompanyName, DateTime? FromDate, DateTime? ToDate)
         {
             DailyMailReportStatusListDataModel objDailyMailReportStatusListDataModel = new DailyMailReportStatusListDataModel();
@@ -1108,6 +1100,7 @@ namespace ServiceCenter.Services
                         objDailyMailReportStatus.SendBySystem = dtRowItem["SendBySystem"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["SendBySystem"]) : false;
                         objDailyMailReportStatus.CreatedOnString = dtRowItem["CreatedOn"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreatedOn"]).ToString("dd'/'MM'/'yyyy'_'HH':'mm':'ss") : string.Empty;
                         objDailyMailReportStatus.SendByUser = dtRowItem["SendByUser"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["SendByUser"]) : false;
+                        objDailyMailReportStatus.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
                         objDailyMailReportStatus.SendByUserId = dtRowItem["SendByUserId"] != DBNull.Value ? Convert.ToInt32(dtRowItem["SendByUserId"]) : 0;
                         objDailyMailReportStatus.SendByUserDateTimeString = dtRowItem["SendByUserDateTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["SendByUserDateTime"]).ToString("dd'/'MM'/'yyyy'_'HH':'mm':'ss") : string.Empty;
                         
@@ -1123,6 +1116,983 @@ namespace ServiceCenter.Services
                 CommonService.WriteErrorLog(ex);
             }
             return objDailyMailReportStatusListDataModel;
+        }
+
+
+
+        public CallRegistrationListDataModel PendingCallReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"PendingCallReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if(ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel TechnicianCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyTechnicianCallReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel WorkshopInOutCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyWorkshopInOutReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel ServiceTypeReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyServiceTypeReport";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel PartPendingCallReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"PartPendingCallReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel PaymentPendingReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"AllPaymentPendingCalls";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel RepeatFromTechReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+
+                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+
+                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                {
+                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x => x.Technician != string.Empty && x.RepeatFromTech == true).ToList();
+                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.Technician != string.Empty && x.RepeatFromTech == true).ToList().Count();
+                }
+
+                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
+                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel CancelCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+
+                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+
+
+                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                {
+                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x => x.Canceled == true).ToList();
+                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.Canceled == true).ToList().Count();
+                }
+
+                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
+                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel GoAfterCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+
+                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+
+
+                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                {
+                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x =>x.GoAfterCall == true).ToList();
+                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.GoAfterCall == true).ToList().Count();
+                }
+
+                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
+                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel CollationReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+
+                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+
+
+                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                {
+                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x =>x.Technician != string.Empty && (x.Payment != 0 || x.Estimate != 0 || x.VisitCharge != 0)).ToList();
+                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.Technician != string.Empty && (x.Payment != 0 || x.Estimate != 0 || x.VisitCharge != 0)).ToList().Count();
+                }
+
+                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
+                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel CallAssignToJobDoneTimingReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CallAssingToJobDoneTimingReport";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistration.StringJobDoneTime = dtRowItem["JobDoneTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["JobDoneTime"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CallAssingToJobDoneTime = dtRowItem["CallAssingToJobDoneTime"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallAssingToJobDoneTime"]) : 0;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallRegistrationListDataModel CallbackReceivedOrPendingReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+
+                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+
+
+                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                {
+                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x => x.GoAfterCall == true).ToList();
+                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.GoAfterCall == true).ToList().Count();
+                }
+
+                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
+                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+        public CallSummaryDataModel CallSummaryReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallSummaryDataModel objCallSummaryDataModel = new CallSummaryDataModel();
+            objCallSummaryDataModel.UserViseCallCountList = new List<UserViseCallCountModel>();
+            objCallSummaryDataModel.ItemViseCallCountList = new List<ItemViseCallCountModel>();
+            objCallSummaryDataModel.ServiceTypeViseCallCountList = new List<ServiceTypeViseCallCountModel>();
+            objCallSummaryDataModel.CallTypeViseCallCountList = new List<CallTypeViseCallCountModel>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CallSummaryReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+
+                    DataTable DatesTable = ResDataSet.Tables[0];
+                    DataTable UserViseCallCountTable = ResDataSet.Tables[1];
+                    DataTable ItemViseCallCountTable = ResDataSet.Tables[2];
+                    DataTable ServiceTypeViseCallCountTable = ResDataSet.Tables[3];
+                    DataTable CallTypeViseCallCountTable = ResDataSet.Tables[4];
+
+                    if (DatesTable.Rows.Count > 0)
+                    {
+
+                        DataRow dtRowItem = DatesTable.Rows[0];
+
+                        objCallSummaryDataModel.fromdate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : string.Empty; 
+                        objCallSummaryDataModel.todate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : string.Empty;
+                    }
+
+                    if (UserViseCallCountTable.Rows.Count > 0)
+                    {
+                        UserViseCallCountModel objUserViseCallCountModel;
+
+                        foreach (DataRow dtRowItem in UserViseCallCountTable.Rows)
+                        {
+                            objUserViseCallCountModel = new UserViseCallCountModel();
+
+                            objUserViseCallCountModel.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objUserViseCallCountModel.CallCount = dtRowItem["CallCount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallCount"]) : 0;
+
+                            objCallSummaryDataModel.UserViseCallCountList.Add(objUserViseCallCountModel);
+
+                        }
+
+                        objCallSummaryDataModel.UserViseCallCountListJson = objCallSummaryDataModel.UserViseCallCountList.Count > 0 ? JsonConvert.SerializeObject(objCallSummaryDataModel.UserViseCallCountList) : string.Empty;
+                    }
+
+                    if (ItemViseCallCountTable.Rows.Count > 0)
+                    {
+                        ItemViseCallCountModel objItemViseCallCountModel;
+
+                        foreach (DataRow dtRowItem in ItemViseCallCountTable.Rows)
+                        {
+                            objItemViseCallCountModel = new ItemViseCallCountModel();
+
+                            objItemViseCallCountModel.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objItemViseCallCountModel.CallCount = dtRowItem["CallCount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallCount"]) : 0;
+
+                            objCallSummaryDataModel.ItemViseCallCountList.Add(objItemViseCallCountModel);
+
+                        }
+                    }
+
+                    if (ServiceTypeViseCallCountTable.Rows.Count > 0)
+                    {
+                        ServiceTypeViseCallCountModel objServiceTypeViseCallCountModel;
+
+                        foreach (DataRow dtRowItem in ServiceTypeViseCallCountTable.Rows)
+                        {
+                            objServiceTypeViseCallCountModel = new ServiceTypeViseCallCountModel();
+
+                            objServiceTypeViseCallCountModel.ServiceType = dtRowItem["ServiceType"] != DBNull.Value ? Convert.ToString(dtRowItem["ServiceType"]) : string.Empty;
+                            objServiceTypeViseCallCountModel.CallCount = dtRowItem["CallCount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallCount"]) : 0;
+
+                            objCallSummaryDataModel.ServiceTypeViseCallCountList.Add(objServiceTypeViseCallCountModel);
+
+                        }
+                    }
+
+                    if (CallTypeViseCallCountTable.Rows.Count > 0)
+                    {
+                        CallTypeViseCallCountModel objCallTypeViseCallCountModel;
+
+                        foreach (DataRow dtRowItem in CallTypeViseCallCountTable.Rows)
+                        {
+                            objCallTypeViseCallCountModel = new CallTypeViseCallCountModel();
+
+                            objCallTypeViseCallCountModel.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToString(dtRowItem["CallType"]) : string.Empty;
+                            objCallTypeViseCallCountModel.CallCount = dtRowItem["CallCount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallCount"]) : 0;
+
+                            objCallSummaryDataModel.CallTypeViseCallCountList.Add(objCallTypeViseCallCountModel);
+
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objCallSummaryDataModel;
+        }
+        public CallRegistrationListDataModel GetDailyCallListForReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyCallListForReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
         }
 
         #region CompanyEmail
@@ -1298,6 +2268,112 @@ namespace ServiceCenter.Services
             }
 
             return objResponceModel;
+
+        }
+
+        public bool SendCallForRegisterIntoCompany(int ReportId)
+        {
+            bool blnEmailSend = false;
+
+            DailyMailReportStatus objDailyMailReportStatus = new DailyMailReportStatus();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"SELECT
+	                            A.Id,
+	                            A.ItemCompanyName,
+	                            A.CompanyEmail,
+	                            A.ReportName,
+	                            A.SendBySystem,
+	                            A.CreatedOn,
+	                            A.SendByUser,
+	                            A.SendByUserId,
+	                            U.UserName,
+	                            A.SendByUserDateTime
+                            From	
+	                            DailyMailReportStatus A
+	                            LEFT JOIN users U ON U.id = A.SendByUserId
+                            WHERE
+	                            A.Id = @ReportId";
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                         {
+                                new SqlParameter("@ReportId", ReportId),
+                         });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowItem = ResDataTable.Rows[0];
+
+                    objDailyMailReportStatus.Id = dtRowItem["Id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Id"]) : 0;
+                    objDailyMailReportStatus.ItemCompanyName = dtRowItem["ItemCompanyName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemCompanyName"]) : string.Empty;
+                    objDailyMailReportStatus.CompanyEmail = dtRowItem["CompanyEmail"] != DBNull.Value ? Convert.ToString(dtRowItem["CompanyEmail"]) : string.Empty;
+                    objDailyMailReportStatus.ReportName = dtRowItem["ReportName"] != DBNull.Value ? Convert.ToString(dtRowItem["ReportName"]) : string.Empty;
+                    objDailyMailReportStatus.SendBySystem = dtRowItem["SendBySystem"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["SendBySystem"]) : false;
+                    objDailyMailReportStatus.CreatedOnString = dtRowItem["CreatedOn"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreatedOn"]).ToString("dd'/'MM'/'yyyy'_'HH':'mm':'ss") : string.Empty;
+                    objDailyMailReportStatus.SendByUser = dtRowItem["SendByUser"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["SendByUser"]) : false;
+                    objDailyMailReportStatus.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                    objDailyMailReportStatus.SendByUserId = dtRowItem["SendByUserId"] != DBNull.Value ? Convert.ToInt32(dtRowItem["SendByUserId"]) : 0;
+                    objDailyMailReportStatus.SendByUserDateTimeString = dtRowItem["SendByUserDateTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["SendByUserDateTime"]).ToString("dd'/'MM'/'yyyy'_'HH':'mm':'ss") : string.Empty;
+                }
+
+                string ReportFolderPath = ConfigurationManager.AppSettings["CallRegisterIntoCompanyReportFolder"].ToString();
+
+                string ReportFileName = ReportFolderPath + "\\" + objDailyMailReportStatus.ItemCompanyName + "\\" + objDailyMailReportStatus.ReportName;
+
+                string strToEmail = objDailyMailReportStatus.CompanyEmail;
+
+                string strSubject = "DEMO / INSTALLATION CALL REGISTRATION DATE : " + objDailyMailReportStatus.CreatedOnString;
+
+                StringBuilder SBEmailBody = new StringBuilder();
+
+                SBEmailBody.Append("Dear Sir / Madam");
+                SBEmailBody.Append(Environment.NewLine);
+                SBEmailBody.Append("Please find the attachment");
+                SBEmailBody.Append(Environment.NewLine);
+                SBEmailBody.Append("Regiser a call and reply ASAP.");
+                SBEmailBody.Append(Environment.NewLine);
+                SBEmailBody.Append("Thanks");
+
+
+                string strBody = SBEmailBody.ToString();
+
+                EmailService objEmailService = new EmailService();
+
+                blnEmailSend = objEmailService.Sendmail(strToEmail, strBody, strSubject, ReportFileName);
+
+                if(blnEmailSend)
+                {
+                    User UserSesionDetail = SessionService.GetUserSessionValues();
+
+                    strQuery = @"UPDATE DailyMailReportStatus SET SendByUser = 1, SendByUserId = @LoginUserId, SendByUserDateTime = GETDATE() WHERE Id = @ReportId";
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                             {
+                                new SqlParameter("@ReportId", ReportId),
+                                new SqlParameter("@LoginUserId", UserSesionDetail.id),
+                             });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                blnEmailSend = false;
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return blnEmailSend;
 
         }
 

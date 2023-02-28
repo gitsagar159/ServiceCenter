@@ -8,7 +8,7 @@ namespace ServiceCenter.Services
 {
     public class EmailService
     {
-        public bool Sendmail(string tomail, string body, string subject, string file)
+        public bool Sendmail(string tomail, string body, string subject, string file = "", string ccmail = "")
         {
             bool blnSendMail = false;
 
@@ -31,6 +31,19 @@ namespace ServiceCenter.Services
                 //    mail.To.Add(tomail[rows]);
                 //}
                 mail.To.Add(tomail);
+                if (!string.IsNullOrEmpty(ccmail))
+                {
+                    List<string> ccEmailList = ccmail.Split(',').ToList();
+
+                    if(ccEmailList.Count > 0)
+                    {
+                        foreach (string emailItem in ccEmailList)
+                        {
+                            mail.To.Add(emailItem);
+                        }
+                    }
+                    
+                }
                 mail.From = new MailAddress("ketan_services@yahoo.in", "KETAN ENTERPRISE");
                 mail.Subject = subject;
                 mail.BodyEncoding = System.Text.Encoding.GetEncoding("utf-8");

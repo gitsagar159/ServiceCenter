@@ -1,0 +1,200 @@
+﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+@using ServiceCenter.Models
+@{
+    Layout = null;
+    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+    decimal TotlaPayment = 0, TotalEstimate = 0, TotalVistingCharge = 0;
+    int TotalCalls = 0;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Technician Report</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/uikit.css">
+    <link rel="stylesheet" href="~/Content/assets/css/demo.css">
+
+    <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
+    <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <script src="~/Content/assets/vendor/js/theme-settings.js"></script>
+
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/js/pace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <style>
+        .card-table > thead:first-child > tr:first-child > td, .card-table > thead:first-child > tr:first-child > th, .card-table > tbody:first-child > tr:first-child > td, .card-table > tbody:first-child > tr:first-child > th, .card-table > tfoot:first-child > tr:first-child > td, .card-table > tfoot:first-child > tr:first-child > th {
+            border-top: 0;
+        }
+
+        .table .thead-light th {
+            color: #4E5155;
+            background-color: rgba(24,28,33,0.03);
+            border-color: #f1f1f2;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #f1f1f2;
+        }
+
+        .card-table, .card-table th, .card-table td {
+            border-color: rgba(24,28,33,0.06);
+        }
+
+        .table th {
+            font-weight: 500;
+        }
+
+        .table th, .table td {
+            padding: 0.625rem;
+            vertical-align: top;
+            border-top: 1px solid #f1f1f2;
+        }
+
+        th {
+            display: table-cell;
+            vertical-align: inherit;
+            font-weight: bold;
+            text-align: -internal-center;
+        }
+
+        table {
+            border-collapse: separate;
+            text-indent: initial;
+            border-spacing: 2px;
+        }
+
+        .bg-info {
+            background-color: #28c3d7 !important;
+        }
+
+        .bg-primary {
+            background-color: #26B4FF !important;
+        }
+
+        .bg-danger {
+            background-color: #d9534f !important;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="card">
+        <div class="card-header">Daily Cancel Call Report | From : @Model.FromDate - To : @Model.ToDate</div>
+        <table class="table card-table table-responsive">
+            <thead class="thead-light">
+                <tr>
+                    <th>Job No</th>
+                    <th>Call Date</th>
+                    <th>Call Assing Date</th>
+                    <th>Customer Name</th>
+                    <th>Mobile</th>
+                    <th>Call Type</th>
+                    <th>Service Type</th>
+                    <th>Product Name</th>
+                    <th>Fault Desc.</th>
+                    <th>Call Attend</th>
+                    <th>Part Panding</th>
+                    <th>Call Back</th>
+                    <th>Go After Call</th>
+                    <th>Canceled</th>
+                    <th>Repeat</th>
+                    <th>Payment Panding</th>
+                    <th>JobDone</th>
+                    <th>Payment ₹</th>
+                    <th>Estimate ₹</th>
+                    <th>Visit Charge ₹</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.CallRegistrationList.Count > 0)
+                    {
+                        TotalCalls = Model.CallRegistrationList.Count > 0 ? Model.CallRegistrationList.Count : 0;
+
+                        if (TotalCalls > 0)
+                        {
+                            <tr class="bg-info">
+                                <th scope="row" colspan="20"><strong>Total Calls</strong> &nbsp; : &nbsp; @TotalCalls   </th>
+                            </tr>
+
+                            foreach (CallRegistration callItem in Model.CallRegistrationList)
+                            {
+
+                                <tr>
+                                    <td>@callItem.JobNo</td>
+                                    <td>@callItem.StringCreationDate</td>
+                                    <td>@callItem.StringCallAssignDate</td>
+                                    <td>@callItem.CustomerName</td>
+                                    <td>@callItem.MobileNo</td>
+                                    <td>@callItem.CallTypeName</td>
+                                    <td>@callItem.ServTypeName</td>
+                                    <td>@callItem.ItemName</td>
+                                    <td>@callItem.FaultDesc</td>
+                                    <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@callItem.Payment.ToString("0.00")</td>
+                                    <td>@callItem.Estimate.ToString("0.00")</td>
+                                    <td>@callItem.VisitCharge.ToString("0.00")</td>
+                                </tr>
+                            }
+
+                        }
+
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/Content/assets/vendor/js/sidenav.js"></script>
+
+    <!-- Libs -->
+    <script src="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <!-- Demo -->
+    <script src="~/Content/assets/js/demo.js"></script>
+</body>
+</html>

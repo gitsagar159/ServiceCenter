@@ -16,6 +16,7 @@ namespace ServiceCenter.Models
     {
         public string AreaId { get; set; }
         public string AreaName { get; set; }
+        public string AreaPincode { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int ModifiedBy { get; set; }
@@ -29,6 +30,7 @@ namespace ServiceCenter.Models
         public int RowNo { get; set; }
         public string AreaId { get; set; }
         public string AreaName { get; set; }
+        public string AreaPincode { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -37,6 +39,11 @@ namespace ServiceCenter.Models
         public List<AreaMasterListModel> AreaMasterList { get; set; }  //= new List<CallRegistration>();
 
         public int RecordCount { get; set; }
+    }
+
+    public class AreaMasterDD
+    {
+        public List<AreaMaster> AreaMasterList { get; set; }
     }
 
     #endregion
@@ -48,7 +55,7 @@ namespace ServiceCenter.Models
     {
         public string ItemId { get; set; }
         public string ItemName { get; set; }
-
+        public string ItemKeyword { get; set; }
         public string TechnicianId { get; set; }
         public string Technician { get; set; }
         public int CreatedBy { get; set; }
@@ -64,6 +71,8 @@ namespace ServiceCenter.Models
         public int RowNo { get; set; }
         public string ItemId { get; set; }
         public string ItemName { get; set; }
+
+        public string ItemKeyword { get; set; }
         public string Technician { get; set; }
         public bool IsActive { get; set; }
     }

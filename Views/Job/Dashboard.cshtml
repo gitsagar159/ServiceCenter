@@ -18,7 +18,7 @@
                             <div class="lnr lnr-list display-4 text-success"></div>
                             <div class="ml-3">
                                 <div class="text-muted small">Total Call</div>
-                                <div class="text-large">@Html.Raw(Model != null ? Model.TotalJobCount : 0)</div>
+                                <div class="text-large"><span id="TotalJobCount"></span></div>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                             <div class="lnr lnr-list display-4 text-info"></div>
                             <div class="ml-3">
                                 <div class="text-muted small">Colse Call(Job Done)</div>
-                                <div class="text-large">@Html.Raw(Model != null ? Model.JobDoneCount : 0)</div>
+                                <div class="text-large"><span id="JobDoneCount"></span></div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                             <div class="lnr lnr-list display-4 text-danger"></div>
                             <div class="ml-3">
                                 <div class="text-muted small">Open Call</div>
-                                <div class="text-large">@Html.Raw(Model != null ? Model.OpenJobCount : 0)</div>
+                                <div class="text-large"><span id="OpenJobCount"></span></div>
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                             <div class="lnr lnr-list display-4 text-warning"></div>
                             <div class="ml-3">
                                 <div class="text-muted small">New Call</div>
-                                <div class="text-large">@Html.Raw(Model != null ? Model.NewJobCount : 0)</div>
+                                <div class="text-large"><span id="NewJobCount"></span></div>
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                 <div class="col-md-8 col-lg-12 col-xl-8">
                     <div class="card-body">
                         <div style="height: 210px;">
-                            <canvas id="statistics-chart-1"></canvas>
+                            <canvas id="Yearly-Call-chart"></canvas>
                             @*<div id="statistics-chart-1"></div>*@
                         </div>
                     </div>
@@ -576,75 +576,142 @@
 
     <script>
 
-            $(document).ready(function ()
+        var dashbordData = null;
+        var currentYearData = null;
+        var previousYearData = null;
+        
+
+        $(document).ready(function () {
+
+            fnGetDashboardData();
+
+        });
+
+        function fnGetDashboardData() {
+
+            $.ajax({
+                type: "POST",
+                url: "/Job/GetJobDashboardData",
+                cache: true,
+                async: true,
+                success: function (result) {
+
+                    (result.data != null)
+                    {
+                        dashbordData = JSON.parse(result.data);
+                        currentYearData = dashbordData.CurrentYearData;
+                        previousYearData = dashbordData.PreviousYearData;
+
+                        $("#TotalJobCount").html(dashbordData.TotalJobCount);
+                        $("#NewJobCount").html(dashbordData.NewJobCount);
+                        $("#OpenJobCount").html(dashbordData.OpenJobCount);
+                        $("#JobDoneCount").html(dashbordData.JobDoneCount);
+
+
+                        fnDrawYearlyCallsChart();
+                    }
+                }
+            });
+        }
+
+
+        function fnDrawYearlyCallsChart() {
+
+
+            var lableArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var currentYearDataArray = [];
+            var previousYearDataArray = [];
+
+            $.each(lableArray, function (i, item)
             {
+                var currentMonth = lableArray[i];
+
+                $.each(currentYearData, function (key, value) {
+
+                    if (currentMonth == key)
+                    {
+                        currentYearDataArray.push(value);
+                    }
+                    
+                });
+
+                $.each(previousYearData, function (key, value) {
+
+                    if (currentMonth == key)
+                    {
+                        previousYearDataArray.push(value);
+                    }
+
+                });
                 
-                var chartStringJSONData = '@Model.JobRecordMonthWiseJSON';
-
-                var chartJsonData = JSON.parse(chartStringJSONData.replace(/&quot;/g, '"'));
-
-                var JSONString = JSON.stringify(chartJsonData);
-
-                //drawChart();
-
-
 
             });
 
-        
-        function drawChart() {
 
-            var chart1 = new Chart(document.getElementById('statistics-chart-1').getContext("2d"),
-                {
-                    type: 'line',
-                    data: {
-                        labels: ['2016-10', '2016-11', '2016-12', '2017-01', '2017-02', '2017-03', '2017-04', '2017-05'],
-                        datasets: [{
-                            label: 'Visits',
-                            data: [93, 25, 95, 59, 46, 68, 4, 41],
-                            borderWidth: 1,
-                            backgroundColor: 'rgba(28,180,255,.05)',
-                            borderColor: 'rgba(28,180,255,1)'
-                        }, {
-                            label: 'Returns',
-                            data: [83, 1, 43, 28, 56, 82, 80, 66],
-                            borderWidth: 1,
-                            borderDash: [5, 5],
-                            backgroundColor: 'rgba(136, 151, 170, 0.1)',
-                            borderColor: '#8897aa'
-                        },
-                        {
-                            label: 'Test',
-                            data: [07, 99, 24, 24, 87, 68, 4, 41],
-                            borderWidth: 1,
-                            backgroundColor: 'rgba(28,180,111,.05)',
-                            borderColor: 'rgba(28,180,111,1)'
+            var chart1 = new Chart(document.getElementById('Yearly-Call-chart'), {
+                type: 'line',
+                data: {
+
+                    labels: lableArray,
+                    datasets: [{
+                        label: '2023',
+                        data: currentYearDataArray,
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(28,180,255,.05)',
+                        borderColor: 'rgba(28,180,255,1)'
+                    }, {
+                        label: '2022',
+                        data: previousYearDataArray,
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        backgroundColor: 'rgba(136, 151, 170, 0.1)',
+                        borderColor: '#8897aa'
+                    }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                fontColor: '#aaa'
+                            }
                         }],
+                        yAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                fontColor: '#aaa'
+                            }
+                        }]
                     },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                gridLines: {
-                                    display: false
-                                },
-                                ticks: {
-                                    fontColor: '#aaa'
-                                }
-                            }],
-                            yAxes: [{
-                                gridLines: {
-                                    display: false
-                                },
-                                ticks: {
-                                    fontColor: '#aaa'
-                                }
-                            }]
-                        },
 
-                        responsive: false,
-                        maintainAspectRatio: false
-                    }
-                });
+                    responsive: false,
+                    maintainAspectRatio: false
+                }
+            });
+
+            chart1.resize();
+        }
+
+
+        function fnGenerateRandomColor() {
+
+            var Min = 1, Max = 255;
+
+            var randomRed = Math.floor(Math.random() * (Max - Min + 1) + Min);
+            var randomGreen = Math.floor(Math.random() * (Max - Min + 1) + Min);
+            var randomBlue = Math.floor(Math.random() * (Max - Min + 1) + Min);
+
+
+            var backgroundColor = "rgba(" + randomRed + ", " + randomGreen + ", " + randomBlue + ", " + "0.5)";
+            var borderColor = "rgba(" + randomRed + ", " + randomGreen + ", " + randomBlue + ", " + "1)";
+
+            return backgroundColor + "|" + borderColor;
+
+
         }
 
 

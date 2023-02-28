@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Xml.Linq;
+using Newtonsoft.Json.Linq;
+using Org.BouncyCastle.Ocsp;
 using ServiceCenter.Models;
 using ServiceCenter.Services;
+using static System.Net.WebRequestMethods;
 
 namespace ServiceCenter.Controllers
 {
@@ -47,6 +53,358 @@ namespace ServiceCenter.Controllers
             string FilePath = Path.Combine(ReportFolderPath, FileName);
 
             return File(FilePath, "application/ms-excel", FileName);
+        }
+
+        public ActionResult PendingCallReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.PendingCallReport(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult PendingCallReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.PendingCallReport(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult TechnicianCallReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.TechnicianCallReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult TechnicianCallReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.TechnicianCallReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult WorkshopInOutCallReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.WorkshopInOutCallReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult WorkshopInOutCallReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.WorkshopInOutCallReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult ServiceTypeReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult ServiceTypeReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult ServiceTypeReportDailyUserVise()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult ServiceTypeReportDailyUserVise(AnalyticalReportModel objAnalyticalReportModel)
+        {
+
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult ServiceTypeReportDailyItemVise()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult ServiceTypeReportDailyItemVise(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult PartPendingCallReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.PartPendingCallReport(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult PartPendingCallReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.PartPendingCallReport(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult PaymentPendingReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.PaymentPendingReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult PaymentPendingReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.PaymentPendingReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult RepeatFromTechReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.RepeatFromTechReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult RepeatFromTechReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.RepeatFromTechReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult CancelCallReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CancelCallReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult CancelCallReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CancelCallReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult GoAfterCallReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.GoAfterCallReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult GoAfterCallReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.GoAfterCallReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult CollationReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CollationReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult CollationReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CollationReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult CallAssignToJobDoneTimingReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CallAssignToJobDoneTimingReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult CallAssignToJobDoneTimingReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CallAssignToJobDoneTimingReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult CallbackReceivedOrPendingReport()
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CallbackReceivedOrPendingReportDaily(null, null);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        [HttpPost]
+        public ActionResult CallbackReceivedOrPendingReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            ReportService objReportService = new ReportService();
+            objCallRegistrationListDataModel = objReportService.CallbackReceivedOrPendingReportDaily(DtFromDate, DtToDate);
+
+            return View(objCallRegistrationListDataModel);
+        }
+
+        public ActionResult CallSummaryReport()
+        {
+            /*
+            CallSummaryDataModel objCallSummaryDataModel = new CallSummaryDataModel();
+
+            DateTime? FromDate = (DateTime?)null, ToDate = (DateTime?)null;
+
+            ReportService objReportService = new ReportService();
+            objCallSummaryDataModel = objReportService.CallSummaryReport(FromDate, ToDate);
+
+            return View(objCallSummaryDataModel);
+            */
+            return View();
         }
 
         #endregion
@@ -271,6 +629,482 @@ namespace ServiceCenter.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult SendPendingCallReportMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.PendingCallReport(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_PendingCallReport.cshtml", objCallRegistrationListDataModel);
+
+                if(!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "LAST 72 HOUR PENDING CALL REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendTechnicianCallReportMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.TechnicianCallReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_TechnicianCallReportPartial.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "DAILY TECHNICIAN REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendCollationReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.CollationReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_CollationReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "DAILY COLLATION REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendWorkshopInOutCallReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.WorkshopInOutCallReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/WorkshopInOutCallReportDaily.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "WORKSHOP IN OUT CALL REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendServiceTypeReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_ServiceTypeReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "IN-WARRANTY | OUT-WARRANTY | INSTALLATION REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendServiceTypeReportDailyUserViseMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_ServiceTypeReportDailyUserVise.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "IN-WARRANTY | OUT-WARRANTY | INSTALLATION REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendServiceTypeReportDailyItemViseMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.ServiceTypeReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_ServiceTypeReportDailyItemVise.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "IN-WARRANTY | OUT-WARRANTY | INSTALLATION REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendPartPendingCallReportMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.PartPendingCallReport(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_PartPendingCallReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "LAST 72 PART PENDING REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendPaymentPendingReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.PaymentPendingReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_PaymentPendingReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "PAYMENT PENDING REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendRepeatFromTechReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.RepeatFromTechReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/RepeatFromTechReportDaily.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "REPEAT FROM TECHNICIAN REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendCancelCallReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.CancelCallReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_CancelCallReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "CANCEL CALL REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendGoAfterCallReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.GoAfterCallReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_GoAfterCallReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "GO AFTER CALL REPORT", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendCallAssignToJobDoneTimingReportDailyMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+                ReportService objReportService = new ReportService();
+                objCallRegistrationListDataModel = objReportService.CallAssignToJobDoneTimingReportDaily(null, null);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/_CallAssignToJobDoneTimingReport.cshtml", objCallRegistrationListDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "Call Assign To Job Done Timing Report", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetCallSummaryReportData(string FromDate, string ToDate)
+        {
+            CallSummaryDataModel objCallSummaryDataModel = new CallSummaryDataModel();
+
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(FromDate) ? DateTime.ParseExact(FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            DtToDate = !string.IsNullOrEmpty(ToDate) ? DateTime.ParseExact(ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            ReportService objReportService = new ReportService();
+            objCallSummaryDataModel = objReportService.CallSummaryReport(DtFromDate, DtToDate);
+            
+            return Json(new { data = objCallSummaryDataModel }, JsonRequestBehavior.AllowGet);
+            
+        }
+
+        public JsonResult SendCallSummaryReportMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                DateTime? FromDate = (DateTime?)null, ToDate = (DateTime?)null;
+
+                CallSummaryDataModel objCallSummaryDataModel = new CallSummaryDataModel();
+                ReportService objReportService = new ReportService();
+                objCallSummaryDataModel = objReportService.CallSummaryReport(FromDate, ToDate);
+
+                string strPendinCallReportHtml = RenderRazorViewToString("~/Views/Report/CallSummaryReport.cshtml", objCallSummaryDataModel);
+
+                if (!string.IsNullOrEmpty(strPendinCallReportHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "Call Summary Report", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SendCompanyReportManually(int ReportId)
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+                ReportService objReportService = new ReportService();
+                blnEmailSend = objReportService.SendCallForRegisterIntoCompany(ReportId);
+                
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { Success = blnEmailSend, ResponceMessage = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { Success = false, ResponceMessage = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
         #endregion
 
 
@@ -345,6 +1179,21 @@ namespace ServiceCenter.Controllers
             }
         }
         #endregion
+
+        public string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                                                                         viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                                             ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
 
     }
 }

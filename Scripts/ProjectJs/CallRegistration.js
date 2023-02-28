@@ -66,7 +66,10 @@ function LoadCustomerCodeDropDown() {
     });
 }
 
+
+
 $(function () {
+
 
     $('#ItemName').select2({
         placeholder: "Item Name",
@@ -195,6 +198,37 @@ $(function () {
         },
     });
 
+    $('#Area').select2({
+        placeholder: "Area",
+        minimumInputLength: 3,
+        allowClear: true,
+        delay: 250,
+        cache: true,
+        ajax: {
+            url: "/Job/GetAreaList",
+            dataType: 'json',
+            type: 'Get',
+            data: function (params) {
+                var query = {
+                    match: params.term,
+                    page: params.page || 1,
+                    pageSize: params.pageSize || 5
+                }
+                return query;
+            },
+            processResults: function (data, params) {
+                console.log(params);
+                return {
+                    results: data.items,
+                    page: params.page,
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                }
+            },
+        },
+    });
+
 
 })
 
@@ -206,6 +240,16 @@ $(function () {
 
         console.log(customerId);
         LoadCustomerDetailsByCustomerId(customerId);
+
+        if (customerId !== "") {
+            $("#customer_edit").attr("data-Oid", customerId);
+            $("#customer_edit").show();
+        }
+        else {
+            //$("#customer_edit").attr("data-Oid", customerId);
+            $("#customer_edit").hide();
+        }
+        
     });
 
     $('#CallType').on('change', function (e) {
@@ -227,20 +271,59 @@ $(function () {
             GetGeneratedJobNo(servTypeId, callTypeId);
         }
     });
+
+    $('#Area').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var areaId = this.value;
+        
+        LoadPincodeByAreaId(areaId);
+    });
 });
 
-function LoadCustomerDetailsByCustomerId(customerId) {
+function LoadCustomerDetailsByCustomerId(customerId)
+{
+    if (customerId !== "") {
+        $.ajax({
+            type: "POST",
+            url: "/Job/GetCustomerDetailsByCustomerId",
+            data: { CustomerId: customerId },
+            cache: false,
+            success: function (data) {
+                if (data !== null) {
+                    $("#CustomerName").val(data.FirstName + " " + data.LastName);
+                    $("#Address").val(data.Address);
+                    $("#Pincode").val(data.Pincode);
+                    $("#MobileNo").val(data.MobileNo);
+                }
+
+            }
+        });
+    }
+    else {
+        $("#CustomerName").val("");
+        $("#Address").val("");
+        $("#Pincode").val("");
+        $("#MobileNo").val("");
+    }
+    
+}
+
+function LoadPincodeByAreaId(areaId) {
     $.ajax({
         type: "POST",
-        url: "/Job/GetCustomerDetailsByCustomerId",
-        data: { CustomerId: customerId },
+        url: "/Job/GetPincodeByAreaId",
+        data: { AreaId: areaId },
         cache: false,
         success: function (data) {
-            if (data !== null) {
-                $("#CustomerName").val(data.FirstName + " " + data.LastName);
-                $("#Address").val(data.Address);
-                $("#Pincode").val(data.Pincode);
-                $("#MobileNo").val(data.MobileNo);
+            if (data !== null)
+            {
+                if (data.AreaPincode !== "") {
+                    $("#Pincode").val(data.AreaPincode);
+                }
+                else {
+                    toastr["error"]("Please Update Pincode in Area Master");
+                }
+                
             }
 
         }
@@ -367,7 +450,9 @@ function fnCustomerEditModalShow(thisObj) {
 
     var customerId = $(thisObj).attr("data-Oid");
 
-    if (customerId !== "" || customerId !== undefined) {
+
+
+    if (customerId !== "") {
 
         $.ajax({
             type: "POST",
@@ -406,6 +491,9 @@ function fnCustomerEditModalShow(thisObj) {
 
 
 
+    }
+    else {
+        toastr["error"]("Please select customer first");
     }
 
 

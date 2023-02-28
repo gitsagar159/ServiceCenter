@@ -47,6 +47,7 @@ namespace ServiceCenter.Models
         public DateTime? CreatedOn { get; set; }
         public string CreatedOnString { get; set; }
         public bool SendByUser { get; set; }
+        public string UserName { get; set; }
         public int SendByUserId { get; set; }
         public DateTime? SendByUserDateTime { get; set; }
         public string SendByUserDateTimeString { get; set; }
@@ -65,4 +66,52 @@ namespace ServiceCenter.Models
 
         public int RecordCount { get; set; }
     }
+
+    public class CallSummaryDataModel
+    {
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+        public List<UserViseCallCountModel> UserViseCallCountList { get;set;}
+        public List<ItemViseCallCountModel> ItemViseCallCountList { get; set; }
+        public List<ServiceTypeViseCallCountModel> ServiceTypeViseCallCountList { get; set; }
+        public List<CallTypeViseCallCountModel> CallTypeViseCallCountList { get; set; }
+        public string UserViseCallCountListJson { get; set; }
+
+    }
+
+    public class UserViseCallCountModel
+    {
+        public string UserName { get; set; }
+        public int CallCount { get; set; }
+
+    }
+
+    public class ItemViseCallCountModel
+    {
+        public string ItemName { get; set; }
+        public int CallCount { get; set; }
+
+    }
+
+    public class ServiceTypeViseCallCountModel
+    {
+        public string ServiceType { get; set; }
+        public int CallCount { get; set; }
+
+    }
+
+    public class CallTypeViseCallCountModel
+    {
+        public string CallType { get; set; }
+        public int CallCount { get; set; }
+
+    }
+
+    public class AnalyticalReportModel
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
+
+
 }

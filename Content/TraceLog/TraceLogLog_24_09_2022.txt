@@ -1,0 +1,40 @@
+-----------------------------------------------------------------------------
+Date : 24-09-2022 09:44:00
+
+JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : 24-09-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 24-09-2022 09:44:01
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.CallAssignDate : 24-09-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:21:43
+
+JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : 
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:21:43
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.CallAssignDate : 
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:21:54
+
+JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : 
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:21:54
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.CallAssignDate : 
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:23:30
+
+JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : 24-09-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:23:30
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.CallAssignDate : 24-09-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:24:58
+
+JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : 24-09-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 24-09-2022 10:24:58
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.CallAssignDate : 24-09-2022 00:00:00

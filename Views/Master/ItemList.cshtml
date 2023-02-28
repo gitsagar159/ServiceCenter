@@ -21,8 +21,14 @@
                     <div class="row">
                         <div class="col col-md-3">
                             <div class="form-group">
-                                <label class="form-label">Search</label>
+                                <label class="form-label">Item Name</label>
                                 <input type="text" class="form-control" name="ItemName" id="ItemName" placeholder="Item Name">
+                            </div>
+                        </div>
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Item Keyword</label>
+                                <input type="text" class="form-control" name="ItemKeyword" id="ItemKeyword" placeholder="Item Keyword">
                             </div>
                         </div>
                         <div class="col col-md-4 pt-4">
@@ -53,6 +59,7 @@
                         <tr>
                             <th>Sr. No</th>
                             <th>Item Name</th>
+                            <th>Item Keywords</th>
                             <th>Technician</th>
                             <th>Status</th>
                             <th>Operation</th>
@@ -115,6 +122,7 @@
                         "url": "/Master/GetItemList",
                         "data": function (d) {
                             d.ItemName = $("#ItemName").val().trim();
+                            d.ItemKeyword = $("#ItemKeyword").val().trim();
                         },
                         "type": "POST",
                         "dataType": "JSON"
@@ -122,6 +130,7 @@
                     "columns": [
                         { "data": "RowNo", "autoWidth": true },
                         { "data": "ItemName", "autoWidth": true },
+                        { "data": "ItemKeyword", "autoWidth": true },
                         { "data": "Technician", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {

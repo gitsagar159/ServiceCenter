@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Net;
 using System.Net.Sockets;
+using System.Xml;
 
 namespace ServiceCenter.Services
 {
@@ -720,6 +721,33 @@ namespace ServiceCenter.Services
             }
 
             return lstUser;
+        }
+
+        public void ReadXmlFromSP()
+        {
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"XMLReturnTestSP";
+
+                lstParam = new List<SqlParameter>();
+
+                XmlReader Reader = objBaseDAL.ExecuteXmlReader(strQuery, CommandType.StoredProcedure, lstParam);
+
+                while (Reader.Read())
+                {
+                    if ((Reader.NodeType == XmlNodeType.Element) && (Reader.Name == "ItemMaster"))
+                    {
+                        if (Reader.HasAttributes)
+                            Console.WriteLine(Reader.GetAttribute("ItemId") + ": " + Reader.GetAttribute("ItemName"));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            
         }
 
     }

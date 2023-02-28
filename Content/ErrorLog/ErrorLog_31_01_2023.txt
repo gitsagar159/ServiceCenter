@@ -1,0 +1,24 @@
+-----------------------------------------------------------------------------
+Date : 31-01-2023 13:15:48
+
+System.NullReferenceException
+Message : Object reference not set to an instance of an object.
+StackTrace :    at ServiceCenter.Services.CommonService.WriteErrorLog(Exception ex) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 75
+   at ServiceCenter.Services.ReportService.GetCallRegisterDataForCmpanyReport(DateTime FromDate, DateTime ToDate, String CompanyName, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 925
+   at ServiceCenter.Services.ReportService.GenerateCompanyViseReport(DateTime FromDate, DateTime ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 964
+-----------------------------------------------------------------------------
+Date : 31-01-2023 13:17:02
+
+System.NullReferenceException
+Message : Object reference not set to an instance of an object.
+StackTrace :    at ServiceCenter.Services.CommonService.WriteErrorLog(Exception ex) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 75
+   at ServiceCenter.Services.ReportService.GetCallRegisterDataForCmpanyReport(DateTime FromDate, DateTime ToDate, String CompanyName, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 925
+   at ServiceCenter.Services.ReportService.GenerateCompanyViseReport(DateTime FromDate, DateTime ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 964
+-----------------------------------------------------------------------------
+Date : 31-01-2023 13:18:17
+
+System.NullReferenceException
+Message : Object reference not set to an instance of an object.
+StackTrace :    at ServiceCenter.Services.CommonService.WriteErrorLog(Exception ex) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 75
+   at ServiceCenter.Services.ReportService.GetCallRegisterDataForCmpanyReport(DateTime FromDate, DateTime ToDate, String CompanyName, Int32 CallCategory) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 925
+   at ServiceCenter.Services.ReportService.GenerateCompanyViseReport(DateTime FromDate, DateTime ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 964

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Xml;
 
 namespace ServiceCenter.Models.Data
 {
@@ -125,6 +126,45 @@ namespace ServiceCenter.Models.Data
             }
 
             return intLastId;
+        }
+
+        public XmlReader ExecuteXmlReader(string strQuery, CommandType SqlcommandType, List<SqlParameter> lstParams, bool blnLastId = false, string DBName = "ketan2020")
+        {
+            XmlReader reader = null;
+
+            var staticConnection = StaticSqlConnection(DBName);
+
+            var command = new SqlCommand
+            {
+                CommandText = strQuery,
+                CommandType = SqlcommandType,
+                Connection = staticConnection,
+            };
+
+            if (lstParams != null)
+                command.Parameters.AddRange(lstParams.ToArray());
+
+            var objDataAdapter = new SqlDataAdapter();
+            
+
+            try
+            {
+                staticConnection.Open();
+                reader = command.ExecuteXmlReader();
+                staticConnection.Close();
+                return reader;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                staticConnection.Close();
+                command.Dispose();
+            }
+
+            return reader;
         }
     }
 }

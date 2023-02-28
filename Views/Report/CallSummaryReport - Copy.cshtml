@@ -1,0 +1,319 @@
+﻿@model ServiceCenter.Models.CallSummaryDataModel
+@using ServiceCenter.Models
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Pending Call Report</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/uikit.css">
+    <link rel="stylesheet" href="~/Content/assets/css/demo.css">
+
+    <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
+    <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <script src="~/Content/assets/vendor/js/theme-settings.js"></script>
+
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/js/pace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <style>
+        .card-table > thead:first-child > tr:first-child > td, .card-table > thead:first-child > tr:first-child > th, .card-table > tbody:first-child > tr:first-child > td, .card-table > tbody:first-child > tr:first-child > th, .card-table > tfoot:first-child > tr:first-child > td, .card-table > tfoot:first-child > tr:first-child > th {
+            border-top: 0;
+        }
+
+        .table .thead-light th {
+            color: #4E5155;
+            background-color: rgba(24,28,33,0.03);
+            border-color: #f1f1f2;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #f1f1f2;
+        }
+
+        .card-table, .card-table th, .card-table td {
+            border-color: rgba(24,28,33,0.06);
+        }
+
+        .table th {
+            font-weight: 500;
+        }
+
+        .table th, .table td {
+            padding: 0.625rem;
+            vertical-align: top;
+            border-top: 1px solid #f1f1f2;
+        }
+
+        th {
+            display: table-cell;
+            vertical-align: inherit;
+            font-weight: bold;
+            text-align: -internal-center;
+        }
+
+        table {
+            border-collapse: separate;
+            text-indent: initial;
+            border-spacing: 2px;
+        }
+
+        .bg-info {
+            background-color: #28c3d7 !important;
+        }
+
+        .bg-primary {
+            background-color: #26B4FF !important;
+        }
+
+        .bg-danger {
+            background-color: #d9534f !important;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!---<h4 class="font-weight-bold py-3 mb-4">
+        <span class="text-muted font-weight-light">Call Summary /</span> <span id="fromDate"></span> : <span id="todate"></span>
+    </h4>-->
+
+
+    <div class="card mb-2">
+        <div class="card-body" style="padding: 0px 24px 16px 24px">
+            <form role="form" class="form-inline mt-4">
+                <div class="form-group mr-5">
+                    <label class="form-label mr-3">From Date</label>
+                    <input type="text" class="form-control datepicker-features" name="FromDate" id="FromDate" placeholder="From Date">
+                    <small id="FromDate_ToolTip" class="" style="display:none">Enter From Date</small>
+                </div>
+                <div class="form-group mr-5">
+                    <label class="form-label mr-3">To Date</label>
+                    <input type="text" class="form-control datepicker-features" name="ToDate" id="ToDate" placeholder="To Date">
+                    <small id="ToDate_ToolTip" class="" style="display:none">Enter To Date</small>
+                </div>
+
+                <div class="form-group mr-5">
+                    <button type="button" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <h6 class="card-header with-elements">
+                    <div class="card-header-title" style="text-align:center">IW | OW | IN Calls</div>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table card-table" id="tblServiceTypeCalls">
+                        <thead>
+                            <tr>
+                                <th>IW | OW | IN</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <h6 class="card-header with-elements">
+                    <div class="card-header-title" style="text-align:center">Call type Calls</div>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table card-table" id="tblCallTypeCalls">
+                        <thead>
+                            <tr>
+                                <th>Local | Workshop | Out Station</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Sale stats -->
+            <div class="card mb-4">
+                <h6 class="card-header with-elements">
+                    <div class="card-header-title" style="text-align:center">User Vise Calls</div>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table card-table" id="tblUserCalls">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- / Sale stats -->
+        </div>
+        <div class="col-md-6">
+            <!-- Sale stats -->
+            <div class="card mb-4">
+                <h6 class="card-header with-elements">
+                    <div class="card-header-title" style="text-align:center">Item Vise Calls</div>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table card-table" id="tblItemCalls">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- / Sale stats -->
+
+        </div>
+    </div>
+
+    <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/Content/assets/vendor/js/sidenav.js"></script>
+
+    <!-- Libs -->
+    <script src="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <!-- Demo -->
+    <script src="~/Content/assets/js/demo.js"></script>
+    <script src="~/Content/assets/vendor/libs/chartjs/chartjs.js"></script>
+    <script src="~/Scripts/ProjectJs/Common.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            GetCallSummaryReportData("", "");
+
+        });
+
+        $("#btnAdvanceSearch").click(function () {
+
+            var fromdate = $("#FromDate").val();
+            var todate = $("#ToDate").val();
+
+            GetCallSummaryReportData(fromdate, todate);
+
+        });
+
+        function GetCallSummaryReportData(fromDate, toDate) {
+
+
+            var Url = "/Report/GetCallSummaryReportData"
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                data: { FromDate: fromDate, ToDate: toDate },
+                cache: false,
+                success: function (result) {
+                    if (result !== null && result.data !== null) {
+                        $("#fromDate").html(result.data.fromdate);
+                        $("#todate").html(result.data.todate);
+
+                        var serviceTypeCalls = result.data.ServiceTypeViseCallCountList;
+                        var callTypeCalls = result.data.CallTypeViseCallCountList;
+                        var userCalls = result.data.UserViseCallCountList;
+                        var itemCalls = result.data.ItemViseCallCountList;
+
+                        $('#tblServiceTypeCalls').find("tbody").empty();
+
+                        $.each(serviceTypeCalls, function (i, item) {
+
+                            $('#tblServiceTypeCalls').append('<tr><td>' + serviceTypeCalls[i].ServiceType + '</td><td>' + serviceTypeCalls[i].CallCount + '</td></tr>');
+                        });
+
+                        $('#tblCallTypeCalls').find("tbody").empty();
+
+                        $.each(callTypeCalls, function (i, item) {
+
+                            $('#tblCallTypeCalls').append('<tr><td>' + callTypeCalls[i].CallType + '</td><td>' + callTypeCalls[i].CallCount + '</td></tr>');
+                        });
+
+                        $('#tblUserCalls').find("tbody").empty();
+
+                        $.each(userCalls, function (i, item) {
+
+                            $('#tblUserCalls').append('<tr><td>' + userCalls[i].UserName + '</td><td>' + userCalls[i].CallCount + '</td></tr>');
+                        });
+
+                        $('#tblItemCalls').find("tbody").empty();
+
+                        $.each(itemCalls, function (i, item) {
+
+                            $('#tblItemCalls').append('<tr><td>' + itemCalls[i].ItemName + '</td><td>' + itemCalls[i].CallCount + '</td></tr>');
+                        });
+
+                    }
+                    // Ajax call completed successfully
+                    //alert("Form Submited Successfully");
+                },
+                error: function (data) {
+
+                    // Some error in ajax call
+                    alert("some Error");
+                }
+            });
+        }
+
+
+    </script>
+
+</body>
+</html>

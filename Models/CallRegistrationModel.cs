@@ -28,6 +28,7 @@ namespace ServiceCenter.Models
         public long ID { get; set; }
         public string RecipientType { get; set; }
         public DateTime? JobDoneTime { get; set; }
+        public string StringJobDoneTime { get; set; }
         public DateTime? CallAssignDate { get; set; }
         public string StringCallAssignDate { get; set; }
         public string GodownName { get; set; }
@@ -79,6 +80,8 @@ namespace ServiceCenter.Models
         public string TechnicianName { get; set; }
         public string TechnicianType { get; set; }
 
+        public string TechType { get; set; }
+
         public float Amount { get; set; }
         public string SIGN { get; set; }
         public string Warranty { get; set; }
@@ -124,6 +127,8 @@ namespace ServiceCenter.Models
         public string PhoneH { get; set; }
         public string PhoneO { get; set; }
         public bool IsEdit { get; set; }
+
+        public int CallAssingToJobDoneTime { get; set; }
     }
 
     public class CallRegistrationSelect2Data
@@ -143,6 +148,9 @@ namespace ServiceCenter.Models
 
         public string Oids { get; set; }
 
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+
     }
 
     public class ResultList<T>
@@ -161,6 +169,7 @@ namespace ServiceCenter.Models
     {
         public List<Select2> Text { get; set; }
     }
+
 
     public class CustomerMaster : ResponceModel
     {
@@ -238,4 +247,34 @@ namespace ServiceCenter.Models
         public List<BillDetails> BillData { get; set; }
     }
 
+
+    public class InstallationsTable
+    {
+        public int RowNo { get; set; }
+        public int Id { get; set; }
+        public string JobNo { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerNo { get; set; }
+        public string Image { get; set; }
+        public List<string> ImageList { get; set; }
+        public string TechnicianName { get; set; }
+        public string TechnicianNo { get; set; }
+        public string JobDate { get; set; }
+        public string JobTime { get; set; }
+        public string JobDateTime { get; set; }
+        public string Location { get; set; }
+        public string ServTypeName { get; set; }
+    }
+
+    public class ListViewDataModel<T>
+    {
+        public List<T> DataList { get; set; }  //= new List<CallRegistration>();
+
+        public int RecordCount { get; set; }
+    }
+
+    public class InstallationImages
+    {
+        public List<string> ImageList { get; set; }  //= new List<CallRegistration>();
+    }
 }

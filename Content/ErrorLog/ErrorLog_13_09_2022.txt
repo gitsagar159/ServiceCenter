@@ -1,0 +1,24 @@
+-----------------------------------------------------------------------------
+Date : 13-09-2022 12:20:10
+
+System.ArgumentException
+Message : Column 'TechTypeName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.MasterService.GetTechnicianDetailById(String TechnicianId) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\MasterService.cs:line 540
+-----------------------------------------------------------------------------
+Date : 13-09-2022 12:21:48
+
+System.ArgumentException
+Message : Column 'TechTypeName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.MasterService.GetTechnicianDetailById(String TechnicianId) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\MasterService.cs:line 540
+-----------------------------------------------------------------------------
+Date : 13-09-2022 12:28:02
+
+System.ArgumentException
+Message : Column 'TechTypeName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.MasterService.GetTechnicianDetailById(String TechnicianId) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\MasterService.cs:line 540

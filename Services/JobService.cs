@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace ServiceCenter.Services
 {
@@ -86,7 +87,7 @@ namespace ServiceCenter.Services
             return lstCallRegistration;
         }
 
-        public CallRegistrationListDataModel GetCallRegisterListBySP(int SortCol, string SortDir, int PageIndex, int PageSize, string CustomerName, int? CallType, int? ServType, string Technician, string TechnicianType, string MobileNo, bool? CallAttn, bool? JobDone, string JobNo, string CompComplaintNo, string ItemName, bool? Deliver, bool? Canceled, bool? PartPanding, bool? IsCompComplaintNo, DateTime? FromDate, DateTime? ToDate, DateTime? CallAssignFromDate, DateTime? CallAssignToDate, bool? CallBack, bool? WorkShopIN, bool? PaymentPanding, bool? GoAfterCall, bool? RepeatFromTech, string UserName, DateTime? ModifyFromDate, DateTime? ModifyToDate, int CallCategory)
+        public CallRegistrationListDataModel GetCallRegisterListBySP(int SortCol, string SortDir, int PageIndex, int PageSize, string CustomerName, int? CallType, int? ServType, string Technician, string TechnicianType, string MobileNo, string Pincode, bool? CallAttn, bool? JobDone, string JobNo, string SrNo, string CompComplaintNo, string ItemName, string ItemKeyword, bool? Deliver, bool? Canceled, bool? PartPanding, bool? IsCompComplaintNo, DateTime? FromDate, DateTime? ToDate, DateTime? CallAssignFromDate, DateTime? CallAssignToDate, bool? CallBack, bool? WorkShopIN, bool? PaymentPanding, bool? GoAfterCall, bool? RepeatFromTech, string UserName, string FaultType, string FaultDesc, string Area, DateTime? ModifyFromDate, DateTime? ModifyToDate, int CallCategory)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
             objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
@@ -117,11 +118,14 @@ namespace ServiceCenter.Services
                 SqlParameter Technician_Param = !string.IsNullOrEmpty(Technician) ? new SqlParameter() { ParameterName = "@Technician" , Value = Technician  } : new SqlParameter() { ParameterName = "@Technician", Value = DBNull.Value };
                 SqlParameter TechnicianType_Param = !string.IsNullOrEmpty(TechnicianType) ? new SqlParameter() { ParameterName = "@TechnicianType", Value = TechnicianType } : new SqlParameter() { ParameterName = "@TechnicianType", Value = DBNull.Value };
                 SqlParameter MobileNo_Param = !string.IsNullOrEmpty(MobileNo) ? new SqlParameter() { ParameterName = "@MobileNo" , Value = MobileNo  } : new SqlParameter() { ParameterName = "@MobileNo", Value = DBNull.Value };
+                SqlParameter Pincode_Param = !string.IsNullOrEmpty(Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };
                 SqlParameter CallAttn_Param = CallAttn.HasValue ? new SqlParameter() { ParameterName = "@CallAttn" , Value = CallAttn  } : new SqlParameter() { ParameterName = "@CallAttn", Value = DBNull.Value };
                 SqlParameter JobDone_Param = JobDone.HasValue ? new SqlParameter() { ParameterName = "@JobDone" , Value = JobDone  } : new SqlParameter() { ParameterName = "@JobDone", Value = DBNull.Value };
                 SqlParameter JobNo_Param = !string.IsNullOrEmpty(JobNo) ? new SqlParameter() { ParameterName = "@JobNo" , Value = JobNo  } : new SqlParameter() { ParameterName = "@JobNo", Value = DBNull.Value };
+                SqlParameter SrNo_Param = !string.IsNullOrEmpty(SrNo) ? new SqlParameter() { ParameterName = "@SrNo", Value = SrNo } : new SqlParameter() { ParameterName = "@SrNo", Value = DBNull.Value };
                 SqlParameter CompComplaintNo_Param = !string.IsNullOrEmpty(CompComplaintNo) ? new SqlParameter() { ParameterName = "@CompComplaintNo", Value = CompComplaintNo } : new SqlParameter() { ParameterName = "@CompComplaintNo", Value = DBNull.Value };
                 SqlParameter ItemName_Param = !string.IsNullOrEmpty(ItemName) ? new SqlParameter() { ParameterName = "@ItemName" , Value = ItemName  } : new SqlParameter() { ParameterName = "@ItemName", Value = DBNull.Value };
+                SqlParameter ItemKeyword_Param = !string.IsNullOrEmpty(ItemKeyword) ? new SqlParameter() { ParameterName = "@ItemKeyword", Value = ItemKeyword } : new SqlParameter() { ParameterName = "@ItemKeyword", Value = DBNull.Value };
                 SqlParameter Deliver_Param = Deliver.HasValue ? new SqlParameter() { ParameterName = "@Deliver", Value = Deliver } : new SqlParameter() { ParameterName = "@Deliver", Value = DBNull.Value };
                 SqlParameter Canceled_Param = Canceled.HasValue ? new SqlParameter() { ParameterName = "@Canceled" , Value = Canceled  } : new SqlParameter() { ParameterName = "@Canceled", Value = DBNull.Value };
                 SqlParameter PartPanding_Param = PartPanding.HasValue ? new SqlParameter() { ParameterName = "@PartPanding", Value = PartPanding } : new SqlParameter() { ParameterName = "@PartPanding", Value = DBNull.Value };
@@ -140,11 +144,15 @@ namespace ServiceCenter.Services
                 
                 SqlParameter UserName_Param = !string.IsNullOrEmpty(UserName) ? new SqlParameter() { ParameterName = "@UserName", Value = UserName } : new SqlParameter() { ParameterName = "@UserName", Value = DBNull.Value };
 
+                SqlParameter FaultType_Param = !string.IsNullOrEmpty(FaultType) ? new SqlParameter() { ParameterName = "@FaultType", Value = FaultType } : new SqlParameter() { ParameterName = "@FaultType", Value = DBNull.Value };
+                SqlParameter FaultDesc_Param = !string.IsNullOrEmpty(FaultDesc) ? new SqlParameter() { ParameterName = "@FaultDesc", Value = FaultDesc } : new SqlParameter() { ParameterName = "@FaultDesc", Value = DBNull.Value };
+                SqlParameter Area_Param = !string.IsNullOrEmpty(Area) ? new SqlParameter() { ParameterName = "@Area", Value = Area } : new SqlParameter() { ParameterName = "@Area", Value = DBNull.Value };
+
                 SqlParameter ModifyFromDate_Param = ModifyFromDate.HasValue ? new SqlParameter() { ParameterName = "@ModifyFromDate", Value = ModifyFromDate } : new SqlParameter() { ParameterName = "@ModifyFromDate", Value = DBNull.Value };
                 SqlParameter ModifyToDate_Param = ModifyToDate.HasValue ? new SqlParameter() { ParameterName = "@ModifyToDate", Value = ModifyToDate } : new SqlParameter() { ParameterName = "@ModifyToDate", Value = DBNull.Value };
 
-                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, CustomerName_Param, CallType_Param, ServType_Param, Technician_Param, TechnicianType_Param, MobileNo_Param, CallAttn_Param,
-                    JobDone_Param, JobNo_Param, CompComplaintNo_Param, ItemName_Param, Deliver_Param, Canceled_Param, PartPanding_Param, GoAfterCall_Param, RepeatFromTech_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, ModifyFromDate_Param, ModifyToDate_Param, CallCategory_Param, TotalRecordCount_Param });
+                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, CustomerName_Param, CallType_Param, ServType_Param, Technician_Param, TechnicianType_Param, MobileNo_Param, Pincode_Param, CallAttn_Param,
+                    JobDone_Param, JobNo_Param, SrNo_Param, CompComplaintNo_Param, ItemName_Param, ItemKeyword_Param, Deliver_Param, Canceled_Param, PartPanding_Param, GoAfterCall_Param, RepeatFromTech_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, FaultType_Param, FaultDesc_Param, Area_Param, ModifyFromDate_Param, ModifyToDate_Param, CallCategory_Param, TotalRecordCount_Param });
 
                 StringBuilder SBJobListSP = new StringBuilder();
 
@@ -199,8 +207,8 @@ namespace ServiceCenter.Services
 
                             objCallRegistration.RowNo = dtRowItem["RowNo"] != DBNull.Value ? Convert.ToInt64(dtRowItem["RowNo"]) : 0;
                             objCallRegistration.Oid = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
-                            objCallRegistration.StringCreationDate = dtRowItem["CreationDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreationDate"]).ToString("dd'/'MM'/'yyy") : "-";
-                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy") : "-";
+                            objCallRegistration.StringCreationDate = dtRowItem["CreationDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreationDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
                             objCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
                             objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
                             objCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
@@ -240,6 +248,7 @@ namespace ServiceCenter.Services
                             objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
                             objCallRegistration.IsNew = dtRowItem["IsNew"] != DBNull.Value ? Convert.ToString(dtRowItem["IsNew"]) : string.Empty;
                             objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objCallRegistration.ModifyDateString = dtRowItem["ModifyDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ModifyDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
 
                             objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
 
@@ -281,7 +290,7 @@ namespace ServiceCenter.Services
 	                            CR.Address,
                                 CR.Pincode,
 	                            CR.Area AS AreaId,
-	                            A.AreaName AS AreaName, 
+	                            AM.AreaName AS AreaName, 
 	                            CR.MobileNo,
 	                            CR.CallDate,
 	                            CR.ID, 
@@ -329,7 +338,7 @@ namespace ServiceCenter.Services
 	                            CR.ModifyDate
                             From 
 	                            CallRegistration CR 
-	                            LEFT JOIN AREA A on A.Oid = CR.Area
+	                            LEFT JOIN AreaMaster AM on AM.AreaId = CR.Area
 	                            LEFT JOIN ItemMaster IM on IM.ItemId = CR.ItemName
 	                            LEFT JOIN Technician T on T.Oid = CR.Technician
 	                            LEFT JOIN FaultType FT on FT.Oid = CR.FaultType
@@ -791,9 +800,9 @@ namespace ServiceCenter.Services
         public JobDashboard GetDashboardData()
         {
             JobDashboard objJobDashboard = new JobDashboard();
+            objJobDashboard.CurrentYearData = new MonthModel();
+            objJobDashboard.PreviousYearData = new MonthModel();
 
-            JobCharStatesticModel objJobCharStatesticModel = new JobCharStatesticModel();
-            objJobCharStatesticModel.JobChartStatestic = new List<MonthlyJobCountByYear>();
 
             try
             {
@@ -821,20 +830,13 @@ namespace ServiceCenter.Services
                         objJobDashboard.OpenJobCount = dtRow["OpenJobCount"] != DBNull.Value ? Convert.ToInt32(dtRow["OpenJobCount"]) : 0;
                         objJobDashboard.NewJobCount = dtRow["NewJobCount"] != DBNull.Value ? Convert.ToInt32(dtRow["NewJobCount"]) : 0;
                     }
-
-                    /*
                     
 
                     if (CurrentYearJobDataTable.Rows.Count > 0)
                     {
                         DataRow dtRow = CurrentYearJobDataTable.Rows[0];
-
-                        MonthlyJobCountByYear objMonthlyJobCountByYear = new MonthlyJobCountByYear();
-                        objMonthlyJobCountByYear.MonthlyJobCount = new List<MonthModel>();
-
+                        
                         MonthModel objMonthModel = new MonthModel();
-
-                        objMonthlyJobCountByYear.Year = dtRow["Year"] != DBNull.Value ? Convert.ToString(dtRow["Year"]) : "-";
 
                         objMonthModel.January = dtRow["January"] != DBNull.Value ? Convert.ToInt32(dtRow["January"]) : 0;
                         objMonthModel.February = dtRow["February"] != DBNull.Value ? Convert.ToInt32(dtRow["February"]) : 0;
@@ -849,22 +851,15 @@ namespace ServiceCenter.Services
                         objMonthModel.November = dtRow["November"] != DBNull.Value ? Convert.ToInt32(dtRow["November"]) : 0;
                         objMonthModel.December = dtRow["December"] != DBNull.Value ? Convert.ToInt32(dtRow["December"]) : 0;
 
-                        objMonthlyJobCountByYear.MonthlyJobCount.Add(objMonthModel);
-
-                        objJobCharStatesticModel.JobChartStatestic.Add(objMonthlyJobCountByYear);
+                        objJobDashboard.CurrentYearData = objMonthModel;
                     }
 
 
                     if (PreviousYearJobDataTable.Rows.Count > 0)
                     {
                         DataRow dtRow = PreviousYearJobDataTable.Rows[0];
-
-                        MonthlyJobCountByYear objMonthlyJobCountByYear = new MonthlyJobCountByYear();
-                        objMonthlyJobCountByYear.MonthlyJobCount = new List<MonthModel>();
-
+                        
                         MonthModel objMonthModel = new MonthModel();
-
-                        objMonthlyJobCountByYear.Year = dtRow["Year"] != DBNull.Value ? Convert.ToString(dtRow["Year"]) : "-";
 
                         objMonthModel.January = dtRow["January"] != DBNull.Value ? Convert.ToInt32(dtRow["January"]) : 0;
                         objMonthModel.February = dtRow["February"] != DBNull.Value ? Convert.ToInt32(dtRow["February"]) : 0;
@@ -879,91 +874,10 @@ namespace ServiceCenter.Services
                         objMonthModel.November = dtRow["November"] != DBNull.Value ? Convert.ToInt32(dtRow["November"]) : 0;
                         objMonthModel.December = dtRow["December"] != DBNull.Value ? Convert.ToInt32(dtRow["December"]) : 0;
 
-                        objMonthlyJobCountByYear.MonthlyJobCount.Add(objMonthModel);
-                        objJobCharStatesticModel.JobChartStatestic.Add(objMonthlyJobCountByYear);
+                        objJobDashboard.PreviousYearData = objMonthModel;
                     }
-
-                    
-                    Chart objCahrt = new Chart();
-
-                    objCahrt.type = "line";
-                    objCahrt.data = new ChartData();
-                    objCahrt.data.datasets = new List<ChartDataset>();
-
-                    ChartData objChartData = new ChartData();
-
-                    objChartData.labels = new List<string>() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-
-                    List<ChartDataset> lstChartDataset = new List<ChartDataset>();
-                    ChartDataset objCurrentYearChartDataset = new ChartDataset();
-
-                    ChartColorListModel objChartColorListModel = new ChartColorListModel();
-                    List<ChartColor> lstChartColor = objChartColorListModel.GetChartColorList();
-
-                    
-
-                    int intCounter = 0;
-
-                    foreach(MonthlyJobCountByYear dtItem in objJobCharStatesticModel.JobChartStatestic)
-                    {
-                        ChartDataset objChartDataset = new ChartDataset();
-
-                        objChartDataset.label = dtItem.Year;
-                        objChartDataset.data = new List<int>() {
-                            dtItem.MonthlyJobCount[0].January,
-                            dtItem.MonthlyJobCount[0].February,
-                            dtItem.MonthlyJobCount[0].March,
-                            dtItem.MonthlyJobCount[0].April,
-                            dtItem.MonthlyJobCount[0].May,
-                            dtItem.MonthlyJobCount[0].June,
-                            dtItem.MonthlyJobCount[0].July,
-                            dtItem.MonthlyJobCount[0].August,
-                            dtItem.MonthlyJobCount[0].September,
-                            dtItem.MonthlyJobCount[0].October,
-                            dtItem.MonthlyJobCount[0].November,
-                            dtItem.MonthlyJobCount[0].December
-                        };
-
-                        objChartDataset.borderWidth = 1;
-                        objChartDataset.backgroundColor = lstChartColor[0].backgroundColor;
-                        objChartDataset.borderColor = lstChartColor[0].borderColor;
-
-                        objCahrt.data.datasets.Add(objChartDataset);
-
-                        intCounter++;
-
-                    }
-
-                    objCahrt.options = new Options();
-                    objCahrt.options.scales = new Scales();
-
-                    Scales objScales = new Scales();
-
-                    List<Axis> objxAxes = new List<Axis>();
-                    List<Axis> objyAxes = new List<Axis>();
-
-                    GridLines objGridLines = new GridLines() { display = false };
-                    Ticks objTicks = new Ticks() { fontColor = "#aaa" };
-
-                    objxAxes.Add(new Axis() { gridLines = objGridLines, ticks = objTicks });
-                    objyAxes.Add(new Axis() { gridLines = objGridLines, ticks = objTicks });
-
-                    objScales.xAxes = objxAxes;
-                    objScales.yAxes = objyAxes;
-
-                    objCahrt.options.scales = objScales;
-
-                    objCahrt.options.responsive = true;
-                    objCahrt.options.maintainAspectRatio = false;
-
-                    objJobDashboard.JobRecordMonthWiseJSON = JsonConvert.SerializeObject(objCahrt);
-
-                    */
-
-                    objJobDashboard.JobRecordMonthWiseJSON = "";
 
                 }
-
 
             }
             catch (Exception ex)
@@ -1241,46 +1155,85 @@ namespace ServiceCenter.Services
             return objCustomerMaster;
         }
 
-        public List<SelectListItem> GetAreaList(string AreaIdParam = "")
+        public AreaMaster GetPincodeByAreaId(string AreaId)
         {
-            List<SelectListItem> lstArea = new List<SelectListItem>();
+            AreaMaster objAreaMaster = new AreaMaster();
 
             try
             {
                 objBaseDAL = new BaseDAL();
-                strQuery = @"SELECT AreaId, AreaName from AreaMaster WHERE IsActive = 1 AND IsDelete = 0 ORDER BY AreaName ASC";
+
+                strQuery = @"SELECT AreaId, AreaName, AreaPincode FROM AreaMaster WHERE AreaId = @AreaId";
 
                 lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@AreaId",  AreaId),
+                      });
 
                 DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
 
                 if (ResDataTable.Rows.Count > 0)
                 {
-                    SelectListItem objSelectListItem;
+                    DataRow dtRowItem = ResDataTable.Rows[0];
 
-                    string AreaId = string.Empty;
+                    objAreaMaster.AreaId = dtRowItem["AreaId"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaId"]) : string.Empty;
+                    objAreaMaster.AreaName = dtRowItem["AreaName"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaName"]) : string.Empty;
+                    objAreaMaster.AreaPincode = dtRowItem["AreaPincode"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaPincode"]) : string.Empty;
 
-                    foreach (DataRow dtRowItem in ResDataTable.Rows)
-                    {
-                        objSelectListItem = new SelectListItem();
-
-                        AreaId = dtRowItem["AreaId"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaId"]) : string.Empty;
-
-                        objSelectListItem.Value = AreaId;
-                        objSelectListItem.Text = dtRowItem["AreaName"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaName"]) : string.Empty;
-                        objSelectListItem.Selected = AreaId == AreaIdParam ? true : false;
-
-                        lstArea.Add(objSelectListItem);
-                    }
                 }
-
             }
             catch (Exception ex)
             {
                 CommonService.WriteErrorLog(ex);
             }
 
-            return lstArea;
+            return objAreaMaster;
+        }
+
+        public AreaMasterDD GetAreaListByPincode(string Pincode)
+        {
+            AreaMasterDD objAreaMasterDD = new AreaMasterDD();
+            objAreaMasterDD.AreaMasterList = new List<AreaMaster>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"SELECT AreaId, AreaName FROM AreaMaster WHERE IsActive = 1 AND IsDelete = 0 AND AreaPincode = @AreaPincode";
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@AreaPincode", Pincode),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                AreaMaster objAreaMaster;
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objAreaMaster = new AreaMaster();
+
+                        objAreaMaster.AreaId = dtRowItem["AreaId"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaId"]) : string.Empty;
+                        objAreaMaster.AreaName = dtRowItem["AreaName"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaName"]) : string.Empty;
+
+                        objAreaMasterDD.AreaMasterList.Add(objAreaMaster);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objAreaMasterDD;
         }
 
         public List<Select2> GetFaultTypeList(string FaultType)
@@ -1333,6 +1286,65 @@ namespace ServiceCenter.Services
 
                         objSelect2.id = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
                         objSelect2.text = dtRowItem["FaultType"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultType"]) : string.Empty;
+
+                        lstFaultType.Add(objSelect2);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return lstFaultType;
+        }
+        public List<Select2> GetAreaList(string AreaName)
+        {
+            List<Select2> lstFaultType = new List<Select2>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+
+                if (!string.IsNullOrEmpty(AreaName))
+                {
+                    strQuery = @"SELECT 
+	                                AreaId,
+	                                AreaName
+                                FROM 
+	                                AreaMaster
+                                WHERE
+                                    IsActive = 1 AND IsDelete = 0 
+                                    AND AreaName LIKE CONCAT('%', @AreaName,'%')
+                                ORDER BY AreaName ASC";
+
+                }
+                else
+                {
+                    strQuery = @"SELECT AreaId, AreaName FROM AreaMaster WHERE IsActive = 1 AND IsDelete = 0 ORDER BY AreaName ASC";
+                }
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@AreaName", AreaName),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    Select2 objSelect2;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objSelect2 = new Select2();
+
+                        objSelect2.id = dtRowItem["AreaId"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaId"]) : string.Empty;
+                        objSelect2.text = dtRowItem["AreaName"] != DBNull.Value ? Convert.ToString(dtRowItem["AreaName"]) : string.Empty;
 
                         lstFaultType.Add(objSelect2);
                     }
@@ -1594,7 +1606,7 @@ namespace ServiceCenter.Services
                     SqlParameter LastName_Param = !string.IsNullOrEmpty(ObjCustomerMaster.LastName) ? new SqlParameter() { ParameterName = "@LastName", Value = ObjCustomerMaster.LastName } : new SqlParameter() { ParameterName = "@LastName", Value = DBNull.Value };
                     SqlParameter Address_Param = !string.IsNullOrEmpty(ObjCustomerMaster.Address) ? new SqlParameter() { ParameterName = "@Address", Value = ObjCustomerMaster.Address } : new SqlParameter() { ParameterName = "@Address", Value = DBNull.Value };
                     SqlParameter Pincode_Param = !string.IsNullOrEmpty(ObjCustomerMaster.Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = ObjCustomerMaster.Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };
-                    SqlParameter CityId_Param = !string.IsNullOrEmpty(ObjCustomerMaster.CityId) ? new SqlParameter() { ParameterName = "@CityId", Value = ObjCustomerMaster.CityId } : new SqlParameter() { ParameterName = "@CityId", Value = DBNull.Value };
+                    SqlParameter CityId_Param = !string.IsNullOrEmpty(ObjCustomerMaster.CityName) ? new SqlParameter() { ParameterName = "@CityId", Value = ObjCustomerMaster.CityName } : new SqlParameter() { ParameterName = "@CityId", Value = DBNull.Value };
                     SqlParameter PhoneH_Param = !string.IsNullOrEmpty(ObjCustomerMaster.PhoneH) ? new SqlParameter() { ParameterName = "@PhoneH", Value = ObjCustomerMaster.PhoneH } : new SqlParameter() { ParameterName = "@PhoneH", Value = DBNull.Value };
                     SqlParameter PhoneO_Param = !string.IsNullOrEmpty(ObjCustomerMaster.PhoneO) ? new SqlParameter() { ParameterName = "@PhoneO", Value = ObjCustomerMaster.PhoneO } : new SqlParameter() { ParameterName = "@PhoneO", Value = DBNull.Value };
                     SqlParameter MobileNo_Param = !string.IsNullOrEmpty(ObjCustomerMaster.MobileNo) ? new SqlParameter() { ParameterName = "@MobileNo", Value = ObjCustomerMaster.MobileNo } : new SqlParameter() { ParameterName = "@MobileNo", Value = DBNull.Value };
@@ -1644,75 +1656,79 @@ namespace ServiceCenter.Services
             User UserSesionDetail = SessionService.GetUserSessionValues();
             string UserName = UserSesionDetail != null ? UserSesionDetail.UserName : string.Empty;
 
-            strQuery = string.Empty;
-            bool blnJobDone = false;
+            string strTechnicianIdForCall = GetTechnicianByCallId(CallId);
 
-            switch (CheckboxType)
+            if(!string.IsNullOrEmpty(strTechnicianIdForCall))
             {
+                strQuery = string.Empty;
+                bool blnJobDone = false;
 
-                case "CallAttn":
-                    strQuery = "UPDATE CallRegistration set CallAttn = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "JobDone":
-                    strQuery = "UPDATE CallRegistration set JobDone = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    blnJobDone = Value == true ? true : false;
-                    break;
-                case "RepeatFromTech":
-                    strQuery = "UPDATE CallRegistration set RepeatFromTech = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "CallBack":
-                    strQuery = "UPDATE CallRegistration set CallBack = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "WorkShopIN":
-                    strQuery = "UPDATE CallRegistration set WorkShopIN = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "SMSSent":
-                    strQuery = "UPDATE CallRegistration set SMSSent = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "Deliver":
-                    strQuery = "UPDATE CallRegistration set Deliver = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "Canceled":
-                    strQuery = "UPDATE CallRegistration set Canceled = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "GoAfterCall":
-                    strQuery = "UPDATE CallRegistration set GoAfterCall = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-                case "PartPanding":
-                    strQuery = "UPDATE CallRegistration set PartPanding = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
-                    break;
-
-                default:
-                    strQuery = "";
-                    break;
-            }
-
-            try
-            {
-                if(!string.IsNullOrEmpty(strQuery))
+                switch (CheckboxType)
                 {
-                    objBaseDAL = new BaseDAL();
 
-                    lstParam = new List<SqlParameter>();
+                    case "CallAttn":
+                        strQuery = "UPDATE CallRegistration set CallAttn = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "JobDone":
+                        strQuery = "UPDATE CallRegistration set JobDone = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        blnJobDone = Value == true ? true : false;
+                        break;
+                    case "RepeatFromTech":
+                        strQuery = "UPDATE CallRegistration set RepeatFromTech = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "CallBack":
+                        strQuery = "UPDATE CallRegistration set CallBack = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "WorkShopIN":
+                        strQuery = "UPDATE CallRegistration set WorkShopIN = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "SMSSent":
+                        strQuery = "UPDATE CallRegistration set SMSSent = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "Deliver":
+                        strQuery = "UPDATE CallRegistration set Deliver = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "Canceled":
+                        strQuery = "UPDATE CallRegistration set Canceled = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "GoAfterCall":
+                        strQuery = "UPDATE CallRegistration set GoAfterCall = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
+                    case "PartPanding":
+                        strQuery = "UPDATE CallRegistration set PartPanding = @Value, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+                        break;
 
-                    lstParam.AddRange(new SqlParameter[]
-                          {
+                    default:
+                        strQuery = "";
+                        break;
+                }
+
+                try
+                {
+                    if (!string.IsNullOrEmpty(strQuery))
+                    {
+                        objBaseDAL = new BaseDAL();
+
+                        lstParam = new List<SqlParameter>();
+
+                        lstParam.AddRange(new SqlParameter[]
+                              {
                                 new SqlParameter("@CallId", CallId),
                                 new SqlParameter("@Value", Value),
                                 new SqlParameter("@UserName", UserName),
 
-                          });
+                              });
 
-                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+                        objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
 
-                    objResponceModel.Responce = true;
-                    objResponceModel.Message = "Checkbox value updated in database";
-                }
+                        objResponceModel.Responce = true;
+                        objResponceModel.Message = "Checkbox value updated in database";
+                    }
 
-                if (blnJobDone)
-                {
+                    if (blnJobDone)
+                    {
 
-                    strQuery = @"SELECT 
+                        strQuery = @"SELECT 
 	                                CM.FirstName AS CustomerName,
 	                                CM.MobileNo,
                                     CR.JobNo,
@@ -1724,48 +1740,59 @@ namespace ServiceCenter.Services
                                 WHERE 
 	                                CR.Oid = @CallId";
 
-                    lstParam = new List<SqlParameter>();
+                        lstParam = new List<SqlParameter>();
 
-                    lstParam.AddRange(new SqlParameter[]
-                          {
+                        lstParam.AddRange(new SqlParameter[]
+                              {
                                 new SqlParameter("@CallId", CallId),
-                          });
+                              });
 
-                    DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+                        DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
 
-                    JobDetailForSMS objJobDetailForSMS = new JobDetailForSMS();
+                        JobDetailForSMS objJobDetailForSMS = new JobDetailForSMS();
 
-                    if (ResDataTable.Rows.Count > 0)
-                    {
+                        if (ResDataTable.Rows.Count > 0)
+                        {
 
-                        DataRow dtRowItem = ResDataTable.Rows[0];
+                            DataRow dtRowItem = ResDataTable.Rows[0];
 
-                        objJobDetailForSMS.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
-                        objJobDetailForSMS.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
-                        objJobDetailForSMS.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
-                        objJobDetailForSMS.TechnicianName = dtRowItem["TechnicianName"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianName"]) : string.Empty;
+                            objJobDetailForSMS.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objJobDetailForSMS.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objJobDetailForSMS.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objJobDetailForSMS.TechnicianName = dtRowItem["TechnicianName"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianName"]) : string.Empty;
 
+
+                        }
+
+                        APIService objAPIService = new APIService();
+
+                        if (!string.IsNullOrEmpty(objJobDetailForSMS.CustomerName) && !string.IsNullOrEmpty(objJobDetailForSMS.MobileNo))
+                        {
+                            objAPIService.SendSMSForCall(JobSMSSendCategory.CallDone, objJobDetailForSMS);
+                        }
 
                     }
 
-                    APIService objAPIService = new APIService();
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
 
-                    if(!string.IsNullOrEmpty(objJobDetailForSMS.CustomerName) && !string.IsNullOrEmpty(objJobDetailForSMS.MobileNo))
-                    {
-                        objAPIService.SendSMSForCall(JobSMSSendCategory.CallDone, objJobDetailForSMS);
-                    }
-                    
+                    objResponceModel = new ResponceModel();
+                    objResponceModel.Responce = false;
+                    objResponceModel.Message = "Somthing Went Wrong!";
                 }
 
             }
-            catch (Exception ex)
+            else
             {
-                CommonService.WriteErrorLog(ex);
-
                 objResponceModel = new ResponceModel();
                 objResponceModel.Responce = false;
-                objResponceModel.Message = "Somthing Went Wrong!";
+                objResponceModel.Message = "No Technician allocated to call, Please select technicna first";
             }
+
+
+            
 
             return objResponceModel;
 
@@ -2049,7 +2076,7 @@ namespace ServiceCenter.Services
             return objResponceModel;
         }
 
-        public ResponceModel AssignMultipleCallToTechnician(string CallIds, string TechnicianId)
+        public ResponceModel AssignMultipleCallToTechnician(string CallIds, string TechnicianId, DateTime? CallAssignDate)
         {
             ResponceModel objResponceModel = new ResponceModel();
 
@@ -2065,9 +2092,9 @@ namespace ServiceCenter.Services
 
                 SqlParameter CallIds_Param = new SqlParameter() { ParameterName = "@CallIds", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = CallIds };
                 SqlParameter TechnicianId_Param = new SqlParameter() { ParameterName = "@TechnicianId", SqlDbType = SqlDbType.UniqueIdentifier, Direction = ParameterDirection.Input, Value = new Guid(TechnicianId) };
+                SqlParameter CallAssignDate_Param = CallAssignDate.HasValue ? new SqlParameter() { ParameterName = "@CallAssignDate", Value = CallAssignDate.Value } : new SqlParameter() { ParameterName = "@CallAssignDate", Value = DBNull.Value };
 
-
-                lstParam.AddRange(new SqlParameter[] { CallIds_Param, TechnicianId_Param});
+                lstParam.AddRange(new SqlParameter[] { CallIds_Param, TechnicianId_Param, CallAssignDate_Param });
 
                 DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -2234,6 +2261,144 @@ namespace ServiceCenter.Services
             {
                 CommonService.WriteErrorLog(ex);
             }
+        }
+
+        public string GetTechnicianByCallId(string CallId)
+        {
+            string strTechnicianId = string.Empty;
+
+            strQuery = @"SELECT Technician FROM CallRegistration WHERE Oid = @CallId";
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@CallId", CallId),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowItem = ResDataTable.Rows[0];
+
+                    strTechnicianId = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+
+                strTechnicianId = string.Empty;
+            }
+
+            return strTechnicianId;
+
+        }
+
+
+        public ListViewDataModel<InstallationsTable> GetInstallationTableList(int SortCol, string SortDir, int PageIndex, int PageSize, string JobNo, string CustomerName, string CustomerNo, string TechnicianName, DateTime? FromDate, DateTime? ToDate)
+        {
+            ListViewDataModel<InstallationsTable> objListViewDataModel = new ListViewDataModel<InstallationsTable>();
+            objListViewDataModel.DataList = new List<InstallationsTable>();
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"Installation_Images_List";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter SortCol_Param = new SqlParameter() { ParameterName = "@SortCol", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = SortCol };
+                SqlParameter SortDir_Param = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
+                SqlParameter PageIndex_Param = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
+                SqlParameter PageSize_Param = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
+                SqlParameter JobNo_Param = !string.IsNullOrEmpty(JobNo) ? new SqlParameter() { ParameterName = "@JobNo", Value = JobNo } : new SqlParameter() { ParameterName = "@JobNo", Value = DBNull.Value };
+                SqlParameter CustomerName_Param = !string.IsNullOrEmpty(CustomerName) ? new SqlParameter() { ParameterName = "@CustomerName", Value = CustomerName } : new SqlParameter() { ParameterName = "@CustomerName", Value = DBNull.Value };
+                SqlParameter CustomerNo_Param = !string.IsNullOrEmpty(CustomerNo) ? new SqlParameter() { ParameterName = "@CustomerNo", Value = CustomerNo } : new SqlParameter() { ParameterName = "@CustomerNo", Value = DBNull.Value };
+                SqlParameter TechnicianName_Param = !string.IsNullOrEmpty(TechnicianName) ? new SqlParameter() { ParameterName = "@TechnicianName", Value = TechnicianName } : new SqlParameter() { ParameterName = "@TechnicianName", Value = DBNull.Value };
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+                SqlParameter TotalRecordCount_Param = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
+
+                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, JobNo_Param, CustomerName_Param, CustomerNo_Param, TechnicianName_Param, FromDate_Param, ToDate_Param,  TotalRecordCount_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                TotalRecordCount = Convert.ToInt32(TotalRecordCount_Param.Value);
+
+                string InstallationImages = string.Empty;
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    InstallationsTable objInstallationsTable;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objInstallationsTable = new InstallationsTable();
+
+                        objInstallationsTable.RowNo = dtRowItem["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowItem["RowNo"]) : 0;
+                        objInstallationsTable.Id = dtRowItem["Id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Id"]) : 0;
+                        objInstallationsTable.JobDateTime = dtRowItem["JobDateTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["JobDateTime"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : string.Empty;
+                        objInstallationsTable.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                        objInstallationsTable.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                        objInstallationsTable.CustomerNo = dtRowItem["CustomerNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerNo"]) : string.Empty;
+                        //objInstallationsTable.Image = dtRowItem["Image"] != DBNull.Value ? Path.Combine(ImageFolderPath, Convert.ToString(dtRowItem["Image"])) : string.Empty;
+                        InstallationImages = Convert.ToString(dtRowItem["Image"]);
+                        objInstallationsTable.TechnicianName = dtRowItem["TechnicianName"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianName"]) : string.Empty;
+                        objInstallationsTable.TechnicianNo = dtRowItem["TechnicianNo"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianNo"]) : string.Empty;
+                        objInstallationsTable.Location = dtRowItem["Location"] != DBNull.Value ? Convert.ToString(dtRowItem["Location"]) : string.Empty;
+                        objInstallationsTable.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+
+                        if(!string.IsNullOrEmpty(InstallationImages))
+                        {
+                            InstallationImages objInstallationImages = new InstallationImages();
+                            //objInstallationImages.ImageList = new List<string>();
+
+                            try
+                            {
+                                objInstallationImages = JsonConvert.DeserializeObject<InstallationImages>(InstallationImages);
+
+                                string ImageName = string.Empty;
+
+                                if (objInstallationImages != null && objInstallationImages.ImageList.Count > 0)
+                                {
+                                    objInstallationsTable.ImageList = new List<string>();
+
+                                    foreach (string imageItem in objInstallationImages.ImageList)
+                                    {
+                                        ImageName = imageItem;
+                                        objInstallationsTable.ImageList.Add(ImageName);
+                                    }
+                                }
+                                
+                            }
+                            catch (Exception ex)
+                            {
+                                objInstallationsTable.Image = string.Empty;
+                            }
+                        }
+                        
+                        objListViewDataModel.DataList.Add(objInstallationsTable);
+
+                    }
+                    objListViewDataModel.RecordCount = TotalRecordCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objListViewDataModel;
         }
 
     }

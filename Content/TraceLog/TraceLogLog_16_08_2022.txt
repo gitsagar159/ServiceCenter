@@ -1,0 +1,12 @@
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:59:39
+
+JobService_GetBillDetailsByBillNo -> objBillDetails.InvoiceDate : 09-08-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:59:48
+
+Controller_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : 09-08-2022 00:00:00
+-----------------------------------------------------------------------------
+Date : 16-08-2022 20:59:48
+
+JobServicee_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : 09-08-2022 00:00:00

@@ -290,3 +290,19 @@ StackTrace :    at System.Data.SqlClient.SqlConnection.OnError(SqlException exce
 System.ComponentModel.Win32Exception
 Message : The wait operation timed out
 StackTrace : 
+-----------------------------------------------------------------------------
+Date : 04-08-2022 23:03:45
+
+System.ArgumentException
+Message : Column 'CallAssignDate' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.MasterService.GetTechnicianList(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\MasterService.cs:line 452
+-----------------------------------------------------------------------------
+Date : 04-08-2022 23:06:13
+
+System.ArgumentException
+Message : Column 'CityName' does not belong to table .
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.MasterService.GetTechnicianList(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String Keyword) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\MasterService.cs:line 454

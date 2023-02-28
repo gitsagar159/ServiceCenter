@@ -17,7 +17,9 @@ namespace ServiceCenter.Models
         public long OpenJobCount { get; set; }
         public long NewJobCount { get; set; }
 
-        public string JobRecordMonthWiseJSON { get; set; }
+        public MonthModel CurrentYearData { get; set; }
+        public MonthModel PreviousYearData { get; set; }
+
     }
 
 

@@ -1,0 +1,11 @@
+-----------------------------------------------------------------------------
+Date : 08-01-2023 11:55:27
+
+System.Xml.XmlException
+Message : Unexpected end of file while parsing Name has occurred. Line 1, position 2048.
+StackTrace :    at System.Xml.XmlTextReaderImpl.Throw(Exception e)
+   at System.Xml.XmlTextReaderImpl.ParseQName(Boolean isQName, Int32 startOffset, Int32& colonPos)
+   at System.Xml.XmlTextReaderImpl.ParseAttributes()
+   at System.Xml.XmlTextReaderImpl.ParseElement()
+   at System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   at ServiceCenter.Services.UserService.ReadXmlFromSP() in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\UserService.cs:line 737

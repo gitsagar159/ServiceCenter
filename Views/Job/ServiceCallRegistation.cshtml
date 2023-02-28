@@ -32,9 +32,10 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
 
     <style>
-        .required{
+        .required {
             content: " *";
             color: red;
         }
@@ -47,8 +48,8 @@
     <div class="container-fluid flex-grow-1 container-p-y" style="margin-top: -20px !important;">
 
         @*
-        @using (Html.BeginForm("ServiceCallRegistation", "job", FormMethod.Post, new { @id = "frmCallRegistation" }))
-        {*@
+            @using (Html.BeginForm("ServiceCallRegistation", "job", FormMethod.Post, new { @id = "frmCallRegistation" }))
+            {*@
         <form id="frmCallRegistation" name="frmCallRegistation" action="/Job/ServiceCallRegistation/">
             @Html.HiddenFor(m => m.Oid)
             <!-- User Session Start-->
@@ -81,19 +82,8 @@
                         </div>
                         <div class="form-group col-md-1 pt-2">
                             <label class="form-label">&nbsp;</label>
-                            @{
-                                if (string.IsNullOrEmpty(Model.Oid))
-                                {
-                                    <button type="button" class="btn icon-btn btn-outline-primary mt-2" data-toggle="modal" data-target="#customer_modal"><span class="fa fa-plus-circle"></span></button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn icon-btn btn-outline-primary mt-2" data-toggle="modal" data-Oid="@Html.Raw(Model.Customer)" onclick="fnCustomerEditModalShow(this)"><span class="fas fa-pencil-alt "></span></button>
-                                }
-
-                            }
-
-
+                            <button type="button" id="customer_add" class="btn icon-btn btn-outline-primary mt-2 mr-3" data-toggle="modal" data-target="#customer_modal"><span class="fa fa-plus-circle"></span></button>
+                            <button type="button" id="customer_edit" class="btn icon-btn btn-outline-primary mt-2" data-toggle="modal" data-Oid="@Html.Raw(Model.Customer)" onclick="fnCustomerEditModalShow(this)" style="display:none"><span class="fas fa-pencil-alt "></span></button>
                         </div>
                         <div class="form-group col-md-2">
                             <label class="form-label">Customer Name<span class="required"> *</span></label>
@@ -105,12 +95,14 @@
                             @Html.TextBoxFor(m => m.MobileNo, new { @class = "form-control" })
                         </div>
                         <div class="form-group col-md-2">
-                            <label class="form-label">Area</label>
-                            @Html.DropDownListFor(m => m.Area, Model.AreaDD as SelectList, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group col-md-2">
                             <label class="form-label">Address</label>
                             @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Area</label>
+                            @*@Html.DropDownListFor(m => m.Area, Model.AreaDD as SelectList, new { @class = "form-control" })*@
+                            <select id="Area" name="Area" class="form-control control-required"></select>
+                            <small id="Area_ToolTip" class="" style="display:none">Select Area</small>
                         </div>
                         <div class="form-group col-md-1">
                             <label class="form-label">Pincode<span class="required"> *</span></label>
@@ -193,8 +185,9 @@
                             @Html.HiddenFor(m => m.TechnicianName)
                         </div>
                         <div class="form-group col-md-2">
-                            <label class="form-label">Fault Type</label>
-                            <select class="form-control" name="FaultType" id="FaultType" style="width:200px;"></select>
+                            <label class="form-label">Fault Type<span class="required"> *</span></label>
+                            <select class="form-control control-required" name="FaultType" id="FaultType" style="width:200px;"></select>
+                            <small id="FaultType_ToolTip" class="" style="display:none">Enter Fault Type</small>
                         </div>
                         <div class="form-group col-md-2">
                             <label class="form-label">Fault Description <span class="required"> *</span></label>
@@ -338,20 +331,26 @@
 
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="~/Scripts/ProjectJs/CallRegistration.js"></script>
+        <script src="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
         <script>
+
+
+            var areaId = "@Model.Area";
+
+            $('#FaultDesc').tagsinput({ tagClass: 'badge badge-secondary' });
 
             $(document).ready(function ()
             {
                 LoadCustomerCodeDropDown();
 
-                var oid = "@Model.Oid"
+                var oid = "@Model.Oid";
 
                 if (oid !== "")
                 {
                     IsEdit = true;
 
-                    $("#CallType").attr("readonly", true); 
-                    $("#ServType").attr("readonly", true); 
+                    $("#CallType").attr("readonly", true);
+                    $("#ServType").attr("readonly", true);
 
                     var select2JsonData = '@Select2JSONData';
 
@@ -371,18 +370,21 @@
                         var faultTypeOption = new Option(objSelect2Json.Select2FaultType.text, objSelect2Json.Select2FaultType.id, false, false);
                         $('#FaultType').append(faultTypeOption).trigger('change');
 
+                        var areaOption = new Option(objSelect2Json.Select2Area.text, objSelect2Json.Select2Area.id, false, false);
+                        $('#Area').append(areaOption).trigger('change');
+
                     }
 
                     var jobNo = "@strJobNo";
 
                     $("#JobNo").val(jobNo);
-
                 }
                 else {
                     IsEdit = false;
                     setTimeout(function () {
 
                         GetGeneratedJobNo("0", "0");
+
 
                     }, 500);
                 }
