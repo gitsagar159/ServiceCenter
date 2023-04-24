@@ -1,11 +1,15 @@
-﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+﻿@model ServiceCenter.Models.TechnicianReportData
 @using ServiceCenter.Models
 @{
-    Layout = null;
-    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
 
-    decimal TotlaPayment = 0, TotalEstimate = 0, TotalVistingCharge = 0;
-    int TotalCalls = 0;
+    List<TechnicianReport> lstKetanTechnicianCalls = new List<TechnicianReport>();
+    List<TechnicianReport> lstCompanyTechnicianCalls = new List<TechnicianReport>();
+
+    if (Model != null && Model.TechnicianReportList.Count > 0)
+    {
+        lstKetanTechnicianCalls = Model.TechnicianReportList.Where(x => x.TechnicianTypeId.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
+        lstCompanyTechnicianCalls = Model.TechnicianReportList.Where(x => x.TechnicianTypeId.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
+    }
 
 }
 
@@ -14,7 +18,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Go After Call Report</title>
+    <title>Technician Call Report</title>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
@@ -40,6 +44,7 @@
 
     <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
     <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
 
     <!-- Theme settings -->
     <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
@@ -80,6 +85,7 @@
             padding: 0.625rem;
             vertical-align: top;
             border-top: 1px solid #f1f1f2;
+            font-weight: 500;
         }
 
         th {
@@ -112,104 +118,474 @@
 </head>
 <body>
 
+
     <div class="card">
-        <div class="card-header">Daily Go After Calls | From : @Model.FromDate - To : @Model.ToDate</div>
+        <div class="card-header">Go After Call Report | From : @Model.FromDate - To : @Model.ToDate</div>
         <table class="table card-table table-responsive">
-            <thead class="thead-light">
-                <tr>
-                    <th>Job No</th>
-                    <th>Call Date</th>
-                    <th>Call Assing Date</th>
-                    <th>Customer Name</th>
-                    <th>Mobile</th>
-                    <th>Call Type</th>
-                    <th>Service Type</th>
-                    <th>Product Name</th>
-                    <th>Fault Desc.</th>
-                    <th>Call Attend</th>
-                    <th>Part Panding</th>
-                    <th>Call Back</th>
-                    <th>Go After Call</th>
-                    <th>Canceled</th>
-                    <th>Repeat From Technician</th>
-                    <th>Payment Panding</th>
-                    <th>JobDone</th>
-                    <th>Payment ₹</th>
-                    <th>Estimate ₹</th>
-                    <th>Visit Charge ₹</th>
-                </tr>
-            </thead>
             <tbody>
                 @{
-                    if (Model.CallRegistrationList.Count > 0)
+                    if (lstKetanTechnicianCalls.Count > 0)
                     {
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Ketan Technican</th>
+                        </tr>
 
-                        var CallListGroupByTechnician = Model.CallRegistrationList.GroupBy(i => i.Technician)
-                                                    .Select(s => new { Technician = s.Key, Items = s.ToList() })
-                                                    .ToList();
-
-                        foreach (var callItemTechnicianVise in CallListGroupByTechnician)
+                        foreach (var ketanTechCallItem in lstKetanTechnicianCalls)
                         {
 
-                            <tr class="bg-danger">
-                                <th scope="row" colspan="20" style="text-align:center"> @callItemTechnicianVise.Technician</th>
+                            <tr class="bg-info">
+                                <td colspan="9">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(ketanTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianGoAfterCallReport)">@ketanTechCallItem.TechnicianName</a></td>
                             </tr>
+                            <tr>
+                                <td>Go After Calls : @ketanTechCallItem.GoAfterCall</td>
+                                
+                                @*<td>Payment : @ketanTechCallItem.TechnicianPayment</td>
+                                    <td>Expence : @ketanTechCallItem.TechnicianExpence</td>
+                                    <td>Earning : @ketanTechCallItem.TotalEarning</td>*@
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @ketanTechCallItem.Local_Calls_List.LocalCalls</td>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Workshop : @ketanTechCallItem.Workshop_Calls_List.WorkshopCalls</td>
+                                <td colspan="3" style="text-align: center;">Out-Station : @ketanTechCallItem.OutStation_Calls_List.OutStationCalls</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    In Warranty : @ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls <br /><br />
 
-                            if (callItemTechnicianVise.Items.Count > 0)
-                            {
-                                TotlaPayment = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Sum(x => x.Payment) : 0;
-                                TotalEstimate = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Sum(x => x.Estimate) : 0;
-                                TotalVistingCharge = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Sum(x => x.VisitCharge) : 0;
-                                TotalCalls = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Count : 0;
+                                    @{
 
-                                if (TotalCalls > 0)
-                                {
-                                    <tr class="bg-info">
-                                        <th scope="row" colspan="9"><strong>Total Calls</strong> &nbsp; : &nbsp; @TotalCalls  </th>
-                                        <th scope="row" colspan="8"> </th>
-                                        <th scope="row">@TotlaPayment.ToString("0.00")</th>
-                                        <th scope="row">@TotalEstimate.ToString("0.00")</th>
-                                        <th scope="row">@TotalVistingCharge.ToString("0.00")</th>
-                                    </tr>
+                                        var Local_InWarranty_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
 
-                                    foreach (CallRegistration callItem in callItemTechnicianVise.Items)
-                                    {
-
-                                        <tr>
-                                            <td>@callItem.JobNo</td>
-                                            <td>@callItem.StringCreationDate</td>
-                                            <td>@callItem.StringCallAssignDate</td>
-                                            <td>@callItem.CustomerName</td>
-                                            <td>@callItem.MobileNo</td>
-                                            <td>@callItem.CallTypeName</td>
-                                            <td>@callItem.ServTypeName</td>
-                                            <td>@callItem.ItemName</td>
-                                            <td>@callItem.FaultDesc</td>
-                                            <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@callItem.Payment.ToString("0.00")</td>
-                                            <td>@callItem.Estimate.ToString("0.00")</td>
-                                            <td>@callItem.VisitCharge.ToString("0.00")</td>
-                                        </tr>
+                                        <table>
+                                            @foreach (var item in Local_InWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
                                     }
 
-                                }
-                            }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Local_OutWarranty_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+                                        <table>
+                                            @foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Local_Installation_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Local_Installation_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    In Warranty : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Workshop_InWarranty_ItemGroupBy = ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_OutWarranty_ItemGroupBy = ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_Installation_ItemGroupBy = ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Workshop_Installation_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+
+
+                                <td>
+                                    In Warranty : @ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var OutStation_InWarranty_ItemGroupBy = ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_OutWarranty_ItemGroupBy = ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td>
+                                    Installation : @ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_Installation_ItemGroupBy = ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in OutStation_Installation_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName :  "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+
+
+                            </tr>
+
 
                         }
-
                     }
+
+
+
+                    if (lstCompanyTechnicianCalls.Count > 0)
+                    {
+                        <tr>
+                            <td scope="row" colspan="9"></td>
+                        </tr>
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Company Technican</th>
+                        </tr>
+                        <tr>
+                            <td scope="row" colspan="9"></td>
+                        </tr>
+
+                        foreach (var companyTechCallItem in lstCompanyTechnicianCalls)
+                        {
+
+                            <tr class="bg-info">
+                                <td colspan="9">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(companyTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianGoAfterCallReport)">@companyTechCallItem.TechnicianName</a></td>
+                            </tr>
+                            <tr>
+                                <td>Go After Calls : @companyTechCallItem.GoAfterCall</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @companyTechCallItem.Local_Calls_List.LocalCalls</td>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Workshop : @companyTechCallItem.Workshop_Calls_List.WorkshopCalls</td>
+                                <td colspan="3" style="text-align: center;">Out-Station : @companyTechCallItem.OutStation_Calls_List.OutStationCalls</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    In Warranty : @companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Local_InWarranty_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Local_InWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+
+                                </td>
+                                <td>
+                                    Out Warranty : @companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Local_OutWarranty_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+                                        <table>
+                                            @foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count);</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Local_Installation_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Local_Installation_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    In Warranty : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Workshop_InWarranty_ItemGroupBy = companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_OutWarranty_ItemGroupBy = companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_Installation_ItemGroupBy = companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in Workshop_Installation_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+
+
+                                <td>
+                                    In Warranty : @companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var OutStation_InWarranty_ItemGroupBy = companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_OutWarranty_ItemGroupBy = companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+                                <td>
+                                    Installation : @companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_Installation_ItemGroupBy = companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        <table>
+                                            @foreach (var item in OutStation_Installation_ItemGroupBy)
+                                            {
+                                                <tr>
+                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
+                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </td>
+
+                            </tr>
+
+
+                        }
+                    }
+
                 }
 
             </tbody>
         </table>
     </div>
+
+
 
     <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
@@ -220,5 +596,6 @@
 
     <!-- Demo -->
     <script src="~/Content/assets/js/demo.js"></script>
+    <script src="~/Scripts/ProjectJs/Common.js"></script>
 </body>
 </html>

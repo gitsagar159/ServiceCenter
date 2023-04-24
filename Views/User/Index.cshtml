@@ -104,8 +104,10 @@
             var ChId = "";
             var ValidPrint = 0;
             var srNo = 1;
+            var table;
+
             function bindDatatable() {
-                var table = $('#tblUser').DataTable({
+                table = $('#tblUser').DataTable({
                     "paging": true,
                     "pageLength": $('#PageSize').val(),
                     "bLengthChange": false,
@@ -135,10 +137,10 @@
                             mRender: function (data, type, full) {
 
                                 if (full.IsActive === true) {
-                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-success'>Active</a>";
+                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-success' onclick='fnUpdateUserStatus(" + full.id + "," + full.IsActive + ")'>Active</a>";
                                 }
                                 else {
-                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-danger'>In Active</a>";
+                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-danger' onclick='fnUpdateUserStatus(" + full.id + "," + full.IsActive + ")'>In Active</a>";
                                 }
                             }
                         },
@@ -160,6 +162,31 @@
                 $("#btnAdvanceSearch").click(function (event) {
                     event.preventDefault();
                     table.search(this.value).draw();
+                });
+
+            }
+
+            function fnUpdateUserStatus(userId, status) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/User/UpdateUserStatusById",
+                    data: { UserId: userId, Status: status },
+                    cache: false,
+                    success: function (result) {
+                        if (result !== null) {
+                            var resObj = result.data;
+
+                            if (resObj.Responce) {
+                                toastr["success"](resObj.Message);
+                            }
+                            else {
+                                toastr["error"](resObj.Message);
+                            }
+
+                            table.draw();
+                        }
+                    }
                 });
 
             }

@@ -12,6 +12,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Web;
 using System.Web.WebSockets;
@@ -165,11 +166,11 @@ namespace ServiceCenter.Services
                         ObjCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
                         ObjCallRegistration.DealRef = dtRowItem["DealRef"] != DBNull.Value ? Convert.ToString(dtRowItem["DealRef"]) : string.Empty;
                         ObjCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
-                        ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]) : (DateTime?)null;
+                        ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                         ObjCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
                         ObjCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
                         ObjCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
-                        ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]) : (DateTime?)null;
+                        ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                         ObjCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
                         ObjCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
                         ObjCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
@@ -400,11 +401,11 @@ namespace ServiceCenter.Services
                         ObjCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
                         ObjCallRegistration.DealRef = dtRowItem["DealRef"] != DBNull.Value ? Convert.ToString(dtRowItem["DealRef"]) : string.Empty;
                         ObjCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
-                        ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]) : (DateTime?)null;
+                        ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                         ObjCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
                         ObjCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
                         ObjCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
-                        ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]) : (DateTime?)null;
+                        ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                         ObjCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
                         ObjCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
                         ObjCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
@@ -734,11 +735,11 @@ namespace ServiceCenter.Services
                         ObjCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
                         ObjCallRegistration.DealRef = dtRowItem["DealRef"] != DBNull.Value ? Convert.ToString(dtRowItem["DealRef"]) : string.Empty;
                         ObjCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
-                        ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]) : (DateTime?)null;
+                        ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                         ObjCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
                         ObjCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
                         ObjCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
-                        ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]) : (DateTime?)null;
+                        ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                         ObjCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
                         ObjCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
                         ObjCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
@@ -1118,8 +1119,7 @@ namespace ServiceCenter.Services
             return objDailyMailReportStatusListDataModel;
         }
 
-
-
+        /*
         public CallRegistrationListDataModel PendingCallReport(DateTime? FromDate, DateTime? ToDate)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
@@ -1167,6 +1167,7 @@ namespace ServiceCenter.Services
                             objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
                             objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
                             objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
                             objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
                             objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
                             objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
@@ -1209,7 +1210,335 @@ namespace ServiceCenter.Services
             }
             return objCallRegistrationListDataModel;
         }
-        public CallRegistrationListDataModel TechnicianCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        */
+
+        public TechnicianReportData PendingCallReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"PendingCallReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+                TechnicianExpense objTechnicianExpense;
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objCallRegistration.AC_Service = dtRowItem["AC_Service"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["AC_Service"]) : false;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+
+                        foreach (DataRow dtRowItem in CallDatesTable.Rows)
+                        {
+                            objTechnicianExpense = new TechnicianExpense();
+
+                            objTechnicianExpense.id = dtRowItem["id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["id"]) : 0;
+                            objTechnicianExpense.techid = dtRowItem["techid"] != DBNull.Value ? Convert.ToString(dtRowItem["techid"]) : String.Empty;
+                            objTechnicianExpense.type = dtRowItem["type"] != DBNull.Value ? Convert.ToInt32(dtRowItem["type"]) : 0;
+                            objTechnicianExpense.amount = dtRowItem["amount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["amount"]) : 0;
+                            objTechnicianExpense.date = dtRowItem["date"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["date"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : String.Empty;
+
+                            TechnicianExpenseList.Add(objTechnicianExpense);
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 2)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[2];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallRegistrationList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = CallRegistrationList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+                                objTechnicianReport.TechnicianVisitCharge = groupCallItem.CallItem.Sum(p => p.VisitCharge);
+                                objTechnicianReport.TechnicianEstimate = groupCallItem.CallItem.Sum(p => p.Estimate);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true && x.Canceled == false).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                objTechnicianReport.Ac_Service = groupCallItem.CallItem.Where(x => x.AC_Service == true).ToList().Count;
+
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.WorkShopIN = groupCallItem.CallItem.Where(x => x.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Workshop_Pending = objTechnicianReport.CallBackCalls - objTechnicianReport.WorkShopIN;
+
+                                objTechnicianReport.Local_Calls_List = new TechnicianLocal();
+
+                                objTechnicianReport.Local_Calls_List.LocalCalls = groupCallItem.CallItem.Where(l => l.CallType == 0).ToList().Count;
+
+                                // Local Calls Data -> In-Warranty
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Local Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Local Calls Data -> Installation
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Workshop Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Workshop Calls Data -> Installation
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+
+                                objTechnicianReport.OutStation_Calls_List = new TechnicianOutStation();
+                                objTechnicianReport.OutStation_Calls_List.OutStationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2).ToList().Count;
+
+                                //OutStation Calls -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // OutStation Calls Data -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // OutStation Calls Data -> Installation
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianReportData;
+        }
+
+        public CallRegistrationListDataModel PendingCallListByTechnicianId(DateTime? FromDate, DateTime? ToDate, string TechnicianId)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
             objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
@@ -1221,14 +1550,15 @@ namespace ServiceCenter.Services
             {
                 objBaseDAL = new BaseDAL();
 
-                strQuery = @"DailyTechnicianCallReport";
+                strQuery = @"PendingCallByTechnicianId";
 
                 lstParam = new List<SqlParameter>();
 
                 SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
                 SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+                SqlParameter TechnicianId_Param = !string.IsNullOrEmpty(TechnicianId) ? new SqlParameter() { ParameterName = "@TechnicianId", Value = TechnicianId } : new SqlParameter() { ParameterName = "@TechnicianId", Value = DBNull.Value };
 
-                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param, TechnicianId_Param });
 
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -1256,6 +1586,7 @@ namespace ServiceCenter.Services
                             objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
                             objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
                             objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
                             objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
                             objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
                             objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
@@ -1298,6 +1629,896 @@ namespace ServiceCenter.Services
             }
             return objCallRegistrationListDataModel;
         }
+        public CallRegistrationListDataModel CallDetails(DateTime? FromDate, DateTime? ToDate, string TechnicianId, int ReportType)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CallDetails";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+                SqlParameter ReportType_Param =  new SqlParameter() { ParameterName = "@ReportType", Value = ReportType };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param, ReportType_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> lstCallRegistration = new List<CallRegistration>();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                       
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            lstCallRegistration.Add(objCallRegistration);
+
+                        }
+                    }
+                }
+
+                if(lstCallRegistration.Count > 0)
+                {
+                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x=>x.TechnicianId == TechnicianId).ToList();
+                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.TechnicianId == TechnicianId).ToList().Count;
+                }
+
+                objCallRegistrationListDataModel.FromDate = FromDate.HasValue ? FromDate.Value.ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                objCallRegistrationListDataModel.ToDate = ToDate.HasValue ? ToDate.Value.ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+
+        public TechnicianReportData TechnicianCallSummaryReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyTechnicianCallReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+                TechnicianExpense objTechnicianExpense;
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objCallRegistration.AC_Service = dtRowItem["AC_Service"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["AC_Service"]) : false;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+
+                        foreach (DataRow dtRowItem in CallDatesTable.Rows)
+                        {
+                            objTechnicianExpense = new TechnicianExpense();
+
+                            objTechnicianExpense.id = dtRowItem["id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["id"]) : 0;
+                            objTechnicianExpense.techid = dtRowItem["techid"] != DBNull.Value ? Convert.ToString(dtRowItem["techid"]) : String.Empty;
+                            objTechnicianExpense.type = dtRowItem["type"] != DBNull.Value ? Convert.ToInt32(dtRowItem["type"]) : 0;
+                            objTechnicianExpense.amount = dtRowItem["amount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["amount"]) : 0;
+                            objTechnicianExpense.date = dtRowItem["date"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["date"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : String.Empty;
+
+                            TechnicianExpenseList.Add(objTechnicianExpense);
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 2)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[2];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if(CallRegistrationList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = CallRegistrationList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if(CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+                                
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p=>p.Payment);
+                                objTechnicianReport.TechnicianVisitCharge = groupCallItem.CallItem.Sum(p => p.VisitCharge);
+                                objTechnicianReport.TechnicianEstimate = groupCallItem.CallItem.Sum(p => p.Estimate);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x=>x.JobDone == true && x.Canceled == false).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                objTechnicianReport.Ac_Service = groupCallItem.CallItem.Where(x => x.AC_Service == true).ToList().Count;
+
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.WorkShopIN = groupCallItem.CallItem.Where(x => x.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Workshop_Pending = objTechnicianReport.CallBackCalls - objTechnicianReport.WorkShopIN;
+
+                                objTechnicianReport.Local_Calls_List = new TechnicianLocal();
+
+                                objTechnicianReport.Local_Calls_List.LocalCalls = groupCallItem.CallItem.Where(l => l.CallType == 0).ToList().Count;
+
+                                // Local Calls Data -> In-Warranty
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Local Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Local Calls Data -> Installation
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Workshop Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+                                
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Workshop Calls Data -> Installation
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+
+                                objTechnicianReport.OutStation_Calls_List = new TechnicianOutStation();
+                                objTechnicianReport.OutStation_Calls_List.OutStationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2).ToList().Count;
+
+                                //OutStation Calls -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // OutStation Calls Data -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // OutStation Calls Data -> Installation
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+
+                        
+                    }
+
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianReportData;
+        }
+
+        public DailyRegisterCallReportData DailyCallRegister(DateTime? FromDate, DateTime? ToDate)
+        {
+            DailyRegisterCallReportData objDailyRegisterCallReportData = new DailyRegisterCallReportData();
+            objDailyRegisterCallReportData.DailyRegisterCallReport = new DailyRegisterCallReport();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyCallRegisterReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                DailyRegisterCallReport objDailyRegisterCallReport = new DailyRegisterCallReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objDailyRegisterCallReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objDailyRegisterCallReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallRegistrationList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        objDailyRegisterCallReport = new DailyRegisterCallReport();
+
+                        objDailyRegisterCallReport.Local_Calls_List = new TechnicianLocal();
+
+                        objDailyRegisterCallReport.Local_Calls_List.LocalCalls = CallRegistrationList.Where(l => l.CallType == 0).ToList().Count;
+
+                        // Local Calls Data -> In-Warranty
+                        objDailyRegisterCallReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                        objDailyRegisterCallReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = CallRegistrationList.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+                        objDailyRegisterCallReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                        {
+                            objDailyRegisterCallReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+                        // Local Calls Data -> Out-Warranty
+
+                        objDailyRegisterCallReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                        objDailyRegisterCallReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = CallRegistrationList.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+                        objDailyRegisterCallReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                        {
+                            objDailyRegisterCallReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+
+                        // Local Calls Data -> Installation
+
+                        objDailyRegisterCallReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                        objDailyRegisterCallReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = CallRegistrationList.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+                        objDailyRegisterCallReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                        {
+                            objDailyRegisterCallReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+
+
+                        objDailyRegisterCallReport.Workshop_Calls_List = new TechnicianWorkshop();
+                        objDailyRegisterCallReport.Workshop_Calls_List.WorkshopCalls = CallRegistrationList.Where(l => l.CallType == 1).ToList().Count;
+
+                        //Workshop Calls -> Out-Warranty
+
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = CallRegistrationList.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                        {
+                            objDailyRegisterCallReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+                        // Workshop Calls Data -> Out-Warranty
+
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = CallRegistrationList.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                        {
+                            objDailyRegisterCallReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+
+                        // Workshop Calls Data -> Installation
+
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = CallRegistrationList.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+                        objDailyRegisterCallReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                        {
+                            objDailyRegisterCallReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+
+
+
+                        objDailyRegisterCallReport.OutStation_Calls_List = new TechnicianOutStation();
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStationCalls = CallRegistrationList.Where(l => l.CallType == 2).ToList().Count;
+
+                        //OutStation Calls -> Out-Warranty
+
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = CallRegistrationList.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                        {
+                            objDailyRegisterCallReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+                        // OutStation Calls Data -> Out-Warranty
+
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = CallRegistrationList.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                        {
+                            objDailyRegisterCallReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+
+                        // OutStation Calls Data -> Installation
+
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = CallRegistrationList.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+                        objDailyRegisterCallReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                        foreach (var item in CallRegistrationList.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                        {
+                            objDailyRegisterCallReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                        }
+
+
+                        objDailyRegisterCallReportData.DailyRegisterCallReport = objDailyRegisterCallReport;
+
+
+                    }
+
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objDailyRegisterCallReportData;
+        }
+
+
+        public TechnicianReportData WorkshopPendingWorkReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"WorkshopPendingReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallRegistrationList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = CallRegistrationList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.WorkShopIN = groupCallItem.CallItem.Where(x => x.WorkShopIN == true).ToList().Count;
+
+
+                                objTechnicianReport.Local_Calls_List = new TechnicianLocal();
+
+                                objTechnicianReport.Local_Calls_List.LocalCalls = groupCallItem.CallItem.Where(l => l.CallType == 0).ToList().Count;
+
+                                // Local Calls Data -> In-Warranty
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Local Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Local Calls Data -> Installation
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Workshop Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Workshop Calls Data -> Installation
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+
+                                objTechnicianReport.OutStation_Calls_List = new TechnicianOutStation();
+                                objTechnicianReport.OutStation_Calls_List.OutStationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2).ToList().Count;
+
+                                //OutStation Calls -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // OutStation Calls Data -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // OutStation Calls Data -> Installation
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+
+
+                    }
+
+
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianReportData;
+        }
+
         public CallRegistrationListDataModel WorkshopInOutCallReportDaily(DateTime? FromDate, DateTime? ToDate)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
@@ -1345,6 +2566,7 @@ namespace ServiceCenter.Services
                             objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
                             objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
                             objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
                             objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
                             objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
                             objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
@@ -1355,6 +2577,100 @@ namespace ServiceCenter.Services
                             objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
                             objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
                             objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+
+                        }
+                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCallRegistrationListDataModel;
+        }
+
+        public CallRegistrationListDataModel WorkshopInOutCallListByTechnicianId(DateTime? FromDate, DateTime? ToDate, string TechnicianId)
+        {
+            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
+            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"WorkshopInOutCallListByTechnicianId";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+                SqlParameter TechnicianId_Param = !string.IsNullOrEmpty(TechnicianId) ? new SqlParameter() { ParameterName = "@TechnicianId", Value = TechnicianId } : new SqlParameter() { ParameterName = "@TechnicianId", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param, TechnicianId_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
                             objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
                             objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
                             objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
@@ -1479,12 +2795,9 @@ namespace ServiceCenter.Services
             }
             return objCallRegistrationListDataModel;
         }
-        public CallRegistrationListDataModel PartPendingCallReport(DateTime? FromDate, DateTime? ToDate)
+        public PartPendingCallReport PartPendingCallReport(DateTime? FromDate, DateTime? ToDate)
         {
-            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
-            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
-
-            int TotalRecordCount = 0;
+            PartPendingCallReport objPartPendingCallReport = new PartPendingCallReport();
 
             try
             {
@@ -1500,6 +2813,8 @@ namespace ServiceCenter.Services
                 lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
 
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
 
                 if (ResDataSet.Tables.Count > 0)
                 {
@@ -1542,11 +2857,12 @@ namespace ServiceCenter.Services
                             objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
                             objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
                             objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
+                            objCallRegistration.ModifyDateString = dtRowItem["ModifyDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ModifyDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
 
-                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+                            CallRegistrationList.Add(objCallRegistration);
 
                         }
-                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
                     }
 
                     if (ResDataSet.Tables.Count > 1)
@@ -1554,9 +2870,36 @@ namespace ServiceCenter.Services
                         DataTable CallDatesTable = ResDataSet.Tables[1];
                         DataRow dtRowItem = CallDatesTable.Rows[0];
 
-                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
-                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objPartPendingCallReport.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objPartPendingCallReport.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
                     }
+
+                    if(CallRegistrationList.Count > 0)
+                    {
+                        objPartPendingCallReport.KetanPartPendingItems = new List<PartPendingItems>();
+
+                        
+
+                        foreach (var item in CallRegistrationList.Where(x => x.TechType == "f44522c2-be0c-420a-a380-25946ec7a1cb").ToList().GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList())
+                        {
+                            objPartPendingCallReport.KetanPartPendingItems.Add(new PartPendingItems() { ItemName = item.ItemName, ItemCount = item.ItemNameList.Count, PartPendingCallList = item.ItemNameList });
+                        }
+
+                        
+
+                        objPartPendingCallReport.CompanyPartPendingItems = new List<PartPendingItems>();
+
+                        foreach (var item in CallRegistrationList.Where(x => x.TechType == "167e36ac-a5be-44d8-be93-f3a229b9025a").ToList().GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList())
+                        {
+                            objPartPendingCallReport.KetanPartPendingItems.Add(new PartPendingItems() { ItemName = item.ItemName, ItemCount = item.ItemNameList.Count, PartPendingCallList = item.ItemNameList });
+                        }
+
+                    }
+
                 }
 
 
@@ -1565,7 +2908,7 @@ namespace ServiceCenter.Services
             {
                 CommonService.WriteErrorLog(ex);
             }
-            return objCallRegistrationListDataModel;
+            return objPartPendingCallReport;
         }
         public CallRegistrationListDataModel PaymentPendingReportDaily(DateTime? FromDate, DateTime? ToDate)
         {
@@ -1686,61 +3029,507 @@ namespace ServiceCenter.Services
             }
             return objCallRegistrationListDataModel;
         }
-        public CallRegistrationListDataModel CancelCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        public TechnicianReportData CancelCallReportDaily(DateTime? FromDate, DateTime? ToDate)
         {
-            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
-            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
 
             try
             {
-                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+                objBaseDAL = new BaseDAL();
 
-                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+                strQuery = @"CancleCallReport";
 
+                lstParam = new List<SqlParameter>();
 
-                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
                 {
-                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x => x.Canceled == true).ToList();
-                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.Canceled == true).ToList().Count();
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallRegistrationList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = CallRegistrationList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.WorkShopIN = groupCallItem.CallItem.Where(x => x.WorkShopIN == true).ToList().Count;
+
+
+                                objTechnicianReport.Local_Calls_List = new TechnicianLocal();
+
+                                objTechnicianReport.Local_Calls_List.LocalCalls = groupCallItem.CallItem.Where(l => l.CallType == 0).ToList().Count;
+
+                                // Local Calls Data -> In-Warranty
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Local Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Local Calls Data -> Installation
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Workshop Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Workshop Calls Data -> Installation
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+
+                                objTechnicianReport.OutStation_Calls_List = new TechnicianOutStation();
+                                objTechnicianReport.OutStation_Calls_List.OutStationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2).ToList().Count;
+
+                                //OutStation Calls -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // OutStation Calls Data -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // OutStation Calls Data -> Installation
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+
+
+                    }
+
+
+
+
                 }
 
-                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
-                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
 
             }
             catch (Exception ex)
             {
                 CommonService.WriteErrorLog(ex);
             }
-            return objCallRegistrationListDataModel;
+            return objTechnicianReportData;
         }
-        public CallRegistrationListDataModel GoAfterCallReportDaily(DateTime? FromDate, DateTime? ToDate)
+        public TechnicianReportData GoAfterCallReportDaily(DateTime? FromDate, DateTime? ToDate)
         {
-            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
-            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
 
             try
             {
-                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
+                objBaseDAL = new BaseDAL();
 
-                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
+                strQuery = @"GoAfterCallReport";
 
+                lstParam = new List<SqlParameter>();
 
-                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
                 {
-                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x =>x.GoAfterCall == true).ToList();
-                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.GoAfterCall == true).ToList().Count();
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallRegistrationList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = CallRegistrationList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.GoAfterCall = groupCallItem.CallItem.Where(x => x.GoAfterCall == true).ToList().Count;
+
+
+                                objTechnicianReport.Local_Calls_List = new TechnicianLocal();
+
+                                objTechnicianReport.Local_Calls_List.LocalCalls = groupCallItem.CallItem.Where(l => l.CallType == 0).ToList().Count;
+
+                                // Local Calls Data -> In-Warranty
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Local Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Local Calls Data -> Installation
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Workshop Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Workshop Calls Data -> Installation
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+
+
+                                objTechnicianReport.OutStation_Calls_List = new TechnicianOutStation();
+                                objTechnicianReport.OutStation_Calls_List.OutStationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2).ToList().Count;
+
+                                //OutStation Calls -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // OutStation Calls Data -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // OutStation Calls Data -> Installation
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+
+
+                    }
+
+
+
+
                 }
 
-                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
-                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
 
             }
             catch (Exception ex)
             {
                 CommonService.WriteErrorLog(ex);
             }
-            return objCallRegistrationListDataModel;
+            return objTechnicianReportData;
         }
         public CallRegistrationListDataModel CollationReportDaily(DateTime? FromDate, DateTime? ToDate)
         {
@@ -1770,19 +3559,16 @@ namespace ServiceCenter.Services
             }
             return objCallRegistrationListDataModel;
         }
-        public CallRegistrationListDataModel CallAssignToJobDoneTimingReportDaily(DateTime? FromDate, DateTime? ToDate)
+        public TechnicianJobTimeReportData TechnicianJobTimeReport(DateTime? FromDate, DateTime? ToDate)
         {
-            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
-            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
-
-
-            int TotalRecordCount = 0;
+            TechnicianJobTimeReportData objTechnicianJobTimeReportData = new TechnicianJobTimeReportData();
+            objTechnicianJobTimeReportData.TechnicianJobTimeReportList = new List<TechnicianJobTimeReport>();
 
             try
             {
                 objBaseDAL = new BaseDAL();
 
-                strQuery = @"CallAssingToJobDoneTimingReport";
+                strQuery = @"TechnicianJobTimeReport";
 
                 lstParam = new List<SqlParameter>();
 
@@ -1800,12 +3586,90 @@ namespace ServiceCenter.Services
 
                     if (CallRegisterListTable.Rows.Count > 0)
                     {
-                        CallRegistration objCallRegistration;
+                        TechnicianJobTimeReport objTechnicianJobTimeReport;
 
                         foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
                         {
-                            objCallRegistration = new CallRegistration();
+                            objTechnicianJobTimeReport = new TechnicianJobTimeReport();
 
+
+                            objTechnicianJobTimeReport.Oid = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
+                            objTechnicianJobTimeReport.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objTechnicianJobTimeReport.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objTechnicianJobTimeReport.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objTechnicianJobTimeReport.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objTechnicianJobTimeReport.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objTechnicianJobTimeReport.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objTechnicianJobTimeReport.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objTechnicianJobTimeReport.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objTechnicianJobTimeReport.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objTechnicianJobTimeReport.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objTechnicianJobTimeReport.TechnicianName = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objTechnicianJobTimeReport.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objTechnicianJobTimeReport.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objTechnicianJobTimeReport.JobStartDateTime = dtRowItem["JobStartDateTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["JobStartDateTime"]) : (DateTime?)null;
+                            objTechnicianJobTimeReport.JobEndDateTime = dtRowItem["JobEndDateTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["JobEndDateTime"]) : (DateTime?)null;
+                            objTechnicianJobTimeReport.TotalJobTime = dtRowItem["TotalJobTime"] != DBNull.Value ? Convert.ToString(dtRowItem["TotalJobTime"]) : "-";
+
+
+                            objTechnicianJobTimeReportData.TechnicianJobTimeReportList.Add(objTechnicianJobTimeReport);
+
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianJobTimeReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianJobTimeReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianJobTimeReportData;
+        }
+        public CallBackReceivedOrPendingModel CallbackReceivedOrPendingReportDaily(DateTime? FromDate, DateTime? ToDate)
+        {
+            CallBackReceivedOrPendingModel objCallBackReceivedOrPendingModel = new CallBackReceivedOrPendingModel();
+            objCallBackReceivedOrPendingModel.CallBackList = new List<CallRegistration>();
+            objCallBackReceivedOrPendingModel.WorkshopInList = new List<CallRegistration>();
+            objCallBackReceivedOrPendingModel.DeliverList = new List<CallRegistration>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CallBackReceivedAndWorkshopInOut";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallBackTable = ResDataSet.Tables[0];
+                    DataTable WorkshopInTable = ResDataSet.Tables[1];
+                    DataTable DeliverTable = ResDataSet.Tables[2];
+                    CallRegistration objCallRegistration;
+
+                    if (CallBackTable.Rows.Count > 0)
+                    {
+                        foreach (DataRow dtRowItem in CallBackTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
 
                             objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
                             objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
@@ -1836,22 +3700,113 @@ namespace ServiceCenter.Services
                             objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
                             objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
 
-                            objCallRegistration.StringJobDoneTime = dtRowItem["JobDoneTime"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["JobDoneTime"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
-                            objCallRegistration.CallAssingToJobDoneTime = dtRowItem["CallAssingToJobDoneTime"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallAssingToJobDoneTime"]) : 0;
 
-                            objCallRegistrationListDataModel.CallRegistrationList.Add(objCallRegistration);
+                            objCallBackReceivedOrPendingModel.CallBackList.Add(objCallRegistration);
 
                         }
-                        objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
                     }
 
-                    if (ResDataSet.Tables.Count > 1)
+                    if (WorkshopInTable.Rows.Count > 0)
                     {
-                        DataTable CallDatesTable = ResDataSet.Tables[1];
+                        foreach (DataRow dtRowItem in WorkshopInTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+
+                            objCallBackReceivedOrPendingModel.WorkshopInList.Add(objCallRegistration);
+
+                        }
+                    }
+
+                    if (DeliverTable.Rows.Count > 0)
+                    {
+                        foreach (DataRow dtRowItem in DeliverTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.WorkShopIN = dtRowItem["WorkShopIN"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["WorkShopIN"]) : false;
+                            objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+
+                            objCallBackReceivedOrPendingModel.DeliverList.Add(objCallRegistration);
+
+                        }
+                    }
+
+
+                    List<CallRegistration> WorkshopInAndDeliverList = objCallBackReceivedOrPendingModel.WorkshopInList;
+                    WorkshopInAndDeliverList.AddRange(objCallBackReceivedOrPendingModel.DeliverList);
+
+
+                    objCallBackReceivedOrPendingModel.PendingList = objCallBackReceivedOrPendingModel.CallBackList.Except(WorkshopInAndDeliverList).ToList();
+
+
+                    if (ResDataSet.Tables.Count > 2)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[3];
                         DataRow dtRowItem = CallDatesTable.Rows[0];
 
-                        objCallRegistrationListDataModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
-                        objCallRegistrationListDataModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallBackReceivedOrPendingModel.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objCallBackReceivedOrPendingModel.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
                     }
                 }
 
@@ -1861,35 +3816,7 @@ namespace ServiceCenter.Services
             {
                 CommonService.WriteErrorLog(ex);
             }
-            return objCallRegistrationListDataModel;
-        }
-        public CallRegistrationListDataModel CallbackReceivedOrPendingReportDaily(DateTime? FromDate, DateTime? ToDate)
-        {
-            CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
-            objCallRegistrationListDataModel.CallRegistrationList = new List<CallRegistration>();
-
-            try
-            {
-                CallRegistrationListDataModel objDailyCallListForReport = GetDailyCallListForReport(FromDate, ToDate);
-
-                List<CallRegistration> lstCallRegistration = objDailyCallListForReport != null && objDailyCallListForReport.CallRegistrationList.Count > 0 ? objDailyCallListForReport.CallRegistrationList : new List<CallRegistration>();
-
-
-                if (lstCallRegistration != null && lstCallRegistration.Count > 0)
-                {
-                    objCallRegistrationListDataModel.CallRegistrationList = lstCallRegistration.Where(x => x.GoAfterCall == true).ToList();
-                    objCallRegistrationListDataModel.RecordCount = lstCallRegistration.Where(x => x.GoAfterCall == true).ToList().Count();
-                }
-
-                objCallRegistrationListDataModel.FromDate = objDailyCallListForReport.FromDate;
-                objCallRegistrationListDataModel.ToDate = objDailyCallListForReport.ToDate;
-
-            }
-            catch (Exception ex)
-            {
-                CommonService.WriteErrorLog(ex);
-            }
-            return objCallRegistrationListDataModel;
+            return objCallBackReceivedOrPendingModel;
         }
         public CallSummaryDataModel CallSummaryReport(DateTime? FromDate, DateTime? ToDate)
         {
@@ -2093,6 +4020,656 @@ namespace ServiceCenter.Services
                 CommonService.WriteErrorLog(ex);
             }
             return objCallRegistrationListDataModel;
+        }
+
+        public TechnicianReportData CallBackReceivedAndWorkshopInOut(DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CallBackReceivedAndWorkshopInOut";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallBackList = new List<CallRegistration>();
+                List<CallRegistration> CallBackWorkshoInList = new List<CallRegistration>();
+                List<CallRegistration> CallBackWorkshopPendingList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+                TechnicianExpense objTechnicianExpense;
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            CallBackList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallBackWorkshopPinding = ResDataSet.Tables[1];
+
+                        if (CallBackWorkshopPinding.Rows.Count > 0)
+                        {
+                            CallRegistration objCallRegistration;
+
+                            foreach (DataRow dtRowItem in CallBackWorkshopPinding.Rows)
+                            {
+                                objCallRegistration = new CallRegistration();
+
+
+                                objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                                objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                                objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                                objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                                objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                                objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                                objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                                objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                                objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                                objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                                objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                                objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                                objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                                objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                                objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                                objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                                objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                                objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                                objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                                objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                                objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                                objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                                objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                                objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                                objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                                objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                                objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                                CallBackWorkshoInList.Add(objCallRegistration);
+
+                            }
+
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 2)
+                    {
+                        DataTable CallBackWorkshopIn = ResDataSet.Tables[2];
+
+                        if (CallBackWorkshopIn.Rows.Count > 0)
+                        {
+                            CallRegistration objCallRegistration;
+
+                            foreach (DataRow dtRowItem in CallBackWorkshopIn.Rows)
+                            {
+                                objCallRegistration = new CallRegistration();
+
+
+                                objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                                objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                                objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                                objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                                objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                                objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                                objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                                objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                                objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                                objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                                objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                                objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                                objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                                objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                                objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                                objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                                objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                                objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                                objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                                objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                                objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                                objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                                objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                                objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                                objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                                objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                                objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                                CallBackWorkshopPendingList.Add(objCallRegistration);
+
+                            }
+
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 3)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[3];
+
+                        foreach (DataRow dtRowItem in CallDatesTable.Rows)
+                        {
+                            objTechnicianExpense = new TechnicianExpense();
+
+                            objTechnicianExpense.id = dtRowItem["id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["id"]) : 0;
+                            objTechnicianExpense.techid = dtRowItem["techid"] != DBNull.Value ? Convert.ToString(dtRowItem["techid"]) : String.Empty;
+                            objTechnicianExpense.type = dtRowItem["type"] != DBNull.Value ? Convert.ToInt32(dtRowItem["type"]) : 0;
+                            objTechnicianExpense.amount = dtRowItem["amount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["amount"]) : 0;
+                            objTechnicianExpense.date = dtRowItem["date"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["date"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : String.Empty;
+
+                            TechnicianExpenseList.Add(objTechnicianExpense);
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 4)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[4];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallBackList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = CallBackList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+                                objTechnicianReport.TechnicianVisitCharge = groupCallItem.CallItem.Sum(p => p.VisitCharge);
+                                objTechnicianReport.TechnicianEstimate = groupCallItem.CallItem.Sum(p => p.Estimate);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                //objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                //objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true && x.Canceled == false).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                //objTechnicianReport.Ac_Service = groupCallItem.CallItem.Where(x => x.AC_Service == true).ToList().Count;
+
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.WorkShopIN = groupCallItem.CallItem.Where(x => x.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Workshop_Pending = objTechnicianReport.CallBackCalls - objTechnicianReport.WorkShopIN;
+
+                                /*
+                                objTechnicianReport.Local_Calls_List = new TechnicianLocal();
+
+                                objTechnicianReport.Local_Calls_List.LocalCalls = groupCallItem.CallItem.Where(l => l.CallType == 0).ToList().Count;
+
+                                // Local Calls Data -> In-Warranty
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCallBackCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallBack == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCallBackRecivedCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallBack == true && l.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCallBackPendingCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallBack == true && l.WorkShopIN == false).ToList().Count;
+
+                                //objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                //objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyWorkshop_DeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // Local Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCallBackCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.CallBack == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCallBackRecivedCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.CallBack == true && l.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCallBackPendingCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1 && l.CallBack == true && l.WorkShopIN == false).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // Local Calls Data -> Installation
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+
+                                objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                */
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCallBackCalls = groupCallItem.CallItem.Where(l => l.ServType == 0 && l.CallBack == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCallBackRecivedCalls = CallBackWorkshoInList.Where(l => l.TechnicianId == groupCallItem.TechnicianId && l.ServType == 0).ToList().Count();
+                                    //groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.CallBack == true && l.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCallBackPendingCalls = CallBackWorkshopPendingList.Where(l => l.TechnicianId == groupCallItem.TechnicianId && l.ServType == 0).ToList().Count();
+                                //groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.CallBack == true && l.WorkShopIN == false).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Deliver == false && l.JobDone == true).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_DeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Deliver == true).ToList().Count;
+                                /*
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+                                */
+                                // Workshop Calls Data -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCallBackCalls = groupCallItem.CallItem.Where(l => l.ServType == 1 && l.CallBack == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCallBackRecivedCalls = CallBackWorkshoInList.Where(l => l.TechnicianId == groupCallItem.TechnicianId && l.ServType == 1).ToList().Count();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCallBackPendingCalls = CallBackWorkshopPendingList.Where(l => l.TechnicianId == groupCallItem.TechnicianId && l.ServType == 1).ToList().Count();
+                                //groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.CallBack == true && l.WorkShopIN == true).ToList().Count;
+
+                                //groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.CallBack == true && l.WorkShopIN == false).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Deliver == false && l.JobDone == true).ToList().Count;
+                                //objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_DeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Deliver == true).ToList().Count;
+
+                                /*
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+                                */
+
+                                /*
+                                // Workshop Calls Data -> Installation
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2 && l.Deliver == true && l.JobDone == true).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                */
+
+
+                                /*
+
+                                objTechnicianReport.OutStation_Calls_List = new TechnicianOutStation();
+                                objTechnicianReport.OutStation_Calls_List.OutStationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2).ToList().Count;
+
+                                //OutStation Calls -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCallBackCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.CallBack == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCallBackRecivedCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.CallBack == true && l.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCallBackPendingCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0 && l.CallBack == true && l.WorkShopIN == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 0).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                // OutStation Calls Data -> Out-Warranty
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCallBackCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.CallBack == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCallBackRecivedCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.CallBack == true && l.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCallBackPendingCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1 && l.CallBack == true && l.WorkShopIN == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 1).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+
+                                // OutStation Calls Data -> Installation
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls = new TechnicianInstallation();
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.JobDone == true && l.Canceled == false).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.AC_Service == true).ToList().Count;
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+
+                                objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems = new List<TechnicianItems>();
+                                foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 2 && l.ServType == 2).ToList())
+                                {
+                                    objTechnicianReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.Add(new TechnicianItems() { ItemName = item.ItemName });
+                                }
+
+                                */
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianReportData;
+        }
+
+
+        public TechnicianReportData WorkshopReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"WorkshopReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> WorkshopCallList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+                TechnicianExpense objTechnicianExpense;
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+
+                            WorkshopCallList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+
+                        foreach (DataRow dtRowItem in CallDatesTable.Rows)
+                        {
+                            objTechnicianExpense = new TechnicianExpense();
+
+                            objTechnicianExpense.id = dtRowItem["id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["id"]) : 0;
+                            objTechnicianExpense.techid = dtRowItem["techid"] != DBNull.Value ? Convert.ToString(dtRowItem["techid"]) : String.Empty;
+                            objTechnicianExpense.type = dtRowItem["type"] != DBNull.Value ? Convert.ToInt32(dtRowItem["type"]) : 0;
+                            objTechnicianExpense.amount = dtRowItem["amount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["amount"]) : 0;
+                            objTechnicianExpense.date = dtRowItem["date"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["date"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : String.Empty;
+
+                            TechnicianExpenseList.Add(objTechnicianExpense);
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 2)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[2];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (WorkshopCallList.Count > 0)
+                    {
+                        List<TechnicianItems> ItemList;
+
+                        var CallListGroupByTechnician = WorkshopCallList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+                                objTechnicianReport.TechnicianVisitCharge = groupCallItem.CallItem.Sum(p => p.VisitCharge);
+                                objTechnicianReport.TechnicianEstimate = groupCallItem.CallItem.Sum(p => p.Estimate);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true && x.Canceled == false).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+
+
+
+                                objTechnicianReport.Workshop_Calls_List = new TechnicianWorkshop();
+                                objTechnicianReport.Workshop_Calls_List.WorkshopCalls = groupCallItem.CallItem.Where(l => l.CallType == 1).ToList().Count;
+
+                                //Workshop Calls -> In-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls = new TechnicianInWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.JobDone == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.JobDone == true && l.Deliver == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_DeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 0 && l.JobDone == true && l.Deliver == true).ToList().Count;
+
+                                //Workshop Calls -> Out-Warranty
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls = new TechnicianOutWarranty();
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1).ToList().Count;
+
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.Canceled == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyJobDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.JobDone == true).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.JobDone == true && l.Deliver == false).ToList().Count;
+                                objTechnicianReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_DeliverCalls = groupCallItem.CallItem.Where(l => l.CallType == 1 && l.ServType == 1 && l.JobDone == true && l.Deliver == true).ToList().Count;
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianReportData;
         }
 
         #region CompanyEmail

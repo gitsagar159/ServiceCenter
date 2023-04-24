@@ -350,3 +350,109 @@ function fnDeleteIPAddress(ipAddressId) {
     }
 
 }
+
+
+
+
+function InsertUpdatePart() {
+
+    var blnIsValidForm = true;
+
+    var PartName = $("#PartName").val();
+    var PartKeyword = $("#PartKeyword").val();
+
+    if (PartName === "") {
+        $("#PartName").addClass("is-invalid");
+        $("#PartNameToolTip").addClass("invalid-feedback").html("Please Enter Part Name");
+
+        blnIsValidForm = false;
+    }
+    else {
+
+        var objPart = new Object();
+
+        objPart.PartId = $("#PartId").val();
+        objPart.PartName = PartName;
+        objPart.Company = $("#Company").val();
+        objPart.PartKeyword = PartKeyword;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Master/PartForm",
+            data: JSON.stringify(objPart),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log("return");
+                if (result.data !== null) {
+                    if (result.data.Responce === false) {
+                        $("#PartName").addClass("is-invalid");
+                        $("#PartNameToolTip").addClass("invalid-feedback").html(result.data.Message);
+                        blnIsValidForm = false;
+                    }
+                    else {
+                        toastr["success"](result.data.Message);
+
+                        setTimeout(function () {
+                            window.location.href = "/Master/PartList";
+                        }, 2000);
+
+                    }
+                }
+            },
+            failure: function (result) {
+                alert(data.responseText);
+            },
+            error: function (result) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    return blnIsValidForm;
+}
+
+
+function fnDeletePart(PartId) {
+
+    if (confirm('Are you sure you want to Delete Part?')) {
+
+        if (PartId === "") {
+
+            toastr["error"]("Something went wrong");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/Master/DeletePartById",
+                data: { PartId: PartId },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log("return");
+                    if (result.data !== null) {
+                        if (result.data.Responce === false) {
+                            toastr["error"](result.data.Message);
+                        }
+                        else {
+                            toastr["success"](result.data.Message);
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    }
+                },
+                failure: function (result) {
+                    console.log(result.responseText);
+                },
+                error: function (result) {
+                    console.log(result.responseText);
+                }
+            });
+        }
+    }
+
+}

@@ -120,7 +120,7 @@
 
 
     <div class="card">
-        <div class="card-header">Cancle Call Report | From : @Model.FromDate - To : @Model.ToDate</div>
+        <div class="card-header">Workshop Pending Report | From : @Model.FromDate - To : @Model.ToDate</div>
         <table class="table card-table table-responsive">
             <tbody>
                 @{
@@ -134,14 +134,14 @@
                         {
 
                             <tr class="bg-info">
-                                <td colspan="9">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(ketanTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianCancleCallReport)">@ketanTechCallItem.TechnicianName</a></td>
+                                <td colspan="9">Technician Name : @ketanTechCallItem.TechnicianName</td>
                             </tr>
                             <tr>
-                                <td>Cancle Calls : @ketanTechCallItem.CancelCalls</td>
-
+                                <td>Workshop Pending Calls : @ketanTechCallItem.WorkShopIN</td>
+                                <td>Part Pending : @ketanTechCallItem.PartPanding</td>
                                 @*<td>Payment : @ketanTechCallItem.TechnicianPayment</td>
-                                    <td>Expence : @ketanTechCallItem.TechnicianExpence</td>
-                                    <td>Earning : @ketanTechCallItem.TotalEarning</td>*@
+                                <td>Expence : @ketanTechCallItem.TechnicianExpence</td>
+                                <td>Earning : @ketanTechCallItem.TotalEarning</td>*@
                             </tr>
                             <tr>
                                 <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @ketanTechCallItem.Local_Calls_List.LocalCalls</td>
@@ -158,15 +158,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Local_InWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Local_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
 
@@ -179,15 +174,11 @@
                                         var Local_OutWarranty_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
-                                        <table>
-                                            @foreach (var item in Local_OutWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+
+                                        foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
 
@@ -201,15 +192,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Local_Installation_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Local_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -223,15 +209,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Workshop_InWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -244,15 +225,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Workshop_OutWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -265,15 +241,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Workshop_Installation_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Workshop_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -288,15 +259,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in OutStation_InWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -309,15 +275,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in OutStation_OutWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -330,19 +291,13 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in OutStation_Installation_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in OutStation_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
-
 
                             </tr>
 
@@ -368,11 +323,16 @@
                         {
 
                             <tr class="bg-info">
-                                <td colspan="9">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(companyTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianCancleCallReport)">@companyTechCallItem.TechnicianName</a></td>
+                                <td colspan="9">Technician Name : @companyTechCallItem.TechnicianName</td>
                             </tr>
                             <tr>
+                                <td>Assign Calls : @companyTechCallItem.AssignCalls</td>
+                                <td>Done Calls : @companyTechCallItem.DoneCalls</td>
                                 <td>Cancle Calls : @companyTechCallItem.CancelCalls</td>
-
+                                <td>Call Back Calls : @companyTechCallItem.CallBackCalls</td>
+                                <td>Payment : @companyTechCallItem.TechnicianPayment</td>
+                                <td>Expence : @companyTechCallItem.TechnicianExpence</td>
+                                <td>Earning : @companyTechCallItem.TotalEarning</td>
                             </tr>
                             <tr>
                                 <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @companyTechCallItem.Local_Calls_List.LocalCalls</td>
@@ -389,15 +349,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Local_InWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Local_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
 
@@ -410,15 +365,11 @@
                                         var Local_OutWarranty_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
-                                        <table>
-                                            @foreach (var item in Local_OutWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count);</td>
-                                                </tr>
-                                            }
-                                        </table>
+
+                                        foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
 
@@ -432,15 +383,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Local_Installation_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Local_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -454,15 +400,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Workshop_InWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -475,15 +416,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Workshop_OutWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -496,15 +432,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in Workshop_Installation_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in Workshop_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -519,15 +450,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in OutStation_InWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -540,15 +466,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in OutStation_OutWarranty_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>
@@ -561,15 +482,10 @@
                                             .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
                                             .ToList();
 
-                                        <table>
-                                            @foreach (var item in OutStation_Installation_ItemGroupBy)
-                                            {
-                                                <tr>
-                                                    <td>@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item")</td>
-                                                    <td>@Html.Raw(item.ItemNameList.Count)</td>
-                                                </tr>
-                                            }
-                                        </table>
+                                        foreach (var item in OutStation_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count);<br />
+                                        }
                                     }
 
                                 </td>

@@ -493,6 +493,124 @@ namespace ServiceCenter.Controllers
 
         #endregion
 
+        #region Part
+
+        public ActionResult PartList()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetPartList()
+        {
+            try
+            {
+                // Initialization.
+                var draw = Request.Form.GetValues("draw")?[0];
+                var order = Convert.ToInt32(Request.Form.GetValues("order[0][column]")?[0]);
+                var orderDir = Request.Form.GetValues("order[0][dir]")?[0];
+                var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
+                var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
+
+                string PartName = string.Empty, PartKeyword = string.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["PartName"]))
+                    PartName = Convert.ToString(Request.Form["PartName"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["PartKeyword"]))
+                    PartKeyword = Convert.ToString(Request.Form["PartKeyword"]).Trim();
+
+
+                PartMasterListDataModel objPartMasterListDataModel = new PartMasterListDataModel();
+
+                MasterService objJobService = new MasterService();
+                objPartMasterListDataModel = objJobService.GetPartList(order, orderDir.ToUpper(), startRec, pageSize, PartName, PartKeyword);
+
+
+                return Json(new
+                {
+                    draw = Convert.ToInt32(draw),
+                    recordsTotal = objPartMasterListDataModel.RecordCount,
+                    recordsFiltered = objPartMasterListDataModel.RecordCount,
+                    data = objPartMasterListDataModel.PartMasterList
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
+            }
+        }
+
+        public ActionResult PartForm()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
+            PartMaster objPartMaster = new PartMaster();
+
+            string PartId = Request["PartId"];
+
+            if (!string.IsNullOrEmpty(PartId))
+            {
+                MasterService obMasterService = new MasterService();
+                objPartMaster = obMasterService.GetPartDetails(PartId);
+            }
+
+
+            return View(objPartMaster);
+        }
+
+        [HttpPost]
+        public JsonResult PartForm(PartMaster objPartMaster)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.InsertUpdatePart(objPartMaster);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult DeletePartById(string PartId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.DeletePartById(PartId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult UpdatePartStatusById(string PartId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService objMasterService = new MasterService();
+            objResponceModel = objMasterService.UpdatePartStatusById(PartId, Status);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        #endregion
+
 
         #region Test Print PDF 
 

@@ -62,12 +62,14 @@ namespace ServiceCenter.Controllers
                 string strAreaId = Convert.ToString(callRegistration.Area);
                 string strFaultTypeId = Convert.ToString(callRegistration.FaultType);
                 string strPaymentBy = Convert.ToString(callRegistration.PaymentBy);
+                string FreeServiceCardType = Convert.ToString(callRegistration.FreeServiceCardType);
 
 
                 callRegistration.ServiceTypeDD = ServiceTypeDD(strServType);
                 callRegistration.CallTypeDD = CallTypeDD(strCallType);
                 //callRegistration.AreaDD = AreaDD(strAreaId);
                 callRegistration.PaymentByDD = PaymentByDD(strPaymentBy);
+                callRegistration.FreeServiceCardTypeDD = BindFreeServiceCardTypeDD(FreeServiceCardType);
 
             }
             else
@@ -78,6 +80,7 @@ namespace ServiceCenter.Controllers
                 callRegistration.CallTypeDD = CallTypeDD();
                 //callRegistration.AreaDD = AreaDD();
                 callRegistration.PaymentByDD = PaymentByDD();
+                callRegistration.FreeServiceCardTypeDD = BindFreeServiceCardTypeDD();
             }
 
             return View(callRegistration);
@@ -87,7 +90,8 @@ namespace ServiceCenter.Controllers
         public ActionResult ServiceCallRegistation(CallRegistration callRegistration)
         {
 
-            CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.CallAssignDate : " + callRegistration.CallAssignDate);
+            CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.EstimateDate : " + callRegistration.EstimateDate);
+            CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.EstConfirmDate : " + callRegistration.EstConfirmDate);
 
             string ErrorMsg = string.Empty;
 
@@ -98,6 +102,8 @@ namespace ServiceCenter.Controllers
                     .Select(e => e.ErrorMessage));
 
                 ErrorMsg = message;
+
+                CommonService.WriteTraceLog("Invalid ModelState : " + ErrorMsg);
 
             }
 
@@ -143,6 +149,34 @@ namespace ServiceCenter.Controllers
             {
                 return false;
             }
+        }
+
+        public ActionResult EraseChargesBetweenTwoDatesForm()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            if (UserSesionDetail.Role != 1) { return RedirectToAction("Logout", "Login"); }
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult EraseChargesBetweenTwoDates(string FromDate, string ToDate)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(FromDate) ? DateTime.ParseExact(FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(ToDate) ? DateTime.ParseExact(ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            JobService obJobService = new JobService();
+            objResponceModel = obJobService.EraseChargesBetweenTwoDates(DtFromDate, DtToDate);
+
+            return Json(new { data = objResponceModel });
         }
 
         #endregion
@@ -715,6 +749,22 @@ namespace ServiceCenter.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetPartList(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstCustomerCode = new List<Select2>();
+
+            JobService objJobService = new JobService();
+            lstCustomerCode = objJobService.GetPartList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstCustomerCode,
+                total_count = lstCustomerCode.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Dropdwon Binding
@@ -757,6 +807,21 @@ namespace ServiceCenter.Controllers
             ListItem.Add(new SelectListItem { Text = "Cash", Value = "0", Selected = SelectedValue == "0" ? true : false });
             ListItem.Add(new SelectListItem { Text = "Check", Value = "1", Selected = SelectedValue == "1" ? true : false });
             ListItem.Add(new SelectListItem { Text = "Online", Value = "2", Selected = SelectedValue == "2" ? true : false });
+
+            return new SelectList(ListItem, "Value", "Text");
+        }
+
+        public SelectList BindFreeServiceCardTypeDD(string SelectedValue = "")
+        {
+
+            List<SelectListItem> ListItem = new List<SelectListItem>();
+
+            ListItem.Add(new SelectListItem { Text = "Select", Value = "0", Selected = SelectedValue == "0" ? true : false });
+
+            JobService objJobService = new JobService();
+            List<SelectListItem> DatabaseListItem = objJobService.GetFreeServiceCardTypeData(SelectedValue);
+
+            ListItem.AddRange(DatabaseListItem);
 
             return new SelectList(ListItem, "Value", "Text");
         }

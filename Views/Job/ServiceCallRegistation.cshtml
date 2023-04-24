@@ -154,10 +154,12 @@
                         <div class="form-group col-md-2">
                             <label class="form-label">Estimate Date</label>
                             @Html.TextBoxFor(m => m.EstimateDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control datepicker-features" })
+                            @*<input type="text" id="EstimateDate" name="EstimateDate" class="form-control datepicker-features" />*@
                         </div>
                         <div class="form-group col-md-2">
                             <label class="form-label">Estimate Confirm Date</label>
                             @Html.TextBoxFor(m => m.EstConfirmDate, "{0:dd'/'MM'/'yyyy}", new { @class = "form-control datepicker-features" })
+                            @*<input type="text" id="EstConfirmDate" name="EstConfirmDate" class="form-control datepicker-features" />*@
                         </div>
                         <div class="form-group col-md-2">
                             <label class="form-label">Payment</label>
@@ -217,6 +219,10 @@
                         <div class="form-group col-md-6">
                             <div class="form-row form-inline" style="padding: 4% 0 0 4%;">
                                 <label class="custom-control custom-checkbox mr-sm-2 mb-2 mb-sm-0">
+                                    @Html.CheckBoxFor(m => m.AC_Service, new { @class = "custom-control-input" })
+                                    <span class="custom-control-label">AC Service</span>
+                                </label>
+                                <label class="custom-control custom-checkbox mr-sm-2 mb-2 mb-sm-0">
                                     @Html.CheckBoxFor(m => m.CallAttn, new { @class = "custom-control-input" })
                                     <span class="custom-control-label">Call Attn</span>
                                 </label>
@@ -245,7 +251,16 @@
 
                     </div>
                     <div class="form-row">
-
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Part</label>
+                            <select class="form-control" name="PartId" id="PartId" style="width:200px;"></select>
+                            
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="form-label">Part Price</label>
+                            @Html.TextBoxFor(m => m.PartPrice, new { @class = "form-control", @type = "number" })
+                            <small id="PartPrice_ToolTip" class="" style="display:none">Enter Part Price</small>
+                        </div>
                     </div>
 
                     <!--</form>-->
@@ -299,11 +314,19 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-1">
+                            <label class="form-label">Free Service Card Type</label>
+                            @Html.DropDownListFor(m => m.FreeServiceCardType, Model.FreeServiceCardTypeDD as SelectList, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label class="form-label">Free Service Card No</label>
+                            @Html.TextBoxFor(m => m.FreeServiceCardNo, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-1">
                             <label class="form-label">Payment Via</label>
                             @Html.DropDownListFor(m => m.PaymentBy, Model.PaymentByDD as SelectList, new { @class = "form-control" })
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-1">
                             <label class="form-label">Visit Charge</label>
                             @Html.TextBoxFor(m => m.VisitCharge, new { @class = "form-control" })
                         </div>
@@ -372,6 +395,9 @@
 
                         var areaOption = new Option(objSelect2Json.Select2Area.text, objSelect2Json.Select2Area.id, false, false);
                         $('#Area').append(areaOption).trigger('change');
+
+                        var partOption = new Option(objSelect2Json.Select2Part.text, objSelect2Json.Select2Part.id, false, false);
+                        $('#PartId').append(partOption).trigger('change');
 
                     }
 

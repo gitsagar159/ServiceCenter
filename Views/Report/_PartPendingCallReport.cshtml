@@ -1,17 +1,7 @@
-﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+﻿@model ServiceCenter.Models.PartPendingCallReport
 @using ServiceCenter.Models
 @{
     Layout = null;
-    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
-
-    List<CallRegistration> lstKetanTechnicianCalls = new List<CallRegistration>();
-    List<CallRegistration> lstCompanyTechnicianCalls = new List<CallRegistration>();
-
-    if (Model != null && Model.CallRegistrationList.Count > 0)
-    {
-        lstKetanTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
-        lstCompanyTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
-    }
 }
 
 <!DOCTYPE html>
@@ -118,7 +108,7 @@
 <body>
 
     <div class="card">
-        <div class="card-header">LAST 72 HR PART PENDING CALL REPORT | From : @Model.FromDate - To : @Model.ToDate </div>
+        <div class="card-header">PART PENDING CALL REPORT | From : @Model.FromDate - To : @Model.ToDate </div>
         <table class="table card-table table-responsive">
             <thead class="thead-light">
                 <tr>
@@ -131,123 +121,79 @@
                     <th>Service Type</th>
                     <th>Product Name</th>
                     <th>Fault Desc.</th>
-                    <th>Call Attend</th>
-                    <th>Part Panding</th>
-                    <th>Call Back</th>
-                    <th>Go After Call</th>
-                    <th>Canceled</th>
-                    <th>Repeat From Technician</th>
-                    <th>Payment Panding</th>
-                    <th>JobDone</th>
-                    <th>Payment ₹</th>
-                    <th>Estimate ₹</th>
-                    <th>Visit Charge ₹</th>
+                    <th>Company Complaint No</th>
+                    <th>Last Modify Date</th>
+
                 </tr>
             </thead>
             <tbody>
                 @{
-                    if (lstKetanTechnicianCalls.Count > 0)
+                    if (Model.KetanPartPendingItems.Count > 0)
                     {
                         <tr class="bg-danger">
-                            <th scope="row" colspan="20" style="text-align:center"> Ketan Technican</th>
+                            <th scope="row" colspan="11" style="text-align:center"> Ketan Technican</th>
                         </tr>
 
-                        var callgroupby = lstKetanTechnicianCalls.GroupBy(i => i.Technician)
-                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
-                                            .ToList();
-
-                        if (callgroupby != null && callgroupby.Count > 0)
+                        foreach (var item in Model.KetanPartPendingItems)
                         {
-
-                            foreach (var techItem in callgroupby)
+                            <tr class="bg-info">
+                                <td colspan="11">@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item") : @item.ItemCount</td>
+                            </tr>
+                            foreach (var callItem in item.PartPendingCallList)
                             {
-                                string strTechnician = techItem.Technician;
-
-                                <tr class="bg-info">
-                                    <th scope="row" colspan="20">@strTechnician &nbsp;  </th>
+                                <tr>
+                                    <td>@callItem.JobNo</td>
+                                    <td>@callItem.StringCreationDate</td>
+                                    <td>@callItem.StringCallAssignDate</td>
+                                    <td>@callItem.CustomerName</td>
+                                    <td>@callItem.MobileNo</td>
+                                    <td>@callItem.CallTypeName</td>
+                                    <td>@callItem.ServTypeName</td>
+                                    <td>@callItem.ItemName</td>
+                                    <td>@callItem.FaultDesc</td>
+                                    <td>@callItem.CompComplaintNo</td>
+                                    <td>@callItem.ModifyDateString</td>
                                 </tr>
-                                foreach (CallRegistration callItem in lstKetanTechnicianCalls.Where(x => x.Technician == strTechnician))
-                                {
-                                    <tr>
-                                        <td>@callItem.JobNo</td>
-                                        <td>@callItem.StringCreationDate</td>
-                                        <td>@callItem.StringCallAssignDate</td>
-                                        <td>@callItem.CustomerName</td>
-                                        <td>@callItem.MobileNo</td>
-                                        <td>@callItem.CallTypeName</td>
-                                        <td>@callItem.ServTypeName</td>
-                                        <td>@callItem.ItemName</td>
-                                        <td>@callItem.FaultDesc</td>
-                                        <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@callItem.Payment.ToString("0.00")</td>
-                                        <td>@callItem.Estimate.ToString("0.00")</td>
-                                        <td>@callItem.VisitCharge.ToString("0.00")</td>
-                                    </tr>
-                                }
 
                             }
 
                         }
                     }
 
-                    if (lstCompanyTechnicianCalls.Count > 0)
+
+
+                    if (Model.CompanyPartPendingItems.Count > 0)
                     {
                         <tr>
-                            <td scope="row" colspan="20"></td>
+                            <td scope="row" colspan="11"></td>
                         </tr>
                         <tr class="bg-danger">
-                            <th scope="row" colspan="20" style="text-align:center"> Company Technican</th>
+                            <th scope="row" colspan="11" style="text-align:center"> Company Technican</th>
                         </tr>
                         <tr>
-                            <td scope="row" colspan="20"></td>
+                            <td scope="row" colspan="11"></td>
                         </tr>
 
-                        var callgroupby = lstCompanyTechnicianCalls.GroupBy(i => i.Technician)
-                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
-                                            .ToList();
-
-                        if (callgroupby != null && callgroupby.Count > 0)
+                        foreach (var item in Model.CompanyPartPendingItems)
                         {
-
-                            foreach (var techItem in callgroupby)
+                            <tr class="bg-info">
+                                <td colspan="11">@Html.Raw(!string.IsNullOrEmpty(item.ItemName) ? item.ItemName : "Unknown Item") : @item.ItemCount</td>
+                            </tr>
+                            foreach (var callItem in item.PartPendingCallList)
                             {
-                                string strTechnician = techItem.Technician;
-
-                                <tr class="bg-info">
-                                    <th scope="row" colspan="20">@strTechnician &nbsp;  </th>
+                                <tr>
+                                    <td>@callItem.JobNo</td>
+                                    <td>@callItem.StringCreationDate</td>
+                                    <td>@callItem.StringCallAssignDate</td>
+                                    <td>@callItem.CustomerName</td>
+                                    <td>@callItem.MobileNo</td>
+                                    <td>@callItem.CallTypeName</td>
+                                    <td>@callItem.ServTypeName</td>
+                                    <td>@callItem.ItemName</td>
+                                    <td>@callItem.FaultDesc</td>
+                                    <td>@callItem.CompComplaintNo</td>
+                                    <td>@callItem.ModifyDateString</td>
                                 </tr>
-                                foreach (CallRegistration callItem in lstCompanyTechnicianCalls.Where(x => x.Technician == strTechnician))
-                                {
-                                    <tr>
-                                        <td>@callItem.JobNo</td>
-                                        <td>@callItem.StringCreationDate</td>
-                                        <td>@callItem.StringCallAssignDate</td>
-                                        <td>@callItem.CustomerName</td>
-                                        <td>@callItem.MobileNo</td>
-                                        <td>@callItem.CallTypeName</td>
-                                        <td>@callItem.ServTypeName</td>
-                                        <td>@callItem.ItemName</td>
-                                        <td>@callItem.FaultDesc</td>
-                                        <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Repeat ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@callItem.Payment.ToString("0.00")</td>
-                                        <td>@callItem.Estimate.ToString("0.00")</td>
-                                        <td>@callItem.VisitCharge.ToString("0.00")</td>
-                                    </tr>
-                                }
 
                             }
 

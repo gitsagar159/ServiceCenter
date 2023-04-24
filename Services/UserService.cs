@@ -33,7 +33,7 @@ namespace ServiceCenter.Services
 
                 try
                 {
-                    
+
                     objBaseDAL = new BaseDAL();
                     strQuery = "UserLogin";
                     lstParam = new List<SqlParameter>();
@@ -48,12 +48,12 @@ namespace ServiceCenter.Services
 
                     DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 
-                    if(ResDataSet.Tables.Count > 0)
+                    if (ResDataSet.Tables.Count > 0)
                     {
 
                         DataTable ResponceDataTable = ResDataSet.Tables[0];
 
-                        if(ResponceDataTable != null && ResponceDataTable.Rows.Count > 0)
+                        if (ResponceDataTable != null && ResponceDataTable.Rows.Count > 0)
                         {
                             DataRow dtRow = ResponceDataTable.Rows[0];
 
@@ -62,7 +62,7 @@ namespace ServiceCenter.Services
 
                         }
 
-                        if(objUser.Responce)
+                        if (objUser.Responce)
                         {
                             DataTable UserDataTable = ResDataSet.Tables[1];
 
@@ -92,7 +92,7 @@ namespace ServiceCenter.Services
                         }
                     }
 
-                    
+
 
                 }
                 catch (Exception ex)
@@ -194,13 +194,13 @@ namespace ServiceCenter.Services
                     objUser.Password = dtRowItem["Password"] != DBNull.Value ? Convert.ToString(dtRowItem["Password"]) : string.Empty;
                     objUser.Image = dtRowItem["Image"] != DBNull.Value ? Convert.ToString(dtRowItem["Image"]) : string.Empty;
                     objUser.Role = dtRowItem["Role"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Role"]) : 0;
-                    
+
                     objUser.Mobile = dtRowItem["Mobile"] != DBNull.Value ? Convert.ToString(dtRowItem["Mobile"]) : string.Empty;
                     objUser.Email = dtRowItem["Email"] != DBNull.Value ? Convert.ToString(dtRowItem["Email"]) : string.Empty;
                     objUser.APIKey = dtRowItem["APIKey"] != DBNull.Value ? Convert.ToString(dtRowItem["APIKey"]) : string.Empty;
 
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -298,7 +298,7 @@ namespace ServiceCenter.Services
                     {
                         strWindowsUserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
 
-                        if(!string.IsNullOrEmpty(strWindowsUserName))
+                        if (!string.IsNullOrEmpty(strWindowsUserName))
                         {
                             lstWindowsUsers.Add(strWindowsUserName);
                         }
@@ -322,7 +322,7 @@ namespace ServiceCenter.Services
 
             List<string> lstWindowsUsers = GetAllWindowsUserNames();
 
-            if(lstWindowsUsers != null && lstWindowsUsers.Count > 0 && !string.IsNullOrEmpty(strCurrentWindowsUser))
+            if (lstWindowsUsers != null && lstWindowsUsers.Count > 0 && !string.IsNullOrEmpty(strCurrentWindowsUser))
             {
                 IsValidUSer = lstWindowsUsers.Contains(strCurrentWindowsUser.ToLower());
             }
@@ -344,7 +344,7 @@ namespace ServiceCenter.Services
                 IsUserExist = lstWindowsUsers.Contains(strCurrentWindowsUser.ToLower());
             }
 
-            if(!IsUserExist)
+            if (!IsUserExist)
             {
                 try
                 {
@@ -354,15 +354,15 @@ namespace ServiceCenter.Services
                     lstParam = new List<SqlParameter>();
 
 
-                    
+
                     SqlParameter UserName_Param = !string.IsNullOrEmpty(strCurrentWindowsUser) ? new SqlParameter() { ParameterName = "@UserName", Value = strCurrentWindowsUser, SqlDbType = SqlDbType.VarChar } : new SqlParameter() { ParameterName = "@UserName", Value = DBNull.Value };
                     SqlParameter IsActive_Param = new SqlParameter() { ParameterName = "@IsActive", Value = true };
-                    SqlParameter CreatedOn_Param =  new SqlParameter() { ParameterName = "@CreatedOn", Value = DateTime.Now };
+                    SqlParameter CreatedOn_Param = new SqlParameter() { ParameterName = "@CreatedOn", Value = DateTime.Now };
                     SqlParameter CreatedBy_Param = new SqlParameter() { ParameterName = "@CreatedBy", Value = 1 };
                     SqlParameter UpdatedOn_Param = new SqlParameter() { ParameterName = "@UpdatedOn", Value = DateTime.Now };
                     SqlParameter UpdatedBy_Param = new SqlParameter() { ParameterName = "@UpdatedBy", Value = 1 };
 
-                    lstParam.AddRange(new SqlParameter[] { UserName_Param, IsActive_Param, CreatedOn_Param, CreatedBy_Param, UpdatedOn_Param, UpdatedBy_Param});
+                    lstParam.AddRange(new SqlParameter[] { UserName_Param, IsActive_Param, CreatedOn_Param, CreatedBy_Param, UpdatedOn_Param, UpdatedBy_Param });
 
                     objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
 
@@ -388,7 +388,7 @@ namespace ServiceCenter.Services
             if (string.IsNullOrEmpty(strIPAddress))
             {
                 strIPAddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-            }   
+            }
 
 
             return strIPAddress;
@@ -422,7 +422,7 @@ namespace ServiceCenter.Services
 
                 objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
 
-                
+
             }
             catch (Exception ex)
             {
@@ -434,7 +434,7 @@ namespace ServiceCenter.Services
 
         public void RegisterLogoutDetail(string LoginSessionId)
         {
-            if(!string.IsNullOrEmpty(LoginSessionId))
+            if (!string.IsNullOrEmpty(LoginSessionId))
             {
                 try
                 {
@@ -514,7 +514,7 @@ namespace ServiceCenter.Services
                     CommonService.WriteErrorLog(ex);
                 }
 
-                
+
             }
             return objUserPageRightsList;
         }
@@ -723,6 +723,50 @@ namespace ServiceCenter.Services
             return lstUser;
         }
 
+        public ResponceModel UpdateUserStatusById(int UserId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            int Modifier = UserSesionDetail != null ? UserSesionDetail.id : 1;
+
+            bool IsActive = !Status;
+
+            try
+            {
+                strQuery = "UPDATE users SET IsActive = @IsActive, UpdatedBy = @Modifier, UpdatedOn = GETDATE() WHERE id = @UserId";
+
+                objBaseDAL = new BaseDAL();
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@UserId", UserId),
+                                new SqlParameter("@IsActive", IsActive),
+                                new SqlParameter("@Modifier", Modifier),
+                      });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                objResponceModel.Responce = true;
+                objResponceModel.Message = "User Detail Updated";
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+
+                objResponceModel = new ResponceModel();
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "Somthing Went Wrong!";
+            }
+
+            return objResponceModel;
+
+        }
+
         public void ReadXmlFromSP()
         {
             try
@@ -747,7 +791,7 @@ namespace ServiceCenter.Services
             {
                 CommonService.WriteErrorLog(ex);
             }
-            
+
         }
 
     }

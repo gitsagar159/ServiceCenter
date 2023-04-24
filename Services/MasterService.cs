@@ -890,5 +890,261 @@ namespace ServiceCenter.Services
         }
 
         #endregion
+
+        #region Part
+        public ResponceModel InsertUpdatePart(PartMaster objPartMaster)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"InsertUpdatePartDetail";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter PartId_Param = new SqlParameter();
+
+                if (!string.IsNullOrEmpty(objPartMaster.PartId))
+                {
+                    PartId_Param = new SqlParameter() { ParameterName = "@PartId", Value = objPartMaster.PartId.ToUpper() };
+                }
+                else
+                {
+                    PartId_Param = new SqlParameter() { ParameterName = "@PartId", Value = DBNull.Value };
+                }
+
+                SqlParameter Company_Param = !string.IsNullOrEmpty(objPartMaster.Company) ? new SqlParameter() { ParameterName = "@Company", Value = objPartMaster.Company } : new SqlParameter() { ParameterName = "@TechnicianId", Value = DBNull.Value };
+                SqlParameter PartName_Param = new SqlParameter() { ParameterName = "@PartName", Value = objPartMaster.PartName };
+                SqlParameter PartKeyword_Param = new SqlParameter() { ParameterName = "@PartKeyword", Value = objPartMaster.PartKeyword };
+                SqlParameter LoginUserId_Param = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
+
+                lstParam.AddRange(new SqlParameter[] { PartId_Param, PartName_Param, PartKeyword_Param, Company_Param, LoginUserId_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowPart = ResDataTable.Rows[0];
+
+                    objResponceModel.Message = dtRowPart["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowPart["ResponceMesage"]) : string.Empty;
+                    objResponceModel.Responce = dtRowPart["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowPart["OprationSuceess"]) : false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+        }
+
+        public PartMaster GetPartDetails(string PartId)
+        {
+            PartMaster objPartMaster = new PartMaster();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"select PartId, PartName, PartKeyword, Company from PartMaster WHERE PartId = @PartId";
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                         {
+                                new SqlParameter("@PartId", new Guid(PartId)),
+                         });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowPart = ResDataTable.Rows[0];
+
+                    objPartMaster.PartId = dtRowPart["PartId"] != DBNull.Value ? Convert.ToString(dtRowPart["PartId"]) : string.Empty;
+                    objPartMaster.PartName = dtRowPart["PartName"] != DBNull.Value ? Convert.ToString(dtRowPart["PartName"]) : string.Empty;
+                    objPartMaster.PartKeyword = dtRowPart["PartKeyword"] != DBNull.Value ? Convert.ToString(dtRowPart["PartKeyword"]) : string.Empty;
+                    objPartMaster.Company = dtRowPart["Company"] != DBNull.Value ? Convert.ToString(dtRowPart["Company"]) : string.Empty;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objPartMaster;
+        }
+
+        public PartMasterListDataModel GetPartList(int SortCol, string SortDir, int PageIndex, int PageSize, string PartName, string PartKeyword)
+        {
+            PartMasterListDataModel objPartMasterListDataModel = new PartMasterListDataModel();
+            objPartMasterListDataModel.PartMasterList = new List<PartMasterListModel>();
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"PartList";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter SortColParam = new SqlParameter() { ParameterName = "@SortCol", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = SortCol };
+                SqlParameter SortDirParam = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
+                SqlParameter PageIndexParam = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
+                SqlParameter PageSizeParam = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
+                SqlParameter PartNameParam = new SqlParameter() { ParameterName = "@PartName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = PartName };
+                SqlParameter PartKeywordParam = !string.IsNullOrEmpty(PartKeyword) ? new SqlParameter() { ParameterName = "@PartKeyword", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = PartKeyword } : new SqlParameter() { ParameterName = "@PartKeyword", Value = DBNull.Value };
+                SqlParameter TotalRecordCountParam = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
+
+                lstParam.AddRange(new SqlParameter[] { SortColParam, SortDirParam, PageIndexParam, PageSizeParam, PartNameParam, PartKeywordParam, TotalRecordCountParam });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                TotalRecordCount = Convert.ToInt32(TotalRecordCountParam.Value);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    PartMasterListModel objPartMaster;
+
+                    foreach (DataRow dtRowPart in ResDataTable.Rows)
+                    {
+                        objPartMaster = new PartMasterListModel();
+
+                        objPartMaster.RowNo = dtRowPart["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowPart["RowNo"]) : 0;
+                        objPartMaster.PartId = dtRowPart["PartId"] != DBNull.Value ? Convert.ToString(dtRowPart["PartId"]) : string.Empty;
+                        objPartMaster.PartName = dtRowPart["PartName"] != DBNull.Value ? Convert.ToString(dtRowPart["PartName"]) : string.Empty;
+                        objPartMaster.PartKeyword = dtRowPart["PartKeyword"] != DBNull.Value ? Convert.ToString(dtRowPart["PartKeyword"]) : string.Empty;
+                        objPartMaster.IsActive = dtRowPart["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowPart["IsActive"]) : false;
+                        objPartMaster.Company = dtRowPart["Company"] != DBNull.Value ? Convert.ToString(dtRowPart["Company"]) : string.Empty;
+
+                        objPartMasterListDataModel.PartMasterList.Add(objPartMaster);
+
+                    }
+                    objPartMasterListDataModel.RecordCount = TotalRecordCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objPartMasterListDataModel;
+        }
+
+        public ResponceModel DeletePartById(string PartId)
+        {
+
+            ResponceModel objResponceModel;
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"Update PartMaster set IsDelete = 1 WHERE PartId = @PartId";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter PartIdParam = new SqlParameter();
+
+                if (!string.IsNullOrEmpty(PartId))
+                {
+                    PartIdParam = new SqlParameter() { ParameterName = "@PartId", Value = PartId.ToUpper() };
+                }
+                else
+                {
+                    PartIdParam = new SqlParameter() { ParameterName = "@PartId", Value = DBNull.Value };
+                }
+
+                lstParam.AddRange(new SqlParameter[] { PartIdParam });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Part Name Deleted Succesfuly";
+                objResponceModel.Responce = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Somthing Went Wrong";
+                objResponceModel.Responce = false;
+
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+
+        }
+
+        public ResponceModel UpdatePartStatusById(string PartId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            int Modifier = UserSesionDetail != null ? UserSesionDetail.id : 1;
+
+            bool IsActive = !Status;
+
+            if(!string.IsNullOrEmpty(PartId))
+            {
+
+                try
+                {
+                    strQuery = "UPDATE PartMaster SET IsActive = @IsActive, ModifiedBy = @Modifier, ModifiedDate = GETDATE() WHERE PartId = @PartId";
+
+
+                    objBaseDAL = new BaseDAL();
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@PartId", PartId.ToUpper()),
+                                new SqlParameter("@IsActive", IsActive),
+                                new SqlParameter("@Modifier", Modifier),
+                          });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Part Detail Updated";
+
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+
+                    objResponceModel = new ResponceModel();
+                    objResponceModel.Responce = false;
+                    objResponceModel.Message = "Somthing Went Wrong!";
+                }
+
+            }
+            else
+            {
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "No Part found!";
+            }
+
+            return objResponceModel;
+
+        }
+
+        #endregion
     }
 }

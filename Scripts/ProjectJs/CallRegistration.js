@@ -229,6 +229,41 @@ $(function () {
         },
     });
 
+    $('#PartId').select2({
+        placeholder: "Part Name",
+        minimumInputLength: 3,
+        allowClear: true,
+        delay: 250,
+        cache: true,
+        ajax: {
+            url: "/Job/GetPartList",
+            dataType: 'json',
+            type: 'Get',
+            data: function (params) {
+                var query = {
+                    match: params.term,
+                    page: params.page || 1,
+                    pageSize: params.pageSize || 5
+                }
+                return query;
+            },
+            processResults: function (data, params) {
+                console.log(params);
+                return {
+                    results: data.items,
+                    page: params.page,
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                }
+            },
+        },
+    });
+
+    $('#PartId').on('select2:clear', function (e) {
+        $('#PartPrice').val(0)
+    });
+
 
 })
 
@@ -552,6 +587,23 @@ function fnSaveCallReisterDetails(formId, isPrint) {
 
     var IsValidForm = fnValidateFormById(formId);
 
+    var partId = $("#PartId").val();
+    var partPrice = $("#PartPrice").val() !== "" ? !isNaN($("#PartPrice").val()) ? parseFloat($("#PartPrice").val()) : 0 : 0;
+
+    if (partId !== "" && partId !== null)
+    {
+        if (partPrice === 0) {
+            $("#PartPrice").addClass("is-invalid");
+            $("#PartPrice_ToolTip").addClass("invalid-feedback").show();
+
+            IsValidForm = false;
+        }
+        else {
+            $("#PartPrice").removeClass("is-invalid");
+            $("#PartPrice_ToolTip").removeClass("invalid-feedback").hide();
+        }
+
+    }
 
     if (IsValidForm) {
 

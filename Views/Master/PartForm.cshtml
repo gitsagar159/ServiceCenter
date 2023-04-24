@@ -1,0 +1,74 @@
+﻿@model ServiceCenter.Models.PartMaster
+@{
+    ViewBag.Title = "Part Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-4">
+            <h6 class="card-header">
+                Part Form
+            </h6>
+            <div class="card-body">
+                <div class="form-row">
+                    @Html.HiddenFor(m => m.PartId)
+                    <div class="form-group col-md-4">
+                        <label class="form-label">Part Name</label>
+                        @Html.TextBoxFor(m => m.PartName, new { @class = "form-control", @placeholder = "Part Name" })
+                        <small id="PartNameToolTip" class=""></small>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="form-label">Company</label>
+                        @Html.TextBoxFor(m => m.Company, new { @class = "form-control", @placeholder = "Company" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="form-label">Part Tags(Keywords)</label>
+                        @Html.TextBoxFor(m => m.PartKeyword, new { @class = "form-control", Style = "border: 1px solid rgba(24,28,33,0.1)!important" })
+                    </div>
+
+                    <button id="btnsubmit" class="btn btn-default"> Submit </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script src="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+        <script>
+
+
+            $(document).ready(function () {
+                $("#btnsubmit").click(function (e) {
+                    InsertUpdatePart();
+
+                });
+                
+            });
+
+
+            $('#PartKeyword').tagsinput({ tagClass: 'badge badge-secondary' });
+
+        </script>
+    }
+
+</div>

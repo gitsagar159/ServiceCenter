@@ -2,10 +2,6 @@
 @using ServiceCenter.Models
 @{
     Layout = null;
-    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
-
-    decimal TotlaPayment = 0, TotalEstimate = 0, TotalVistingCharge = 0;
-    int TotalCalls = 0;
 
 }
 
@@ -115,78 +111,133 @@
     <div class="card">
         <div class="card-header">Daily Payment Pending Calls | From : @Model.FromDate - To : @Model.ToDate</div>
         <table class="table card-table table-responsive">
-            <thead class="thead-light">
-                <tr>
-                    <th>Job No</th>
-                    <th>Call Date</th>
-                    <th>Call Assing Date</th>
-                    <th>Customer Name</th>
-                    <th>Mobile</th>
-                    <th>Call Type</th>
-                    <th>Service Type</th>
-                    <th>Product Name</th>
-                    <th>Fault Desc.</th>
-                    <th>Call Attend</th>
-                    <th>Part Panding</th>
-                    <th>Call Back</th>
-                    <th>Go After Call</th>
-                    <th>Canceled</th>
-                    <th>Repeat From Technician</th>
-                    <th>Payment Panding</th>
-                    <th>JobDone</th>
-                    <th>Payment ₹</th>
-                    <th>Estimate ₹</th>
-                    <th>Visit Charge ₹</th>
-                </tr>
-            </thead>
+
             <tbody>
                 @{
                     if (Model.CallRegistrationList.Count > 0)
                     {
 
-                        TotlaPayment = Model.CallRegistrationList.Count > 0 ? Model.CallRegistrationList.Sum(x => x.Payment) : 0;
-                        TotalEstimate = Model.CallRegistrationList.Count > 0 ? Model.CallRegistrationList.Sum(x => x.Estimate) : 0;
-                        TotalVistingCharge = Model.CallRegistrationList.Count > 0 ? Model.CallRegistrationList.Sum(x => x.VisitCharge) : 0;
-                        TotalCalls = Model.CallRegistrationList.Count > 0 ? Model.CallRegistrationList.Count : 0;
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Service Type</th>
+                        </tr>
 
-                        if (TotalCalls > 0)
+                        <tr>
+                            <td></td>
+                            <td>Estimate</td>
+                            <td>VisitCharge</td>
+                            <td>Payment</td>
+                        </tr>
+                        <tr>
+                            <td>In Warranty</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 0).ToList().Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 0).ToList().Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 0).ToList().Sum(x => x.Payment)</td>
+                        </tr>
+                        <tr>
+                            <td>Out Warranty</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 1).ToList().Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 1).ToList().Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 1).ToList().Sum(x => x.Payment)</td>
+                        </tr>
+                        <tr>
+                            <td>Installtion</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 2).ToList().Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 2).ToList().Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.ServType == 2).ToList().Sum(x => x.Payment)</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.Payment)</td>
+                        </tr>
+
+
+                        <tr>
+                            <th scope="row" colspan="9" style="text-align:center"> </th>
+                        </tr>
+
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Call Type</th>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>Estimate</td>
+                            <td>VisitCharge</td>
+                            <td>Payment</td>
+                        </tr>
+                        <tr>
+                            <td>Local</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 0).ToList().Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 0).ToList().Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 0).ToList().Sum(x => x.Payment)</td>
+                        </tr>
+                        <tr>
+                            <td>Workshop</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 1).ToList().Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 1).ToList().Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 1).ToList().Sum(x => x.Payment)</td>
+                        </tr>
+                        <tr>
+                            <td>Out-Station</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 2).ToList().Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 2).ToList().Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Where(x => x.CallType == 2).ToList().Sum(x => x.Payment)</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.Payment)</td>
+                        </tr>
+
+
+                        <tr>
+                            <th scope="row" colspan="9" style="text-align:center"> </th>
+                        </tr>
+
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> User Vise</th>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>Estimate</td>
+                            <td>VisitCharge</td>
+                            <td>Payment</td>
+                        </tr>
+
+                        var CallListGroupByTech = Model.CallRegistrationList.GroupBy(i => i.Technician)
+                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTech != null && CallListGroupByTech.Count > 0)
                         {
-                            <tr class="bg-info">
-                                <th scope="row" colspan="9"><strong>Total Calls</strong> &nbsp; : &nbsp; @TotalCalls   </th>
-                                <th scope="row" colspan="8"> </th>
-                                <th scope="row">@TotlaPayment.ToString("0.00")</th>
-                                <th scope="row">@TotalEstimate.ToString("0.00")</th>
-                                <th scope="row">@TotalVistingCharge.ToString("0.00")</th>
-                            </tr>
 
-                            foreach (CallRegistration callItem in Model.CallRegistrationList)
+                            foreach (var techItem in CallListGroupByTech)
                             {
+                                string strTechnician = techItem.Technician;
+
+                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
+
 
                                 <tr>
-                                    <td>@callItem.JobNo</td>
-                                    <td>@callItem.StringCreationDate</td>
-                                    <td>@callItem.StringCallAssignDate</td>
-                                    <td>@callItem.CustomerName</td>
-                                    <td>@callItem.MobileNo</td>
-                                    <td>@callItem.CallTypeName</td>
-                                    <td>@callItem.ServTypeName</td>
-                                    <td>@callItem.ItemName</td>
-                                    <td>@callItem.FaultDesc</td>
-                                    <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                    <td>@callItem.Payment.ToString("0.00")</td>
-                                    <td>@callItem.Estimate.ToString("0.00")</td>
-                                    <td>@callItem.VisitCharge.ToString("0.00")</td>
+                                    <td>@techItem.Technician</td>
+                                    <td>@currentTechnicanCalls.Sum(x => x.Estimate) </td>
+                                    <td>@currentTechnicanCalls.Sum(x => x.VisitCharge)</td>
+                                    <td>@currentTechnicanCalls.Sum(x => x.Payment)</td>
                                 </tr>
+
                             }
 
                         }
+                        <tr>
+                            <td>Total</td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.Estimate) </td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.VisitCharge)</td>
+                            <td>@Model.CallRegistrationList.Sum(x => x.Payment)</td>
+                        </tr>
 
                     }
                 }

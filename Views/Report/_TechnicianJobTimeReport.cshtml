@@ -1,19 +1,15 @@
-﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+﻿@model ServiceCenter.Models.TechnicianJobTimeReportData
 @using ServiceCenter.Models
 @{
     Layout = null;
-    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
 
-    string strFromDate = DateTime.Now.AddHours(-72).ToString("dd'/'MM'/'yyyy");
-    string strToDate = DateTime.Now.ToString("dd'/'MM'/'yyyy");
+    List<TechnicianJobTimeReport> lstKetanTechnicianCalls = new List<TechnicianJobTimeReport>();
+    List<TechnicianJobTimeReport> lstCompanyTechnicianCalls = new List<TechnicianJobTimeReport>();
 
-    List<CallRegistration> lstKetanTechnicianCalls = new List<CallRegistration>();
-    List<CallRegistration> lstCompanyTechnicianCalls = new List<CallRegistration>();
-
-    if (Model != null && Model.CallRegistrationList.Count > 0)
+    if (Model != null && Model.TechnicianJobTimeReportList.Count > 0)
     {
-        lstKetanTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
-        lstCompanyTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
+        lstKetanTechnicianCalls = Model.TechnicianJobTimeReportList.Where(x => x.TechType.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
+        lstCompanyTechnicianCalls = Model.TechnicianJobTimeReportList.Where(x => x.TechType.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
     }
 }
 
@@ -121,29 +117,20 @@
 <body>
 
     <div class="card">
-        <div class="card-header">CALL ASSING TO CALL DONE TIMMING REPORT | From : @Model.FromDate - To : @Model.ToDate  </div>
+        <div class="card-header">Technician Job Time Report | From : @Model.FromDate - To : @Model.ToDate  </div>
         <table class="table card-table table-responsive">
             <thead class="thead-light">
                 <tr>
                     <th>Job No</th>
-                    <th>Call Date</th>
-                    <th>Call Assing Date</th>
                     <th>Customer Name</th>
-                    <th>Mobile</th>
                     <th>Call Type</th>
                     <th>Service Type</th>
                     <th>Product Name</th>
                     <th>Fault Desc.</th>
-                    <th>Call Attend</th>
-                    <th>Part Panding</th>
-                    <th>Call Back</th>
-                    <th>Go After Call</th>
-                    <th>Canceled</th>
-                    <th>Repeat From Technician</th>
-                    <th>Payment Panding</th>
                     <th>Job Done</th>
-                    <th>Job Done Time</th>
-                    <th>Call Assing To JobDone Time</th>
+                    <th>Job Start Time</th>
+                    <th>Job End Time</th>
+                    <th>Job Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -154,7 +141,7 @@
                             <th scope="row" colspan="19" style="text-align:center"> Ketan Technican</th>
                         </tr>
 
-                        var callgroupby = lstKetanTechnicianCalls.GroupBy(i => i.Technician)
+                        var callgroupby = lstKetanTechnicianCalls.GroupBy(i => i.TechnicianName)
                                             .Select(s => new { Technician = s.Key, Items = s.ToList() })
                                             .ToList();
 
@@ -165,34 +152,24 @@
                             {
                                 string strTechnician = techItem.Technician;
 
-                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
+                                List<TechnicianJobTimeReport> currentTechnicanCalls = techItem.Items;
 
                                 <tr class="bg-info">
                                     <th scope="row" colspan="19">@strTechnician &nbsp; : &nbsp; @techItem.Items.Count  </th>
                                 </tr>
-                                foreach (CallRegistration callItem in lstKetanTechnicianCalls.Where(x => x.Technician == strTechnician))
+                                foreach (TechnicianJobTimeReport callItem in lstKetanTechnicianCalls.Where(x => x.TechnicianName == strTechnician))
                                 {
-                                    string CallAssingToJobDoneTime = callItem.CallAssingToJobDoneTime > 24 ? (callItem.CallAssingToJobDoneTime / 8).ToString() + " Days" : callItem.CallAssingToJobDoneTime.ToString() + " Hour";
                                     <tr>
                                         <td>@callItem.JobNo</td>
-                                        <td>@callItem.StringCreationDate</td>
-                                        <td>@callItem.StringCallAssignDate</td>
                                         <td>@callItem.CustomerName</td>
-                                        <td>@callItem.MobileNo</td>
                                         <td>@callItem.CallTypeName</td>
                                         <td>@callItem.ServTypeName</td>
                                         <td>@callItem.ItemName</td>
                                         <td>@callItem.FaultDesc</td>
-                                        <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
                                         <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@callItem.StringJobDoneTime</td>
-                                        <td>@CallAssingToJobDoneTime</td>
+                                        <td>@Html.Raw(callItem.JobStartDateTime.HasValue ? callItem.JobStartDateTime.Value.ToString("dd/M/yyy hh:mm:ss") : "")</td>
+                                        <td>@Html.Raw(callItem.JobEndDateTime.HasValue ? callItem.JobEndDateTime.Value.ToString("dd/M/yyy hh:mm:ss") : "")</td>
+                                        <td>@callItem.TotalJobTime</td>
                                     </tr>
                                 }
 
@@ -213,7 +190,7 @@
                             <td scope="row" colspan="19"></td>
                         </tr>
 
-                        var callgroupby = lstCompanyTechnicianCalls.GroupBy(i => i.Technician)
+                        var callgroupby = lstCompanyTechnicianCalls.GroupBy(i => i.TechnicianName)
                                             .Select(s => new { Technician = s.Key, Items = s.ToList() })
                                             .ToList();
 
@@ -224,34 +201,24 @@
                             {
                                 string strTechnician = techItem.Technician;
 
-                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
+                                List<TechnicianJobTimeReport> currentTechnicanCalls = techItem.Items;
 
                                 <tr class="bg-info">
                                     <th scope="row" colspan="19">@strTechnician &nbsp; : &nbsp; @techItem.Items.Count </th>
                                 </tr>
-                                foreach (CallRegistration callItem in lstCompanyTechnicianCalls.Where(x => x.Technician == strTechnician))
+                                foreach (TechnicianJobTimeReport callItem in lstKetanTechnicianCalls.Where(x => x.TechnicianName == strTechnician))
                                 {
-                                    string CallAssingToJobDoneTime = callItem.CallAssingToJobDoneTime > 24 ? (callItem.CallAssingToJobDoneTime / 8).ToString() + " Days" : callItem.CallAssingToJobDoneTime.ToString() + " Hour";
                                     <tr>
                                         <td>@callItem.JobNo</td>
-                                        <td>@callItem.StringCreationDate</td>
-                                        <td>@callItem.StringCallAssignDate</td>
                                         <td>@callItem.CustomerName</td>
-                                        <td>@callItem.MobileNo</td>
                                         <td>@callItem.CallTypeName</td>
                                         <td>@callItem.ServTypeName</td>
                                         <td>@callItem.ItemName</td>
                                         <td>@callItem.FaultDesc</td>
-                                        <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
                                         <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@callItem.StringJobDoneTime</td>
-                                        <td>@CallAssingToJobDoneTime</td>
+                                        <td>@Html.Raw(callItem.JobStartDateTime.HasValue ? callItem.JobStartDateTime.Value.ToString("dd/M/yyy hh:mm:ss") : "")</td>
+                                        <td>@Html.Raw(callItem.JobEndDateTime.HasValue ? callItem.JobEndDateTime.Value.ToString("dd/M/yyy hh:mm:ss") : "")</td>
+                                        <td>@callItem.TotalJobTime</td>
                                     </tr>
                                 }
 

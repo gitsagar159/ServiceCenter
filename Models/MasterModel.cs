@@ -163,4 +163,42 @@ namespace ServiceCenter.Models
     }
 
     #endregion
+
+
+    #region Part
+
+
+    public class PartMaster
+    {
+        public string PartId { get; set; }
+        public string PartName { get; set; }
+        public string PartKeyword { get; set; }
+        public string Company { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+    }
+
+    public class PartMasterListModel
+    {
+        public int RowNo { get; set; }
+        public string PartId { get; set; }
+        public string PartName { get; set; }
+        public string PartKeyword { get; set; }
+        public string Company { get; set; }
+        public bool IsActive { get; set; }
+    }
+
+    public class PartMasterListDataModel
+    {
+        public List<PartMasterListModel> PartMasterList { get; set; }  //= new List<CallRegistration>();
+
+        public int RecordCount { get; set; }
+    }
+
+
+    #endregion
 }

@@ -1,7 +1,7 @@
-﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+﻿@model ServiceCenter.Models.TechnicianReportData
 
 @{
-    ViewBag.Title = "Pending Call Reports";
+    ViewBag.Title = "Technician Call Summary";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +12,7 @@
 
         <div class="card mb-2">
             <div class="card-body" style="padding: 0px 24px 16px 24px">
-                @using (Html.BeginForm("PendingCallReport", "Report", FormMethod.Post, new { @id = "frmPendingCallReport", @class = "form-inline mt-4" }))
+                @using (Html.BeginForm("TechnicianCallSummaryReport", "Report", FormMethod.Post, new { @id = "frmTechnicianCallSummary", @class = "form-inline mt-4" }))
                 {
 
                     <div class="form-group mr-5">
@@ -32,7 +32,7 @@
                 </div>
         </div>
 
-        @Html.Partial("_PendingCallReport", Model)
+        @Html.Partial("_TechnicianCallSummaryPartial", Model)
 
     </div>
     <!-- / Content -->
@@ -53,7 +53,7 @@
 
             $("#btnSubmit").click(function () {
 
-                $("#frmPendingCallReport").submit();
+                $("#frmTechnicianCallSummary").submit();
 
             });
 

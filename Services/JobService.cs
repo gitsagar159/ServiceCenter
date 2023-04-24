@@ -15,6 +15,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace ServiceCenter.Services
 {
@@ -112,22 +113,22 @@ namespace ServiceCenter.Services
                 SqlParameter CallCategory_Param = new SqlParameter() { ParameterName = "@CallCategory", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = CallCategory };
                 SqlParameter TotalRecordCount_Param = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
 
-                SqlParameter CustomerName_Param = !string.IsNullOrEmpty(CustomerName) ? new SqlParameter() { ParameterName = "@CustomerName" , Value = CustomerName  } : new SqlParameter() { ParameterName = "@CustomerName", Value = DBNull.Value };
-                SqlParameter CallType_Param = CallType.HasValue ? new SqlParameter() { ParameterName = "@CallType" , Value = CallType  } : new SqlParameter() { ParameterName = "@CallType", Value = DBNull.Value };
-                SqlParameter ServType_Param = ServType.HasValue ? new SqlParameter() { ParameterName = "@ServType" , Value = ServType  } : new SqlParameter() { ParameterName = "@ServType", Value = DBNull.Value };
-                SqlParameter Technician_Param = !string.IsNullOrEmpty(Technician) ? new SqlParameter() { ParameterName = "@Technician" , Value = Technician  } : new SqlParameter() { ParameterName = "@Technician", Value = DBNull.Value };
+                SqlParameter CustomerName_Param = !string.IsNullOrEmpty(CustomerName) ? new SqlParameter() { ParameterName = "@CustomerName", Value = CustomerName } : new SqlParameter() { ParameterName = "@CustomerName", Value = DBNull.Value };
+                SqlParameter CallType_Param = CallType.HasValue ? new SqlParameter() { ParameterName = "@CallType", Value = CallType } : new SqlParameter() { ParameterName = "@CallType", Value = DBNull.Value };
+                SqlParameter ServType_Param = ServType.HasValue ? new SqlParameter() { ParameterName = "@ServType", Value = ServType } : new SqlParameter() { ParameterName = "@ServType", Value = DBNull.Value };
+                SqlParameter Technician_Param = !string.IsNullOrEmpty(Technician) ? new SqlParameter() { ParameterName = "@Technician", Value = Technician } : new SqlParameter() { ParameterName = "@Technician", Value = DBNull.Value };
                 SqlParameter TechnicianType_Param = !string.IsNullOrEmpty(TechnicianType) ? new SqlParameter() { ParameterName = "@TechnicianType", Value = TechnicianType } : new SqlParameter() { ParameterName = "@TechnicianType", Value = DBNull.Value };
-                SqlParameter MobileNo_Param = !string.IsNullOrEmpty(MobileNo) ? new SqlParameter() { ParameterName = "@MobileNo" , Value = MobileNo  } : new SqlParameter() { ParameterName = "@MobileNo", Value = DBNull.Value };
+                SqlParameter MobileNo_Param = !string.IsNullOrEmpty(MobileNo) ? new SqlParameter() { ParameterName = "@MobileNo", Value = MobileNo } : new SqlParameter() { ParameterName = "@MobileNo", Value = DBNull.Value };
                 SqlParameter Pincode_Param = !string.IsNullOrEmpty(Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };
-                SqlParameter CallAttn_Param = CallAttn.HasValue ? new SqlParameter() { ParameterName = "@CallAttn" , Value = CallAttn  } : new SqlParameter() { ParameterName = "@CallAttn", Value = DBNull.Value };
-                SqlParameter JobDone_Param = JobDone.HasValue ? new SqlParameter() { ParameterName = "@JobDone" , Value = JobDone  } : new SqlParameter() { ParameterName = "@JobDone", Value = DBNull.Value };
-                SqlParameter JobNo_Param = !string.IsNullOrEmpty(JobNo) ? new SqlParameter() { ParameterName = "@JobNo" , Value = JobNo  } : new SqlParameter() { ParameterName = "@JobNo", Value = DBNull.Value };
+                SqlParameter CallAttn_Param = CallAttn.HasValue ? new SqlParameter() { ParameterName = "@CallAttn", Value = CallAttn } : new SqlParameter() { ParameterName = "@CallAttn", Value = DBNull.Value };
+                SqlParameter JobDone_Param = JobDone.HasValue ? new SqlParameter() { ParameterName = "@JobDone", Value = JobDone } : new SqlParameter() { ParameterName = "@JobDone", Value = DBNull.Value };
+                SqlParameter JobNo_Param = !string.IsNullOrEmpty(JobNo) ? new SqlParameter() { ParameterName = "@JobNo", Value = JobNo } : new SqlParameter() { ParameterName = "@JobNo", Value = DBNull.Value };
                 SqlParameter SrNo_Param = !string.IsNullOrEmpty(SrNo) ? new SqlParameter() { ParameterName = "@SrNo", Value = SrNo } : new SqlParameter() { ParameterName = "@SrNo", Value = DBNull.Value };
                 SqlParameter CompComplaintNo_Param = !string.IsNullOrEmpty(CompComplaintNo) ? new SqlParameter() { ParameterName = "@CompComplaintNo", Value = CompComplaintNo } : new SqlParameter() { ParameterName = "@CompComplaintNo", Value = DBNull.Value };
-                SqlParameter ItemName_Param = !string.IsNullOrEmpty(ItemName) ? new SqlParameter() { ParameterName = "@ItemName" , Value = ItemName  } : new SqlParameter() { ParameterName = "@ItemName", Value = DBNull.Value };
+                SqlParameter ItemName_Param = !string.IsNullOrEmpty(ItemName) ? new SqlParameter() { ParameterName = "@ItemName", Value = ItemName } : new SqlParameter() { ParameterName = "@ItemName", Value = DBNull.Value };
                 SqlParameter ItemKeyword_Param = !string.IsNullOrEmpty(ItemKeyword) ? new SqlParameter() { ParameterName = "@ItemKeyword", Value = ItemKeyword } : new SqlParameter() { ParameterName = "@ItemKeyword", Value = DBNull.Value };
                 SqlParameter Deliver_Param = Deliver.HasValue ? new SqlParameter() { ParameterName = "@Deliver", Value = Deliver } : new SqlParameter() { ParameterName = "@Deliver", Value = DBNull.Value };
-                SqlParameter Canceled_Param = Canceled.HasValue ? new SqlParameter() { ParameterName = "@Canceled" , Value = Canceled  } : new SqlParameter() { ParameterName = "@Canceled", Value = DBNull.Value };
+                SqlParameter Canceled_Param = Canceled.HasValue ? new SqlParameter() { ParameterName = "@Canceled", Value = Canceled } : new SqlParameter() { ParameterName = "@Canceled", Value = DBNull.Value };
                 SqlParameter PartPanding_Param = PartPanding.HasValue ? new SqlParameter() { ParameterName = "@PartPanding", Value = PartPanding } : new SqlParameter() { ParameterName = "@PartPanding", Value = DBNull.Value };
                 SqlParameter GoAfterCall_Param = GoAfterCall.HasValue ? new SqlParameter() { ParameterName = "@GoAfterCall", Value = GoAfterCall } : new SqlParameter() { ParameterName = "@GoAfterCall", Value = DBNull.Value };
                 SqlParameter RepeatFromTech_Param = RepeatFromTech.HasValue ? new SqlParameter() { ParameterName = "@RepeatFromTech", Value = RepeatFromTech } : new SqlParameter() { ParameterName = "@RepeatFromTech", Value = DBNull.Value };
@@ -141,7 +142,7 @@ namespace ServiceCenter.Services
                 SqlParameter CallBack_Param = CallBack.HasValue ? new SqlParameter() { ParameterName = "@CallBack", Value = CallBack } : new SqlParameter() { ParameterName = "@CallBack", Value = DBNull.Value };
                 SqlParameter WorkShopIN_Param = WorkShopIN.HasValue ? new SqlParameter() { ParameterName = "@WorkShopIN", Value = WorkShopIN } : new SqlParameter() { ParameterName = "@WorkShopIN", Value = DBNull.Value };
                 SqlParameter PaymentPanding_Param = PaymentPanding.HasValue ? new SqlParameter() { ParameterName = "@PaymentPanding", Value = PaymentPanding } : new SqlParameter() { ParameterName = "@PaymentPanding", Value = DBNull.Value };
-                
+
                 SqlParameter UserName_Param = !string.IsNullOrEmpty(UserName) ? new SqlParameter() { ParameterName = "@UserName", Value = UserName } : new SqlParameter() { ParameterName = "@UserName", Value = DBNull.Value };
 
                 SqlParameter FaultType_Param = !string.IsNullOrEmpty(FaultType) ? new SqlParameter() { ParameterName = "@FaultType", Value = FaultType } : new SqlParameter() { ParameterName = "@FaultType", Value = DBNull.Value };
@@ -164,7 +165,7 @@ namespace ServiceCenter.Services
                 {
                     string strText = lstParam[i].ParameterName + " = ";
 
-                    if(lstParam[i].DbType == DbType.String)
+                    if (lstParam[i].DbType == DbType.String)
                     {
                         strText += lstParam[i].Value != null ? !string.IsNullOrEmpty(lstParam[i].Value.ToString()) ? "'" + lstParam[i].Value.ToString() + "'" : "NULL" : "NULL";
                     }
@@ -175,7 +176,7 @@ namespace ServiceCenter.Services
 
                     SBJobListSP.Append(strText);
 
-                    if(i != lstParam.Count() - 1)
+                    if (i != lstParam.Count() - 1)
                     {
                         SBJobListSP.Append(",");
                     }
@@ -192,7 +193,7 @@ namespace ServiceCenter.Services
 
                 TotalRecordCount = Convert.ToInt32(TotalRecordCount_Param.Value);
 
-                if(ResDataSet.Tables.Count > 0)
+                if (ResDataSet.Tables.Count > 0)
                 {
                     DataTable CallRegisterListTable = ResDataSet.Tables[0];
                     DataTable CallRegisterOidsTable = ResDataSet.Tables[1];
@@ -244,7 +245,11 @@ namespace ServiceCenter.Services
                             objCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
                             objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
                             objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+
                             objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.PartId = dtRowItem["PartId"] != DBNull.Value ? Convert.ToString(dtRowItem["PartId"]) : string.Empty;
+                            objCallRegistration.PartPrice = dtRowItem["PartPrice"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["PartPrice"]) : 0;
+
                             objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
                             objCallRegistration.IsNew = dtRowItem["IsNew"] != DBNull.Value ? Convert.ToString(dtRowItem["IsNew"]) : string.Empty;
                             objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
@@ -256,7 +261,7 @@ namespace ServiceCenter.Services
                         objCallRegistrationListDataModel.RecordCount = TotalRecordCount;
                     }
 
-                    if(CallRegisterOidsTable.Rows.Count > 0)
+                    if (CallRegisterOidsTable.Rows.Count > 0)
                     {
                         DataRow dtRowItem = CallRegisterOidsTable.Rows[0];
 
@@ -264,7 +269,7 @@ namespace ServiceCenter.Services
                     }
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -335,7 +340,14 @@ namespace ServiceCenter.Services
 	                            CR.UserName, 
 	                            CR.Modifier, 
 	                            CR.CreationDate, 
-	                            CR.ModifyDate
+	                            CR.ModifyDate,
+                                AC_Service,
+                                CR.FreeServiceCardType,
+                                CR.FreeServiceCardNo,
+                                CR.PartId,
+                                PM.PartName,
+                                CR.PartPrice
+
                             From 
 	                            CallRegistration CR 
 	                            LEFT JOIN AreaMaster AM on AM.AreaId = CR.Area
@@ -344,6 +356,7 @@ namespace ServiceCenter.Services
 	                            LEFT JOIN FaultType FT on FT.Oid = CR.FaultType
 	                            LEFT JOIN CustomerMaster CM on CM.Oid = CR.Customer
 	                            LEFT JOIN City C on C.Oid = CM.CityName
+                                LEFT JOIN PartMaster PM on PM.PartId = CR.PartId
                             where
 	                            CR.Oid = @Oid";
 
@@ -385,10 +398,10 @@ namespace ServiceCenter.Services
                     ObjCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
                     ObjCallRegistration.DealRef = dtRowItem["DealRef"] != DBNull.Value ? Convert.ToString(dtRowItem["DealRef"]) : string.Empty;
                     ObjCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
-                    ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]) : (DateTime?)null;
+                    ObjCallRegistration.EstimateDate = dtRowItem["EstimateDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstimateDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                     ObjCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
                     ObjCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
-                    ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]) : (DateTime?)null;
+                    ObjCallRegistration.EstConfirmDate = dtRowItem["EstConfirmDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["EstConfirmDate"]).ToString("dd'/'MM'/'yyyy") : string.Empty;
                     ObjCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
                     ObjCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
                     ObjCallRegistration.ItemName = dtRowItem["ItemId"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemId"]) : string.Empty;
@@ -426,13 +439,23 @@ namespace ServiceCenter.Services
                     ObjCallRegistration.Deliver = dtRowItem["Deliver"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Deliver"]) : false;
                     ObjCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
                     ObjCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+
                     ObjCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                    ObjCallRegistration.PartId = dtRowItem["PartId"] != DBNull.Value ? Convert.ToString(dtRowItem["PartId"]) : string.Empty;
+                    ObjCallRegistration.PartPrice = dtRowItem["PartPrice"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["PartPrice"]) : 0;
+
+                    objSelect2Data.Select2Part = new Select2() { id = ObjCallRegistration.PartId, text = dtRowItem["PartName"] != DBNull.Value ? Convert.ToString(dtRowItem["PartName"]) : string.Empty };
+
                     ObjCallRegistration.PaymentBy = dtRowItem["PaymentBy"] != DBNull.Value ? Convert.ToInt32(dtRowItem["PaymentBy"]) : 0;
                     ObjCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
                     ObjCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
                     ObjCallRegistration.Modifier = dtRowItem["Modifier"] != DBNull.Value ? Convert.ToString(dtRowItem["Modifier"]) : string.Empty;
                     ObjCallRegistration.CreationDate = dtRowItem["CreationDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreationDate"]) : (DateTime?)null;
                     ObjCallRegistration.ModifyDate = dtRowItem["ModifyDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ModifyDate"]) : (DateTime?)null;
+                    ObjCallRegistration.AC_Service = dtRowItem["AC_Service"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["AC_Service"]) : false;
+                    ObjCallRegistration.FreeServiceCardType = dtRowItem["FreeServiceCardType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["FreeServiceCardType"]) : 0;
+                    ObjCallRegistration.FreeServiceCardNo = dtRowItem["FreeServiceCardNo"] != DBNull.Value ? Convert.ToString(dtRowItem["FreeServiceCardNo"]) : string.Empty;
+
 
 
                     ObjCallRegistration.Select2JSON = JsonConvert.SerializeObject(objSelect2Data);
@@ -450,7 +473,8 @@ namespace ServiceCenter.Services
         public CallRegistration InsertUpdateCallRegistration(CallRegistration objCallRegistration)
         {
 
-            CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.CallAssignDate : " + objCallRegistration.CallAssignDate);
+            CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.EstimateDate : " + objCallRegistration.EstimateDate);
+            CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.EstConfirmDate : " + objCallRegistration.EstConfirmDate);
 
             CallRegistration objCallRegistrationResponce = new CallRegistration();
 
@@ -464,9 +488,12 @@ namespace ServiceCenter.Services
 
                 objCallRegistration.JobDoneTime = objCallRegistration.JobDone ? DateTime.Now : (DateTime?)null;
 
+                DateTime? EstimateDate = !string.IsNullOrEmpty(objCallRegistration.EstimateDate) ? DateTime.ParseExact(objCallRegistration.EstimateDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+                DateTime? EstConfirmDate = !string.IsNullOrEmpty(objCallRegistration.EstConfirmDate) ? DateTime.ParseExact(objCallRegistration.EstConfirmDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
                 try
                 {
-                    
+
                     objBaseDAL = new BaseDAL();
                     string InsertQuery = @"INSERT INTO 
 	                                            CallRegistration(
@@ -495,6 +522,7 @@ namespace ServiceCenter.Services
 	                                            FaultType,
 	                                            ModelName,
 	                                            SpInst,
+                                                JobRegion,
 	                                            JobDoneRegion,
 	                                            ProductName,
 	                                            CallAttn,
@@ -515,7 +543,19 @@ namespace ServiceCenter.Services
 	                                            VisitCharge,
 	                                            UserName, 
 	                                            CreationDate,
-                                                IsNew
+                                                IsNew,
+                                                CallAttn_DateTime,
+                                                Deliver_DateTime,
+                                                SMSSent_DateTime,
+                                                CallBack_DateTime,
+                                                WorkShopIN_DateTime,
+                                                GoAfterCall_DateTime,
+                                                Canceled_DateTime,
+                                                AC_Service,
+                                                FreeServiceCardType,
+                                                FreeServiceCardNo,
+                                                PartId,
+                                                PartPrice
 	                                            )
 	                                            VALUES
 	                                            (
@@ -544,6 +584,7 @@ namespace ServiceCenter.Services
 	                                            CAST(@FaultType AS UNIQUEIDENTIFIER),
 	                                            @ModelName,
 	                                            @SpInst,
+                                                @JobRegion,
 	                                            @JobDoneRegion,
 	                                            @ProductName,
 	                                            @CallAttn,
@@ -564,7 +605,19 @@ namespace ServiceCenter.Services
 	                                            @VisitCharge,
 	                                            @UserName, 
 	                                            @CreationDate,
-                                                'True'
+                                                'True',
+                                                @CallAttn_DateTime,
+                                                @Deliver_DateTime,
+                                                @SMSSent_DateTime,
+                                                @CallBack_DateTime,
+                                                @WorkShopIN_DateTime,
+                                                @GoAfterCall_DateTime,
+                                                @Canceled_DateTime,
+                                                @AC_Service,
+                                                @FreeServiceCardType,
+                                                @FreeServiceCardNo,
+                                                @PartId,
+                                                @PartPrice
 	                                            )";
 
 
@@ -593,6 +646,7 @@ namespace ServiceCenter.Services
                                                 FaultType = CAST(@FaultType AS UNIQUEIDENTIFIER),
                                                 ModelName = @ModelName,
                                                 SpInst = @SpInst,
+                                                JobRegion = @JobRegion,
                                                 JobDoneRegion = @JobDoneRegion,
                                                 ProductName = @ProductName,
                                                 CallAttn = @CallAttn,
@@ -612,7 +666,19 @@ namespace ServiceCenter.Services
                                                 PaymentBy = @PaymentBy,
                                                 VisitCharge = @VisitCharge,
                                                 Modifier  = @Modifier,
-                                                ModifyDate = @ModifyDate
+                                                ModifyDate = @ModifyDate,
+                                                CallAttn_DateTime = @CallAttn_DateTime,
+                                                Deliver_DateTime = @Deliver_DateTime,
+                                                SMSSent_DateTime = @SMSSent_DateTime,
+                                                CallBack_DateTime = @CallBack_DateTime,
+                                                WorkShopIN_DateTime = @WorkShopIN_DateTime,
+                                                GoAfterCall_DateTime = @GoAfterCall_DateTime,
+                                                Canceled_DateTime = @Canceled_DateTime,
+                                                AC_Service = @AC_Service,
+                                                FreeServiceCardType = @FreeServiceCardType,
+                                                FreeServiceCardNo = @FreeServiceCardNo,
+                                                PartId = @PartId,
+                                                PartPrice = @PartPrice
 											WHERE 
 												Oid = CAST(@Oid AS UNIQUEIDENTIFIER)";
 
@@ -624,12 +690,12 @@ namespace ServiceCenter.Services
                     SqlParameter Area_Param = !string.IsNullOrEmpty(objCallRegistration.Area) ? new SqlParameter() { ParameterName = "@Area", Value = objCallRegistration.Area } : new SqlParameter() { ParameterName = "@Area", Value = DBNull.Value };
                     SqlParameter ID_Param = new SqlParameter() { ParameterName = "@ID", Value = objCallRegistration.ID };
                     SqlParameter CallAssignDate_Param = objCallRegistration.CallAssignDate.HasValue ? new SqlParameter() { ParameterName = "@CallAssignDate", Value = objCallRegistration.CallAssignDate } : new SqlParameter() { ParameterName = "@CallAssignDate", Value = DBNull.Value };
-                    SqlParameter EstimateDate_Param = objCallRegistration.EstimateDate.HasValue ? new SqlParameter() { ParameterName = "@EstimateDate", Value = objCallRegistration.EstimateDate } : new SqlParameter() { ParameterName = "@EstimateDate", Value = DBNull.Value };
-                    SqlParameter EstConfirmDate_Param = objCallRegistration.EstConfirmDate.HasValue ? new SqlParameter() { ParameterName = "@EstConfirmDate", Value = objCallRegistration.EstConfirmDate } : new SqlParameter() { ParameterName = "@EstConfirmDate", Value = DBNull.Value };
+                    SqlParameter EstimateDate_Param = EstimateDate.HasValue ? new SqlParameter() { ParameterName = "@EstimateDate", Value = EstimateDate } : new SqlParameter() { ParameterName = "@EstimateDate", Value = DBNull.Value };
+                    SqlParameter EstConfirmDate_Param = EstConfirmDate.HasValue ? new SqlParameter() { ParameterName = "@EstConfirmDate", Value = EstConfirmDate } : new SqlParameter() { ParameterName = "@EstConfirmDate", Value = DBNull.Value };
                     SqlParameter PaymentBy_Param = new SqlParameter() { ParameterName = "@PaymentBy", Value = objCallRegistration.PaymentBy };
                     SqlParameter CompComplaintNo_Param = !string.IsNullOrEmpty(objCallRegistration.CompComplaintNo) ? new SqlParameter() { ParameterName = "@CompComplaintNo", Value = objCallRegistration.CompComplaintNo } : new SqlParameter() { ParameterName = "@CompComplaintNo", Value = DBNull.Value };
                     SqlParameter JobNo_Param = !string.IsNullOrEmpty(objCallRegistration.JobNo) ? new SqlParameter() { ParameterName = "@JobNo", Value = objCallRegistration.JobNo } : new SqlParameter() { ParameterName = "@JobNo", Value = DBNull.Value };
-                    SqlParameter CallDate_Param =  new SqlParameter() { ParameterName = "@CallDate", Value = DateTime.Now };
+                    SqlParameter CallDate_Param = new SqlParameter() { ParameterName = "@CallDate", Value = DateTime.Now };
                     SqlParameter ItemName_Param = !string.IsNullOrEmpty(objCallRegistration.ItemName) ? new SqlParameter() { ParameterName = "@ItemName", Value = objCallRegistration.ItemName } : new SqlParameter() { ParameterName = "@ItemName", Value = DBNull.Value };
                     SqlParameter SrNo_Param = !string.IsNullOrEmpty(objCallRegistration.SrNo) ? new SqlParameter() { ParameterName = "@SrNo", Value = objCallRegistration.SrNo } : new SqlParameter() { ParameterName = "@SrNo", Value = DBNull.Value };
                     SqlParameter FaultDesc_Param = !string.IsNullOrEmpty(objCallRegistration.FaultDesc) ? new SqlParameter() { ParameterName = "@FaultDesc", Value = objCallRegistration.FaultDesc } : new SqlParameter() { ParameterName = "@FaultDesc", Value = DBNull.Value };
@@ -638,7 +704,7 @@ namespace ServiceCenter.Services
                     SqlParameter CustomerName_Param = !string.IsNullOrEmpty(objCallRegistration.CustomerName) ? new SqlParameter() { ParameterName = "@CustomerName", Value = objCallRegistration.CustomerName } : new SqlParameter() { ParameterName = "@CustomerName", Value = DBNull.Value };
                     SqlParameter MobileNo_Param = !string.IsNullOrEmpty(objCallRegistration.MobileNo) ? new SqlParameter() { ParameterName = "@MobileNo", Value = objCallRegistration.MobileNo } : new SqlParameter() { ParameterName = "@MobileNo", Value = DBNull.Value };
                     SqlParameter Address_Param = !string.IsNullOrEmpty(objCallRegistration.Address) ? new SqlParameter() { ParameterName = "@Address", Value = objCallRegistration.Address } : new SqlParameter() { ParameterName = "@Address", Value = DBNull.Value };
-                    SqlParameter Pincode_Param = !string.IsNullOrEmpty(objCallRegistration.Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = objCallRegistration.Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };                    
+                    SqlParameter Pincode_Param = !string.IsNullOrEmpty(objCallRegistration.Pincode) ? new SqlParameter() { ParameterName = "@Pincode", Value = objCallRegistration.Pincode } : new SqlParameter() { ParameterName = "@Pincode", Value = DBNull.Value };
                     SqlParameter ProductName_Param = !string.IsNullOrEmpty(objCallRegistration.ProductName) ? new SqlParameter() { ParameterName = "@ProductName", Value = objCallRegistration.ProductName } : new SqlParameter() { ParameterName = "@ProductName", Value = DBNull.Value };
                     SqlParameter ServType_Param = new SqlParameter() { ParameterName = "@ServType", Value = objCallRegistration.ServType };
                     SqlParameter SpInst_Param = !string.IsNullOrEmpty(objCallRegistration.SpInst) ? new SqlParameter() { ParameterName = "@SpInst", Value = objCallRegistration.SpInst } : new SqlParameter() { ParameterName = "@SpInst", Value = DBNull.Value };
@@ -658,13 +724,29 @@ namespace ServiceCenter.Services
                     SqlParameter VisitCharge_Param = new SqlParameter() { ParameterName = "@VisitCharge", Value = objCallRegistration.VisitCharge };
                     SqlParameter CallBack_Param = new SqlParameter() { ParameterName = "@CallBack", Value = objCallRegistration.CallBack };
                     SqlParameter WorkShopIN_Param = new SqlParameter() { ParameterName = "@WorkShopIN", Value = objCallRegistration.WorkShopIN };
+
                     SqlParameter PartPanding_Param = new SqlParameter() { ParameterName = "@PartPanding", Value = objCallRegistration.PartPanding };
+                    SqlParameter PartId_Param = !string.IsNullOrEmpty(objCallRegistration.PartId) ? new SqlParameter() { ParameterName = "@PartId", Value = objCallRegistration.PartId } : new SqlParameter() { ParameterName = "@PartId", Value = DBNull.Value };
+                    SqlParameter PartPrice_Param = new SqlParameter() { ParameterName = "@PartPrice", Value = objCallRegistration.PartPrice };
+
                     SqlParameter GoAfterCall_Param = new SqlParameter() { ParameterName = "@GoAfterCall", Value = objCallRegistration.GoAfterCall };
                     SqlParameter Canceled_Param = new SqlParameter() { ParameterName = "@Canceled", Value = objCallRegistration.Canceled };
                     SqlParameter PaymentPanding_Param = new SqlParameter() { ParameterName = "@PaymentPanding", Value = objCallRegistration.PaymentPanding };
                     SqlParameter RepeatFromTech_Param = new SqlParameter() { ParameterName = "@RepeatFromTech", Value = objCallRegistration.RepeatFromTech };
+                    SqlParameter JobRegion_Param = !string.IsNullOrEmpty(objCallRegistration.JobRegion) ? new SqlParameter() { ParameterName = "@JobRegion", Value = objCallRegistration.JobRegion } : new SqlParameter() { ParameterName = "@JobRegion", Value = DBNull.Value };
                     SqlParameter JobDoneRegion_Param = !string.IsNullOrEmpty(objCallRegistration.JobDoneRegion) ? new SqlParameter() { ParameterName = "@JobDoneRegion", Value = objCallRegistration.JobDoneRegion } : new SqlParameter() { ParameterName = "@JobDoneRegion", Value = DBNull.Value };
                     SqlParameter FaultType_Param = !string.IsNullOrEmpty(objCallRegistration.FaultType) ? new SqlParameter() { ParameterName = "@FaultType", Value = objCallRegistration.FaultType } : new SqlParameter() { ParameterName = "@FaultType", Value = DBNull.Value };
+
+                    SqlParameter CallAttn_DateTime_Param = objCallRegistration.CallAttn == true ? new SqlParameter() { ParameterName = "@CallAttn_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@CallAttn_DateTime", Value = DBNull.Value };
+                    SqlParameter Deliver_DateTime_Param = objCallRegistration.Deliver == true ? new SqlParameter() { ParameterName = "@Deliver_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@Deliver_DateTime", Value = DBNull.Value };
+                    SqlParameter SMSSent_DateTime_Param = objCallRegistration.SMSSent == true ? new SqlParameter() { ParameterName = "@SMSSent_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@SMSSent_DateTime", Value = DBNull.Value };
+                    SqlParameter CallBack_DateTime_Param = objCallRegistration.CallBack == true ? new SqlParameter() { ParameterName = "@CallBack_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@CallBack_DateTime", Value = DBNull.Value };
+                    SqlParameter WorkShopIN_DateTime_Param = objCallRegistration.WorkShopIN == true ? new SqlParameter() { ParameterName = "@WorkShopIN_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@WorkShopIN_DateTime", Value = DBNull.Value };
+                    SqlParameter GoAfterCall_DateTime_Param = objCallRegistration.GoAfterCall == true ? new SqlParameter() { ParameterName = "@GoAfterCall_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@GoAfterCall_DateTime", Value = DBNull.Value };
+                    SqlParameter Canceled_DateTime_Param = objCallRegistration.Canceled == true ? new SqlParameter() { ParameterName = "@Canceled_DateTime", Value = DateTime.Now } : new SqlParameter() { ParameterName = "@Canceled_DateTime", Value = DBNull.Value };
+                    SqlParameter AC_Service_Param = objCallRegistration.AC_Service ? new SqlParameter() { ParameterName = "@AC_Service", Value = objCallRegistration.AC_Service } : new SqlParameter() { ParameterName = "@AC_Service", Value = DBNull.Value };
+                    SqlParameter FreeServiceCardType_Param = new SqlParameter() { ParameterName = "@FreeServiceCardType", Value = objCallRegistration.FreeServiceCardType };
+                    SqlParameter FreeServiceCardNo_Param = !string.IsNullOrEmpty(objCallRegistration.FreeServiceCardNo) ? new SqlParameter() { ParameterName = "@FreeServiceCardNo", Value = objCallRegistration.FreeServiceCardNo } : new SqlParameter() { ParameterName = "@FreeServiceCardNo", Value = DBNull.Value };
 
                     SqlParameter UserName_Param = !string.IsNullOrEmpty(objCallRegistration.UserName) ? new SqlParameter() { ParameterName = "@UserName", Value = objCallRegistration.UserName } : new SqlParameter() { ParameterName = "@UserName", Value = DBNull.Value };
                     SqlParameter CreationDate_Param = new SqlParameter() { ParameterName = "@CreationDate", Value = DateTime.Now };
@@ -672,7 +754,7 @@ namespace ServiceCenter.Services
                     SqlParameter ModifyDate_Param = new SqlParameter() { ParameterName = "@ModifyDate", Value = DateTime.Now };
 
 
-                    
+
 
                     lstParam.AddRange(new SqlParameter[]
                                                     {
@@ -719,10 +801,24 @@ namespace ServiceCenter.Services
                                                         Canceled_Param,
                                                         PaymentPanding_Param,
                                                         RepeatFromTech_Param,
+                                                        JobRegion_Param,
                                                         JobDoneRegion_Param,
                                                         FaultType_Param,
                                                         Modifier_Param,
-                                                        ModifyDate_Param
+                                                        ModifyDate_Param,
+                                                        CallAttn_DateTime_Param,
+                                                        Deliver_DateTime_Param,
+                                                        SMSSent_DateTime_Param,
+                                                        CallBack_DateTime_Param,
+                                                        WorkShopIN_DateTime_Param,
+                                                        GoAfterCall_DateTime_Param,
+                                                        Canceled_DateTime_Param,
+                                                        AC_Service_Param,
+                                                        FreeServiceCardType_Param,
+                                                        FreeServiceCardNo_Param,
+                                                        PartId_Param,
+                                                        PartPrice_Param
+
                                                     });
 
                     if (!string.IsNullOrEmpty(objCallRegistration.Oid))
@@ -737,7 +833,7 @@ namespace ServiceCenter.Services
 
                         objBaseDAL.ExeccuteStoreCommand(UpdateQuery, CommandType.Text, lstParam);
 
-                        if(objCallRegistration.Technician != objCallRegistration.Technician_Old)
+                        if (objCallRegistration.Technician != objCallRegistration.Technician_Old)
                         {
                             blnTechnicianAssignSMS = true;
 
@@ -782,7 +878,7 @@ namespace ServiceCenter.Services
                     objCallRegistrationResponce.Responce = true;
                     objCallRegistrationResponce.Message = "Call Register Successfuly";
 
-                    
+
 
                 }
                 catch (Exception ex)
@@ -830,12 +926,12 @@ namespace ServiceCenter.Services
                         objJobDashboard.OpenJobCount = dtRow["OpenJobCount"] != DBNull.Value ? Convert.ToInt32(dtRow["OpenJobCount"]) : 0;
                         objJobDashboard.NewJobCount = dtRow["NewJobCount"] != DBNull.Value ? Convert.ToInt32(dtRow["NewJobCount"]) : 0;
                     }
-                    
+
 
                     if (CurrentYearJobDataTable.Rows.Count > 0)
                     {
                         DataRow dtRow = CurrentYearJobDataTable.Rows[0];
-                        
+
                         MonthModel objMonthModel = new MonthModel();
 
                         objMonthModel.January = dtRow["January"] != DBNull.Value ? Convert.ToInt32(dtRow["January"]) : 0;
@@ -858,7 +954,7 @@ namespace ServiceCenter.Services
                     if (PreviousYearJobDataTable.Rows.Count > 0)
                     {
                         DataRow dtRow = PreviousYearJobDataTable.Rows[0];
-                        
+
                         MonthModel objMonthModel = new MonthModel();
 
                         objMonthModel.January = dtRow["January"] != DBNull.Value ? Convert.ToInt32(dtRow["January"]) : 0;
@@ -1552,6 +1648,72 @@ namespace ServiceCenter.Services
             return lstUser;
         }
 
+        public List<Select2> GetPartList(string PartName)
+        {
+            List<Select2> lstItem = new List<Select2>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+
+                if (!string.IsNullOrEmpty(PartName))
+                {
+                    strQuery = @"SELECT 
+	                                PartId, 
+	                                PartName 
+                                FROM 
+	                                PartMaster 
+                                WHERE 
+	                                IsActive = 1 AND IsDelete = 0 AND PartName LIKE '%' + @PartName + '%'
+                                ORDER BY PartName ASC";
+
+                }
+                else
+                {
+                    strQuery = @"SELECT 
+	                                PartId, 
+	                                PartName 
+                                FROM 
+	                                PartMaster 
+                                WHERE 
+	                                IsActive = 1 AND IsDelete = 0 
+							    ORDER BY PartName ASC";
+                }
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@PartName", PartName),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    Select2 objSelect2;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objSelect2 = new Select2();
+
+                        objSelect2.id = dtRowItem["PartId"] != DBNull.Value ? Convert.ToString(dtRowItem["PartId"]) : string.Empty;
+                        objSelect2.text = dtRowItem["PartName"] != DBNull.Value ? Convert.ToString(dtRowItem["PartName"]) : string.Empty;
+
+                        lstItem.Add(objSelect2);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return lstItem;
+        }
+
         public int GetLatestIdForJobNo()
         {
             int LatestJobIdNo = 0;
@@ -1658,7 +1820,7 @@ namespace ServiceCenter.Services
 
             string strTechnicianIdForCall = GetTechnicianByCallId(CallId);
 
-            if(!string.IsNullOrEmpty(strTechnicianIdForCall))
+            if (!string.IsNullOrEmpty(strTechnicianIdForCall))
             {
                 strQuery = string.Empty;
                 bool blnJobDone = false;
@@ -1792,7 +1954,7 @@ namespace ServiceCenter.Services
             }
 
 
-            
+
 
             return objResponceModel;
 
@@ -1805,7 +1967,7 @@ namespace ServiceCenter.Services
             User UserSesionDetail = SessionService.GetUserSessionValues();
             string UserName = UserSesionDetail != null ? UserSesionDetail.UserName : string.Empty;
 
-            strQuery = @"UPDATE CallRegistration set CompComplaintNo = @CompComplaintNo, Modifier = @UserName, ModifyDate = GETDATE() WHERE Oid = @CallId";
+            strQuery = @"UpdateComapnyCompaintNoAndCallAssing";
 
             try
             {
@@ -1817,14 +1979,19 @@ namespace ServiceCenter.Services
                       {
                                 new SqlParameter("@CompComplaintNo", CompComplaintNo),
                                 new SqlParameter("@CallId", CallId),
-                                new SqlParameter("@UserName", UserName),
+                                new SqlParameter("@Modifier", UserName),
                       });
 
-                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
-                objResponceModel.Responce = true;
-                objResponceModel.Message = "Comp Complaint No value updated in database";
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowPart = ResDataTable.Rows[0];
 
+                    objResponceModel.Message = dtRowPart["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowPart["ResponceMesage"]) : string.Empty;
+                    objResponceModel.Responce = dtRowPart["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowPart["OprationSuceess"]) : false;
+
+                }
             }
             catch (Exception ex)
             {
@@ -1920,7 +2087,7 @@ namespace ServiceCenter.Services
             return objResponceModel;
 
         }
-        
+
 
         public BillDetailsDataModel GetBillDetailsByBillNo(string BillNo, string BillDate)
         {
@@ -1945,7 +2112,7 @@ namespace ServiceCenter.Services
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam, "Ketandb");
 
 
-                if(ResDataSet.Tables.Count > 0)
+                if (ResDataSet.Tables.Count > 0)
                 {
 
                     DataTable ResReponceDataTable = ResDataSet.Tables[0];
@@ -1991,7 +2158,7 @@ namespace ServiceCenter.Services
                     }
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -2035,7 +2202,7 @@ namespace ServiceCenter.Services
                 SqlParameter SerialNo_Param = new SqlParameter() { ParameterName = "@SerialNo", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = objBillDetails.SerialNo };
 
 
-                lstParam.AddRange(new SqlParameter[] { BillNo_Param, BillDate_Param,  CustomerName_Param, CustomerMobileNo_Param, CustomerMobileNo2_Param, CustomerAddress_Param, CustomerPincode_Param, CustomerCityName_Param, ItemName_Param, ProductName_Param, LoginUserId_Param, SerialNo_Param });
+                lstParam.AddRange(new SqlParameter[] { BillNo_Param, BillDate_Param, CustomerName_Param, CustomerMobileNo_Param, CustomerMobileNo2_Param, CustomerAddress_Param, CustomerPincode_Param, CustomerCityName_Param, ItemName_Param, ProductName_Param, LoginUserId_Param, SerialNo_Param });
 
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -2051,14 +2218,14 @@ namespace ServiceCenter.Services
                     objResponceModel.Message = dtRowItem["ResponceMessage"] != DBNull.Value ? Convert.ToString(dtRowItem["ResponceMessage"]) : string.Empty;
                 }
 
-                if(objResponceModel.Responce)
+                if (objResponceModel.Responce)
                 {
                     DataTable CallRegistationTable = ResDataSet.Tables[1];
                     DataRow dtRowItem = CallRegistationTable.Rows[0];
 
-                    JobDetailForSMS objJobDetailForSMS = new JobDetailForSMS() 
-                    { 
-                        CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty, 
+                    JobDetailForSMS objJobDetailForSMS = new JobDetailForSMS()
+                    {
+                        CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty,
                         MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty,
                         JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty,
                     };
@@ -2114,7 +2281,7 @@ namespace ServiceCenter.Services
                 SqlParameter CallIds_ForSMS_Param = new SqlParameter() { ParameterName = "@CallIds", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = CallIds };
 
 
-                lstParam.AddRange(new SqlParameter[] { CallIds_ForSMS_Param});
+                lstParam.AddRange(new SqlParameter[] { CallIds_ForSMS_Param });
 
                 DataTable ResCustomerDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -2140,18 +2307,18 @@ namespace ServiceCenter.Services
 
                 APIService objAPIService = new APIService();
 
-                if(lstJobDetailForSMS.Count > 0)
+                if (lstJobDetailForSMS.Count > 0)
                 {
                     foreach (JobDetailForSMS item in lstJobDetailForSMS)
                     {
                         if (!string.IsNullOrEmpty(item.CustomerName) && !string.IsNullOrEmpty(item.MobileNo))
                         {
-                            objAPIService.SendSMSForCall(JobSMSSendCategory.TechnicianAllocation, new JobDetailForSMS() { CustomerName = item.CustomerName , MobileNo = item.MobileNo, JobNo = item.JobNo, TechnicianName = item.TechnicianName });
+                            objAPIService.SendSMSForCall(JobSMSSendCategory.TechnicianAllocation, new JobDetailForSMS() { CustomerName = item.CustomerName, MobileNo = item.MobileNo, JobNo = item.JobNo, TechnicianName = item.TechnicianName });
                         }
                     }
 
                 }
-                
+
 
 
             }
@@ -2231,7 +2398,7 @@ namespace ServiceCenter.Services
         {
             APIService objAPIService = new APIService();
 
-            if(objJobDetailForSMS != null && !string.IsNullOrEmpty(objJobDetailForSMS.CustomerName) && !string.IsNullOrEmpty(objJobDetailForSMS.MobileNo) && !string.IsNullOrEmpty(objJobDetailForSMS.JobNo))
+            if (objJobDetailForSMS != null && !string.IsNullOrEmpty(objJobDetailForSMS.CustomerName) && !string.IsNullOrEmpty(objJobDetailForSMS.MobileNo) && !string.IsNullOrEmpty(objJobDetailForSMS.JobNo))
             {
                 objAPIService.SendSMSForCall(JobSMSSendCategory.CallRegister, objJobDetailForSMS);
             }
@@ -2330,7 +2497,7 @@ namespace ServiceCenter.Services
                 SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
                 SqlParameter TotalRecordCount_Param = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
 
-                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, JobNo_Param, CustomerName_Param, CustomerNo_Param, TechnicianName_Param, FromDate_Param, ToDate_Param,  TotalRecordCount_Param });
+                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, JobNo_Param, CustomerName_Param, CustomerNo_Param, TechnicianName_Param, FromDate_Param, ToDate_Param, TotalRecordCount_Param });
 
                 DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -2359,7 +2526,7 @@ namespace ServiceCenter.Services
                         objInstallationsTable.Location = dtRowItem["Location"] != DBNull.Value ? Convert.ToString(dtRowItem["Location"]) : string.Empty;
                         objInstallationsTable.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
 
-                        if(!string.IsNullOrEmpty(InstallationImages))
+                        if (!string.IsNullOrEmpty(InstallationImages))
                         {
                             InstallationImages objInstallationImages = new InstallationImages();
                             //objInstallationImages.ImageList = new List<string>();
@@ -2380,14 +2547,14 @@ namespace ServiceCenter.Services
                                         objInstallationsTable.ImageList.Add(ImageName);
                                     }
                                 }
-                                
+
                             }
                             catch (Exception ex)
                             {
                                 objInstallationsTable.Image = string.Empty;
                             }
                         }
-                        
+
                         objListViewDataModel.DataList.Add(objInstallationsTable);
 
                     }
@@ -2401,5 +2568,90 @@ namespace ServiceCenter.Services
             return objListViewDataModel;
         }
 
+
+        public List<SelectListItem> GetFreeServiceCardTypeData(string SelectedValue = "")
+        {
+
+            List<SelectListItem> ListItem = new List<SelectListItem>();
+
+            strQuery = @"SELECT Id, CardName FROM FreeServiceCard WHERE IsActive = 1 AND IsDelete = 0";
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                lstParam = new List<SqlParameter>();
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                int Id = 0;
+                string CardName = string.Empty;
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        Id = dtRowItem["Id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["Id"]) : 0;
+                        CardName = dtRowItem["CardName"] != DBNull.Value ? Convert.ToString(dtRowItem["CardName"]) : string.Empty;
+
+                        ListItem.Add(new SelectListItem { Text = CardName, Value = Id.ToString(), Selected = SelectedValue == Id.ToString() ? true : false });
+
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+                ListItem = new List<SelectListItem>();
+            }
+
+            return ListItem;
+
+
+        }
+
+
+        public ResponceModel EraseChargesBetweenTwoDates(DateTime? FromDate, DateTime? ToDate)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"EraseChargesBetweenTwoDates";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowPart = ResDataTable.Rows[0];
+
+                    objResponceModel.Message = dtRowPart["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowPart["ResponceMesage"]) : string.Empty;
+                    objResponceModel.Responce = dtRowPart["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowPart["OprationSuceess"]) : false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+        }
     }
 }

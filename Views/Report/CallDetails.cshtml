@@ -1,0 +1,101 @@
+﻿@model ServiceCenter.Models.CallRegistrationListDataModel
+
+@{
+    ViewBag.Title = "Technician Call Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card">
+            <div class="card-header bg-info">@Model.CallRegistrationList.FirstOrDefault().Technician Calls List | From : @Model.FromDate - To : @Model.ToDate || Total Calls : @Model.CallRegistrationList.Count</div>
+            <table class="table card-table table-responsive">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Job No</th>
+                        <th>Call Date</th>
+                        <th>Call Assing Date</th>
+                        <th>Customer Name</th>
+                        <th>Mobile</th>
+                        <th>Call Type</th>
+                        <th>Service Type</th>
+                        <th>Product Name</th>
+                        <th>Fault Desc.</th>
+                        <th>Call Attn</th>
+                        <th>Job Done</th>
+                        <th>Call Back</th>
+                        <th>Go After Call</th>
+                        <th>Cancled</th>
+                        <th>Estimate</th>
+                        <th>Visit Charge</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.CallRegistrationList.Count > 0)
+                        {
+
+                            foreach (var callItem in Model.CallRegistrationList)
+                            {
+                                string strTechnician = callItem.Technician;
+                                <tr>
+                                    <td>@callItem.JobNo</td>
+                                    <td>@callItem.StringCreationDate</td>
+                                    <td>@callItem.StringCallAssignDate</td>
+                                    <td>@callItem.CustomerName</td>
+                                    <td>@callItem.MobileNo</td>
+                                    <td>@callItem.CallTypeName</td>
+                                    <td>@callItem.ServTypeName</td>
+                                    <td>@callItem.ItemName</td>
+                                    <td>@callItem.FaultDesc</td>
+                                    <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                    <td>@callItem.Estimate</td>
+                                    <td>@callItem.VisitCharge</td>
+                                </tr>
+
+                            }
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+
+            });
+
+
+
+            $("#btnSubmit").click(function () {
+
+                $("#frmTechnicianCallReport").submit();
+
+            });
+
+        </script>
+    }
+
+</div>
+
+

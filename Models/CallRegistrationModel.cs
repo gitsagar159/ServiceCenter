@@ -38,8 +38,8 @@ namespace ServiceCenter.Models
         public bool Display { get; set; }
         public string ExchangeProduct { get; set; }
         public bool PendingExchange { get; set; }
-        public DateTime? EstimateDate { get; set; }
-        public DateTime? EstConfirmDate { get; set; }
+        public string EstimateDate { get; set; }
+        public string EstConfirmDate { get; set; }
         public int PaymentBy { get; set; }
         public string UserName { get; set; }
         public string Modifier { get; set; }
@@ -75,6 +75,7 @@ namespace ServiceCenter.Models
         public string ShowRoom { get; set; }
         public string TechBillNo { get; set; }
         public string DealRef { get; set; }
+        public string TechnicianId { get; set; }
         public string Technician { get; set; }
         public string Technician_Old { get; set; }
         public string TechnicianName { get; set; }
@@ -114,6 +115,19 @@ namespace ServiceCenter.Models
         public string PaymentByCheque { get; set; }
         public string fault_name7 { get; set; }
 
+        public DateTime? CallAttn_DateTime { get; set; }
+        public DateTime? Deliver_DateTime { get; set; }
+        public DateTime? SMSSent_DateTime { get; set; }
+        public DateTime? CallBack_DateTime { get; set; }
+        public DateTime? WorkShopIN_DateTime { get; set; }
+        public DateTime? GoAfterCall_DateTime { get; set; }
+        public DateTime? Canceled_DateTime { get; set; }
+        public bool AC_Service { get; set; }
+        public int FreeServiceCardType { get; set; }
+        public string FreeServiceCardNo { get; set; }
+        public string PartId { get; set; }
+        public decimal PartPrice { get; set; }
+
         public string CityName { get; set; }
         public SelectList ServiceTypeDD { get; set; }
         public SelectList CallTypeDD { get; set; }
@@ -121,6 +135,7 @@ namespace ServiceCenter.Models
         public SelectList AreaDD { get; set; }
         public SelectList FaultTypeDD { get; set; }
         public SelectList PaymentByDD { get; set; }
+        public SelectList FreeServiceCardTypeDD { get; set; }
 
         public string Select2JSON { get; set; }
 
@@ -138,6 +153,7 @@ namespace ServiceCenter.Models
         public Select2 Select2Technician { get; set; }
         public Select2 Select2FaultType { get; set; }
         public Select2 Select2Customer { get; set; }
+        public Select2 Select2Part { get; set; }
     }
 
     public class CallRegistrationListDataModel
@@ -148,6 +164,17 @@ namespace ServiceCenter.Models
 
         public string Oids { get; set; }
 
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+
+    }
+
+    public class CallBackReceivedOrPendingModel
+    {
+        public List<CallRegistration> CallBackList { get; set; }
+        public List<CallRegistration> WorkshopInList { get; set; }
+        public List<CallRegistration> DeliverList { get; set; }
+        public List<CallRegistration> PendingList { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
 

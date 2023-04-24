@@ -1,0 +1,646 @@
+﻿@model ServiceCenter.Models.TechnicianReportData
+@using ServiceCenter.Models
+@{
+    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+    List<TechnicianReport> lstKetanTechnicianCalls = new List<TechnicianReport>();
+    List<TechnicianReport> lstCompanyTechnicianCalls = new List<TechnicianReport>();
+
+    if (Model != null && Model.TechnicianReportList.Count > 0)
+    {
+        lstKetanTechnicianCalls = Model.TechnicianReportList.Where(x => x.TechnicianTypeId.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
+        lstCompanyTechnicianCalls = Model.TechnicianReportList.Where(x => x.TechnicianTypeId.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
+    }
+
+    CallSummaryModel objCallSummaryModel;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Technician Call Report</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/uikit.css">
+    <link rel="stylesheet" href="~/Content/assets/css/demo.css">
+
+    <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
+    <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <script src="~/Content/assets/vendor/js/theme-settings.js"></script>
+
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/js/pace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <style>
+        .card-table > thead:first-child > tr:first-child > td, .card-table > thead:first-child > tr:first-child > th, .card-table > tbody:first-child > tr:first-child > td, .card-table > tbody:first-child > tr:first-child > th, .card-table > tfoot:first-child > tr:first-child > td, .card-table > tfoot:first-child > tr:first-child > th {
+            border-top: 0;
+        }
+
+        .table .thead-light th {
+            color: #4E5155;
+            background-color: rgba(24,28,33,0.03);
+            border-color: #f1f1f2;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #f1f1f2;
+        }
+
+        .card-table, .card-table th, .card-table td {
+            border-color: rgba(24,28,33,0.06);
+        }
+
+        .table th {
+            font-weight: 500;
+        }
+
+        .table th, .table td {
+            padding: 0.625rem;
+            vertical-align: top;
+            border-top: 1px solid #f1f1f2;
+            font-weight: 500;
+        }
+
+        th {
+            display: table-cell;
+            vertical-align: inherit;
+            font-weight: bold;
+            text-align: -internal-center;
+        }
+
+        table {
+            border-collapse: separate;
+            text-indent: initial;
+            border-spacing: 2px;
+        }
+
+        .bg-info {
+            background-color: #28c3d7 !important;
+        }
+
+        .bg-primary {
+            background-color: #26B4FF !important;
+        }
+
+        .bg-danger {
+            background-color: #d9534f !important;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="card">
+        <div class="card-header">Pending Call Report - Technician | From : @Model.FromDate - To : @Model.ToDate</div>
+        <table class="table card-table table-responsive">
+            <tbody>
+                @{
+                    if (lstKetanTechnicianCalls.Count > 0)
+                    {
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Ketan Technican</th>
+                        </tr>
+
+                        foreach (var ketanTechCallItem in lstKetanTechnicianCalls)
+                        {
+
+                            <tr class="bg-info">
+                                <td colspan="9">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(ketanTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianPendingCallReport)">@ketanTechCallItem.TechnicianName</a></td>
+                            </tr>
+                            <tr>
+                                <td>Assign Calls : @ketanTechCallItem.AssignCalls</td>
+                                <td>Done Calls : @ketanTechCallItem.DoneCalls</td>
+                                <td>Cancle Calls : @ketanTechCallItem.CancelCalls</td>
+                                <td>Call Back Calls : @ketanTechCallItem.CallBackCalls</td>
+                                <td>Workshop In Pending  : @ketanTechCallItem.Workshop_Pending</td>
+                                <td>Estimate : @ketanTechCallItem.TechnicianEstimate</td>
+                                <td>Visit Charge : @ketanTechCallItem.TechnicianVisitCharge</td>
+                                <td>Payment : @ketanTechCallItem.TechnicianPayment</td>
+                                <td>Expence : @ketanTechCallItem.TechnicianExpence</td>
+                                <td>Earning : @ketanTechCallItem.TotalEarning</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @ketanTechCallItem.Local_Calls_List.LocalCalls</td>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Workshop : @ketanTechCallItem.Workshop_Calls_List.WorkshopCalls</td>
+                                <td colspan="3" style="text-align: center;">Out-Station : @ketanTechCallItem.OutStation_Calls_List.OutStationCalls</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    In Warranty : @ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Local_InWarranty_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Local_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+
+
+
+                                </td>
+                                <td>
+                                    Out Warranty : @ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Local_OutWarranty_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Local_Installation_ItemGroupBy = ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Local_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+
+                                <td>
+                                    In Warranty : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Workshop_InWarranty_ItemGroupBy = ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls</span> <br />
+                                        <span>Workshop Job Done But Not Deliver : @ketanTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_OutWarranty_ItemGroupBy = ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls</span> <br />
+                                        <span>Workshop Job Done But Not Deliver : @ketanTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_Installation_ItemGroupBy = ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Workshop_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAttend_But_NotDoneCalls</span> <br />
+                                        <span>Workshop Job Done But Not Deliver : @ketanTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationWorkshop_JobDone_But_NotDeliverCalls</span> <br />
+                                    }
+
+                                </td>
+
+
+                                <td>
+                                    In Warranty : @ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var OutStation_InWarranty_ItemGroupBy = ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_OutWarranty_ItemGroupBy = ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td>
+                                    Installation : @ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_Installation_ItemGroupBy = ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in OutStation_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationJobDoneCalls</span> <br />
+                                        <span>Cancle : @ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCancleCalls</span> <br />
+                                        <span>Ac Service : @ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @ketanTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+
+                            </tr>
+
+
+                        }
+                    }
+
+
+
+                    if (lstCompanyTechnicianCalls.Count > 0)
+                    {
+                        <tr>
+                            <td scope="row" colspan="9"></td>
+                        </tr>
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Company Technican</th>
+                        </tr>
+                        <tr>
+                            <td scope="row" colspan="9"></td>
+                        </tr>
+
+                        foreach (var companyTechCallItem in lstCompanyTechnicianCalls)
+                        {
+
+                            <tr class="bg-info">
+                                <td colspan="9">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(companyTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianPendingCallReport)">@companyTechCallItem.TechnicianName</a></td>
+                            </tr>
+                            <tr>
+                                <td>Assign Calls : @companyTechCallItem.AssignCalls</td>
+                                <td>Done Calls : @companyTechCallItem.DoneCalls</td>
+                                <td>Cancle Calls : @companyTechCallItem.CancelCalls</td>
+                                <td>Call Back Calls : @companyTechCallItem.CallBackCalls</td>
+                                <td>Workshop In Pending  : @companyTechCallItem.Workshop_Pending</td>
+                                <td>Estimate : @companyTechCallItem.TechnicianEstimate</td>
+                                <td>Visit Charge : @companyTechCallItem.TechnicianVisitCharge</td>
+                                <td>Payment : @companyTechCallItem.TechnicianPayment</td>
+                                <td>Expence : @companyTechCallItem.TechnicianExpence</td>
+                                <td>Earning : @companyTechCallItem.TotalEarning</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @companyTechCallItem.Local_Calls_List.LocalCalls</td>
+                                <td colspan="3" style="text-align: center; border-right: 2px solid red;">Workshop : @companyTechCallItem.Workshop_Calls_List.WorkshopCalls</td>
+                                <td colspan="3" style="text-align: center;">Out-Station : @companyTechCallItem.OutStation_Calls_List.OutStationCalls</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    In Warranty : @companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Local_InWarranty_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Local_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+
+
+
+                                </td>
+                                <td>
+                                    Out Warranty : @companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Local_OutWarranty_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Local_Installation_ItemGroupBy = companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Local_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.Local_Calls_List.Local_Installation_Calls.InstallationAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+
+                                <td>
+                                    In Warranty : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var Workshop_InWarranty_ItemGroupBy = companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls</span> <br />
+                                        <span>Workshop Job Done But Not Deliver : @companyTechCallItem.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyWorkshop_JobDone_But_NotDeliverCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_OutWarranty_ItemGroupBy = companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls</span> <br />
+                                        <span>Workshop Job Done But Not Deliver : @companyTechCallItem.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyWorkshop_JobDone_But_NotDeliverCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td style="border-right: 2px solid red;">
+                                    Installation : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var Workshop_Installation_ItemGroupBy = companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in Workshop_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationAttend_But_NotDoneCalls</span> <br />
+                                        <span>Workshop Job Done But Not Deliver : @companyTechCallItem.Workshop_Calls_List.Workshop_Installation_Calls.InstallationWorkshop_JobDone_But_NotDeliverCalls</span> <br />
+                                    }
+
+                                </td>
+
+
+                                <td>
+                                    In Warranty : @companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                    @{
+
+                                        var OutStation_InWarranty_ItemGroupBy = companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td>
+                                    Out Warranty : @companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_OutWarranty_ItemGroupBy = companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+                                <td>
+                                    Installation : @companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls<br /><br />
+
+                                    @{
+
+                                        var OutStation_Installation_ItemGroupBy = companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                            .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                            .ToList();
+
+                                        foreach (var item in OutStation_Installation_ItemGroupBy)
+                                        {
+                                            @Html.Raw(item.ItemName + " : " + item.ItemNameList.Count)<br />
+                                        }
+
+                                        <br />
+                                        <span>Job Done : @companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationJobDoneCalls</span> <br />
+                                        <span>Cancle : @companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCancleCalls</span> <br />
+                                        <span>Ac Service : @companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAC_ServiceCalls</span> <br />
+                                        <span>Attend But not Done : @companyTechCallItem.OutStation_Calls_List.OutStation_Installation_Calls.InstallationAttend_But_NotDoneCalls</span> <br />
+                                    }
+
+                                </td>
+
+                            </tr>
+
+
+                        }
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/Content/assets/vendor/js/sidenav.js"></script>
+
+    <!-- Libs -->
+    <script src="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <!-- Demo -->
+    <script src="~/Content/assets/js/demo.js"></script>
+    <script src="~/Scripts/ProjectJs/Common.js"></script>
+</body>
+</html>

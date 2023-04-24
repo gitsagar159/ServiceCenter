@@ -1,0 +1,345 @@
+﻿@model ServiceCenter.Models.DailyRegisterCallReportData
+@using ServiceCenter.Models
+@{
+    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Technician Call Report</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/uikit.css">
+    <link rel="stylesheet" href="~/Content/assets/css/demo.css">
+
+    <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
+    <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <script src="~/Content/assets/vendor/js/theme-settings.js"></script>
+
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/js/pace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <style>
+        .card-table > thead:first-child > tr:first-child > td, .card-table > thead:first-child > tr:first-child > th, .card-table > tbody:first-child > tr:first-child > td, .card-table > tbody:first-child > tr:first-child > th, .card-table > tfoot:first-child > tr:first-child > td, .card-table > tfoot:first-child > tr:first-child > th {
+            border-top: 0;
+        }
+
+        .table .thead-light th {
+            color: #4E5155;
+            background-color: rgba(24,28,33,0.03);
+            border-color: #f1f1f2;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #f1f1f2;
+        }
+
+        .card-table, .card-table th, .card-table td {
+            border-color: rgba(24,28,33,0.06);
+        }
+
+        .table th {
+            font-weight: 500;
+        }
+
+        .table th, .table td {
+            padding: 0.625rem;
+            vertical-align: top;
+            border-top: 1px solid #f1f1f2;
+            font-weight: 500;
+        }
+
+        th {
+            display: table-cell;
+            vertical-align: inherit;
+            font-weight: bold;
+            text-align: -internal-center;
+        }
+
+        table {
+            border-collapse: separate;
+            text-indent: initial;
+            border-spacing: 2px;
+        }
+
+        .bg-info {
+            background-color: #28c3d7 !important;
+        }
+
+        .bg-primary {
+            background-color: #26B4FF !important;
+        }
+
+        .bg-danger {
+            background-color: #d9534f !important;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="card">
+        <div class="card-header">Daily Call Register | From : @Model.FromDate - To : @Model.ToDate</div>
+        <table class="table card-table table-responsive">
+            <tbody>
+                @{
+                    if (Model != null && Model.DailyRegisterCallReport != null)
+                    {
+                        var objDailyRegisterCallReport = Model.DailyRegisterCallReport;
+
+                        <tr>
+                            <td colspan="3" style="text-align: center; border-right: 2px solid red;">Local : @objDailyRegisterCallReport.Local_Calls_List.LocalCalls</td>
+                            <td colspan="3" style="text-align: center; border-right: 2px solid red;">Workshop : @objDailyRegisterCallReport.Workshop_Calls_List.WorkshopCalls</td>
+                            <td colspan="3" style="text-align: center;">Out-Station : @objDailyRegisterCallReport.OutStation_Calls_List.OutStationCalls</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                In Warranty : @objDailyRegisterCallReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                @{
+
+                                    var Local_InWarranty_ItemGroupBy = objDailyRegisterCallReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in Local_InWarranty_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+
+                            </td>
+                            <td>
+                                Out Warranty : @objDailyRegisterCallReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                @{
+
+                                    var Local_OutWarranty_ItemGroupBy = objDailyRegisterCallReport.Local_Calls_List.Local_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+                                    <table>
+                                        @foreach (var item in Local_OutWarranty_ItemGroupBy)
+                                        {
+                                        <tr>
+                                            <td>@Html.Raw(item.ItemName);</td>
+                                            <td>@Html.Raw(item.ItemNameList.Count);</td>
+                                        </tr>
+                                        }
+                                    </table>
+                                }
+
+
+                            </td>
+                            <td style="border-right: 2px solid red;">
+                                Installation : @objDailyRegisterCallReport.Local_Calls_List.Local_Installation_Calls.InstallationCalls<br /><br />
+
+                                @{
+
+                                    var Local_Installation_ItemGroupBy = objDailyRegisterCallReport.Local_Calls_List.Local_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in Local_Installation_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+
+                            <td>
+                                In Warranty : @objDailyRegisterCallReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                @{
+
+                                    var Workshop_InWarranty_ItemGroupBy = objDailyRegisterCallReport.Workshop_Calls_List.Workshop_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in Workshop_InWarranty_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+                            <td>
+                                Out Warranty : @objDailyRegisterCallReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                @{
+
+                                    var Workshop_OutWarranty_ItemGroupBy = objDailyRegisterCallReport.Workshop_Calls_List.Workshop_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in Workshop_OutWarranty_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+                            <td style="border-right: 2px solid red;">
+                                Installation : @objDailyRegisterCallReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationCalls<br /><br />
+
+                                @{
+
+                                    var Workshop_Installation_ItemGroupBy = objDailyRegisterCallReport.Workshop_Calls_List.Workshop_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in Workshop_Installation_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+
+
+                            <td>
+                                In Warranty : @objDailyRegisterCallReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyCalls <br /><br />
+
+                                @{
+
+                                    var OutStation_InWarranty_ItemGroupBy = objDailyRegisterCallReport.OutStation_Calls_List.OutStation_InWarranty_Calls.InWarrantyItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in OutStation_InWarranty_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+                            <td>
+                                Out Warranty : @objDailyRegisterCallReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyCalls<br /><br />
+
+                                @{
+
+                                    var OutStation_OutWarranty_ItemGroupBy = objDailyRegisterCallReport.OutStation_Calls_List.OutStation_OutWarranty_Calls.OutWarrantyItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in OutStation_OutWarranty_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+                            <td>
+                                Installation : @objDailyRegisterCallReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationCalls<br /><br />
+
+                                @{
+
+                                    var OutStation_Installation_ItemGroupBy = objDailyRegisterCallReport.OutStation_Calls_List.OutStation_Installation_Calls.InstallationItems.GroupBy(i => i.ItemName)
+                                        .Select(s => new { ItemName = s.Key, ItemNameList = s.ToList() })
+                                        .ToList();
+
+                                    <table>
+                                        @foreach (var item in OutStation_Installation_ItemGroupBy)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(item.ItemName)</td>
+                                                <td>@Html.Raw(item.ItemNameList.Count)</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+
+                            </td>
+
+                        </tr>
+
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/Content/assets/vendor/js/sidenav.js"></script>
+
+    <!-- Libs -->
+    <script src="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <!-- Demo -->
+    <script src="~/Content/assets/js/demo.js"></script>
+    <script src="~/Scripts/ProjectJs/Common.js"></script>
+</body>
+</html>

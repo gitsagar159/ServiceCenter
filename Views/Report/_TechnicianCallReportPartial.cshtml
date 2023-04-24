@@ -3,14 +3,6 @@
 @{
     string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
 
-    List<CallRegistration> lstKetanTechnicianCalls = new List<CallRegistration>();
-    List<CallRegistration> lstCompanyTechnicianCalls = new List<CallRegistration>();
-
-    if (Model != null && Model.CallRegistrationList.Count > 0)
-    {
-        lstKetanTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
-        lstCompanyTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
-    }
 }
 
 <!DOCTYPE html>
@@ -144,138 +136,47 @@
             </thead>
             <tbody>
                 @{
-                    if (lstKetanTechnicianCalls.Count > 0)
+                    if (Model.CallRegistrationList.Count > 0)
                     {
-                        <tr class="bg-danger">
-                            <th scope="row" colspan="16" style="text-align:center"> Ketan Technican</th>
+                        int TotalCall = Model.CallRegistrationList.Count;
+                        int InWarrantyCalls = Model.CallRegistrationList.Where(x => x.ServType == 0).ToList().Count();
+                        int OutWarrantyCalls = Model.CallRegistrationList.Where(x => x.ServType == 1).ToList().Count();
+                        int InstallationCalls = Model.CallRegistrationList.Where(x => x.ServType == 2).ToList().Count();
+                        int JobDoneCalls = Model.CallRegistrationList.Where(x => x.JobDone == true).ToList().Count();
+                        int CallAttnCalls = Model.CallRegistrationList.Where(x => x.CallAttn == true).ToList().Count();
+                        int CallBackCalls = Model.CallRegistrationList.Where(x => x.CallBack == true).ToList().Count();
+                        int GoAfterCallCalls = Model.CallRegistrationList.Where(x => x.GoAfterCall == true).ToList().Count();
+                        int CallAttnAndJobNotDoneCalls = Model.CallRegistrationList.Where(x => x.CallAttn == true && x.JobDone == false).ToList().Count();
+                        int WorkShopINCalls = Model.CallRegistrationList.Where(x => x.WorkShopIN == true).ToList().Count();
+                        int LocalCalls = Model.CallRegistrationList.Where(x => x.CallType == 0).ToList().Count();
+                        int WorkshopCalls = Model.CallRegistrationList.Where(x => x.CallType == 1).ToList().Count();
+                        int OutStationCalls = Model.CallRegistrationList.Where(x => x.CallType == 2).ToList().Count();
+
+                        <tr class="bg-info">
+                            <th scope="row" colspan="16">@Model.CallRegistrationList.FirstOrDefault().Technician; &nbsp; : &nbsp; Total Call : @Model.CallRegistrationList.Count </th>
                         </tr>
 
-                        var callgroupby = lstKetanTechnicianCalls.GroupBy(i => i.Technician)
-                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
-                                            .ToList();
-
-                        if (callgroupby != null && callgroupby.Count > 0)
+                        foreach (var callItem in Model.CallRegistrationList)
                         {
-
-                            foreach (var techItem in callgroupby)
-                            {
-                                string strTechnician = techItem.Technician;
-
-                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
-
-                                int TotalCall = currentTechnicanCalls.Count;
-                                int InWarrantyCalls = currentTechnicanCalls.Where(x => x.ServType == 0).ToList().Count();
-                                int OutWarrantyCalls = currentTechnicanCalls.Where(x => x.ServType == 1).ToList().Count();
-                                int InstallationCalls = currentTechnicanCalls.Where(x => x.ServType == 2).ToList().Count();
-                                int JobDoneCalls = currentTechnicanCalls.Where(x => x.JobDone == true).ToList().Count();
-                                int CallAttnCalls = currentTechnicanCalls.Where(x => x.CallAttn == true).ToList().Count();
-                                int CallBackCalls = currentTechnicanCalls.Where(x => x.CallBack == true).ToList().Count();
-                                int GoAfterCallCalls = currentTechnicanCalls.Where(x => x.GoAfterCall == true).ToList().Count();
-                                int CallAttnAndJobNotDoneCalls = currentTechnicanCalls.Where(x => x.CallAttn == true && x.JobDone == false).ToList().Count();
-                                int WorkShopINCalls = currentTechnicanCalls.Where(x => x.WorkShopIN == true).ToList().Count();
-                                int LocalCalls = currentTechnicanCalls.Where(x => x.CallType == 0).ToList().Count();
-                                int WorkshopCalls = currentTechnicanCalls.Where(x => x.CallType == 1).ToList().Count();
-                                int OutStationCalls = currentTechnicanCalls.Where(x => x.CallType == 2).ToList().Count();
-
-
-                                <tr class="bg-info">
-                                    <th scope="row" colspan="16">@strTechnician &nbsp; : &nbsp; @techItem.Items.Count || &nbsp; &nbsp; Total Call : @TotalCall | In-Warranty Calls : @InWarrantyCalls | Out-Warranty Calls : @OutWarrantyCalls | Installation Calls : @InstallationCalls | Job Done Calls : @JobDoneCalls | Call Attend : @CallAttnCalls | Call Back : @CallBackCalls | Go After Call : @GoAfterCallCalls | Call Attend but Job Not Done : @CallAttnAndJobNotDoneCalls | WorkShop IN Calls : @WorkShopINCalls | Local Calls : @LocalCalls | </th>
-                                </tr>
-                                foreach (CallRegistration callItem in lstKetanTechnicianCalls.Where(x => x.Technician == strTechnician))
-                                {
-                                    <tr>
-                                        <td>@callItem.JobNo</td>
-                                        <td>@callItem.StringCreationDate</td>
-                                        <td>@callItem.StringCallAssignDate</td>
-                                        <td>@callItem.CustomerName</td>
-                                        <td>@callItem.MobileNo</td>
-                                        <td>@callItem.CallTypeName</td>
-                                        <td>@callItem.ServTypeName</td>
-                                        <td>@callItem.ItemName</td>
-                                        <td>@callItem.FaultDesc</td>
-                                        <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@callItem.Estimate</td>
-                                        <td>@callItem.VisitCharge</td>
-                                    </tr>
-                                }
-
-                            }
-
-                        }
-                    }
-
-
-
-                    if (lstCompanyTechnicianCalls.Count > 0)
-                    {
-                        <tr>
-                            <td scope="row" colspan="16"></td>
-                        </tr>
-                        <tr class="bg-danger">
-                            <th scope="row" colspan="16" style="text-align:center"> Company Technican</th>
-                        </tr>
-                        <tr>
-                            <td scope="row" colspan="16"></td>
-                        </tr>
-
-                        var callgroupby = lstCompanyTechnicianCalls.GroupBy(i => i.Technician)
-                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
-                                            .ToList();
-
-                        if (callgroupby != null && callgroupby.Count > 0)
-                        {
-
-                            foreach (var techItem in callgroupby)
-                            {
-                                string strTechnician = techItem.Technician;
-
-                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
-
-                                int TotalCall = currentTechnicanCalls.Count;
-                                int InWarrantyCalls = currentTechnicanCalls.Where(x => x.ServType == 0).ToList().Count();
-                                int OutWarrantyCalls = currentTechnicanCalls.Where(x => x.ServType == 1).ToList().Count();
-                                int InstallationCalls = currentTechnicanCalls.Where(x => x.ServType == 2).ToList().Count();
-                                int JobDoneCalls = currentTechnicanCalls.Where(x => x.JobDone == true).ToList().Count();
-                                int CallAttnCalls = currentTechnicanCalls.Where(x => x.CallAttn == true).ToList().Count();
-                                int CallBackCalls = currentTechnicanCalls.Where(x => x.CallBack == true).ToList().Count();
-                                int GoAfterCallCalls = currentTechnicanCalls.Where(x => x.GoAfterCall == true).ToList().Count();
-                                int CallAttnAndJobNotDoneCalls = currentTechnicanCalls.Where(x => x.CallAttn == true && x.JobDone == false).ToList().Count();
-                                int WorkShopINCalls = currentTechnicanCalls.Where(x => x.WorkShopIN == true).ToList().Count();
-                                int LocalCalls = currentTechnicanCalls.Where(x => x.CallType == 0).ToList().Count();
-                                int WorkshopCalls = currentTechnicanCalls.Where(x => x.CallType == 1).ToList().Count();
-                                int OutStationCalls = currentTechnicanCalls.Where(x => x.CallType == 2).ToList().Count();
-
-
-                                <tr class="bg-info">
-                                    <th scope="row" colspan="16">@strTechnician &nbsp; : &nbsp; @techItem.Items.Count || &nbsp; &nbsp; Total Call : @TotalCall | In-Warranty Calls : @InWarrantyCalls | Out-Warranty Calls : @OutWarrantyCalls | Installation Calls : @InstallationCalls | Job Done Calls : @JobDoneCalls | Call Attend : @CallAttnCalls | Call Back : @CallBackCalls | Go After Call : @GoAfterCallCalls | Call Attend but Job Not Done : @CallAttnAndJobNotDoneCalls | WorkShop IN Calls : @WorkShopINCalls | Local Calls : @LocalCalls | </th>
-                                </tr>
-                                foreach (CallRegistration callItem in lstCompanyTechnicianCalls.Where(x => x.Technician == strTechnician))
-                                {
-                                    <tr>
-                                        <td>@callItem.JobNo</td>
-                                        <td>@callItem.StringCreationDate</td>
-                                        <td>@callItem.StringCallAssignDate</td>
-                                        <td>@callItem.CustomerName</td>
-                                        <td>@callItem.MobileNo</td>
-                                        <td>@callItem.CallTypeName</td>
-                                        <td>@callItem.ServTypeName</td>
-                                        <td>@callItem.ItemName</td>
-                                        <td>@callItem.FaultDesc</td>
-                                        <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                        <td>@callItem.Estimate</td>
-                                        <td>@callItem.VisitCharge</td>
-                                    </tr>
-                                }
-
-                            }
+                            string strTechnician = callItem.Technician;
+                            <tr>
+                                <td>@callItem.JobNo</td>
+                                <td>@callItem.StringCreationDate</td>
+                                <td>@callItem.StringCallAssignDate</td>
+                                <td>@callItem.CustomerName</td>
+                                <td>@callItem.MobileNo</td>
+                                <td>@callItem.CallTypeName</td>
+                                <td>@callItem.ServTypeName</td>
+                                <td>@callItem.ItemName</td>
+                                <td>@callItem.FaultDesc</td>
+                                <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
+                                <td>@callItem.Estimate</td>
+                                <td>@callItem.VisitCharge</td>
+                            </tr>
 
                         }
                     }

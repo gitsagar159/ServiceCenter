@@ -233,8 +233,6 @@ namespace ServiceCenter.Controllers
             return Json(new { data = objResponceModel });
         }
 
-        
-
         public JsonResult GetUserList(string match, int page = 1, int pageSize = 5)
         {
             List<Select2> lstUser = new List<Select2>();
@@ -249,6 +247,17 @@ namespace ServiceCenter.Controllers
             };
 
             return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateUserStatusById(int UserId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            UserService objUserService = new UserService();
+            objResponceModel = objUserService.UpdateUserStatusById(UserId, Status);
+
+            return Json(new { data = objResponceModel });
         }
 
         #endregion

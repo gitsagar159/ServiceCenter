@@ -805,11 +805,11 @@
     <Content Include="Views\Report\_GoAfterCallReport.cshtml" />
     <Content Include="Views\Report\_CollationReport.cshtml" />
     <Content Include="Views\Report\_ServiceTypeReportDailyItemVise.cshtml" />
-    <Content Include="Views\Report\_CallAssignToJobDoneTimingReport.cshtml" />
+    <Content Include="Views\Report\_TechnicianJobTimeReport.cshtml" />
     <Content Include="Views\Report\_CallbackReceivedOrPendingReport.cshtml" />
     <Content Include="Views\Report\CallSummaryReport.cshtml" />
-    <Content Include="Views\Report\PendingCallReport.cshtml" />
-    <Content Include="Views\Report\TechnicianCallReport.cshtml" />
+    <Content Include="Views\Report\PendingCallListByTechnician.cshtml" />
+    <Content Include="Views\Report\CallDetails.cshtml" />
     <Content Include="Views\Report\WorkshopInOutCallReport.cshtml" />
     <Content Include="Views\Report\ServiceTypeReport.cshtml" />
     <Content Include="Views\Report\ServiceTypeReportDailyItemVise.cshtml" />
@@ -820,9 +820,25 @@
     <Content Include="Views\Report\CancelCallReport.cshtml" />
     <Content Include="Views\Report\GoAfterCallReport.cshtml" />
     <Content Include="Views\Report\CollationReport.cshtml" />
-    <Content Include="Views\Report\CallAssignToJobDoneTimingReport.cshtml" />
+    <Content Include="Views\Report\TechnicianJobTimeReport.cshtml" />
     <Content Include="Views\Report\CallbackReceivedOrPendingReport.cshtml" />
     <Content Include="Views\Report\CallSummaryReport - Copy.cshtml" />
+    <Content Include="Views\Report\TechnicianCallSummaryReport.cshtml" />
+    <Content Include="Views\Report\_TechnicianCallSummaryPartial.cshtml" />
+    <Content Include="Views\Report\PendingCallsByTechnicianSummaryReport.cshtml" />
+    <Content Include="Views\Report\_PendingCallsByTechnicianSummaryReport.cshtml" />
+    <Content Include="Views\Report\TechnicianWorkshopInOutCallList.cshtml" />
+    <Content Include="Views\Master\PartList.cshtml" />
+    <Content Include="Views\Master\PartForm.cshtml" />
+    <Content Include="Views\Report\DailyCallRegisterReport.cshtml" />
+    <Content Include="Views\Report\_DailyCallRegisterReportPartial.cshtml" />
+    <Content Include="Views\Report\WorkshopPendingReport.cshtml" />
+    <Content Include="Views\Report\_WorkshopPendingReportPartial.cshtml" />
+    <Content Include="Views\Report\CallBackReceivedAndWorkshopInOut.cshtml" />
+    <Content Include="Views\Report\_CallBackReceivedAndWorkshopInOutPartial.cshtml" />
+    <Content Include="Views\Job\EraseChargesBetweenTwoDatesForm.cshtml" />
+    <Content Include="Views\Report\WorkshopReport.cshtml" />
+    <Content Include="Views\Report\_WorkshopReportPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

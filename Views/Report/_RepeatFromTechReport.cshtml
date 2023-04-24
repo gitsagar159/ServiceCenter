@@ -1,11 +1,18 @@
 ﻿@model ServiceCenter.Models.CallRegistrationListDataModel
 @using ServiceCenter.Models
 @{
-    Layout = null;
     string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
 
-    decimal TotlaPayment = 0, TotalEstimate = 0, TotalVistingCharge = 0;
-    int TotalCalls = 0;
+    List<CallRegistration> lstKetanTechnicianCalls = new List<CallRegistration>();
+    List<CallRegistration> lstCompanyTechnicianCalls = new List<CallRegistration>();
+
+    if (Model != null && Model.CallRegistrationList.Count > 0)
+    {
+        lstKetanTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
+        lstCompanyTechnicianCalls = Model.CallRegistrationList.Where(x => x.TechType.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
+    }
+
+    CallSummaryModel objCallSummaryModel;
 
 }
 
@@ -115,96 +122,213 @@
     <div class="card">
         <div class="card-header">Daily Repete From Technician Calls | From : @Model.FromDate - To : @Model.ToDate</div>
         <table class="table card-table table-responsive">
-            <thead class="thead-light">
-                <tr>
-                    <th>Job No</th>
-                    <th>Call Date</th>
-                    <th>Call Assing Date</th>
-                    <th>Customer Name</th>
-                    <th>Mobile</th>
-                    <th>Call Type</th>
-                    <th>Service Type</th>
-                    <th>Product Name</th>
-                    <th>Fault Desc.</th>
-                    <th>Call Attend</th>
-                    <th>Part Panding</th>
-                    <th>Call Back</th>
-                    <th>Go After Call</th>
-                    <th>Canceled</th>
-                    <th>Repeat From Technician</th>
-                    <th>Payment Panding</th>
-                    <th>JobDone</th>
-                    <th>Payment ₹</th>
-                    <th>Estimate ₹</th>
-                    <th>Visit Charge ₹</th>
-                </tr>
-            </thead>
+            
             <tbody>
                 @{
-                    if (Model.CallRegistrationList.Count > 0)
+                    if (lstKetanTechnicianCalls.Count > 0)
                     {
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Ketan Technican</th>
+                        </tr>
 
-                        var CallListGroupByTechnician = Model.CallRegistrationList.GroupBy(i => i.Technician)
-                                                    .Select(s => new { Technician = s.Key, Items = s.ToList() })
-                                                    .ToList();
+                        var callgroupby = lstKetanTechnicianCalls.GroupBy(i => i.Technician)
+                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
+                                            .ToList();
 
-                        foreach (var callItemTechnicianVise in CallListGroupByTechnician)
+
+
+                        if (callgroupby != null && callgroupby.Count > 0)
                         {
 
-                            <tr class="bg-danger">
-                                <th scope="row" colspan="20" style="text-align:center"> @callItemTechnicianVise.Technician</th>
-                            </tr>
-
-                            if (callItemTechnicianVise.Items.Count > 0)
+                            foreach (var techItem in callgroupby)
                             {
-                                TotlaPayment = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Sum(x => x.Payment) : 0;
-                                TotalEstimate = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Sum(x => x.Estimate) : 0;
-                                TotalVistingCharge = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Sum(x => x.VisitCharge) : 0;
-                                TotalCalls = callItemTechnicianVise.Items.Count > 0 ? callItemTechnicianVise.Items.Count : 0;
+                                string strTechnician = techItem.Technician;
 
-                                if (TotalCalls > 0)
-                                {
-                                    <tr class="bg-info">
-                                        <th scope="row" colspan="9"><strong>Total Calls</strong> &nbsp; : &nbsp; @TotalCalls   </th>
-                                        <th scope="row" colspan="8"> </th>
-                                        <th scope="row">@TotlaPayment.ToString("0.00")</th>
-                                        <th scope="row">@TotalEstimate.ToString("0.00")</th>
-                                        <th scope="row">@TotalVistingCharge.ToString("0.00")</th>
-                                    </tr>
+                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
 
-                                    foreach (CallRegistration callItem in callItemTechnicianVise.Items)
-                                    {
+                                objCallSummaryModel = new CallSummaryModel();
 
-                                        <tr>
-                                            <td>@callItem.JobNo</td>
-                                            <td>@callItem.StringCreationDate</td>
-                                            <td>@callItem.StringCallAssignDate</td>
-                                            <td>@callItem.CustomerName</td>
-                                            <td>@callItem.MobileNo</td>
-                                            <td>@callItem.CallTypeName</td>
-                                            <td>@callItem.ServTypeName</td>
-                                            <td>@callItem.ItemName</td>
-                                            <td>@callItem.FaultDesc</td>
-                                            <td>@Html.Raw(callItem.CallAttn ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.PartPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.CallBack ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.GoAfterCall ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.Canceled ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.RepeatFromTech ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.PaymentPanding ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@Html.Raw(callItem.JobDone ? "<i class=\"\" style=\"color: green;\">✅</i>" : "<i class=\"\" style=\"color: red;\">❌</i>") </td>
-                                            <td>@callItem.Payment.ToString("0.00")</td>
-                                            <td>@callItem.Estimate.ToString("0.00")</td>
-                                            <td>@callItem.VisitCharge.ToString("0.00")</td>
-                                        </tr>
-                                    }
+                                objCallSummaryModel.TotalCall = currentTechnicanCalls.Count;
 
-                                }
+                                objCallSummaryModel.InWarranty = currentTechnicanCalls.Where(x => x.ServType == 0).ToList().Count();
+                                objCallSummaryModel.OutWarranty = currentTechnicanCalls.Where(x => x.ServType == 1).ToList().Count();
+                                objCallSummaryModel.Installation = currentTechnicanCalls.Where(x => x.ServType == 2).ToList().Count();
+
+                                objCallSummaryModel.Local = currentTechnicanCalls.Where(x => x.CallType == 0).ToList().Count();
+                                objCallSummaryModel.Workshop = currentTechnicanCalls.Where(x => x.CallType == 1).ToList().Count();
+                                objCallSummaryModel.OutStation = currentTechnicanCalls.Where(x => x.CallType == 2).ToList().Count();
+
+
+                                objCallSummaryModel.Attended = currentTechnicanCalls.Where(x => x.CallAttn == true).ToList().Count();
+                                objCallSummaryModel.GoAfterCall = currentTechnicanCalls.Where(x => x.GoAfterCall == true).ToList().Count();
+                                objCallSummaryModel.CallBack = currentTechnicanCalls.Where(x => x.CallBack == true).ToList().Count();
+                                objCallSummaryModel.WorkshopIn = currentTechnicanCalls.Where(x => x.WorkShopIN == true).ToList().Count();
+                                objCallSummaryModel.Delever = currentTechnicanCalls.Where(x => x.Deliver == true).ToList().Count();
+                                objCallSummaryModel.PartPending = currentTechnicanCalls.Where(x => x.PartPanding == true).ToList().Count();
+                                objCallSummaryModel.RepeatFromTech = currentTechnicanCalls.Where(x => x.RepeatFromTech == true).ToList().Count();
+
+                                objCallSummaryModel.JobDone = currentTechnicanCalls.Where(x => x.JobDone == true).ToList().Count();
+                                objCallSummaryModel.AttendedButNotDone = currentTechnicanCalls.Where(x => x.CallAttn == true || x.Canceled == true || x.GoAfterCall == true && x.JobDone == false).ToList().Count();
+                                objCallSummaryModel.PendingJob = currentTechnicanCalls.Where(x => x.CallAttn == false && x.Canceled == false && x.GoAfterCall == false && x.CallBack == false && x.WorkShopIN == false && x.Deliver == false && x.PartPanding == false && x.JobDone == false).ToList().Count();
+
+                                objCallSummaryModel.Payment = currentTechnicanCalls.Sum(x => x.Payment);
+                                objCallSummaryModel.Estimate = currentTechnicanCalls.Sum(x => x.Estimate);
+                                objCallSummaryModel.VisitCharge = currentTechnicanCalls.Sum(x => x.VisitCharge);
+
+
+                                <tr class="bg-info">
+                                    <th scope="row" colspan="9">@strTechnician &nbsp; : &nbsp; Total Call : @objCallSummaryModel.TotalCall  <a target="_balnk" href="http://ke.ketanenterprise.in/Report/TechnicianCallReport?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(techItem.Items.FirstOrDefault().TechnicianId)" style="float:right">Show Calls Details</a></th>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3" style="text-align:center">Job Done : @objCallSummaryModel.JobDone </td>
+                                    <td colspan="3" style="text-align:center">Call Attended But Not Done : @objCallSummaryModel.AttendedButNotDone </td>
+                                    <td colspan="3" style="text-align:center">Pending Job : @objCallSummaryModel.PendingJob </td>
+                                </tr>
+                                <tr>
+                                    <td>In-Warranty : @objCallSummaryModel.InWarranty</td>
+                                    <td width="100"></td>
+                                    <td>Local : @objCallSummaryModel.Local</td>
+                                    <td width="100"></td>
+                                    <td>Workshop-In : @objCallSummaryModel.WorkshopIn</td>
+                                    <td width="100"></td>
+                                    <td>Part Pending : @objCallSummaryModel.PartPending</td>
+                                    <td width="100"></td>
+                                    <td>Estimate : @objCallSummaryModel.Estimate</td>
+                                </tr>
+                                <tr>
+                                    <td>Out-Warranty : @objCallSummaryModel.OutWarranty</td>
+                                    <td width="100"></td>
+                                    <td>Workshop : @objCallSummaryModel.Workshop</td>
+                                    <td width="100"></td>
+                                    <td>Delever : @objCallSummaryModel.Delever</td>
+                                    <td width="100"></td>
+                                    <td><strong>Repeat From Technician : @objCallSummaryModel.RepeatFromTech</strong></td>
+                                    <td width="100"></td>
+                                    <td>Visit Charge : @objCallSummaryModel.VisitCharge</td>
+                                </tr>
+                                <tr>
+                                    <td>Installation : @objCallSummaryModel.Installation</td>
+                                    <td width="100"></td>
+                                    <td>Out-Station : @objCallSummaryModel.OutStation</td>
+                                    <td width="100"></td>
+                                    <td>Call Back : @objCallSummaryModel.CallBack</td>
+                                    <td width="100"></td>
+                                    <td>Go After Call : @objCallSummaryModel.GoAfterCall</td>
+                                    <td width="100"></td>
+                                    <td>Payment : @objCallSummaryModel.Payment</td>
+                                </tr>
+
                             }
 
                         }
-
                     }
+
+
+
+                    if (lstCompanyTechnicianCalls.Count > 0)
+                    {
+                        <tr>
+                            <td scope="row" colspan="9"></td>
+                        </tr>
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="9" style="text-align:center"> Company Technican</th>
+                        </tr>
+                        <tr>
+                            <td scope="row" colspan="9"></td>
+                        </tr>
+
+                        var callgroupby = lstCompanyTechnicianCalls.GroupBy(i => i.Technician)
+                                            .Select(s => new { Technician = s.Key, Items = s.ToList() })
+                                            .ToList();
+
+                        if (callgroupby != null && callgroupby.Count > 0)
+                        {
+
+                            foreach (var techItem in callgroupby)
+                            {
+                                string strTechnician = techItem.Technician;
+
+                                List<CallRegistration> currentTechnicanCalls = techItem.Items;
+
+                                objCallSummaryModel = new CallSummaryModel();
+
+                                objCallSummaryModel.TotalCall = currentTechnicanCalls.Count;
+
+                                objCallSummaryModel.InWarranty = currentTechnicanCalls.Where(x => x.ServType == 0).ToList().Count();
+                                objCallSummaryModel.OutWarranty = currentTechnicanCalls.Where(x => x.ServType == 1).ToList().Count();
+                                objCallSummaryModel.Installation = currentTechnicanCalls.Where(x => x.ServType == 2).ToList().Count();
+
+                                objCallSummaryModel.Local = currentTechnicanCalls.Where(x => x.CallType == 0).ToList().Count();
+                                objCallSummaryModel.Workshop = currentTechnicanCalls.Where(x => x.CallType == 1).ToList().Count();
+                                objCallSummaryModel.OutStation = currentTechnicanCalls.Where(x => x.CallType == 2).ToList().Count();
+
+
+                                objCallSummaryModel.Attended = currentTechnicanCalls.Where(x => x.CallAttn == true).ToList().Count();
+                                objCallSummaryModel.GoAfterCall = currentTechnicanCalls.Where(x => x.GoAfterCall == true).ToList().Count();
+                                objCallSummaryModel.CallBack = currentTechnicanCalls.Where(x => x.CallBack == true).ToList().Count();
+                                objCallSummaryModel.WorkshopIn = currentTechnicanCalls.Where(x => x.WorkShopIN == true).ToList().Count();
+                                objCallSummaryModel.Delever = currentTechnicanCalls.Where(x => x.Deliver == true).ToList().Count();
+                                objCallSummaryModel.PartPending = currentTechnicanCalls.Where(x => x.PartPanding == true).ToList().Count();
+                                objCallSummaryModel.RepeatFromTech = currentTechnicanCalls.Where(x => x.RepeatFromTech == true).ToList().Count();
+
+                                objCallSummaryModel.JobDone = currentTechnicanCalls.Where(x => x.JobDone == true).ToList().Count();
+                                objCallSummaryModel.AttendedButNotDone = currentTechnicanCalls.Where(x => x.CallAttn == true || x.Canceled == true || x.GoAfterCall == true && x.JobDone == false).ToList().Count();
+                                objCallSummaryModel.PendingJob = currentTechnicanCalls.Where(x => x.CallAttn == false && x.Canceled == false && x.GoAfterCall == false && x.CallBack == false && x.WorkShopIN == false && x.Deliver == false && x.PartPanding == false && x.JobDone == false).ToList().Count();
+
+                                objCallSummaryModel.Payment = currentTechnicanCalls.Sum(x => x.Payment);
+                                objCallSummaryModel.Estimate = currentTechnicanCalls.Sum(x => x.Estimate);
+                                objCallSummaryModel.VisitCharge = currentTechnicanCalls.Sum(x => x.VisitCharge);
+
+
+                                <tr class="bg-info">
+                                    <th scope="row" colspan="9">@strTechnician &nbsp; : &nbsp; Total Call : @objCallSummaryModel.TotalCall  <a target="_balnk" href="http://ke.ketanenterprise.in/Report/TechnicianCallReport?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(techItem.Items.FirstOrDefault().TechnicianId)" style="float:right">Show Calls Details</a></th>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3" style="text-align:center">Job Done : @objCallSummaryModel.JobDone </td>
+                                    <td colspan="3" style="text-align:center">Call Attended But Not Done : @objCallSummaryModel.AttendedButNotDone </td>
+                                    <td colspan="3" style="text-align:center">Pending Job : @objCallSummaryModel.PendingJob </td>
+                                </tr>
+                                <tr>
+                                    <td>In-Warranty : @objCallSummaryModel.InWarranty</td>
+                                    <td width="100"></td>
+                                    <td>Local : @objCallSummaryModel.Local</td>
+                                    <td width="100"></td>
+                                    <td>Workshop-In : @objCallSummaryModel.WorkshopIn</td>
+                                    <td width="100"></td>
+                                    <td>Part Pending : @objCallSummaryModel.PartPending</td>
+                                    <td width="100"></td>
+                                    <td>Estimate : @objCallSummaryModel.Estimate</td>
+                                </tr>
+                                <tr>
+                                    <td>Out-Warranty : @objCallSummaryModel.OutWarranty</td>
+                                    <td width="100"></td>
+                                    <td>Workshop : @objCallSummaryModel.Workshop</td>
+                                    <td width="100"></td>
+                                    <td>Delever : @objCallSummaryModel.Delever</td>
+                                    <td width="100"></td>
+                                    <td><strong>Repeat From Technician : @objCallSummaryModel.RepeatFromTech</strong></td>
+                                    <td width="100"></td>
+                                    <td>Visit Charge : @objCallSummaryModel.VisitCharge</td>
+                                </tr>
+                                <tr>
+                                    <td>Installation : @objCallSummaryModel.Installation</td>
+                                    <td width="100"></td>
+                                    <td>Out-Station : @objCallSummaryModel.OutStation</td>
+                                    <td width="100"></td>
+                                    <td>Call Back : @objCallSummaryModel.CallBack</td>
+                                    <td width="100"></td>
+                                    <td>Go After Call : @objCallSummaryModel.GoAfterCall</td>
+                                    <td width="100"></td>
+                                    <td>Payment : @objCallSummaryModel.Payment</td>
+                                </tr>
+
+                            }
+
+                        }
+                    }
+
                 }
 
             </tbody>

@@ -1,7 +1,7 @@
 ﻿@model ServiceCenter.Models.TechnicianReportData
 
 @{
-    ViewBag.Title = "Go After Call Report";
+    ViewBag.Title = "Workshop Pending Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +12,7 @@
 
         <div class="card mb-2">
             <div class="card-body" style="padding: 0px 24px 16px 24px">
-                @using (Html.BeginForm("GoAfterCallReport", "Report", FormMethod.Post, new { @id = "frmGoAfterCallReport", @class = "form-inline mt-4" }))
+                @using (Html.BeginForm("WorkshopPendingReport", "Report", FormMethod.Post, new { @id = "frmWorkshopPendingReport", @class = "form-inline mt-4" }))
                 {
 
                     <div class="form-group mr-5">
@@ -29,10 +29,10 @@
                         <button type="submit" class="btn btn-primary" id="btnSubmit"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
                     </div>
                 }
-                </div>
+            </div>
         </div>
 
-        @Html.Partial("_GoAfterCallReport", Model)
+        @Html.Partial("_WorkshopPendingReportPartial", Model)
 
     </div>
     <!-- / Content -->
@@ -53,7 +53,7 @@
 
             $("#btnSubmit").click(function () {
 
-                $("#frmGoAfterCallReport").submit();
+                $("#frmWorkshopPendingReport").submit();
 
             });
 
