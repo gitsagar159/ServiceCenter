@@ -505,31 +505,35 @@ namespace ServiceCenter.Services
             {
                 objBaseDAL = new BaseDAL();
                 strQuery = @"SELECT
-	                            T.Oid,
-	                            T.Technician,
+                                T.Oid,
+                                T.Technician,
                                 T.Address,
-	                            T.IsActive,
-	                            T.City,
-	                            C.CityName,
-	                            T.PhoneH,
-	                            T.PhoneO,
-	                            T.Mobile,
-	                            T.L1,
-	                            T.L2,
-	                            T.TechType,
-	                            T.JobType,
-	                            T.OptimisticLockField,
-	                            T.GCRecord,
-	                            T.locationtime,
-	                            T.device_token,
-	                            T.UserName,
-	                            T.Modifier,
-	                            T.CreationDate,
-	                            T.ModifyDate
+                                T.IsActive,
+                                T.City,
+                                C.CityName,
+                                T.PhoneH,
+                                T.PhoneO,
+                                T.Mobile,
+                                T.L1,
+                                T.L2,
+                                T.TechType,
+                                TT.TechnicianType AS TechTypeName,
+                                T.JobType,
+                                T.OptimisticLockField,
+                                T.GCRecord,
+                                T.locationtime,
+                                T.device_token,
+                                T.UserName,
+                                T.Modifier,
+                                T.CreationDate,
+                                T.ModifyDate,
+                                R.[password]
                             From	
-	                            Technician T LEFT JOIN City C ON T.City = C.Oid
+                                Technician T LEFT JOIN City C ON T.City = C.Oid
+                                LEFT JOIN TechnicianType TT ON TT.Oid = T.TechType
+                                LEFT JOIN register R ON R.Technician = T.Oid
                             WHERE 
-	                            T.Oid = @TechnicianId";
+                                T.Oid = @TechnicianId";
 
                 lstParam = new List<SqlParameter>();
 
@@ -568,6 +572,7 @@ namespace ServiceCenter.Services
                     objTechnicianMaster.Modifier = dtRowItem["Modifier"] != DBNull.Value ? Convert.ToString(dtRowItem["Modifier"]) : string.Empty;
                     objTechnicianMaster.CreationDate = dtRowItem["CreationDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreationDate"]) : (DateTime?)null;
                     objTechnicianMaster.ModifyDate = dtRowItem["ModifyDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ModifyDate"]) : (DateTime?)null;
+                    objTechnicianMaster.Password = dtRowItem["password"] != DBNull.Value ? Convert.ToString(dtRowItem["password"]) : string.Empty;
 
                     TechnicianMasterSelect2Data objTechnicianMasterSelect2Data = new TechnicianMasterSelect2Data();
                     objTechnicianMasterSelect2Data.Select2City = new Select2() { id = objTechnicianMaster.City, text = objTechnicianMaster.CityName };
@@ -622,8 +627,10 @@ namespace ServiceCenter.Services
                     SqlParameter device_token_Param = !string.IsNullOrEmpty(ObjTechnician.device_token) ? new SqlParameter() { ParameterName = "@device_token", Value = ObjTechnician.device_token } : new SqlParameter() { ParameterName = "@device_token", Value = DBNull.Value };
                     SqlParameter LoginUserId_Param = UserSesionDetail != null  ? new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id } : new SqlParameter() { ParameterName = "@LoginUserId", Value = 1 };
                     SqlParameter TechnicianId_Param = new SqlParameter() { ParameterName = "@TechnicianId", SqlDbType = SqlDbType.UniqueIdentifier, Direction = ParameterDirection.Output };
+                    SqlParameter TechnicianLoginUserName_Param = new SqlParameter() { ParameterName = "@TechnicianLoginUserName", SqlDbType = SqlDbType.VarChar, Value = ObjTechnician.Mobile };
+                    SqlParameter Password_Param = new SqlParameter() { ParameterName = "@Password", SqlDbType = SqlDbType.VarChar, Value = ObjTechnician.Password };
 
-                    lstParam.AddRange(new SqlParameter[] { Oid_Param, Technician_Param, IsActive_Param, Address_Param, City_Param, L1_Param, L2_Param, PhoneH_Param, PhoneO_Param, Mobile_Param, TechType_Param , JobType_Param, OptimisticLockField_Param, GCRecord_Param, locationtime_Param, device_token_Param, LoginUserId_Param, TechnicianId_Param });
+                    lstParam.AddRange(new SqlParameter[] { Oid_Param, Technician_Param, IsActive_Param, Address_Param, City_Param, L1_Param, L2_Param, PhoneH_Param, PhoneO_Param, Mobile_Param, TechType_Param , JobType_Param, OptimisticLockField_Param, GCRecord_Param, locationtime_Param, device_token_Param, LoginUserId_Param, TechnicianId_Param, TechnicianLoginUserName_Param, Password_Param });
 
                     DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
 
@@ -688,6 +695,190 @@ namespace ServiceCenter.Services
             }
 
             return lstTechnicianType;
+        }
+
+        public ResponceModel UpdateTechnicianStatusById(string TechnicianId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            string Modifier = UserSesionDetail != null ? UserSesionDetail.UserName : "";
+
+            bool IsActive = !Status;
+
+            if (!string.IsNullOrEmpty(TechnicianId))
+            {
+
+                try
+                {
+                    strQuery = "UPDATE Technician SET IsActive = @IsActive, Modifier = @Modifier, ModifyDate = GETDATE() WHERE Oid = @TechnicianId";
+
+
+                    objBaseDAL = new BaseDAL();
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@TechnicianId", TechnicianId.ToUpper()),
+                                new SqlParameter("@IsActive", IsActive),
+                                new SqlParameter("@Modifier", Modifier),
+                          });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Technician Detail Updated";
+
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+
+                    objResponceModel = new ResponceModel();
+                    objResponceModel.Responce = false;
+                    objResponceModel.Message = "Somthing Went Wrong!";
+                }
+
+            }
+            else
+            {
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "No Technician found!";
+            }
+
+            return objResponceModel;
+
+        }
+
+
+        public TechnicianAttendanceListDataModel TechnicianAttendanceList(int SortCol, string SortDir, int PageIndex, int PageSize, string TechnicianName, DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianAttendanceListDataModel objTechnicianAttendanceListDataModel = new TechnicianAttendanceListDataModel();
+            objTechnicianAttendanceListDataModel.TechnicianAttendanceList = new List<TechnicianAttendance>();
+
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"TechnicianAttendance";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter SortCol_Param = new SqlParameter() { ParameterName = "@SortCol", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = SortCol };
+                SqlParameter SortDir_Param = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
+                SqlParameter PageIndex_Param = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
+                SqlParameter PageSize_Param = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
+                SqlParameter TechnicianName_Param = new SqlParameter() { ParameterName = "@TechnicianName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = TechnicianName };
+                SqlParameter TotalRecordCount_Param = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, TechnicianName_Param, FromDate_Param, ToDate_Param, TotalRecordCount_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                TotalRecordCount = Convert.ToInt32(TotalRecordCount_Param.Value);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    TechnicianAttendance objTechnicianAttendance;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objTechnicianAttendance = new TechnicianAttendance();
+
+                        objTechnicianAttendance.RowNo = dtRowItem["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowItem["RowNo"]) : 0;
+                        objTechnicianAttendance.technician_name = dtRowItem["technician_name"] != DBNull.Value ? Convert.ToString(dtRowItem["technician_name"]) : string.Empty;
+                        objTechnicianAttendance.attendance_date = dtRowItem["attendance_date"] != DBNull.Value ? Convert.ToString(dtRowItem["attendance_date"]) : string.Empty;
+                        objTechnicianAttendance.present_location = dtRowItem["present_location"] != DBNull.Value ? Convert.ToString(dtRowItem["present_location"]) : string.Empty;
+
+                        objTechnicianAttendance.technician_tranning = dtRowItem["technician_tranning"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["technician_tranning"]) : false;
+
+                        objTechnicianAttendance.lunch_starttime = dtRowItem["lunch_starttime"] != DBNull.Value ? Convert.ToString(dtRowItem["lunch_starttime"]) : string.Empty;
+
+                        objTechnicianAttendance.lunch_endtime = dtRowItem["lunch_endtime"] != DBNull.Value ? Convert.ToString(dtRowItem["lunch_endtime"]) : string.Empty;
+                        objTechnicianAttendance.endtime = dtRowItem["endtime"] != DBNull.Value ? Convert.ToString(dtRowItem["endtime"]) : string.Empty;
+                        
+
+                        objTechnicianAttendanceListDataModel.TechnicianAttendanceList.Add(objTechnicianAttendance);
+
+                    }
+                    objTechnicianAttendanceListDataModel.RecordCount = TotalRecordCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianAttendanceListDataModel;
+        }
+
+
+        public List<Select2> GetTechnicianNameList(string TechnicianName)
+        {
+            List<Select2> lstUser = new List<Select2>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+
+                if (!string.IsNullOrEmpty(TechnicianName))
+                {
+                    strQuery = @"SELECT 
+	                                    DISTINCT(technician_name) AS technician_name 
+                                    FROM 
+	                                    attendance_tbl 
+                                    WHERE 
+	                                    technician_name LIKE CONCAT('%', @TechnicianName,'%') 
+                                    ORDER BY technician_name ASC  ";
+
+                }
+                else
+                {
+                    strQuery = @"SELECT 
+	                                    DISTINCT(technician_name) AS technician_name 
+                                    FROM 
+	                                    attendance_tbl 
+                                    ORDER BY technician_name ASC";
+                }
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@TechnicianName", TechnicianName),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    Select2 objSelect2;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objSelect2 = new Select2();
+
+                        objSelect2.id = dtRowItem["technician_name"] != DBNull.Value ? Convert.ToString(dtRowItem["technician_name"]) : string.Empty;
+                        objSelect2.text = dtRowItem["technician_name"] != DBNull.Value ? Convert.ToString(dtRowItem["technician_name"]) : string.Empty;
+
+                        lstUser.Add(objSelect2);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return lstUser;
         }
 
         #endregion

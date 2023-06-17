@@ -304,4 +304,14 @@ namespace ServiceCenter.Models
     {
         public List<string> ImageList { get; set; }  //= new List<CallRegistration>();
     }
+
+    public class ChargesEraseBetweenDateModel : ResponceModel
+    {
+        public decimal TotalEstimate { get; set; }
+        public decimal TotalVisitCharge { get; set; }
+        public decimal TotalPayment { get; set; }
+
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
 }

@@ -1,0 +1,351 @@
+﻿@using ServiceCenter.Services;
+@using ServiceCenter.Models;
+
+@model List<ServiceCenter.Models.CallRegistration>
+@{
+    ViewBag.Title = "Job List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section style {
+
+    @*<link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">*@
+
+    <link href="~/Content/assets/css/datatable/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/datatable/buttons.bootstrap.min.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+}
+<div class="loading" style="display:none"></div>
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+                <form role="form" id="frmJobListFilter">
+                    <input type="hidden" name="hdnCheckboxArray" id="hdnCheckboxArray" value="" />
+                    <div class="row">
+                        <div class="col col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Mobile No</label>
+                                <input type="text" class="form-control" name="MobileNo" id="MobileNo" placeholder="MobileNo">
+                            </div>
+                        </div>
+                        @*<div class="col col-md-2">
+                                <div class="form-group">
+                                    <label class="form-label">Call Category</label>
+                                    <select class="custom-select" name="CallCategory" id="CallCategory">
+                                        <option value="0">Select</option>
+                                        <option value="1" style="color:red">Job Done </option>
+                                        <option value="2">Call Open</option>
+                                        <option value="3" style="color:green">New Call(Not Assigned)</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                        <div class="col col-md-2 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                            <button type="submit" class="btn btn-danger" id="btnClearSearch">Clear</button>
+                        </div>
+                        <div class="col col-md-6 pt-4">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btnAdvanceFiter" data-toggle="modal" data-target="#OldJobListAdvanceFilter_modal"><span class="fas fa-filter"></span>&nbsp;&nbsp; Advance Filter</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        Call Register List
+                    </h6>
+                </div>
+            </div>
+
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblJobList">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Created Date</th>
+                            <th>Call Assign Date</th>
+                            <th>Modify Date</th>
+                            <th>Job No.</th>
+                            <th>Company com. No.</th>
+                            <th>Customer</th>
+                            <th>Address</th>
+                            <th>Mobile</th>
+                            <th>Call Type</th>
+                            <th>Service Type</th>
+                            <th>Technician Type</th>
+                            <th>Technician</th>
+                            <th>Item Name</th>
+                            <th>Model Name</th>
+                            <th>Produt Sr. No.</th>
+                            <th>Fault Description</th>
+                            <th>Special Inst</th>
+                            <th>Purchase Date</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_OldJobListAdvanceFilter")
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        @*<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+                <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.js"></script>
+            <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js" type="text/javascript"></script>
+        *@
+
+        <script src="~/Content/assets/js/datatable/datatables.min.js"></script>
+        <script src="~/Content/assets/js/datatable/datatables.script.js"></script>
+        <script src="~/Content/assets/js/datatable/buttons.colVis.min.js"></script>
+        <script src="~/Content/assets/js/datatable/buttons.print.min.js"></script>
+        <script src="~/Content/assets/js/datatable/buttons.bootstrap.min.js"></script>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/Common.js"></script>
+        <script src="~/Scripts/ProjectJs/OldData.js"></script>
+
+        <script>
+
+            var billDetailJSON = null;
+            var objAdvanceFilter_old;
+            var isPageInit = true;
+
+
+            $(document).ready(function () {
+
+                fnManageJobListSearchJson();
+
+                bindDatatable();
+
+            });
+
+            var CallIdsForSelectAll = "";
+
+
+
+            var hCols = [];
+            var ChId = "";
+            var ValidPrint = 0;
+            var srNo = 1;
+            var table;
+            function bindDatatable() {
+
+                table = $('#tblJobList').DataTable({
+                    "paging": true,
+                    "pageLength": $('#PageSize').val(),
+                    "bLengthChange": false,
+                    "autoWidth": true,
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": false,
+                    "responsive": true,
+                    "orderMulti": false,
+                    "ajax": {
+                        "url": "/OldData/GetJobList",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": function (d) {
+
+                            d.CustomerName = objAdvanceFilter_old.CustomerName;
+                            d.CallType = objAdvanceFilter_old.CallType;
+                            d.ServType = objAdvanceFilter_old.ServType;
+                            d.Technician = objAdvanceFilter_old.Technician;
+                            d.TechnicianType = objAdvanceFilter_old.TechnicianType;
+                            d.MobileNo = objAdvanceFilter_old.MobileNo;
+                            d.CallAttn = objAdvanceFilter_old.CallAttn;
+                            d.JobDone = objAdvanceFilter_old.JobDone;
+                            d.GoAfterCall = objAdvanceFilter_old.GoAfterCall;
+                            d.JobNo = objAdvanceFilter_old.JobNo;
+                            d.SrNo = objAdvanceFilter_old.SrNo;
+                            d.ItemName = objAdvanceFilter_old.ItemName;
+                            d.ItemKeyword = objAdvanceFilter_old.ItemKeyword;
+                            d.WorkShopIN = objAdvanceFilter_old.ItemKeyword;
+                            d.Deliver = objAdvanceFilter_old.Deliver;
+                            d.Canceled = objAdvanceFilter_old.Canceled;
+                            d.PartPanding = objAdvanceFilter_old.PartPanding;
+                            d.RepeatFromTech = objAdvanceFilter_old.RepeatFromTech;
+                            d.CallCategory = objAdvanceFilter_old.CallCategory;
+                            d.FromDate = objAdvanceFilter_old.FromDate;
+                            d.ToDate = objAdvanceFilter_old.ToDate;
+                            d.CompComplaintNo = objAdvanceFilter_old.CompComplaintNo;
+                            d.IsCompComplaintNo = objAdvanceFilter_old.IsCompComplaintNo;
+                            d.CallAssignFromDate = objAdvanceFilter_old.CallAssignFromDate;
+                            d.CallAssignToDate = objAdvanceFilter_old.CallAssignToDate;
+                            d.CallBack = objAdvanceFilter_old.CallBack;
+                            d.WorkShopIN = objAdvanceFilter_old.WorkShopIN;
+                            d.PaymentPanding = objAdvanceFilter_old.PaymentPanding;
+                            d.UserName = objAdvanceFilter_old.UserName;
+                            d.FaultType = objAdvanceFilter_old.FaultType;
+                            d.FaultDesc = objAdvanceFilter_old.FaultDesc;
+                            d.Area = objAdvanceFilter_old.Area;
+                            d.ModifyFromDate = objAdvanceFilter_old.ModifyFromDate;
+                            d.ModifyToDate = objAdvanceFilter_old.ModifyToDate;
+                        }
+                    },
+                    "columns": [
+                        { "data": "RowNo", "autoWidth": true },
+                        { "data": "StringCreationDate", "autoWidth": true },
+                        { "data": "StringCallAssignDate", "autoWidth": true },
+                        { "data": "ModifyDateString", "autoWidth": true },
+                        { "data": "JobNo", "autoWidth": true },
+                        { "data": "CompComplaintNo", "autoWidth": true },
+                        { "data": "CustomerName", "autoWidth": true },
+                        { "data": "Address", "autoWidth": true },
+                        { "data": "MobileNo", "autoWidth": true },
+                        { "data": "CallTypeName", "autoWidth": true },
+                        { "data": "ServTypeName", "autoWidth": true },
+                        { "data": "TechnicianType", "autoWidth": true },
+                        { "data": "Technician", "autoWidth": true },
+                        { "data": "ItemName", "autoWidth": true },
+                        { "data": "ModelName", "autoWidth": true },
+                        { "data": "SrNo", "autoWidth": true },
+                        { "data": "FaultDesc", "autoWidth": true },
+                        { "data": "SpInst", "autoWidth": true },
+                        { "data": "StringPurchaseDate", "autoWidth": true },
+                        { "data": "UserName", "autoWidth": true },
+                    ],
+
+                    "fixedHeader": {
+                        header: true,
+                    },
+                    'columnDefs': [{
+                        'targets': [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], // column index (start from 0)
+                        'orderable': true, // set orderable false for selected columns
+                    }],
+                    "order": [[2, "DESC"]],
+                    "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                        if (aData.IsNew.toLowerCase === 'true' && aData.Technician === '') {
+                            $('td', nRow).css('color', '#ef1a1a');
+                        }
+                        if (aData.JobDone === false && aData.Technician !== "") {
+                            $('td', nRow).css('color', '#100f0f');
+                        }
+                        if (aData.JobDone === true) {
+                            $('td', nRow).css('color', 'green');
+                        }
+                    },
+                    'drawCallback': function (response) {
+                        CallIdsForSelectAll = response.json.Oids;
+                        changeDataTablePageNo(isPageInit);
+                        isPageInit = false;
+                    },
+                    "initComplete": function (settings, json) {
+                        goToPageNumber();
+                    },
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'excel', 'pdf', 'print'
+                    ]
+                });
+
+                $("#btnAdvanceSearch").click(function (event) {
+                    event.preventDefault();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    table.search(this.value).draw();
+
+                });
+
+                $("#btnFilter").click(function (event) {
+                    event.preventDefault();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    table.draw();
+                    $("#OldJobListAdvanceFilter_modal").modal("hide");
+                });
+
+                $("#btnFilterClear").click(function (event) {
+                    event.preventDefault();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    fnClearAllInputOfAdvanceFilter();
+
+                    table.draw();
+
+                });
+
+
+                $("#btnClearSearch").click(function (event) {
+                    event.preventDefault();
+
+                    var btnId = event.target.id;
+
+                    fnManageJobListSearchJson(btnId);
+
+                    fnClearAllInputOfAdvanceFilter();
+
+                    $("#OldJobListAdvanceFilter_modal").modal("hide");
+                    table.draw();
+
+                });
+
+
+            }
+
+
+            var currentPage = 0;
+
+            function goToPageNumber() {
+                var tablePageInfo = table.page.info();
+                var totalPages = tablePageInfo.pages;
+
+                var lastPageNo = parseInt(localStorage.getItem('SelectedPageNo') == null ? "0" : localStorage.getItem('SelectedPageNo'));
+
+                if (lastPageNo >= 0 && lastPageNo <= totalPages) {
+                    table.page(lastPageNo).draw(false);
+                }
+
+
+            }
+
+            function changeDataTablePageNo(isPageInit) {
+                var tablePageInfoCurrent = table.page.info();
+                var currentPageNo = tablePageInfoCurrent.page;
+
+                //var lastPageNo = parseInt(localStorage.getItem('SelectedPageNo') == null ? "0" : localStorage.getItem('SelectedPageNo'));
+
+                //currentPage = currentPageNo;
+
+                if (!isPageInit) {
+                    localStorage.setItem('SelectedPageNo', currentPageNo);
+                }
+            }
+
+        </script>
+    }
+
+</div>
+
+

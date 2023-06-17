@@ -49,8 +49,21 @@
                             @Html.ActionLink("List", "JobList", "Job", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Add", "ServiceCallRegistation", "Job", null, new { @class = "dropdown-item" })
                             @Html.ActionLink("Installation Images", "InstallationList", "Job", null, new { @class = "dropdown-item" })
+                            @if (IsMasterAdminLogin)
+                            {
+                                @Html.ActionLink("Erase Call Charges Data", "EraseChargesBetweenTwoDatesForm", "Job", null, new { @class = "dropdown-item" })
+                            }
                         </div>
                     </li>
+                    @if (IsMasterAdminLogin)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">Old Data</a>
+                            <div class="dropdown-menu">
+                                @Html.ActionLink("Old Job List", "JobList", "OldData", null, new { @class = "dropdown-item" })
+                            </div>
+                        </li>
+                    }
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">Master</a>
@@ -109,38 +122,38 @@
 
 
                                 @*@Html.ActionLink("Daily Workshop In Out Call Report", "WorkshopInOutCallReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily In-Warranty | Out-Warranty | Installation Report", "ServiceTypeReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily In-Warranty | Out-Warranty | Installation User Vise Report", "ServiceTypeReportDailyUserVise", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily In-Warranty | Out-Warranty | Installation Item Vise Report", "ServiceTypeReportDailyItemVise", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily Payment Pending Report", "PaymentPendingReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily Repeat From Technician Report", "RepeatFromTechReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily Cancel Call Report", "CancelCallReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily Go After Call Report", "GoAfterCallReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily Collation Report", "CollationReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Call Assign To Job Done Timing Report", "CallAssignToJobDoneTimingReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
-        @Html.ActionLink("Daily Callback Received Or Pending Report", "CallbackReceivedOrPendingReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })*@
+                    @Html.ActionLink("Daily In-Warranty | Out-Warranty | Installation Report", "ServiceTypeReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily In-Warranty | Out-Warranty | Installation User Vise Report", "ServiceTypeReportDailyUserVise", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily In-Warranty | Out-Warranty | Installation Item Vise Report", "ServiceTypeReportDailyItemVise", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily Payment Pending Report", "PaymentPendingReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily Repeat From Technician Report", "RepeatFromTechReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily Cancel Call Report", "CancelCallReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily Go After Call Report", "GoAfterCallReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily Collation Report", "CollationReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Call Assign To Job Done Timing Report", "CallAssignToJobDoneTimingReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })
+                    @Html.ActionLink("Daily Callback Received Or Pending Report", "CallbackReceivedOrPendingReport", "Report", null, new { @class = "dropdown-item", target = "_blank" })*@
 
                             </div>
                         </li>
                     }
 
                     @*<li class="nav-item active">
-                            <a class="nav-link" href="javascript:void(0)">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0)">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0)">Pricing</a>
-                        </li>
-                        <li class="nav-item dropdown show">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">Dropdown link</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                            </div>
-                        </li>*@
+            <a class="nav-link" href="javascript:void(0)">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">Features</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">Pricing</a>
+        </li>
+        <li class="nav-item dropdown show">
+            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-expanded="true">Dropdown link</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+            </div>
+        </li>*@
 
                 </ul>
 

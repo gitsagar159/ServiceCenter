@@ -1,0 +1,340 @@
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:58:59
+
+JobController_ServiceCallRegistation -> callRegistration.EstimateDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:58:59
+
+JobController_ServiceCallRegistation -> callRegistration.EstConfirmDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:58:59
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.EstimateDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:58:59
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.EstConfirmDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:59:19
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 12-03-2023 00:00:00,
+@ToDate = 12-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:59:21
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 12-03-2023 00:00:00,
+@ToDate = 12-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'
+-----------------------------------------------------------------------------
+Date : 25-03-2023 14:59:33
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 25-03-2023 00:00:00,
+@ToDate = 25-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:17
+
+JobController_ServiceCallRegistation -> callRegistration.EstimateDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:17
+
+JobController_ServiceCallRegistation -> callRegistration.EstConfirmDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:17
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.EstimateDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:17
+
+JobService_InsertUpdateCallRegistration -> objCallRegistration.EstConfirmDate : 
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:21
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 25-03-2023 00:00:00,
+@ToDate = 25-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:21
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 25-03-2023 00:00:00,
+@ToDate = 25-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:37
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 25-03-2023 00:00:00,
+@ToDate = 25-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'
+-----------------------------------------------------------------------------
+Date : 25-03-2023 15:00:52
+
+DECLARE @return_value int, @RecordCount int
+EXEC	@return_value = [dbo].[JobList]@SortCol = 2,
+@SortDir = DESC,
+@PageIndex = 0,
+@PageSize = 10,
+@CustomerName = NULL,
+@CallType = NULL,
+@ServType = NULL,
+@Technician = NULL,
+@TechnicianType = NULL,
+@MobileNo = NULL,
+@Pincode = NULL,
+@CallAttn = NULL,
+@JobDone = NULL,
+@JobNo = NULL,
+@SrNo = NULL,
+@CompComplaintNo = NULL,
+@ItemName = NULL,
+@ItemKeyword = NULL,
+@Deliver = NULL,
+@Canceled = NULL,
+@PartPanding = NULL,
+@GoAfterCall = NULL,
+@RepeatFromTech = NULL,
+@IsCompComplaintNo = NULL,
+@FromDate = 25-03-2023 00:00:00,
+@ToDate = 25-03-2023 00:00:00,
+@CallAssignFromDate = NULL,
+@CallAssignToDate = NULL,
+@CallBack = NULL,
+@WorkShopIN = NULL,
+@PaymentPanding = NULL,
+@UserName = NULL,
+@FaultType = NULL,
+@FaultDesc = NULL,
+@Area = NULL,
+@ModifyFromDate = NULL,
+@ModifyToDate = NULL,
+@CallCategory = 0,
+@RecordCount = NULL
+SELECT @RecordCount as N'@RecordCount'

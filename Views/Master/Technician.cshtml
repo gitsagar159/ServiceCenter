@@ -96,8 +96,12 @@
             var ChId = "";
             var ValidPrint = 0;
             var srNo = 1;
-            function bindDatatable() {
-                var table = $('#tblTechnician').DataTable({
+            var table;
+
+            function bindDatatable()
+            {
+
+                table = $('#tblTechnician').DataTable({
                     "paging": true,
                     "pageLength": $('#PageSize').val(),
                     "bLengthChange": false,
@@ -125,12 +129,11 @@
                         { "data": "PhoneO", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
-
                                 if (full.IsActive === true) {
-                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-success'>Active</a>";
+                                    return '<a href="javascript: void (0)" class="badge badge-pill badge-success" data-status="' + full.IsActive + '" data-technicianid="' + full.Oid + '" onclick="fnUpdateTechnicianStatus(this)">Active</a>';
                                 }
                                 else {
-                                    return "<a href='javascript: void (0)' class='badge badge-pill badge-danger'>In Active</a>";
+                                    return '<a href="javascript: void (0)" class="badge badge-pill badge-danger" data-status="' + full.IsActive + '" data-technicianid="' + full.Oid + '" onclick="fnUpdateTechnicianStatus(this)">In Active</a>'
                                 }
                             }
                         },
@@ -154,6 +157,38 @@
                     table.search(this.value).draw();
                 });
                
+            }
+
+
+            function fnUpdateTechnicianStatus(objthis) {
+
+                if (objthis != null) {
+
+                    var technicianId = $(objthis).attr("data-technicianid");
+                    var status = $(objthis).attr("data-status") === "true" ? true : false;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Master/UpdateTechnicianStatusById",
+                        data: { TechnicianId: technicianId, Status: status },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+
+                                table.draw();
+                            }
+                        }
+                    });
+                }
             }
 
         </script>

@@ -216,6 +216,7 @@ namespace ServiceCenter.Models
     {
         public int InWarrantyCalls { get; set; }
         public List<TechnicianItems> InWarrantyItems { get; set; }
+        public int InWarrantyDemoCalls { get; set; }
         public int InWarrantyJobDoneCalls { get; set; }
         public int InWarrantyCancleCalls { get; set; }
         public int InWarrantyAC_ServiceCalls { get; set; }

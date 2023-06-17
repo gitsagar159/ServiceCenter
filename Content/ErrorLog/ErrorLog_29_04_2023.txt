@@ -1,0 +1,8 @@
+-----------------------------------------------------------------------------
+Date : 29-04-2023 19:56:45
+
+System.ArgumentException
+Message : Column 'AC_Service' does not belong to table Table.
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.TechnicianCallSummaryReport(Nullable`1 FromDate, Nullable`1 ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 1790

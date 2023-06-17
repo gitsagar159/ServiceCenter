@@ -1,0 +1,16 @@
+-----------------------------------------------------------------------------
+Date : 27-03-2023 20:06:35
+
+System.ArgumentException
+Message : Column 'TechnicianId' does not belong to table Table.
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.WorkshopPendingWorkReport(Nullable`1 FromDate, Nullable`1 ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 2200
+-----------------------------------------------------------------------------
+Date : 27-03-2023 20:12:54
+
+System.ArgumentException
+Message : Column 'id' does not belong to table Table1.
+StackTrace :    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at ServiceCenter.Services.ReportService.WorkshopPendingWorkReport(Nullable`1 FromDate, Nullable`1 ToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\ReportService.cs:line 2235

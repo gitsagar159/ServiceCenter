@@ -2615,9 +2615,9 @@ namespace ServiceCenter.Services
         }
 
 
-        public ResponceModel EraseChargesBetweenTwoDates(DateTime? FromDate, DateTime? ToDate)
+        public ChargesEraseBetweenDateModel EraseChargesBetweenTwoDates(DateTime? FromDate, DateTime? ToDate, bool blnViewData, bool blnEraseData)
         {
-            ResponceModel objResponceModel = new ResponceModel();
+            ChargesEraseBetweenDateModel objChargesEraseBetweenDateModel = new ChargesEraseBetweenDateModel();
 
             User UserSesionDetail = SessionService.GetUserSessionValues();
 
@@ -2631,27 +2631,47 @@ namespace ServiceCenter.Services
 
                 SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
                 SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+                SqlParameter ViewData_Param = new SqlParameter() { ParameterName = "@ViewData", Value = blnViewData };
+                SqlParameter EraseData_Param = new SqlParameter() { ParameterName = "@EraseData", Value = blnEraseData };
 
-                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param, ViewData_Param, EraseData_Param });
 
-                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 
 
-                if (ResDataTable.Rows.Count > 0)
+                if(ResDataSet.Tables.Count > 0)
                 {
-                    DataRow dtRowPart = ResDataTable.Rows[0];
+                    DataTable TableRecord = ResDataSet.Tables[0];
 
-                    objResponceModel.Message = dtRowPart["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowPart["ResponceMesage"]) : string.Empty;
-                    objResponceModel.Responce = dtRowPart["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowPart["OprationSuceess"]) : false;
+                    if(TableRecord.Rows.Count > 0)
+                    {
+                        DataRow dtRowItem = TableRecord.Rows[0];
 
+                        objChargesEraseBetweenDateModel.TotalVisitCharge = dtRowItem["TotalVisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["TotalVisitCharge"]) : 0 ;
+                        objChargesEraseBetweenDateModel.TotalEstimate = dtRowItem["TotalEstimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["TotalEstimate"]) : 0;
+                        objChargesEraseBetweenDateModel.TotalPayment = dtRowItem["TotalPayment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["TotalPayment"]) : 0;
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable TableResponce = ResDataSet.Tables[1];
+
+                        DataRow dtRowItem = TableResponce.Rows[0];
+
+                        objChargesEraseBetweenDateModel.Message = dtRowItem["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowItem["ResponceMesage"]) : string.Empty;
+                        objChargesEraseBetweenDateModel.Responce = dtRowItem["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["OprationSuceess"]) : false;
+
+                    }
                 }
+
+                
             }
             catch (Exception ex)
             {
                 CommonService.WriteErrorLog(ex);
             }
 
-            return objResponceModel;
+            return objChargesEraseBetweenDateModel;
         }
     }
 }

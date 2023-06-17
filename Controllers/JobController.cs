@@ -164,9 +164,9 @@ namespace ServiceCenter.Controllers
         }
 
         [HttpPost]
-        public JsonResult EraseChargesBetweenTwoDates(string FromDate, string ToDate)
-        {
-            ResponceModel objResponceModel = new ResponceModel();
+        public JsonResult EraseChargesBetweenTwoDates(string FromDate, string ToDate, bool ViewData, bool EraseData)
+        {   
+            ChargesEraseBetweenDateModel objChargesEraseBetweenDateModel = new ChargesEraseBetweenDateModel();
 
             DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
 
@@ -174,9 +174,12 @@ namespace ServiceCenter.Controllers
             DtToDate = !string.IsNullOrEmpty(ToDate) ? DateTime.ParseExact(ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
 
             JobService obJobService = new JobService();
-            objResponceModel = obJobService.EraseChargesBetweenTwoDates(DtFromDate, DtToDate);
+            objChargesEraseBetweenDateModel = obJobService.EraseChargesBetweenTwoDates(DtFromDate, DtToDate, ViewData, EraseData);
 
-            return Json(new { data = objResponceModel });
+            objChargesEraseBetweenDateModel.FromDate = FromDate;
+            objChargesEraseBetweenDateModel.ToDate = ToDate;
+
+            return Json(new { data = objChargesEraseBetweenDateModel }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

@@ -85,12 +85,12 @@ namespace ServiceCenter.Controllers
 
             string AreaId = Request["AreaId"];
 
-            if(!string.IsNullOrEmpty(AreaId))
+            if (!string.IsNullOrEmpty(AreaId))
             {
                 MasterService obMasterService = new MasterService();
                 objAreaMaster = obMasterService.GetAreaDetails(AreaId);
             }
-            
+
 
             return View(objAreaMaster);
         }
@@ -274,7 +274,7 @@ namespace ServiceCenter.Controllers
                     recordsTotal = objTechnicianListDataModel.RecordCount,
                     recordsFiltered = objTechnicianListDataModel.RecordCount,
                     data = objTechnicianListDataModel.TechnicianList
-                }, JsonRequestBehavior.AllowGet); 
+                }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception e)
@@ -345,20 +345,20 @@ namespace ServiceCenter.Controllers
             MasterService objMasterService = new MasterService();
             objTechnicianMaster = objMasterService.AdUpdateTechnicianDetail(objTechnicianMaster);
 
-            if(objTechnicianMaster.Responce == false)
+            if (objTechnicianMaster.Responce == false)
             {
                 objTechnicianMaster.TechnicianTypeDD = TechnicianTypeDD();
 
                 ViewBag.ErrorMessage = objTechnicianMaster.Message;
 
-                return View(objTechnicianMaster); 
+                return View(objTechnicianMaster);
             }
             else
             {
                 return RedirectToAction("Technician", "Master");
             }
 
-            
+
         }
 
         public SelectList TechnicianTypeDD(string SelectedValue = "")
@@ -370,6 +370,95 @@ namespace ServiceCenter.Controllers
 
             return new SelectList(ListItem, "Value", "Text");
         }
+
+        [HttpPost]
+        public JsonResult UpdateTechnicianStatusById(string TechnicianId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService objMasterService = new MasterService();
+            objResponceModel = objMasterService.UpdateTechnicianStatusById(TechnicianId, Status);
+
+            return Json(new { data = objResponceModel });
+        }
+
+
+        public ActionResult TechnicianAttendance()
+        {
+            //if (!IsSessionValid())
+              //  return RedirectToAction("Logout", "Login");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetTechnicianAttendanceList()
+        {
+            try
+            {
+                var draw = Convert.ToInt32(Request.Form["draw"]);
+                var order = Convert.ToInt32(Request.Form["order[0][column]"]);
+                var orderDir = Request.Form["order[0][dir]"];
+                var startRec = Convert.ToInt32(Request.Form["start"]);
+                var pageSize = Convert.ToInt32(Request.Form["length"]);
+
+                string TechnicianName = String.Empty;
+
+
+                if (!string.IsNullOrEmpty(Request.Form["TechnicianName"]))
+                    TechnicianName = Convert.ToString(Request.Form["TechnicianName"]).Trim();
+
+                DateTime? FromDate, ToDate;
+
+                FromDate = !string.IsNullOrEmpty(Request.Form["FromDate"]) ? DateTime.ParseExact(Request.Form["FromDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+                ToDate = !string.IsNullOrEmpty(Request.Form["ToDate"]) ? DateTime.ParseExact(Request.Form["ToDate"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+                TechnicianAttendanceListDataModel objTechnicianAttendanceListDataModel = new TechnicianAttendanceListDataModel();
+
+                MasterService objMasterService = new MasterService();
+                objTechnicianAttendanceListDataModel = objMasterService.TechnicianAttendanceList(order, orderDir.ToUpper(), startRec, pageSize, TechnicianName, FromDate, ToDate);
+
+
+                return Json(new
+                {
+                    draw = Convert.ToInt32(draw),
+                    recordsTotal = objTechnicianAttendanceListDataModel.RecordCount,
+                    recordsFiltered = objTechnicianAttendanceListDataModel.RecordCount,
+                    data = objTechnicianAttendanceListDataModel.TechnicianAttendanceList
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
+            }
+
+        }
+
+        public JsonResult GetTechnicianNameList(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstTechnician = new List<Select2>();
+
+            MasterService objMasterService = new MasterService();
+            lstTechnician = objMasterService.GetTechnicianNameList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstTechnician,
+                total_count = lstTechnician.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
 
         #endregion
 

@@ -202,6 +202,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OldDataController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\MasterService.cs" />
+    <Compile Include="Services\OldDataService.cs" />
     <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\APIService.cs" />
@@ -744,6 +746,7 @@
     <Content Include="Scripts\ProjectJs\Common.js" />
     <Content Include="Scripts\ProjectJs\JobList.js" />
     <Content Include="Scripts\ProjectJs\MasterForms.js" />
+    <Content Include="Scripts\ProjectJs\OldData.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -839,6 +842,9 @@
     <Content Include="Views\Job\EraseChargesBetweenTwoDatesForm.cshtml" />
     <Content Include="Views\Report\WorkshopReport.cshtml" />
     <Content Include="Views\Report\_WorkshopReportPartial.cshtml" />
+    <Content Include="Views\Master\TechnicianAttendance.cshtml" />
+    <Content Include="Views\OldData\JobList.cshtml" />
+    <Content Include="Views\OldData\_OldJobListAdvanceFilter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

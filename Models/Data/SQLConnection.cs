@@ -26,7 +26,25 @@ namespace ServiceCenter.Models.Data
             if (!string.IsNullOrEmpty(_staticConnectionString))
                 return _staticConnectionString;
 
-            string con = DBName == "ketan2020" ? ConfigurationManager.ConnectionStrings["KetanServices"].ConnectionString : DBName == "Ketandb" ? ConfigurationManager.ConnectionStrings["KetanERP"].ConnectionString : string.Empty;
+            string con = ConfigurationManager.ConnectionStrings["KetanServices"].ConnectionString;
+
+            switch (DBName)
+            {
+                case "ketan2020":
+                    con = ConfigurationManager.ConnectionStrings["KetanServices"].ConnectionString;
+                    break;
+                case "Ketandb":
+                    con = ConfigurationManager.ConnectionStrings["KetanERP"].ConnectionString;
+                    break;
+                case "ketan2015_GoDaddy":
+                    con = ConfigurationManager.ConnectionStrings["OldKetanServices"].ConnectionString;
+                    break;
+                default:
+                    con = ConfigurationManager.ConnectionStrings["KetanServices"].ConnectionString;
+                    break;
+            }
+
+            //string con = DBName == "ketan2020" ? ConfigurationManager.ConnectionStrings["KetanServices"].ConnectionString : DBName == "Ketandb" ? ConfigurationManager.ConnectionStrings["KetanERP"].ConnectionString : string.Empty;
 
             return con;
 

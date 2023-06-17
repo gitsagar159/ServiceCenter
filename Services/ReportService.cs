@@ -1874,6 +1874,7 @@ namespace ServiceCenter.Services
                                 objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyCancleCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.Canceled == true).ToList().Count;
                                 objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAC_ServiceCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.AC_Service == true).ToList().Count;
                                 objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyAttend_But_NotDoneCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.CallAttn == true && l.JobDone == false).ToList().Count;
+                                objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyDemoCalls = groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0 && l.FaultDesc.ToLower().Trim() == "demo").ToList().Count;
 
                                 objTechnicianReport.Local_Calls_List.Local_InWarranty_Calls.InWarrantyItems = new List<TechnicianItems>();
                                 foreach (var item in groupCallItem.CallItem.Where(l => l.CallType == 0 && l.ServType == 0).ToList())

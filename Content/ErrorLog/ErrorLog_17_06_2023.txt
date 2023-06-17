@@ -1,0 +1,161 @@
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:33:22
+
+System.IO.IOException
+Message : The process cannot access the file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Content\TraceLog\TraceLogLog_17_06_2023.txt' because it is being used by another process.
+StackTrace :    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamWriter.CreateFile(String path, Boolean append, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append, Encoding encoding, Int32 bufferSize, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append)
+   at ServiceCenter.Services.CommonService.WriteTraceInFile(String FilePath, String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 110
+   at ServiceCenter.Services.CommonService.WriteTraceLog(String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 62
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 120
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:33:33
+
+System.Data.SqlClient.SqlException
+Message : Cannot open database "ketan2015_GoDaddy" requested by the login. The login failed.
+Login failed for user 'DUDHAIYA\Sagar'.
+StackTrace :    at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 79
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 123
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:36:41
+
+System.IO.IOException
+Message : The process cannot access the file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Content\TraceLog\TraceLogLog_17_06_2023.txt' because it is being used by another process.
+StackTrace :    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamWriter.CreateFile(String path, Boolean append, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append, Encoding encoding, Int32 bufferSize, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append)
+   at ServiceCenter.Services.CommonService.WriteTraceInFile(String FilePath, String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 110
+   at ServiceCenter.Services.CommonService.WriteTraceLog(String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 67
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 120
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:36:51
+
+System.Data.SqlClient.SqlException
+Message : Cannot open database "ketan2015_GoDaddy" requested by the login. The login failed.
+Login failed for user 'DUDHAIYA\Sagar'.
+StackTrace :    at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 79
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 123
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:36:51
+
+System.Data.SqlClient.SqlException
+Message : Cannot open database "ketan2015_GoDaddy" requested by the login. The login failed.
+Login failed for user 'DUDHAIYA\Sagar'.
+StackTrace :    at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 79
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 123
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:36:56
+
+System.Data.SqlClient.SqlException
+Message : Cannot open database "ketan2015_GoDaddy" requested by the login. The login failed.
+Login failed for user 'DUDHAIYA\Sagar'.
+StackTrace :    at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 79
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 123
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:36:56
+
+System.Data.SqlClient.SqlException
+Message : Cannot open database "ketan2015_GoDaddy" requested by the login. The login failed.
+Login failed for user 'DUDHAIYA\Sagar'.
+StackTrace :    at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 79
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 123
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:38:38
+
+System.IO.IOException
+Message : The process cannot access the file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Content\TraceLog\TraceLogLog_17_06_2023.txt' because it is being used by another process.
+StackTrace :    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamWriter.CreateFile(String path, Boolean append, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append, Encoding encoding, Int32 bufferSize, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append)
+   at ServiceCenter.Services.CommonService.WriteTraceInFile(String FilePath, String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 110
+   at ServiceCenter.Services.CommonService.WriteTraceLog(String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 67
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 120
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:45:50
+
+System.IO.IOException
+Message : The process cannot access the file 'E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Content\TraceLog\TraceLogLog_17_06_2023.txt' because it is being used by another process.
+StackTrace :    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamWriter.CreateFile(String path, Boolean append, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append, Encoding encoding, Int32 bufferSize, Boolean checkHost)
+   at System.IO.StreamWriter..ctor(String path, Boolean append)
+   at ServiceCenter.Services.CommonService.WriteTraceInFile(String FilePath, String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 110
+   at ServiceCenter.Services.CommonService.WriteTraceLog(String strTrace) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\CommonService.cs:line 67
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 120
+-----------------------------------------------------------------------------
+Date : 17-06-2023 12:46:00
+
+System.Data.SqlClient.SqlException
+Message : Cannot open database "ketan2015_GoDaddy" requested by the login. The login failed.
+Login failed for user 'DUDHAIYA\Sagar'.
+StackTrace :    at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling, SqlAuthenticationProviderManager sqlAuthProviderManager)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at ServiceCenter.Models.Data.BaseDAL.GetResultDataSet(String strQuery, CommandType SqlcommandType, List`1 lstParams, String DBName) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Models\Data\BaseDAL.cs:line 79
+   at ServiceCenter.Services.OldDataService.GetCallRegisterListBySP(Int32 SortCol, String SortDir, Int32 PageIndex, Int32 PageSize, String CustomerName, Nullable`1 CallType, Nullable`1 ServType, String Technician, String TechnicianType, String MobileNo, String Pincode, Nullable`1 CallAttn, Nullable`1 JobDone, String JobNo, String SrNo, String CompComplaintNo, String ItemName, String ItemKeyword, Nullable`1 Deliver, Nullable`1 Canceled, Nullable`1 PartPanding, Nullable`1 IsCompComplaintNo, Nullable`1 FromDate, Nullable`1 ToDate, Nullable`1 CallAssignFromDate, Nullable`1 CallAssignToDate, Nullable`1 CallBack, Nullable`1 WorkShopIN, Nullable`1 PaymentPanding, Nullable`1 GoAfterCall, Nullable`1 RepeatFromTech, String UserName, String FaultType, String FaultDesc, String Area, Nullable`1 ModifyFromDate, Nullable`1 ModifyToDate) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\OldDataService.cs:line 123

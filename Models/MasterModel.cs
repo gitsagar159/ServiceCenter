@@ -117,6 +117,7 @@ namespace ServiceCenter.Models
         public string device_token { get; set; }
         public string Select2JSON { get; set; }
         public SelectList TechnicianTypeDD { get; set; }
+        public string Password { get; set; }
     }
 
 
@@ -136,6 +137,47 @@ namespace ServiceCenter.Models
     {
         public string BillDate { get; set; }
         public string BillNo { get; set; }
+    }
+
+
+    public class TechnicianAttendance
+    {
+        public int RowNo { get; set; }
+        public int attendance_id { get; set; }
+        public string technician_name { get; set; }
+        public string technician_mno { get; set; }
+        public bool technician_present { get; set; }
+        public bool start_day { get; set; }
+        public string technician_img { get; set; }
+        public string present_location { get; set; }
+        public bool technician_absent { get; set; }
+        public string absent_reason { get; set; }
+        public string absent_time { get; set; }
+        public bool technician_tranning { get; set; }
+        public string location { get; set; }
+        public string attendance_date { get; set; }
+        public string attendance_time { get; set; }
+        public bool lunch_start { get; set; }
+        public string lunch_img { get; set; }
+        public string lunch_starttime { get; set; }
+        public string lunch_start_location { get; set; }
+        public bool lunch_end { get; set; }
+        public string lunch_endimg { get; set; }
+        public string lunch_endtime { get; set; }
+        public string lunch_end_location { get; set; }
+        public bool end { get; set; }
+        public string end_img { get; set; }
+        public string endtime { get; set; }
+        public string end_day_location { get; set; }
+        public string locationde { get; set; }
+        public string role { get; set; }
+    }
+
+    public class TechnicianAttendanceListDataModel
+    {
+        public List<TechnicianAttendance> TechnicianAttendanceList { get; set; }
+
+        public int RecordCount { get; set; }
     }
 
     #endregion
