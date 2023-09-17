@@ -72,6 +72,7 @@
                             <th>Sr No.</th>
                             <th>Created Date</th>
                             <th>Call Assign Date</th>
+                            <th>Modify Date</th>
                             <th>Job No.</th>
                             <th>Company com. No.</th>
                             <th>Customer</th>
@@ -140,7 +141,7 @@
                         "url": "/Report/GetCallRegistrationReportList",
                         "type": "POST",
                         "datatype": "json",
-                        "data": function (d) {
+                        "data": function (d) { 
                             d.FromDate = $("#FromDate").val().trim();
                             d.ToDate = $('#ToDate').val();
                             d.CallCategory = $('#CallCategory').val();
@@ -150,6 +151,7 @@
                         { "data": "RowNo", "autoWidth": true },
                         { "data": "StringCreationDate", "autoWidth": true },
                         { "data": "StringCallAssignDate", "autoWidth": true },
+                        { "data": "ModifyDateString", "autoWidth": true },
                         { "data": "JobNo", "autoWidth": true },
                         { "data": "CompComplaintNo", "autoWidth": true },
                         { "data": "CustomerName", "autoWidth": true },

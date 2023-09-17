@@ -256,6 +256,30 @@ namespace ServiceCenter.Controllers
             return View(objCallRegistrationListDataModel);
         }
 
+        public ActionResult CustomerPendingPaymentOutstanding()
+        {
+            CustomerPendingPaymentReportData objCustomerPendingPaymentReportData = new CustomerPendingPaymentReportData();
+            ReportService objReportService = new ReportService();
+            objCustomerPendingPaymentReportData = objReportService.CustomerPendingPaymentReport(null, null);
+
+            return View(objCustomerPendingPaymentReportData);
+        }
+
+        [HttpPost]
+        public ActionResult CustomerPendingPaymentOutstanding(CallRegistrationListDataModel objCustomerPendingPaymentOutstanding)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objCustomerPendingPaymentOutstanding.FromDate) ? DateTime.ParseExact(objCustomerPendingPaymentOutstanding.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objCustomerPendingPaymentOutstanding.ToDate) ? DateTime.ParseExact(objCustomerPendingPaymentOutstanding.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            CustomerPendingPaymentReportData objCustomerPendingPaymentReportData = new CustomerPendingPaymentReportData();
+            ReportService objReportService = new ReportService();
+            objCustomerPendingPaymentReportData = objReportService.CustomerPendingPaymentReport(DtFromDate, DtToDate);
+
+            return View(objCustomerPendingPaymentReportData);
+        }
+
         public ActionResult RepeatFromTechReport()
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
@@ -382,6 +406,30 @@ namespace ServiceCenter.Controllers
 
         [HttpPost]
         public ActionResult TechnicianCallSummaryReport(AnalyticalReportModel objAnalyticalReportModel)
+        {
+            DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
+
+            DtFromDate = !string.IsNullOrEmpty(objAnalyticalReportModel.FromDate) ? DateTime.ParseExact(objAnalyticalReportModel.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+            DtToDate = !string.IsNullOrEmpty(objAnalyticalReportModel.ToDate) ? DateTime.ParseExact(objAnalyticalReportModel.ToDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) : (DateTime?)null;
+
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            ReportService objReportService = new ReportService();
+            objTechnicianReportData = objReportService.TechnicianCallSummaryReport(DtFromDate, DtToDate);
+
+            return View(objTechnicianReportData);
+        }
+
+        public ActionResult TechnicianReportIncomeVSExpence()
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            ReportService objReportService = new ReportService();
+            objTechnicianReportData = objReportService.TechnicianReportIncomeVSExpence(null, null);
+
+            return View(objTechnicianReportData);
+        }
+
+        [HttpPost]
+        public ActionResult TechnicianReportIncomeVSExpence(AnalyticalReportModel objAnalyticalReportModel)
         {
             DateTime? DtFromDate = (DateTime?)null, DtToDate = (DateTime?)null;
 
@@ -1401,6 +1449,38 @@ namespace ServiceCenter.Controllers
                     string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
                     EmailService objEmailService = new EmailService();
                     blnEmailSend = objEmailService.Sendmail(ToEmail, strPendinCallReportHtml, "Call Back And Workshop In Out Report", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SendCustomerPendingPaymentOutstandingReportMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+
+                CustomerPendingPaymentReportData objCustomerPendingPaymentReportData = new CustomerPendingPaymentReportData();
+                ReportService objReportService = new ReportService();
+                objCustomerPendingPaymentReportData = objReportService.CustomerPendingPaymentReport(null, null);
+
+                string strCustomerPendingPaymentReporHtml = RenderRazorViewToString("~/Views/Report/_CustomerPaymentPendingReportPartial.cshtml", objCustomerPendingPaymentReportData);
+
+                if (!string.IsNullOrEmpty(strCustomerPendingPaymentReporHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strCustomerPendingPaymentReporHtml, "Customer Pending Payment Report Report", "", CcEmail);
                 }
                 ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
 

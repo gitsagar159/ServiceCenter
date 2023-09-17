@@ -845,6 +845,10 @@
     <Content Include="Views\Master\TechnicianAttendance.cshtml" />
     <Content Include="Views\OldData\JobList.cshtml" />
     <Content Include="Views\OldData\_OldJobListAdvanceFilter.cshtml" />
+    <Content Include="Views\Report\_CustomerPaymentPendingReportPartial.cshtml" />
+    <Content Include="Views\Report\CustomerPendingPaymentOutstanding.cshtml" />
+    <Content Include="Views\Report\TechnicianReportIncomeVSExpence.cshtml" />
+    <Content Include="Views\Report\_TechnicianReportIncomeVSExpencePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -156,6 +156,14 @@ namespace ServiceCenter.Models
         public string ToDate { get; set; }
     }
 
+    public class CustomerPendingPaymentReportData
+    {
+        public List<CallRegistration> CustomerList { get; set; }
+
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
+
     public class TechnicianReport
     {
         public string TechnicianId { get; set; }
@@ -178,6 +186,8 @@ namespace ServiceCenter.Models
         public int Ac_Service { get; set; }
         public int Workshop_Pending { get; set; }
 
+        public int TechnicianInWarrantyCalls { get; set; }
+        public int TechnicianOutWarrantyCalls { get; set; }
         public TechnicianLocal Local_Calls_List { get; set; }
         public TechnicianWorkshop Workshop_Calls_List { get; set; }
         public TechnicianOutStation OutStation_Calls_List { get; set; }

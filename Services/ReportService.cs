@@ -69,6 +69,7 @@ namespace ServiceCenter.Services
                         objCallRegistration.Oid = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
                         objCallRegistration.StringCreationDate = dtRowItem["CreationDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreationDate"]).ToString("dd'/'MM'/'yyy") : "-";
                         objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy") : "-";
+                        objCallRegistration.ModifyDateString = dtRowItem["ModifyDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ModifyDate"]).ToString("dd'/'MM'/'yyy") : "-";
                         objCallRegistration.CompComplaintNo = dtRowItem["CompComplaintNo"] != DBNull.Value ? Convert.ToString(dtRowItem["CompComplaintNo"]) : string.Empty;
                         objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
                         objCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
@@ -154,7 +155,7 @@ namespace ServiceCenter.Services
                         ObjCallRegistration.Oid = dtRowItem["Oid"] != DBNull.Value ? Convert.ToString(dtRowItem["Oid"]) : string.Empty;
                         ObjCallRegistration.CreationDate = dtRowItem["CreationDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CreationDate"]) : (DateTime?)null;
                         ObjCallRegistration.CallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]) : (DateTime?)null;
-
+                        ObjCallRegistration.ModifyDate = dtRowItem["ModifyDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ModifyDate"]) : (DateTime?)null;
                         ObjCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
                         ObjCallRegistration.Address = dtRowItem["Address"] != DBNull.Value ? Convert.ToString(dtRowItem["Address"]) : string.Empty;
                         ObjCallRegistration.Pincode = dtRowItem["Pincode"] != DBNull.Value ? Convert.ToString(dtRowItem["Pincode"]) : string.Empty;
@@ -223,48 +224,49 @@ namespace ServiceCenter.Services
                         worksheet.Cells[intRow, 2].Value = "Job No.";
                         worksheet.Cells[intRow, 3].Value = "Creation Date";
                         worksheet.Cells[intRow, 4].Value = "Call Assign Date";
-                        worksheet.Cells[intRow, 5].Value = "Customer Name";
-                        worksheet.Cells[intRow, 6].Value = "Address";
-                        worksheet.Cells[intRow, 7].Value = "Pincode";
+                        worksheet.Cells[intRow, 5].Value = "Modify Date";
+                        worksheet.Cells[intRow, 6].Value = "Customer Name";
+                        worksheet.Cells[intRow, 7].Value = "Address";
+                        worksheet.Cells[intRow, 8].Value = "Pincode";
 
-                        worksheet.Cells[intRow, 8].Value = "Call Type";
-                        worksheet.Cells[intRow, 9].Value = "Service Type";
-                        worksheet.Cells[intRow, 10].Value = "Technician Type";
-                        worksheet.Cells[intRow, 11].Value = "Technician";
-                        worksheet.Cells[intRow, 12].Value = "Mobile No";
-                        worksheet.Cells[intRow, 13].Value = "Call Attn";
-                        worksheet.Cells[intRow, 14].Value = "Job Done";
-                        worksheet.Cells[intRow, 15].Value = "Product Name";
-                        worksheet.Cells[intRow, 16].Value = "Deal.Ref/Name";
-                        worksheet.Cells[intRow, 17].Value = "Company Complaint no.";
-                        worksheet.Cells[intRow, 18].Value = "Estimate Date";
-                        worksheet.Cells[intRow, 19].Value = "Payment";
-                        worksheet.Cells[intRow, 20].Value = "Estimate Confirm Date";
-                        worksheet.Cells[intRow, 21].Value = "Estimate";
-                        worksheet.Cells[intRow, 22].Value = "Item Name";
-                        worksheet.Cells[intRow, 23].Value = "Fault Type";
-                        worksheet.Cells[intRow, 24].Value = "Fault Description";
-                        worksheet.Cells[intRow, 25].Value = "Model Name";
-                        worksheet.Cells[intRow, 26].Value = "Special Instuction";
-                        worksheet.Cells[intRow, 27].Value = "Region For Job Done";
-                        worksheet.Cells[intRow, 28].Value = "Region For Job Not Done";
-                        worksheet.Cells[intRow, 29].Value = "Repeat From Tech";
-                        worksheet.Cells[intRow, 30].Value = "Call Back";
-                        worksheet.Cells[intRow, 31].Value = "Workshop In";
-                        worksheet.Cells[intRow, 32].Value = "SMS Sent";
-                        worksheet.Cells[intRow, 33].Value = "bill No.";
-                        worksheet.Cells[intRow, 34].Value = "Technican Bill No.";
-                        worksheet.Cells[intRow, 35].Value = "Payment Pending";
-                        worksheet.Cells[intRow, 36].Value = "Purchase Date";
-                        worksheet.Cells[intRow, 37].Value = "Deliverd";
-                        worksheet.Cells[intRow, 38].Value = "Cancled";
-                        worksheet.Cells[intRow, 39].Value = "Go After Call";
-                        worksheet.Cells[intRow, 40].Value = "Part Pending";
-                        worksheet.Cells[intRow, 41].Value = "Payment By";
-                        worksheet.Cells[intRow, 42].Value = "Visit Charge";
-                        worksheet.Cells[intRow, 43].Value = "Serial No.";
+                        worksheet.Cells[intRow, 9].Value = "Call Type";
+                        worksheet.Cells[intRow, 10].Value = "Service Type";
+                        worksheet.Cells[intRow, 11].Value = "Technician Type";
+                        worksheet.Cells[intRow, 12].Value = "Technician";
+                        worksheet.Cells[intRow, 13].Value = "Mobile No";
+                        worksheet.Cells[intRow, 14].Value = "Call Attn";
+                        worksheet.Cells[intRow, 15].Value = "Job Done";
+                        worksheet.Cells[intRow, 16].Value = "Product Name";
+                        worksheet.Cells[intRow, 17].Value = "Deal.Ref/Name";
+                        worksheet.Cells[intRow, 18].Value = "Company Complaint no.";
+                        worksheet.Cells[intRow, 19].Value = "Estimate Date";
+                        worksheet.Cells[intRow, 20].Value = "Payment";
+                        worksheet.Cells[intRow, 21].Value = "Estimate Confirm Date";
+                        worksheet.Cells[intRow, 22].Value = "Estimate";
+                        worksheet.Cells[intRow, 23].Value = "Item Name";
+                        worksheet.Cells[intRow, 24].Value = "Fault Type";
+                        worksheet.Cells[intRow, 25].Value = "Fault Description";
+                        worksheet.Cells[intRow, 26].Value = "Model Name";
+                        worksheet.Cells[intRow, 27].Value = "Special Instuction";
+                        worksheet.Cells[intRow, 28].Value = "Region For Job Done";
+                        worksheet.Cells[intRow, 29].Value = "Region For Job Not Done";
+                        worksheet.Cells[intRow, 30].Value = "Repeat From Tech";
+                        worksheet.Cells[intRow, 31].Value = "Call Back";
+                        worksheet.Cells[intRow, 32].Value = "Workshop In";
+                        worksheet.Cells[intRow, 33].Value = "SMS Sent";
+                        worksheet.Cells[intRow, 34].Value = "bill No.";
+                        worksheet.Cells[intRow, 35].Value = "Technican Bill No.";
+                        worksheet.Cells[intRow, 36].Value = "Payment Pending";
+                        worksheet.Cells[intRow, 37].Value = "Purchase Date";
+                        worksheet.Cells[intRow, 38].Value = "Deliverd";
+                        worksheet.Cells[intRow, 39].Value = "Cancled";
+                        worksheet.Cells[intRow, 40].Value = "Go After Call";
+                        worksheet.Cells[intRow, 41].Value = "Part Pending";
+                        worksheet.Cells[intRow, 42].Value = "Payment By";
+                        worksheet.Cells[intRow, 43].Value = "Visit Charge";
+                        worksheet.Cells[intRow, 44].Value = "Serial No.";
 
-                        worksheet.Cells[intRow, 1, intRow, 42].Style.Font.Bold = true;
+                        worksheet.Cells[intRow, 1, intRow, 44].Style.Font.Bold = true;
 
                         intRow++;
 
@@ -283,55 +285,58 @@ namespace ServiceCenter.Services
                             worksheet.Cells[intRow, 4].Value = callItem.CallAssignDate;
                             worksheet.Cells[intRow, 4].Style.Numberformat.Format = "dd/mm/yyyy";
 
-                            worksheet.Cells[intRow, 5].Value = callItem.CustomerName;
-                            worksheet.Cells[intRow, 6].Value = callItem.Address;
-                            worksheet.Cells[intRow, 7].Value = callItem.Pincode;
+                            worksheet.Cells[intRow, 5].Value = callItem.ModifyDate;
+                            worksheet.Cells[intRow, 5].Style.Numberformat.Format = "dd/mm/yyyy";
 
-                            worksheet.Cells[intRow, 8].Value = callItem.CallTypeName; //CommonService.GetCallTypeNameById(callItem.CallType);
-                            worksheet.Cells[intRow, 9].Value = callItem.ServTypeName; //CommonService.GetServiceTypeNameById(callItem.ServType);
-                            worksheet.Cells[intRow, 10].Value = callItem.TechnicianType;
-                            worksheet.Cells[intRow, 11].Value = callItem.TechnicianName;
-                            worksheet.Cells[intRow, 12].Value = callItem.MobileNo;
-                            worksheet.Cells[intRow, 13].Value = callItem.CallAttn ? "Yes" : "No";
-                            worksheet.Cells[intRow, 14].Value = callItem.JobDone ? "Yes" : "No";
-                            worksheet.Cells[intRow, 15].Value = callItem.ProductName;
-                            worksheet.Cells[intRow, 16].Value = callItem.DealRef;
-                            worksheet.Cells[intRow, 17].Value = callItem.CompComplaintNo;
-                            worksheet.Cells[intRow, 18].Value = callItem.EstimateDate;
+                            worksheet.Cells[intRow, 6].Value = callItem.CustomerName;
+                            worksheet.Cells[intRow, 7].Value = callItem.Address;
+                            worksheet.Cells[intRow, 8].Value = callItem.Pincode;
 
-                            worksheet.Cells[intRow, 18].Style.Numberformat.Format = "dd/mm/yyyy";
+                            worksheet.Cells[intRow, 9].Value = callItem.CallTypeName; //CommonService.GetCallTypeNameById(callItem.CallType);
+                            worksheet.Cells[intRow, 10].Value = callItem.ServTypeName; //CommonService.GetServiceTypeNameById(callItem.ServType);
+                            worksheet.Cells[intRow, 11].Value = callItem.TechnicianType;
+                            worksheet.Cells[intRow, 12].Value = callItem.TechnicianName;
+                            worksheet.Cells[intRow, 13].Value = callItem.MobileNo;
+                            worksheet.Cells[intRow, 14].Value = callItem.CallAttn ? "Yes" : "No";
+                            worksheet.Cells[intRow, 15].Value = callItem.JobDone ? "Yes" : "No";
+                            worksheet.Cells[intRow, 16].Value = callItem.ProductName;
+                            worksheet.Cells[intRow, 17].Value = callItem.DealRef;
+                            worksheet.Cells[intRow, 18].Value = callItem.CompComplaintNo;
+                            
+                            worksheet.Cells[intRow, 19].Value = callItem.EstimateDate;
+                            worksheet.Cells[intRow, 19].Style.Numberformat.Format = "dd/mm/yyyy";
 
-                            worksheet.Cells[intRow, 19].Value = callItem.Payment;
-                            worksheet.Cells[intRow, 20].Value = callItem.EstConfirmDate;
+                            worksheet.Cells[intRow, 20].Value = callItem.Payment;
+                            
+                            worksheet.Cells[intRow, 21].Value = callItem.EstConfirmDate;
+                            worksheet.Cells[intRow, 21].Style.Numberformat.Format = "dd/mm/yyyy";
 
-                            worksheet.Cells[intRow, 20].Style.Numberformat.Format = "dd/mm/yyyy";
+                            worksheet.Cells[intRow, 22].Value = callItem.Estimate;
+                            worksheet.Cells[intRow, 23].Value = callItem.ItemName;
+                            worksheet.Cells[intRow, 24].Value = callItem.FaultTypeName;
+                            worksheet.Cells[intRow, 25].Value = callItem.FaultDesc;
+                            worksheet.Cells[intRow, 26].Value = callItem.ModelName;
+                            worksheet.Cells[intRow, 27].Value = callItem.SpInst;
+                            worksheet.Cells[intRow, 28].Value = callItem.JobDoneRegion;
+                            worksheet.Cells[intRow, 29].Value = callItem.JobRegion;
+                            worksheet.Cells[intRow, 30].Value = callItem.RepeatFromTech ? "Yes" : "No";
+                            worksheet.Cells[intRow, 31].Value = callItem.CallBack ? "Yes" : "No";
+                            worksheet.Cells[intRow, 32].Value = callItem.WorkShopIN ? "Yes" : "No";
+                            worksheet.Cells[intRow, 33].Value = callItem.SMSSent ? "Yes" : "No";
+                            worksheet.Cells[intRow, 34].Value = callItem.BillNo;
+                            worksheet.Cells[intRow, 35].Value = callItem.TechBillNo;
+                            worksheet.Cells[intRow, 36].Value = callItem.PaymentPanding ? "Yes" : "No";
+                            
+                            worksheet.Cells[intRow, 37].Value = callItem.PurchaseDate;
+                            worksheet.Cells[intRow, 37].Style.Numberformat.Format = "dd/mm/yyyy";
 
-                            worksheet.Cells[intRow, 21].Value = callItem.Estimate;
-                            worksheet.Cells[intRow, 22].Value = callItem.ItemName;
-                            worksheet.Cells[intRow, 23].Value = callItem.FaultTypeName;
-                            worksheet.Cells[intRow, 24].Value = callItem.FaultDesc;
-                            worksheet.Cells[intRow, 25].Value = callItem.ModelName;
-                            worksheet.Cells[intRow, 26].Value = callItem.SpInst;
-                            worksheet.Cells[intRow, 27].Value = callItem.JobDoneRegion;
-                            worksheet.Cells[intRow, 28].Value = callItem.JobRegion;
-                            worksheet.Cells[intRow, 29].Value = callItem.RepeatFromTech ? "Yes" : "No";
-                            worksheet.Cells[intRow, 30].Value = callItem.CallBack ? "Yes" : "No";
-                            worksheet.Cells[intRow, 31].Value = callItem.WorkShopIN ? "Yes" : "No";
-                            worksheet.Cells[intRow, 32].Value = callItem.SMSSent ? "Yes" : "No";
-                            worksheet.Cells[intRow, 33].Value = callItem.BillNo;
-                            worksheet.Cells[intRow, 34].Value = callItem.TechBillNo;
-                            worksheet.Cells[intRow, 35].Value = callItem.PaymentPanding ? "Yes" : "No";
-                            worksheet.Cells[intRow, 36].Value = callItem.PurchaseDate;
-
-                            worksheet.Cells[intRow, 36].Style.Numberformat.Format = "dd/mm/yyyy";
-
-                            worksheet.Cells[intRow, 37].Value = callItem.Deliver ? "Yes" : "No";
-                            worksheet.Cells[intRow, 38].Value = callItem.Canceled ? "Yes" : "No";
-                            worksheet.Cells[intRow, 39].Value = callItem.GoAfterCall ? "Yes" : "No";
-                            worksheet.Cells[intRow, 40].Value = callItem.PartPanding ? "Yes" : "No";
-                            worksheet.Cells[intRow, 41].Value = callItem.PaymentBy;
-                            worksheet.Cells[intRow, 42].Value = callItem.VisitCharge;
-                            worksheet.Cells[intRow, 43].Value = callItem.SrNo;
+                            worksheet.Cells[intRow, 38].Value = callItem.Deliver ? "Yes" : "No";
+                            worksheet.Cells[intRow, 39].Value = callItem.Canceled ? "Yes" : "No";
+                            worksheet.Cells[intRow, 40].Value = callItem.GoAfterCall ? "Yes" : "No";
+                            worksheet.Cells[intRow, 41].Value = callItem.PartPanding ? "Yes" : "No";
+                            worksheet.Cells[intRow, 42].Value = callItem.PaymentBy;
+                            worksheet.Cells[intRow, 43].Value = callItem.VisitCharge;
+                            worksheet.Cells[intRow, 44].Value = callItem.SrNo;
 
 
 
@@ -1536,6 +1541,95 @@ namespace ServiceCenter.Services
                 CommonService.WriteErrorLog(ex);
             }
             return objTechnicianReportData;
+        }
+
+        public CustomerPendingPaymentReportData CustomerPendingPaymentReport(DateTime? FromDate, DateTime? ToDate)
+        {
+            CustomerPendingPaymentReportData objCustomerPendingPaymentReportData = new CustomerPendingPaymentReportData();
+            objCustomerPendingPaymentReportData.CustomerList = new List<CallRegistration>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CustomerPaymentPendingReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objCallRegistration.AC_Service = dtRowItem["AC_Service"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["AC_Service"]) : false;
+
+                            objCustomerPendingPaymentReportData.CustomerList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+
+                }
+
+                if (ResDataSet.Tables.Count > 1)
+                {
+                    DataTable CallDatesTable = ResDataSet.Tables[1];
+                    DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                    objCustomerPendingPaymentReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    objCustomerPendingPaymentReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCustomerPendingPaymentReportData;
         }
 
         public CallRegistrationListDataModel PendingCallListByTechnicianId(DateTime? FromDate, DateTime? ToDate, string TechnicianId)
@@ -2911,6 +3005,7 @@ namespace ServiceCenter.Services
             }
             return objPartPendingCallReport;
         }
+
         public CallRegistrationListDataModel PaymentPendingReportDaily(DateTime? FromDate, DateTime? ToDate)
         {
             CallRegistrationListDataModel objCallRegistrationListDataModel = new CallRegistrationListDataModel();
@@ -4665,6 +4760,167 @@ namespace ServiceCenter.Services
                 }
 
 
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objTechnicianReportData;
+        }
+
+        public TechnicianReportData TechnicianReportIncomeVSExpence(DateTime? FromDate, DateTime? ToDate)
+        {
+            TechnicianReportData objTechnicianReportData = new TechnicianReportData();
+            objTechnicianReportData.TechnicianReportList = new List<TechnicianReport>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"DailyTechnicianCallReport";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter FromDate_Param = FromDate.HasValue ? new SqlParameter() { ParameterName = "@FromDate", Value = FromDate } : new SqlParameter() { ParameterName = "@FromDate", Value = DBNull.Value };
+                SqlParameter ToDate_Param = ToDate.HasValue ? new SqlParameter() { ParameterName = "@ToDate", Value = ToDate } : new SqlParameter() { ParameterName = "@ToDate", Value = DBNull.Value };
+
+                lstParam.AddRange(new SqlParameter[] { FromDate_Param, ToDate_Param });
+
+                DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
+
+                List<CallRegistration> CallRegistrationList = new List<CallRegistration>();
+
+                List<TechnicianExpense> TechnicianExpenseList = new List<TechnicianExpense>();
+                TechnicianExpense objTechnicianExpense;
+
+                TechnicianReport objTechnicianReport = new TechnicianReport();
+
+                if (ResDataSet.Tables.Count > 0)
+                {
+                    DataTable CallRegisterListTable = ResDataSet.Tables[0];
+
+                    if (CallRegisterListTable.Rows.Count > 0)
+                    {
+                        CallRegistration objCallRegistration;
+
+                        foreach (DataRow dtRowItem in CallRegisterListTable.Rows)
+                        {
+                            objCallRegistration = new CallRegistration();
+
+
+                            objCallRegistration.JobNo = dtRowItem["JobNo"] != DBNull.Value ? Convert.ToString(dtRowItem["JobNo"]) : string.Empty;
+                            objCallRegistration.StringCreationDate = dtRowItem["CallDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.StringCallAssignDate = dtRowItem["CallAssignDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["CallAssignDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                            objCallRegistration.CustomerName = dtRowItem["CustomerName"] != DBNull.Value ? Convert.ToString(dtRowItem["CustomerName"]) : string.Empty;
+                            objCallRegistration.MobileNo = dtRowItem["MobileNo"] != DBNull.Value ? Convert.ToString(dtRowItem["MobileNo"]) : string.Empty;
+                            objCallRegistration.CallType = dtRowItem["CallType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["CallType"]) : 0;
+                            objCallRegistration.CallTypeName = dtRowItem["CallTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["CallTypeName"]) : string.Empty;
+                            objCallRegistration.ServType = dtRowItem["ServType"] != DBNull.Value ? Convert.ToInt32(dtRowItem["ServType"]) : 0;
+                            objCallRegistration.ServTypeName = dtRowItem["ServTypeName"] != DBNull.Value ? Convert.ToString(dtRowItem["ServTypeName"]) : string.Empty;
+                            objCallRegistration.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : string.Empty;
+                            objCallRegistration.FaultDesc = dtRowItem["FaultDesc"] != DBNull.Value ? Convert.ToString(dtRowItem["FaultDesc"]) : string.Empty;
+                            objCallRegistration.TechnicianId = dtRowItem["TechnicianId"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianId"]) : string.Empty;
+                            objCallRegistration.Technician = dtRowItem["Technician"] != DBNull.Value ? Convert.ToString(dtRowItem["Technician"]) : string.Empty;
+                            objCallRegistration.TechType = dtRowItem["TechType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechType"]) : string.Empty;
+                            objCallRegistration.TechnicianType = dtRowItem["TechnicianType"] != DBNull.Value ? Convert.ToString(dtRowItem["TechnicianType"]) : string.Empty;
+
+                            objCallRegistration.CallAttn = dtRowItem["CallAttn"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallAttn"]) : false;
+                            objCallRegistration.PartPanding = dtRowItem["PartPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PartPanding"]) : false;
+                            objCallRegistration.JobDone = dtRowItem["JobDone"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["JobDone"]) : false;
+                            objCallRegistration.CallBack = dtRowItem["CallBack"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["CallBack"]) : false;
+                            objCallRegistration.GoAfterCall = dtRowItem["GoAfterCall"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["GoAfterCall"]) : false;
+                            objCallRegistration.Canceled = dtRowItem["Canceled"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["Canceled"]) : false;
+                            objCallRegistration.RepeatFromTech = dtRowItem["RepeatFromTech"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["RepeatFromTech"]) : false;
+                            objCallRegistration.PaymentPanding = dtRowItem["PaymentPanding"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["PaymentPanding"]) : false;
+
+                            objCallRegistration.Payment = dtRowItem["Payment"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Payment"]) : 0;
+                            objCallRegistration.VisitCharge = dtRowItem["VisitCharge"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["VisitCharge"]) : 0;
+                            objCallRegistration.Estimate = dtRowItem["Estimate"] != DBNull.Value ? Convert.ToDecimal(dtRowItem["Estimate"]) : 0;
+                            objCallRegistration.UserName = dtRowItem["UserName"] != DBNull.Value ? Convert.ToString(dtRowItem["UserName"]) : string.Empty;
+                            objCallRegistration.AC_Service = dtRowItem["AC_Service"] != DBNull.Value ? Convert.ToBoolean(dtRowItem["AC_Service"]) : false;
+
+                            CallRegistrationList.Add(objCallRegistration);
+
+                        }
+
+                    }
+
+                    if (ResDataSet.Tables.Count > 1)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[1];
+
+                        foreach (DataRow dtRowItem in CallDatesTable.Rows)
+                        {
+                            objTechnicianExpense = new TechnicianExpense();
+
+                            objTechnicianExpense.id = dtRowItem["id"] != DBNull.Value ? Convert.ToInt32(dtRowItem["id"]) : 0;
+                            objTechnicianExpense.techid = dtRowItem["techid"] != DBNull.Value ? Convert.ToString(dtRowItem["techid"]) : String.Empty;
+                            objTechnicianExpense.type = dtRowItem["type"] != DBNull.Value ? Convert.ToInt32(dtRowItem["type"]) : 0;
+                            objTechnicianExpense.amount = dtRowItem["amount"] != DBNull.Value ? Convert.ToInt32(dtRowItem["amount"]) : 0;
+                            objTechnicianExpense.date = dtRowItem["date"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["date"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : String.Empty;
+
+                            TechnicianExpenseList.Add(objTechnicianExpense);
+                        }
+                    }
+
+                    if (ResDataSet.Tables.Count > 2)
+                    {
+                        DataTable CallDatesTable = ResDataSet.Tables[2];
+                        DataRow dtRowItem = CallDatesTable.Rows[0];
+
+                        objTechnicianReportData.FromDate = dtRowItem["FromDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["FromDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                        objTechnicianReportData.ToDate = dtRowItem["ToDate"] != DBNull.Value ? Convert.ToDateTime(dtRowItem["ToDate"]).ToString("dd'/'MM'/'yyy hh':'mm':'ss tt") : "-";
+                    }
+
+
+                    if (CallRegistrationList.Count > 0)
+                    {
+                        var CallListGroupByTechnician = CallRegistrationList.GroupBy(i => i.TechnicianId)
+                                            .Select(s => new { TechnicianId = s.Key, CallItem = s.ToList() })
+                                            .ToList();
+
+                        if (CallListGroupByTechnician.Count > 0)
+                        {
+                            foreach (var groupCallItem in CallListGroupByTechnician)
+                            {
+
+                                objTechnicianReport = new TechnicianReport();
+
+
+
+                                objTechnicianReport.TechnicianId = groupCallItem.TechnicianId;
+                                objTechnicianReport.TechnicianName = groupCallItem.CallItem.FirstOrDefault().Technician;
+                                objTechnicianReport.TechnicianTypeId = groupCallItem.CallItem.FirstOrDefault().TechType;
+                                objTechnicianReport.TechnicianPayment = groupCallItem.CallItem.Sum(p => p.Payment);
+                                objTechnicianReport.TechnicianVisitCharge = groupCallItem.CallItem.Sum(p => p.VisitCharge);
+                                objTechnicianReport.TechnicianEstimate = groupCallItem.CallItem.Sum(p => p.Estimate);
+
+                                objTechnicianReport.TechnicianExpenceData = new List<TechnicianExpense>();
+                                objTechnicianReport.TechnicianExpenceData = TechnicianExpenseList.Count > 0 ? TechnicianExpenseList.Where(e => e.techid == objTechnicianReport.TechnicianId).ToList() : new List<TechnicianExpense>();
+
+                                objTechnicianReport.TechnicianExpence = objTechnicianReport.TechnicianExpenceData.Count > 0 ? objTechnicianReport.TechnicianExpenceData.Sum(x => x.amount) : 0;
+                                objTechnicianReport.TotalEarning = objTechnicianReport.TechnicianPayment - objTechnicianReport.TechnicianExpence;
+
+                                objTechnicianReport.AssignCalls = groupCallItem.CallItem.Count;
+                                objTechnicianReport.DoneCalls = groupCallItem.CallItem.Where(x => x.JobDone == true && x.Canceled == false).ToList().Count;
+                                objTechnicianReport.CancelCalls = groupCallItem.CallItem.Where(x => x.Canceled == true).ToList().Count;
+                                objTechnicianReport.Ac_Service = groupCallItem.CallItem.Where(x => x.AC_Service == true).ToList().Count;
+
+                                objTechnicianReport.CallBackCalls = groupCallItem.CallItem.Where(x => x.CallBack == true).ToList().Count;
+                                objTechnicianReport.WorkShopIN = groupCallItem.CallItem.Where(x => x.WorkShopIN == true).ToList().Count;
+                                objTechnicianReport.Workshop_Pending = objTechnicianReport.CallBackCalls - objTechnicianReport.WorkShopIN;
+
+
+                                objTechnicianReport.TechnicianInWarrantyCalls = groupCallItem.CallItem.Where(l => l.ServType == 0).ToList().Count;
+                                objTechnicianReport.TechnicianOutWarrantyCalls = groupCallItem.CallItem.Where(l => l.ServType == 1).ToList().Count;
+
+                                objTechnicianReportData.TechnicianReportList.Add(objTechnicianReport);
+
+                            }
+                        }
+
+                    }
+                }
             }
             catch (Exception ex)
             {

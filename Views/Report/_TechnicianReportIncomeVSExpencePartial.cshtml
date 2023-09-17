@@ -1,0 +1,204 @@
+﻿@model ServiceCenter.Models.TechnicianReportData
+@using ServiceCenter.Models
+@{
+    string TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+    List<TechnicianReport> lstKetanTechnicianCalls = new List<TechnicianReport>();
+    List<TechnicianReport> lstCompanyTechnicianCalls = new List<TechnicianReport>();
+
+    if (Model != null && Model.TechnicianReportList.Count > 0)
+    {
+        lstKetanTechnicianCalls = Model.TechnicianReportList.Where(x => x.TechnicianTypeId.ToUpper() == "F44522C2-BE0C-420A-A380-25946EC7A1CB").ToList();
+        lstCompanyTechnicianCalls = Model.TechnicianReportList.Where(x => x.TechnicianTypeId.ToUpper() == "167E36AC-A5BE-44D8-BE93-F3A229B9025A").ToList();
+    }
+
+    CallSummaryModel objCallSummaryModel;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Technician Call Report</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+
+    <!-- Icon fonts -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/ionicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/linearicons.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/open-iconic.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/fonts/pe-icon-7-stroke.css">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/css/rtl/uikit.css">
+    <link rel="stylesheet" href="~/Content/assets/css/demo.css">
+
+    <script src="~/Content/assets/vendor/js/material-ripple.js"></script>
+    <script src="~/Content/assets/vendor/js/layout-helpers.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+    <!-- Theme settings -->
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    <script src="~/Content/assets/vendor/js/theme-settings.js"></script>
+
+    <!-- Core scripts -->
+    <script src="~/Content/assets/vendor/js/pace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Libs -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <style>
+        .card-table > thead:first-child > tr:first-child > td, .card-table > thead:first-child > tr:first-child > th, .card-table > tbody:first-child > tr:first-child > td, .card-table > tbody:first-child > tr:first-child > th, .card-table > tfoot:first-child > tr:first-child > td, .card-table > tfoot:first-child > tr:first-child > th {
+            border-top: 0;
+        }
+
+        .table .thead-light th {
+            color: #4E5155;
+            background-color: rgba(24,28,33,0.03);
+            border-color: #f1f1f2;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #f1f1f2;
+        }
+
+        .card-table, .card-table th, .card-table td {
+            border-color: rgba(24,28,33,0.06);
+        }
+
+        .table th {
+            font-weight: 500;
+        }
+
+        .table th, .table td {
+            padding: 0.625rem;
+            vertical-align: top;
+            border-top: 1px solid #f1f1f2;
+            font-weight: 500;
+        }
+
+        th {
+            display: table-cell;
+            vertical-align: inherit;
+            font-weight: bold;
+            text-align: -internal-center;
+        }
+
+        table {
+            border-collapse: separate;
+            text-indent: initial;
+            border-spacing: 2px;
+        }
+
+        .bg-info {
+            background-color: #28c3d7 !important;
+        }
+
+        .bg-primary {
+            background-color: #26B4FF !important;
+        }
+
+        .bg-danger {
+            background-color: #d9534f !important;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="card">
+        <div class="card-header">Technician Report : Payment VS Expence | From : @Model.FromDate - To : @Model.ToDate</div>
+        <table class="table card-table table-responsive">
+            <tbody>
+                @{
+                    if (lstKetanTechnicianCalls.Count > 0)
+                    {
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="6" style="text-align:center"> Ketan Technican</th>
+                        </tr>
+
+                        foreach (var ketanTechCallItem in lstKetanTechnicianCalls)
+                        {
+
+                            <tr class="bg-info">
+                                <td colspan="6">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(ketanTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianCallReport)">@ketanTechCallItem.TechnicianName</a></td>
+                            </tr>
+                            <tr>
+                                <td>Total Calls : @ketanTechCallItem.AssignCalls</td>
+                                <td>In-Warranty Calls : @ketanTechCallItem.TechnicianInWarrantyCalls </td>
+                                <td>Out-Warranty Calls : @ketanTechCallItem.TechnicianOutWarrantyCalls</td>
+                                <td>Payment Received : @ketanTechCallItem.TechnicianPayment</td>
+                                <td>Expence : @ketanTechCallItem.TechnicianExpence</td>
+                                <td>Net Payment Received : @ketanTechCallItem.TotalEarning</td>
+                            </tr>
+                        }
+                    }
+
+
+
+                    if (lstCompanyTechnicianCalls.Count > 0)
+                    {
+                        <tr>
+                            <td scope="row" colspan="6"></td>
+                        </tr>
+                        <tr class="bg-danger">
+                            <th scope="row" colspan="6" style="text-align:center"> Company Technican</th>
+                        </tr>
+                        <tr>
+                            <td scope="row" colspan="6"></td>
+                        </tr>
+
+                        foreach (var companyTechCallItem in lstCompanyTechnicianCalls)
+                        {
+
+                            <tr class="bg-info">
+                                <td colspan="6">Technician Name : <a target="_balnk" href="http://ke.ketanenterprise.in/Report/CallDetails?FromDate=@Html.Raw(Model.FromDate.Substring(0, 10))&ToDate=@Html.Raw(Model.ToDate.Substring(0, 10))&TechnicianId=@Html.Raw(companyTechCallItem.TechnicianId)&ReportType=@Html.Raw((int)ReportType.TechnicianCallReport)">@companyTechCallItem.TechnicianName</a></td>
+                            </tr>
+                            <tr>
+                                <td>Total Calls : @companyTechCallItem.AssignCalls</td>
+                                <td>In-Warranty Calls : @companyTechCallItem.TechnicianInWarrantyCalls </td>
+                                <td>Out-Warranty Calls : @companyTechCallItem.TechnicianOutWarrantyCalls</td>
+                                <td>Payment Received : @companyTechCallItem.TechnicianPayment</td>
+                                <td>Expence : @companyTechCallItem.TechnicianExpence</td>
+                                <td>Net Payment Received : @companyTechCallItem.TotalEarning</td>
+                            </tr>
+
+
+                        }
+                    }
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script src="~/Content/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/Content/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/Content/assets/vendor/js/sidenav.js"></script>
+
+    <!-- Libs -->
+    <script src="~/Content/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <!-- Demo -->
+    <script src="~/Content/assets/js/demo.js"></script>
+    <script src="~/Scripts/ProjectJs/Common.js"></script>
+</body>
+</html>
