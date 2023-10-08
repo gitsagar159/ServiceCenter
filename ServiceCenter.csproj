@@ -849,6 +849,11 @@
     <Content Include="Views\Report\CustomerPendingPaymentOutstanding.cshtml" />
     <Content Include="Views\Report\TechnicianReportIncomeVSExpence.cshtml" />
     <Content Include="Views\Report\_TechnicianReportIncomeVSExpencePartial.cshtml" />
+    <Content Include="Views\Master\CategoryForm.cshtml" />
+    <Content Include="Views\Master\CategoryList.cshtml" />
+    <Content Include="Views\Report\_TestReport.cshtml" />
+    <Content Include="Views\Master\CompanyForm.cshtml" />
+    <Content Include="Views\Master\CompanyList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

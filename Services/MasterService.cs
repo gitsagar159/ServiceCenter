@@ -1337,5 +1337,586 @@ namespace ServiceCenter.Services
         }
 
         #endregion
+
+        #region Category
+        public ResponceModel InsertUpdateCategory(CategoryMaster objCategoryMaster)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"InsertUpdateCategoryDetail";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter CategoryId_Param = new SqlParameter();
+
+                if (!string.IsNullOrEmpty(objCategoryMaster.CategoryId))
+                {
+                    CategoryId_Param = new SqlParameter() { ParameterName = "@CategoryId", Value = objCategoryMaster.CategoryId.ToUpper() };
+                }
+                else
+                {
+                    CategoryId_Param = new SqlParameter() { ParameterName = "@CategoryId", Value = DBNull.Value };
+                }
+                SqlParameter CategoryName_Param = new SqlParameter() { ParameterName = "@CategoryName", Value = objCategoryMaster.CategoryName };
+                SqlParameter LoginUserId_Param = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
+
+                lstParam.AddRange(new SqlParameter[] { CategoryId_Param, CategoryName_Param, LoginUserId_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowCategory = ResDataTable.Rows[0];
+
+                    objResponceModel.Message = dtRowCategory["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowCategory["ResponceMesage"]) : string.Empty;
+                    objResponceModel.Responce = dtRowCategory["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowCategory["OprationSuceess"]) : false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+        }
+
+        public CategoryMaster GetCategoryDetails(string CategoryId)
+        {
+            CategoryMaster objCategoryMaster = new CategoryMaster();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"CategoryDetailById";
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                         {
+                                new SqlParameter("@CategoryId", new Guid(CategoryId)),
+                         });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowCategory = ResDataTable.Rows[0];
+
+                    objCategoryMaster.CategoryId = dtRowCategory["CategoryId"] != DBNull.Value ? Convert.ToString(dtRowCategory["CategoryId"]) : string.Empty;
+                    objCategoryMaster.CategoryName = dtRowCategory["CategoryName"] != DBNull.Value ? Convert.ToString(dtRowCategory["CategoryName"]) : string.Empty;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objCategoryMaster;
+        }
+
+        public CategoryMasterListDataModel GetCategoryList(int SortCol, string SortDir, int PageIndex, int PageSize, string CategoryName, string CategoryKeyword)
+        {
+            CategoryMasterListDataModel objCategoryMasterListDataModel = new CategoryMasterListDataModel();
+            objCategoryMasterListDataModel.CategoryMasterList = new List<CategoryMasterListModel>();
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CategoryList";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter SortColParam = new SqlParameter() { ParameterName = "@SortCol", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = SortCol };
+                SqlParameter SortDirParam = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
+                SqlParameter PageIndexParam = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
+                SqlParameter PageSizeParam = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
+                SqlParameter CategoryNameParam = new SqlParameter() { ParameterName = "@CategoryName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = CategoryName };
+                SqlParameter TotalRecordCountParam = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
+
+                lstParam.AddRange(new SqlParameter[] { SortColParam, SortDirParam, PageIndexParam, PageSizeParam, CategoryNameParam, TotalRecordCountParam });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                TotalRecordCount = Convert.ToInt32(TotalRecordCountParam.Value);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    CategoryMasterListModel objCategoryMaster;
+
+                    foreach (DataRow dtRowCategory in ResDataTable.Rows)
+                    {
+                        objCategoryMaster = new CategoryMasterListModel();
+
+                        objCategoryMaster.RowNo = dtRowCategory["RowNo"] != DBNull.Value ? Convert.ToInt32(dtRowCategory["RowNo"]) : 0;
+                        objCategoryMaster.CategoryId = dtRowCategory["CategoryId"] != DBNull.Value ? Convert.ToString(dtRowCategory["CategoryId"]) : string.Empty;
+                        objCategoryMaster.CategoryName = dtRowCategory["CategoryName"] != DBNull.Value ? Convert.ToString(dtRowCategory["CategoryName"]) : string.Empty;
+                        objCategoryMaster.IsActive = dtRowCategory["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowCategory["IsActive"]) : false;
+
+                        objCategoryMasterListDataModel.CategoryMasterList.Add(objCategoryMaster);
+
+                    }
+                    objCategoryMasterListDataModel.RecordCount = TotalRecordCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCategoryMasterListDataModel;
+        }
+
+        public ResponceModel DeleteCategoryById(string CategoryId)
+        {
+
+            ResponceModel objResponceModel;
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"Update CategoryMaster set IsDelete = 1 WHERE CategoryId = @CategoryId";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter CategoryIdParam = new SqlParameter();
+
+                if (!string.IsNullOrEmpty(CategoryId))
+                {
+                    CategoryIdParam = new SqlParameter() { ParameterName = "@CategoryId", Value = CategoryId.ToUpper() };
+                }
+                else
+                {
+                    CategoryIdParam = new SqlParameter() { ParameterName = "@CategoryId", Value = DBNull.Value };
+                }
+
+                lstParam.AddRange(new SqlParameter[] { CategoryIdParam });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Category Name Deleted Succesfuly";
+                objResponceModel.Responce = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Somthing Went Wrong";
+                objResponceModel.Responce = false;
+
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+
+        }
+
+        public ResponceModel UpdateCategoryStatusById(string CategoryId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            int Modifier = UserSesionDetail != null ? UserSesionDetail.id : 1;
+
+            bool IsActive = !Status;
+
+            if (!string.IsNullOrEmpty(CategoryId))
+            {
+
+                try
+                {
+                    strQuery = "UPDATE CategoryMaster SET IsActive = @IsActive, ModifiedBy = @Modifier, ModifiedDate = GETDATE() WHERE CategoryId = @CategoryId";
+
+
+                    objBaseDAL = new BaseDAL();
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@CategoryId", CategoryId.ToUpper()),
+                                new SqlParameter("@IsActive", IsActive),
+                                new SqlParameter("@Modifier", Modifier),
+                          });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Category Detail Updated";
+
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+
+                    objResponceModel = new ResponceModel();
+                    objResponceModel.Responce = false;
+                    objResponceModel.Message = "Somthing Went Wrong!";
+                }
+
+            }
+            else
+            {
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "No Category found!";
+            }
+
+            return objResponceModel;
+
+        }
+
+        #endregion
+
+        #region Company
+        public ResponceModel InsertUpdateCompany(CompanyMaster objCompanyMaster)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"InsertUpdateCompanyDetail";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter CompanyId_Param = new SqlParameter();
+
+                if (!string.IsNullOrEmpty(objCompanyMaster.CompanyId))
+                {
+                    CompanyId_Param = new SqlParameter() { ParameterName = "@CompanyId", Value = objCompanyMaster.CompanyId.ToUpper() };
+                }
+                else
+                {
+                    CompanyId_Param = new SqlParameter() { ParameterName = "@CompanyId", Value = DBNull.Value };
+                }
+                SqlParameter CompanyName_Param = new SqlParameter() { ParameterName = "@CompanyName", Value = objCompanyMaster.CompanyName };
+                SqlParameter CategoryId_Param = !string.IsNullOrEmpty(objCompanyMaster.CategoryId) ? new SqlParameter() { ParameterName = "@CategoryId", Value = objCompanyMaster.CategoryId } : new SqlParameter() { ParameterName = "@CategoryId", Value = DBNull.Value };
+                SqlParameter ServiceName_Param = !string.IsNullOrEmpty(objCompanyMaster.ServiceName) ? new SqlParameter() { ParameterName = "@ServiceName", Value = objCompanyMaster.ServiceName } : new SqlParameter() { ParameterName = "@ServiceName", Value = DBNull.Value };
+                SqlParameter ServiceChargeLocal_Param = objCompanyMaster.ServiceChargeLocal > 0 ? new SqlParameter() { ParameterName = "@ServiceChargeLocal", Value = objCompanyMaster.ServiceChargeLocal } : new SqlParameter() { ParameterName = "@ServiceChargeLocal", Value = 0 };
+                SqlParameter ServiceChargeOutStation_Param = objCompanyMaster.ServiceChargeOutStation > 0 ? new SqlParameter() { ParameterName = "@ServiceChargeOutStation", Value = objCompanyMaster.ServiceChargeOutStation } : new SqlParameter() { ParameterName = "@ServiceChargeOutStation", Value = 0 };
+
+                SqlParameter LoginUserId_Param = new SqlParameter() { ParameterName = "@LoginUserId", Value = UserSesionDetail.id };
+
+                lstParam.AddRange(new SqlParameter[] { CompanyId_Param, CompanyName_Param, CategoryId_Param, ServiceName_Param, ServiceChargeLocal_Param, ServiceChargeOutStation_Param, LoginUserId_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowCompany = ResDataTable.Rows[0];
+
+                    objResponceModel.Message = dtRowCompany["ResponceMesage"] != DBNull.Value ? Convert.ToString(dtRowCompany["ResponceMesage"]) : string.Empty;
+                    objResponceModel.Responce = dtRowCompany["OprationSuceess"] != DBNull.Value ? Convert.ToBoolean(dtRowCompany["OprationSuceess"]) : false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+        }
+
+        public CompanyMaster GetCompanyDetails(string CompanyId)
+        {
+            CompanyMaster objCompanyMaster = new CompanyMaster();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+                strQuery = @"CompanyDetailById";
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                         {
+                                new SqlParameter("@CompanyId", new Guid(CompanyId)),
+                         });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    DataRow dtRowCompany = ResDataTable.Rows[0];
+
+                    objCompanyMaster.CompanyId = dtRowCompany["CompanyId"] != DBNull.Value ? Convert.ToString(dtRowCompany["CompanyId"]) : string.Empty;
+                    objCompanyMaster.CompanyName = dtRowCompany["CompanyName"] != DBNull.Value ? Convert.ToString(dtRowCompany["CompanyName"]) : string.Empty;
+                    objCompanyMaster.ServiceName = dtRowCompany["ServiceName"] != DBNull.Value ? Convert.ToString(dtRowCompany["ServiceName"]) : string.Empty;
+                    objCompanyMaster.ServiceChargeLocal = dtRowCompany["ServiceChargeLocal"] != DBNull.Value ? Convert.ToDecimal(dtRowCompany["ServiceChargeLocal"]) : 0;
+                    objCompanyMaster.ServiceChargeOutStation = dtRowCompany["ServiceChargeOutStation"] != DBNull.Value ? Convert.ToDecimal(dtRowCompany["ServiceChargeOutStation"]) : 0;
+                    objCompanyMaster.CategoryId = dtRowCompany["CategoryId"] != DBNull.Value ? Convert.ToString(dtRowCompany["CategoryId"]) : string.Empty;
+                    objCompanyMaster.CategoryName = dtRowCompany["CategoryName"] != DBNull.Value ? Convert.ToString(dtRowCompany["CategoryName"]) : string.Empty;
+                    objCompanyMaster.IsActive = dtRowCompany["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowCompany["IsActive"]) : false;
+
+                    
+                    Select2 CategoryData  = new Select2() { id = objCompanyMaster.CategoryId, text = objCompanyMaster.CategoryName };
+
+                    objCompanyMaster.Select2JSON = JsonConvert.SerializeObject(CategoryData);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objCompanyMaster;
+        }
+
+        public CompanyMasterListDataModel GetCompanyList(int SortCol, string SortDir, int PageIndex, int PageSize, string CompanyName, string CategoryName)
+        {
+            CompanyMasterListDataModel objCompanyMasterListDataModel = new CompanyMasterListDataModel();
+            objCompanyMasterListDataModel.CompanyMasterList = new List<CompanyMasterListModel>();
+
+            int TotalRecordCount = 0;
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"CompanyList";
+
+                lstParam = new List<SqlParameter>();
+
+
+                SqlParameter SortCol_Param = new SqlParameter() { ParameterName = "@SortCol", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = SortCol };
+                SqlParameter SortDir_Param = new SqlParameter() { ParameterName = "@SortDir", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = SortDir };
+                SqlParameter PageIndex_Param = new SqlParameter() { ParameterName = "@PageIndex", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageIndex };
+                SqlParameter PageSize_Param = new SqlParameter() { ParameterName = "@PageSize", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Input, Value = PageSize };
+                SqlParameter CompanyName_Param = new SqlParameter() { ParameterName = "@CompanyName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = CompanyName };
+                SqlParameter CategoryName_Param = new SqlParameter() { ParameterName = "@CategoryName", SqlDbType = SqlDbType.VarChar, Direction = ParameterDirection.Input, Value = CategoryName };
+                SqlParameter TotalRecordCount_Param = new SqlParameter() { ParameterName = "@RecordCount", SqlDbType = SqlDbType.Int, Direction = ParameterDirection.Output };
+
+                lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, CompanyName_Param, CategoryName_Param, TotalRecordCount_Param });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.StoredProcedure, lstParam);
+
+                TotalRecordCount = Convert.ToInt32(TotalRecordCount_Param.Value);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    CompanyMasterListModel objCompanyMaster;
+
+                    foreach (DataRow dtRowCompany in ResDataTable.Rows)
+                    {
+                        objCompanyMaster = new CompanyMasterListModel();
+
+                        objCompanyMaster.CompanyId = dtRowCompany["CompanyId"] != DBNull.Value ? Convert.ToString(dtRowCompany["CompanyId"]) : string.Empty;
+                        objCompanyMaster.CompanyName = dtRowCompany["CompanyName"] != DBNull.Value ? Convert.ToString(dtRowCompany["CompanyName"]) : string.Empty;
+                        objCompanyMaster.ServiceName = dtRowCompany["ServiceName"] != DBNull.Value ? Convert.ToString(dtRowCompany["ServiceName"]) : string.Empty;
+                        objCompanyMaster.ServiceChargeLocal = dtRowCompany["ServiceChargeLocal"] != DBNull.Value ? Convert.ToDecimal(dtRowCompany["ServiceChargeLocal"]) : 0;
+                        objCompanyMaster.ServiceChargeOutStation = dtRowCompany["ServiceChargeOutStation"] != DBNull.Value ? Convert.ToDecimal(dtRowCompany["ServiceChargeOutStation"]) : 0;
+                        objCompanyMaster.CategoryId = dtRowCompany["CategoryId"] != DBNull.Value ? Convert.ToString(dtRowCompany["CategoryId"]) : string.Empty;
+                        objCompanyMaster.CategoryName = dtRowCompany["CategoryName"] != DBNull.Value ? Convert.ToString(dtRowCompany["CategoryName"]) : string.Empty;
+                        objCompanyMaster.IsActive = dtRowCompany["IsActive"] != DBNull.Value ? Convert.ToBoolean(dtRowCompany["IsActive"]) : false;
+                        
+                        objCompanyMasterListDataModel.CompanyMasterList.Add(objCompanyMaster);
+
+                    }
+                    objCompanyMasterListDataModel.RecordCount = TotalRecordCount;
+                }
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+            return objCompanyMasterListDataModel;
+        }
+
+        public ResponceModel DeleteCompanyById(string CompanyId)
+        {
+
+            ResponceModel objResponceModel;
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+                strQuery = @"Update CompanyMaster set IsDelete = 1 WHERE CompanyId = @CompanyId";
+
+                lstParam = new List<SqlParameter>();
+
+                SqlParameter CompanyIdParam = new SqlParameter();
+
+                if (!string.IsNullOrEmpty(CompanyId))
+                {
+                    CompanyIdParam = new SqlParameter() { ParameterName = "@CompanyId", Value = CompanyId.ToUpper() };
+                }
+                else
+                {
+                    CompanyIdParam = new SqlParameter() { ParameterName = "@CompanyId", Value = DBNull.Value };
+                }
+
+                lstParam.AddRange(new SqlParameter[] { CompanyIdParam });
+
+                objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Company Name Deleted Succesfuly";
+                objResponceModel.Responce = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                objResponceModel = new ResponceModel();
+
+                objResponceModel.Message = "Somthing Went Wrong";
+                objResponceModel.Responce = false;
+
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return objResponceModel;
+
+        }
+
+        public ResponceModel UpdateCompanyStatusById(string CompanyId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            User UserSesionDetail = SessionService.GetUserSessionValues();
+            int Modifier = UserSesionDetail != null ? UserSesionDetail.id : 1;
+
+            bool IsActive = !Status;
+
+            if (!string.IsNullOrEmpty(CompanyId))
+            {
+
+                try
+                {
+                    strQuery = "UPDATE CompanyMaster SET IsActive = @IsActive, ModifiedBy = @Modifier, ModifiedDate = GETDATE() WHERE CompanyId = @CompanyId";
+
+
+                    objBaseDAL = new BaseDAL();
+
+                    lstParam = new List<SqlParameter>();
+
+                    lstParam.AddRange(new SqlParameter[]
+                          {
+                                new SqlParameter("@CompanyId", CompanyId.ToUpper()),
+                                new SqlParameter("@IsActive", IsActive),
+                                new SqlParameter("@Modifier", Modifier),
+                          });
+
+                    objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);
+
+                    objResponceModel.Responce = true;
+                    objResponceModel.Message = "Company Detail Updated";
+
+
+                }
+                catch (Exception ex)
+                {
+                    CommonService.WriteErrorLog(ex);
+
+                    objResponceModel = new ResponceModel();
+                    objResponceModel.Responce = false;
+                    objResponceModel.Message = "Somthing Went Wrong!";
+                }
+
+            }
+            else
+            {
+                objResponceModel.Responce = false;
+                objResponceModel.Message = "No Company found!";
+            }
+
+            return objResponceModel;
+
+        }
+
+        public List<Select2> Select2Category(string CategoryName)
+        {
+            List<Select2> lstCustimerCode = new List<Select2>();
+
+            try
+            {
+                objBaseDAL = new BaseDAL();
+
+
+                if (!string.IsNullOrEmpty(CategoryName))
+                {
+                    strQuery = @"SELECT 
+									CategoryId,
+                                    CategoryName
+								FROM
+									CategoryMaster 
+								WHERE 
+									CategoryName LIKE '%' + @CategoryName + '%'";
+
+                }
+                else
+                {
+                    strQuery = @"SELECT TOP 10
+								CategoryId,
+                                    CategoryName
+								FROM
+									CategoryMaster 
+							ORDER BY 
+                                CreatedDate DESC";
+                }
+
+                lstParam = new List<SqlParameter>();
+
+                lstParam.AddRange(new SqlParameter[]
+                      {
+                                new SqlParameter("@CategoryName", CategoryName),
+                      });
+
+                DataTable ResDataTable = objBaseDAL.GetResultDataTable(strQuery, CommandType.Text, lstParam);
+
+                if (ResDataTable.Rows.Count > 0)
+                {
+                    Select2 objSelect2;
+
+                    foreach (DataRow dtRowItem in ResDataTable.Rows)
+                    {
+                        objSelect2 = new Select2();
+
+                        objSelect2.id = dtRowItem["CategoryId"] != DBNull.Value ? Convert.ToString(dtRowItem["CategoryId"]) : string.Empty;
+                        objSelect2.text = dtRowItem["CategoryName"] != DBNull.Value ? Convert.ToString(dtRowItem["CategoryName"]) : string.Empty;
+
+                        lstCustimerCode.Add(objSelect2);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CommonService.WriteErrorLog(ex);
+            }
+
+            return lstCustimerCode;
+        }
+
+        #endregion
     }
 }

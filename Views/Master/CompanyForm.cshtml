@@ -1,0 +1,155 @@
+﻿@model ServiceCenter.Models.CompanyMaster
+@{
+    ViewBag.Title = "Company Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string Select2JSONData = !string.IsNullOrEmpty(Model.Select2JSON) ? Model.Select2JSON : "";
+}
+
+@section style {
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-4">
+            <h6 class="card-header">
+                Company Form
+            </h6>
+            <div class="card-body">
+                <div class="form-row">
+                    @Html.HiddenFor(m => m.CompanyId)
+                    <div class="form-group col-md-4">
+                        <label class="form-label">Company Name</label>
+                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", @placeholder = "Company Name" })
+                        <small id="CompanyNameToolTip" class=""></small>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="form-label">Catgory Id</label>
+                        <select class="form-control" name="CategoryId" id="CategoryId"></select>
+                        <small id="CategoryIdToolTip" class=""></small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label class="form-label">Servie Name</label>
+                        @Html.TextBoxFor(m => m.ServiceName, new { @class = "form-control", @placeholder = "Service Name",  })
+                        <small id="ServiceNameToolTip" class=""></small>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="form-label">Service Charge Local</label>
+                        @Html.TextBoxFor(m => m.ServiceChargeLocal, new { @class = "form-control", @placeholder = "Service Charge Local" })
+                        <small id="ServiceChargeLocalToolTip" class=""></small>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="form-label">Service Charge Out-Station</label>
+                        @Html.TextBoxFor(m => m.ServiceChargeOutStation, new { @class = "form-control", @placeholder = "Service Charge Out-Station" })
+                        <small id="ServiceChargeOutStationToolTip" class=""></small>
+                    </div>
+
+                    <button id="btnsubmit" class="btn btn-default"> Submit </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script src="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+        <script>
+
+
+            $(document).ready(function () {
+
+                $('#CategoryId').select2({
+                    placeholder: "Category",
+                    minimumInputLength: 2,
+                    allowClear: true,
+                    delay: 250,
+                    cache: true,
+                    ajax: {
+                        url: "/Master/Select2Category",
+                        dataType: 'json',
+                        type: 'Get',
+                        data: function (params) {
+                            var query = {
+                                match: params.term,
+                                page: params.page || 1,
+                                pageSize: params.pageSize || 5
+                            }
+                            return query;
+                        },
+                        processResults: function (data, params) {
+                            console.log(params);
+                            return {
+                                results: data.items,
+                                page: params.page,
+                                pagination: {
+                                    more: (params.page * 5) < data.total_count
+                                }
+                            }
+                        },
+                    },
+                });
+
+                var categoryName = ""
+
+                $('#CategoryId').on('change', function (e) {
+                    var optionSelected = $("option:selected", this);
+                    var CategoryId = this.value;
+
+                    categoryName = this.innerText;
+
+                });
+
+                $('#ServiceName').on('focus', function (e) {
+                    var serviceNameText = $("#CompanyName").val() + " " + categoryName + " Service";
+                    $("#ServiceName").val(serviceNameText);
+                });
+
+                $("#btnsubmit").click(function (e) {
+                    InsertUpdateCompany();
+
+                });
+
+                var Oid = "@Html.Raw(Model != null && !string.IsNullOrEmpty(Model.CompanyId) ? Model.CompanyId : "")";
+
+                 if (Oid !== "")
+                {
+                     var select2JsonData = '@Select2JSONData';
+
+                     if (select2JsonData !== "" || select2JsonData !== undefined) {
+
+                         var objSelect2Json = JSON.parse(select2JsonData.replace(/&quot;/g, '"')); //JSON.parse(select2JsonData);
+
+                         var categoryOption = new Option(objSelect2Json.text, objSelect2Json.id, false, false);
+                         $('#CategoryId').append(categoryOption).trigger('change');
+
+                     }
+
+
+                }
+
+            });
+
+        </script>
+    }
+
+</div>

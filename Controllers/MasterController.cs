@@ -700,6 +700,257 @@ namespace ServiceCenter.Controllers
 
         #endregion
 
+        #region Category
+
+        public ActionResult CategoryList()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetCategoryList()
+        {
+            try
+            {
+                // Initialization.
+                var draw = Request.Form.GetValues("draw")?[0];
+                var order = Convert.ToInt32(Request.Form.GetValues("order[0][column]")?[0]);
+                var orderDir = Request.Form.GetValues("order[0][dir]")?[0];
+                var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
+                var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
+
+                string CategoryName = string.Empty, CategoryKeyword = string.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["CategoryName"]))
+                    CategoryName = Convert.ToString(Request.Form["CategoryName"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["CategoryKeyword"]))
+                    CategoryKeyword = Convert.ToString(Request.Form["CategoryKeyword"]).Trim();
+
+
+                CategoryMasterListDataModel objCategoryMasterListDataModel = new CategoryMasterListDataModel();
+
+                MasterService objJobService = new MasterService();
+                objCategoryMasterListDataModel = objJobService.GetCategoryList(order, orderDir.ToUpper(), startRec, pageSize, CategoryName, CategoryKeyword);
+
+
+                return Json(new
+                {
+                    draw = Convert.ToInt32(draw),
+                    recordsTotal = objCategoryMasterListDataModel.RecordCount,
+                    recordsFiltered = objCategoryMasterListDataModel.RecordCount,
+                    data = objCategoryMasterListDataModel.CategoryMasterList
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
+            }
+        }
+
+        public ActionResult CategoryForm()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
+            CategoryMaster objCategoryMaster = new CategoryMaster();
+
+            string CategoryId = Request["CategoryId"];
+
+            if (!string.IsNullOrEmpty(CategoryId))
+            {
+                MasterService obMasterService = new MasterService();
+                objCategoryMaster = obMasterService.GetCategoryDetails(CategoryId);
+            }
+
+
+            return View(objCategoryMaster);
+        }
+
+        [HttpPost]
+        public JsonResult CategoryForm(CategoryMaster objCategoryMaster)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.InsertUpdateCategory(objCategoryMaster);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteCategoryById(string CategoryId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.DeleteCategoryById(CategoryId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCategoryStatusById(string CategoryId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService objMasterService = new MasterService();
+            objResponceModel = objMasterService.UpdateCategoryStatusById(CategoryId, Status);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        #endregion
+
+        #region Company
+
+        public ActionResult CompanyList()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.List))
+                return RedirectToAction("AccessDenied", "Home");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetCompanyList()
+        {
+            try
+            {
+                // Initialization.
+                var draw = Request.Form.GetValues("draw")?[0];
+                var order = Convert.ToInt32(Request.Form.GetValues("order[0][column]")?[0]);
+                var orderDir = Request.Form.GetValues("order[0][dir]")?[0];
+                var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
+                var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
+
+                string CompanyName = string.Empty, CategoryName = string.Empty;
+
+                if (!string.IsNullOrEmpty(Request.Form["CompanyName"]))
+                    CompanyName = Convert.ToString(Request.Form["CompanyName"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["CategoryName"]))
+                    CategoryName = Convert.ToString(Request.Form["CategoryName"]).Trim();
+
+
+                CompanyMasterListDataModel objCompanyMasterListDataModel = new CompanyMasterListDataModel();
+
+                MasterService objJobService = new MasterService();
+                objCompanyMasterListDataModel = objJobService.GetCompanyList(order, orderDir.ToUpper(), startRec, pageSize, CompanyName, CategoryName);
+
+
+                return Json(new
+                {
+                    draw = Convert.ToInt32(draw),
+                    recordsTotal = objCompanyMasterListDataModel.RecordCount,
+                    recordsFiltered = objCompanyMasterListDataModel.RecordCount,
+                    data = objCompanyMasterListDataModel.CompanyMasterList
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new
+                {
+                    draw = Convert.ToInt32(0),
+                    recordsTotal = 0,
+                    recordsFiltered = 0,
+                    data = string.Empty
+                });
+            }
+        }
+
+        public ActionResult CompanyForm()
+        {
+            if (!IsSessionValid())
+                return RedirectToAction("Logout", "Login");
+
+            if (!CommonService.CheckForRightsByPageNameAndUserId("ITMALL", PageRightsEnum.Add))
+                return RedirectToAction("AccessDenied", "Home");
+
+            CompanyMaster objCompanyMaster = new CompanyMaster();
+
+            string CompanyId = Request["CompanyId"];
+
+            if (!string.IsNullOrEmpty(CompanyId))
+            {
+                MasterService obMasterService = new MasterService();
+                objCompanyMaster = obMasterService.GetCompanyDetails(CompanyId);
+            }
+
+
+            return View(objCompanyMaster);
+        }
+
+        [HttpPost]
+        public JsonResult CompanyForm(CompanyMaster objCompanyMaster)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.InsertUpdateCompany(objCompanyMaster);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteCompanyById(string CompanyId)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService obMasterService = new MasterService();
+            objResponceModel = obMasterService.DeleteCompanyById(CompanyId);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCompanyStatusById(string CompanyId, bool Status)
+        {
+            ResponceModel objResponceModel = new ResponceModel();
+
+            MasterService objMasterService = new MasterService();
+            objResponceModel = objMasterService.UpdateCompanyStatusById(CompanyId, Status);
+
+            return Json(new { data = objResponceModel });
+        }
+
+        public JsonResult Select2Category(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstCategoryCode = new List<Select2>();
+
+            MasterService objMasterService = new MasterService();
+            lstCategoryCode = objMasterService.Select2Category(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstCategoryCode,
+                total_count = lstCategoryCode.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
         #region Test Print PDF 
 

@@ -1,0 +1,10 @@
+-----------------------------------------------------------------------------
+Date : 03-10-2023 13:21:46
+
+System.Net.Mail.SmtpException
+Message : Transaction failed. The server response was: Email rejected
+StackTrace :    at System.Net.Mail.MailCommand.CheckResponse(SmtpStatusCode statusCode, String response)
+   at System.Net.Mail.MailCommand.Send(SmtpConnection conn, Byte[] command, MailAddress from, Boolean allowUnicode)
+   at System.Net.Mail.SmtpTransport.SendMail(MailAddress sender, MailAddressCollection recipients, String deliveryNotify, Boolean allowUnicode, SmtpFailedRecipientException& exception)
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Services.EmailService.Sendmail(String tomail, String body, String subject, String file, String ccmail) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\EmailService.cs:line 62

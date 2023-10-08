@@ -1,0 +1,15 @@
+-----------------------------------------------------------------------------
+Date : 25-08-2023 14:15:54
+
+System.Net.Mail.SmtpException
+Message : Failure sending mail.
+StackTrace :    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at ServiceCenter.Services.EmailService.Sendmail(String tomail, String body, String subject, String file, String ccmail) in E:\Projects\Ketan\ServieCenter\Source\ServiceCenter\Services\EmailService.cs:line 64
+System.IO.IOException
+Message : Unable to read data from the transport connection: net_io_connectionclosed.
+StackTrace :    at System.Net.Mail.SmtpReplyReaderFactory.ProcessRead(Byte[] buffer, Int32 offset, Int32 read, Boolean readLine)
+   at System.Net.Mail.SmtpReplyReaderFactory.ReadLines(SmtpReplyReader caller, Boolean oneLine)
+   at System.Net.Mail.SmtpReplyReaderFactory.ReadLine(SmtpReplyReader caller)
+   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)

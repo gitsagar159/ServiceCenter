@@ -1,0 +1,62 @@
+﻿@model ServiceCenter.Models.CategoryMaster
+@{
+    ViewBag.Title = "Category Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css">
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <div class="card mb-4">
+            <h6 class="card-header">
+                Category Form
+            </h6>
+            <div class="card-body">
+                <div class="form-row">
+                    @Html.HiddenFor(m => m.CategoryId)
+                    <div class="form-group col-md-4">
+                        <label class="form-label">Category Name</label>
+                        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", @placeholder = "Category Name" })
+                        <small id="CategoryNameToolTip" class=""></small>
+                    </div>
+                </div>
+                <button id="btnsubmit" class="btn btn-default"> Submit </button>
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+        <script src="~/Content/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+        <script>
+
+
+            $(document).ready(function () {
+                $("#btnsubmit").click(function (e) {
+                    InsertUpdateCategory();
+
+                });
+                
+            });
+
+        </script>
+    }
+
+</div>

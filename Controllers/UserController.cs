@@ -285,15 +285,8 @@ namespace ServiceCenter.Controllers
         [HttpPost]
         public ActionResult SendTestMail(string ToEmail)
         {
-            //EmailService objEmailSerice = new EmailService();
-            //objEmailSerice.Sendmail("dsagar159@gmail.com", "Test Mail", "Test subject", "");
-
-            DateTime TodayDate = DateTime.Now;
-            DateTime FromDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 0, 0, 0);
-            DateTime ToDate = new DateTime(TodayDate.Year, TodayDate.Month, TodayDate.Day, 10, 30, 0);
-
-            ReportService objReportService = new ReportService();
-            objReportService.GenerateCompanyViseReport(FromDate, ToDate);
+            EmailService objEmailSerice = new EmailService();
+            objEmailSerice.Sendmail("dsagar159@gmail.com", "Test Mail", "Test subject", "");
 
             return View();
         }

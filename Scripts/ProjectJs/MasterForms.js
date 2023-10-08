@@ -33,6 +33,8 @@
         },
     });
 
+    
+
 });
 
 
@@ -83,7 +85,7 @@ function InsertUpdateArea() {
                         setTimeout(function () {
                             window.location.href = "/Master/AreaList";
                         }, 2000);
-                        
+
                     }
                 }
             },
@@ -140,7 +142,7 @@ function fnDeleteArea(areaId) {
             });
         }
     }
-    
+
 }
 
 
@@ -456,3 +458,256 @@ function fnDeletePart(PartId) {
     }
 
 }
+
+
+// Category - Start
+
+
+function InsertUpdateCategory() {
+
+    var blnIsValidForm = true;
+
+    var CategoryName = $("#CategoryName").val();
+    var CategoryKeyword = $("#CategoryKeyword").val();
+
+    if (CategoryName === "") {
+        $("#CategoryName").addClass("is-invalid");
+        $("#CategoryNameToolTip").addClass("invalid-feedback").html("Please Enter Category Name");
+
+        blnIsValidForm = false;
+    }
+    else {
+
+        var objCategory = new Object();
+
+        objCategory.CategoryId = $("#CategoryId").val();
+        objCategory.CategoryName = CategoryName;
+        objCategory.Company = $("#Company").val();
+        objCategory.CategoryKeyword = CategoryKeyword;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Master/CategoryForm",
+            data: JSON.stringify(objCategory),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log("return");
+                if (result.data !== null) {
+                    if (result.data.Responce === false) {
+                        $("#CategoryName").addClass("is-invalid");
+                        $("#CategoryNameToolTip").addClass("invalid-feedback").html(result.data.Message);
+                        blnIsValidForm = false;
+                    }
+                    else {
+                        toastr["success"](result.data.Message);
+
+                        setTimeout(function () {
+                            window.location.href = "/Master/CategoryList";
+                        }, 2000);
+
+                    }
+                }
+            },
+            failure: function (result) {
+                alert(data.responseText);
+            },
+            error: function (result) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    return blnIsValidForm;
+}
+
+
+function fnDeleteCategory(CategoryId) {
+
+    if (confirm('Are you sure you want to Delete Category?')) {
+
+        if (CategoryId === "") {
+
+            toastr["error"]("Something went wrong");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/Master/DeleteCategoryById",
+                data: { CategoryId: CategoryId },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log("return");
+                    if (result.data !== null) {
+                        if (result.data.Responce === false) {
+                            toastr["error"](result.data.Message);
+                        }
+                        else {
+                            toastr["success"](result.data.Message);
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    }
+                },
+                failure: function (result) {
+                    console.log(result.responseText);
+                },
+                error: function (result) {
+                    console.log(result.responseText);
+                }
+            });
+        }
+    }
+
+}
+
+// Category - End
+
+
+
+
+// Company - Start
+
+
+function InsertUpdateCompany() {
+
+    var blnIsValidForm = true;
+
+    var companyName = $("#CompanyName").val();
+    var categoryId = $("#CategoryId").val();
+    var serviceName = $("#ServiceName").val();
+    var serviceChargeLocal = $("#ServiceChargeLocal").val();
+    var serviceChargeOutStation = $("#ServiceChargeOutStation").val();
+
+    if (companyName === "") {
+        $("#CompanyName").addClass("is-invalid");
+        $("#CompanyNameToolTip").addClass("invalid-feedback").html("Please Enter Company Name");
+
+        blnIsValidForm = false;
+    }
+
+    if (categoryId === "") {
+        $("#CategoryId").addClass("is-invalid");
+        $("#CategoryIdToolTip").addClass("invalid-feedback").html("Please Enter Category Name");
+
+        blnIsValidForm = false;
+    }
+
+    if (serviceName === "") {
+        $("#ServiceName").addClass("is-invalid");
+        $("#ServiceNameToolTip").addClass("invalid-feedback").html("Please Enter Service Name");
+
+        blnIsValidForm = false;
+    }
+
+    if (serviceChargeLocal === "") {
+        $("#ServiceChargeLocal").addClass("is-invalid");
+        $("#ServiceChargeLocalToolTip").addClass("invalid-feedback").html("Please Enter Service Charge Local");
+
+        blnIsValidForm = false;
+    }
+
+    if (serviceChargeOutStation === "") {
+        $("#ServiceChargeOutStation").addClass("is-invalid");
+        $("#ServiceChargeOutStationToolTip").addClass("invalid-feedback").html("Please Enter Service Charge Out-Station Name");
+
+        blnIsValidForm = false;
+    }
+
+    if (blnIsValidForm) {
+
+        var objCompany = new Object();
+
+        objCompany.CompanyName = companyName;
+        objCompany.CategoryId = categoryId;
+        objCompany.ServiceName = serviceName;
+        objCompany.serviceChargeLocal = serviceChargeLocal;
+        objCompany.serviceChargeOutStation = serviceChargeOutStation;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Master/CompanyForm",
+            data: JSON.stringify(objCompany),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log("return");
+                if (result.data !== null) {
+                    if (result.data.Responce === false) {
+                        $("#CompanyName").addClass("is-invalid");
+                        $("#CompanyNameToolTip").addClass("invalid-feedback").html(result.data.Message);
+                        blnIsValidForm = false;
+                    }
+                    else {
+                        toastr["success"](result.data.Message);
+
+                        setTimeout(function () {
+                            window.location.href = "/Master/CompanyList";
+                        }, 2000);
+
+                    }
+                }
+            },
+            failure: function (result) {
+                alert(data.responseText);
+            },
+            error: function (result) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    return blnIsValidForm;
+}
+
+
+function fnDeleteCompany(companyId) {
+
+    if (confirm('Are you sure you want to Delete Company?')) {
+
+        if (companyId === "") {
+
+            toastr["error"]("Something went wrong");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/Master/DeleteCompanyById",
+                data: { CompanyId: companyId },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log("return");
+                    if (result.data !== null) {
+                        if (result.data.Responce === false) {
+                            toastr["error"](result.data.Message);
+                        }
+                        else {
+                            toastr["success"](result.data.Message);
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    }
+                },
+                failure: function (result) {
+                    console.log(result.responseText);
+                },
+                error: function (result) {
+                    console.log(result.responseText);
+                }
+            });
+        }
+    }
+
+}
+
+// Company - End

@@ -243,4 +243,73 @@ namespace ServiceCenter.Models
 
 
     #endregion
+
+    #region Category
+
+
+    public class CategoryMaster
+    {
+        public string CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+    }
+
+    public class CategoryMasterListModel
+    {
+        public int RowNo { get; set; }
+        public string CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public bool IsActive { get; set; }
+    }
+
+    public class CategoryMasterListDataModel
+    {
+        public List<CategoryMasterListModel> CategoryMasterList { get; set; }  //= new List<CallRegistration>();
+
+        public int RecordCount { get; set; }
+    }
+
+
+    #endregion
+
+    #region Company
+
+
+    public class CompanyMaster
+    {
+        public string CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public string CategoryId { get; set; }
+        public string ServiceName { get; set; }
+        public decimal ServiceChargeLocal { get; set; }
+        public decimal ServiceChargeOutStation { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDelete { get; set; }
+        public string CategoryName { get; set; }
+        public string Select2JSON { get; set; }
+    }
+
+    public class CompanyMasterListModel : CompanyMaster
+    {
+        public int RowNo { get; set; }
+    }
+
+    public class CompanyMasterListDataModel
+    {
+        public List<CompanyMasterListModel> CompanyMasterList { get; set; }  //= new List<CallRegistration>();
+
+        public int RecordCount { get; set; }
+    }
+
+
+    #endregion
 }

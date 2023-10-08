@@ -1493,6 +1493,33 @@ namespace ServiceCenter.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult SendTestReportMail()
+        {
+            bool blnEmailSend = false;
+            string ResponceMessage = "";
+            try
+            {
+
+                string strTestReporHtml = RenderRazorViewToString("~/Views/Report/_TestReport.cshtml", null);
+
+                if (!string.IsNullOrEmpty(strTestReporHtml))
+                {
+                    string ToEmail = ConfigurationManager.AppSettings["DailyCallReportEmail"].ToString();
+                    string CcEmail = ConfigurationManager.AppSettings["DailyCallReportEmailCC"].ToString();
+                    EmailService objEmailService = new EmailService();
+                    blnEmailSend = objEmailService.Sendmail(ToEmail, strTestReporHtml, "Customer Pending Payment Report Report", "", CcEmail);
+                }
+                ResponceMessage = blnEmailSend ? "Email Send" : "Email Not Send";
+
+                return Json(new { data = ResponceMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { data = "Somthing Went Wrong" }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
         #endregion

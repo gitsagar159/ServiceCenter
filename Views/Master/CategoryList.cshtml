@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "Category List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section style {
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+        <div class="card mb-2">
+            <div class="card-body" style="padding: 3px 24px 0px 24px">
+                <form role="form">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Category Name</label>
+                                <input type="text" class="form-control" name="CategoryName" id="CategoryName" placeholder="Category Name">
+                            </div>
+                        </div>
+                        <div class="col col-md-4 pt-4">
+                            <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="row">
+                <div class="col col-md-3">
+                    <h6 class="card-header">
+                        Category List
+                    </h6>
+                </div>
+                <div class="col col-md-9 text-right pr-4">
+                    <a href="/Master/CategoryForm" class="btn icon-btn btn-outline-primary mt-2">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+
+            </div>
+            <div class="card-datatable table-responsive">
+                <table class="datatables-demo table table-striped table-bordered" id="tblCategoryList">
+                    <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Category Name</th>
+                            <th>Status</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+    <!-- Layout footer -->
+    @Html.Partial("FooterBar")
+    <!-- / Layout footer -->
+
+    @section scripts {
+
+
+        <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        @*<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.js"></script>*@
+        <script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <script src="~/Scripts/ProjectJs/MasterForms.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+                /* $('#tblJobList').DataTable({
+                     responsive: true
+                 });
+                 */
+                //LoadJobListTable();
+
+                fnBindCategoryListData();
+            });
+
+            var hCols = [];
+            var ChId = "";
+            var ValidPrint = 0;
+            var srNo = 1;
+            var table;
+
+            function fnBindCategoryListData() {
+
+
+                table = $('#tblCategoryList').DataTable({
+                    "paging": true,
+                    "pageLength": $('#PageSize').val(),
+                    "bLengthChange": false,
+                    "autoWidth": true,
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": false,
+                    "responsive": true,
+                    "orderMulti": false,
+                    "ajax":
+                    {
+                        "url": "/Master/GetCategoryList",
+                        "data": function (d) {
+                            d.CategoryName = $("#CategoryName").val().trim();
+                            d.CategoryKeyword = $("#CategoryKeyword").val().trim();
+                        },
+                        "type": "POST",
+                        "dataType": "JSON"
+                    },
+                    "columns": [
+                        { "data": "RowNo", "autoWidth": true },
+                        { "data": "CategoryName", "autoWidth": true },
+                        {
+                            mRender: function (data, type, full) {
+                                if (full.IsActive === true) {
+                                    return '<a href="javascript: void (0)" class="badge badge-pill badge-success" data-status="' + full.IsActive + '" data-Categoryid="' + full.CategoryId + '" onclick="fnUpdateCategoryStatus(this)">Active</a>';
+                                }
+                                else {
+                                    return '<a href="javascript: void (0)" class="badge badge-pill badge-danger" data-status="' + full.IsActive + '" data-Categoryid="' + full.CategoryId + '" onclick="fnUpdateCategoryStatus(this)">In Active</a>'
+                                }
+                            }
+                        },
+                        {
+                            mRender: function (data, type, full) {
+
+                                return '<a href="/Master/CategoryForm?CategoryId=' + full.CategoryId + '" class="btn btn-outline-warning btn-sm">Edit</a>' + '   &nbsp;' +
+                                    '<a href="#"  onclick=fnDeleteCategory("' + full.CategoryId + '"); class="btn btn-outline-warning btn-sm" >Delete</a>';
+                            }
+                        },
+
+
+                    ],
+
+                    "fixedHeader": {
+                        header: true,
+                    },
+                    "columnDefs": [
+                        { orderable: true, "targets": [1, 2] },
+                    ],
+                    "order": [[0, "desc"]],
+                });
+
+                $("#btnAdvanceSearch").click(function (event) {
+                    event.preventDefault();
+                    table.search(this.value).draw();
+                });
+            }
+
+
+            function fnUpdateCategoryStatus(objthis) {
+
+                if (objthis != null) {
+
+                    var CategoryId = $(objthis).attr("data-Categoryid");
+                    var status = $(objthis).attr("data-status") === "true" ? true : false;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Master/UpdateCategoryStatusById",
+                        data: { CategoryId: CategoryId, Status: status },
+                        cache: false,
+                        success: function (result) {
+                            if (result !== null) {
+                                var resObj = result.data;
+
+                                if (resObj.Responce) {
+                                    toastr["success"](resObj.Message);
+                                }
+                                else {
+                                    toastr["error"](resObj.Message);
+                                }
+
+                                table.draw();
+                            }
+                        }
+                    });
+                }
+            }
+
+
+
+        </script>
+    }
+
+</div>
+
+
