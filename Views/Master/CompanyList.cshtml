@@ -25,12 +25,12 @@
                                 <input type="text" class="form-control" name="CompanyName" id="CompanyName" placeholder="Company Name">
                             </div>
                         </div>
-                        <div class="col col-md-3">
+                        @*<div class="col col-md-3">
                             <div class="form-group">
-                                <label class="form-label">Company Keyword</label>
+                                <label class="form-label">Category </label>
                                 <input type="text" class="form-control" name="CategoryName" id="CategoryName" placeholder="Category Keyword">
                             </div>
-                        </div>
+                        </div>*@
                         <div class="col col-md-4 pt-4">
                             <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
                         </div>
@@ -60,9 +60,6 @@
                             <th>Sr. No</th>
                             <th>Company Name</th>
                             <th>Category</th>
-                            <th>Service</th>
-                            <th>Local Charge</th>
-                            <th>Out-Station Charge</th>
                             <th>Status</th>
                             <th>Operation</th>
                         </tr>
@@ -124,7 +121,6 @@
                         "url": "/Master/GetCompanyList",
                         "data": function (d) {
                             d.CompanyName = $("#CompanyName").val().trim();
-                            d.CategoryName = $("#CategoryName").val().trim();
                         },
                         "type": "POST",
                         "dataType": "JSON"
@@ -133,9 +129,6 @@
                         { "data": "RowNo", "autoWidth": true },
                         { "data": "CompanyName", "autoWidth": true },
                         { "data": "CategoryName", "autoWidth": true },
-                        { "data": "ServiceName", "autoWidth": true },
-                        { "data": "ServiceChargeLocal", "autoWidth": true },
-                        { "data": "ServiceChargeOutStation", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
                                 if (full.IsActive === true) {

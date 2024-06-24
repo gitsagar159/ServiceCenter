@@ -155,40 +155,6 @@ namespace ServiceCenter.Services
                 lstParam.AddRange(new SqlParameter[] { SortCol_Param, SortDir_Param, PageIndex_Param, PageSize_Param, CustomerName_Param, CallType_Param, ServType_Param, Technician_Param, TechnicianType_Param, MobileNo_Param, Pincode_Param, CallAttn_Param,
                     JobDone_Param, JobNo_Param, SrNo_Param, CompComplaintNo_Param, ItemName_Param, ItemKeyword_Param, Deliver_Param, Canceled_Param, PartPanding_Param, GoAfterCall_Param, RepeatFromTech_Param, IsCompComplaintNo_Param, FromDate_Param, ToDate_Param, CallAssignFromDate_Param, CallAssignToDate_Param, CallBack_Param, WorkShopIN_Param, PaymentPanding_Param, UserName_Param, FaultType_Param, FaultDesc_Param, Area_Param, ModifyFromDate_Param, ModifyToDate_Param, CallCategory_Param, TotalRecordCount_Param });
 
-                StringBuilder SBJobListSP = new StringBuilder();
-
-                SBJobListSP.Append("DECLARE @return_value int, @RecordCount int");
-                SBJobListSP.Append(Environment.NewLine);
-                SBJobListSP.Append("EXEC\t@return_value = [dbo].[JobList]");
-
-                for (int i = 0; i < lstParam.Count(); i++)
-                {
-                    string strText = lstParam[i].ParameterName + " = ";
-
-                    if (lstParam[i].DbType == DbType.String)
-                    {
-                        strText += lstParam[i].Value != null ? !string.IsNullOrEmpty(lstParam[i].Value.ToString()) ? "'" + lstParam[i].Value.ToString() + "'" : "NULL" : "NULL";
-                    }
-                    else
-                    {
-                        strText += lstParam[i].Value != null ? !string.IsNullOrEmpty(lstParam[i].Value.ToString()) ? lstParam[i].Value.ToString() : "NULL" : "NULL";
-                    }
-
-                    SBJobListSP.Append(strText);
-
-                    if (i != lstParam.Count() - 1)
-                    {
-                        SBJobListSP.Append(",");
-                    }
-
-                    SBJobListSP.Append(Environment.NewLine);
-                }
-
-                SBJobListSP.Append("SELECT @RecordCount as N'@RecordCount'");
-
-                CommonService.WriteTraceLog(SBJobListSP.ToString());
-
-
                 DataSet ResDataSet = objBaseDAL.GetResultDataSet(strQuery, CommandType.StoredProcedure, lstParam);
 
                 TotalRecordCount = Convert.ToInt32(TotalRecordCount_Param.Value);
@@ -473,8 +439,8 @@ namespace ServiceCenter.Services
         public CallRegistration InsertUpdateCallRegistration(CallRegistration objCallRegistration)
         {
 
-            CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.EstimateDate : " + objCallRegistration.EstimateDate);
-            CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.EstConfirmDate : " + objCallRegistration.EstConfirmDate);
+            //CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.EstimateDate : " + objCallRegistration.EstimateDate);
+            //CommonService.WriteTraceLog("JobService_InsertUpdateCallRegistration -> objCallRegistration.EstConfirmDate : " + objCallRegistration.EstConfirmDate);
 
             CallRegistration objCallRegistrationResponce = new CallRegistration();
 
@@ -2146,7 +2112,7 @@ namespace ServiceCenter.Services
                             objBillDetails.ItemName = dtRowItem["ItemName"] != DBNull.Value ? Convert.ToString(dtRowItem["ItemName"]) : String.Empty;
                             objBillDetails.SerialNo = dtRowItem["SerialNo"] != DBNull.Value ? Convert.ToString(dtRowItem["SerialNo"]) : String.Empty;
 
-                            CommonService.WriteTraceLog("JobService_GetBillDetailsByBillNo -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
+                            //CommonService.WriteTraceLog("JobService_GetBillDetailsByBillNo -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
 
                             string strJsonDate = JsonConvert.SerializeObject(objBillDetails);
 
@@ -2173,12 +2139,12 @@ namespace ServiceCenter.Services
 
             User UserSesionDetail = SessionService.GetUserSessionValues();
 
-            CommonService.WriteTraceLog("JobServicee_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
-            CommonService.WriteTraceLog("JobServicee_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.StringInvoiceDate);
+            //CommonService.WriteTraceLog("JobServicee_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
+            //CommonService.WriteTraceLog("JobServicee_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.StringInvoiceDate);
 
             DateTime dtBillDate = DateTime.ParseExact(objBillDetails.StringInvoiceDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
-            CommonService.WriteTraceLog("JobServicee_CreateNewCallFromBillDetails -> dtBillDate : " + dtBillDate);
+            //CommonService.WriteTraceLog("JobServicee_CreateNewCallFromBillDetails -> dtBillDate : " + dtBillDate);
 
             try
             {

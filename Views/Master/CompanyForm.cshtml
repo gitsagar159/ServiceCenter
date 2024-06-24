@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     string Select2JSONData = !string.IsNullOrEmpty(Model.Select2JSON) ? Model.Select2JSON : "";
+    string CategoryListJson = !string.IsNullOrEmpty(Model.CategoryListJson) ? Model.CategoryListJson : "";
 }
 
 @section style {
@@ -32,30 +33,19 @@
                         @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", @placeholder = "Company Name" })
                         <small id="CompanyNameToolTip" class=""></small>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label class="form-label">Catgory Id</label>
-                        <select class="form-control" name="CategoryId" id="CategoryId"></select>
-                        <small id="CategoryIdToolTip" class=""></small>
-                    </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-8">
-                        <label class="form-label">Servie Name</label>
-                        @Html.TextBoxFor(m => m.ServiceName, new { @class = "form-control", @placeholder = "Service Name",  })
-                        <small id="ServiceNameToolTip" class=""></small>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label class="form-label">Service Charge Local</label>
-                        @Html.TextBoxFor(m => m.ServiceChargeLocal, new { @class = "form-control", @placeholder = "Service Charge Local" })
-                        <small id="ServiceChargeLocalToolTip" class=""></small>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label class="form-label">Service Charge Out-Station</label>
-                        @Html.TextBoxFor(m => m.ServiceChargeOutStation, new { @class = "form-control", @placeholder = "Service Charge Out-Station" })
-                        <small id="ServiceChargeOutStationToolTip" class=""></small>
-                    </div>
+                <table class="table table-borderless table-dark" id="categoryTable">
+                    <thead class="">
+                        <tr>
+                            <th>Category Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 
+                <div class="form-row">
                     <button id="btnsubmit" class="btn btn-default"> Submit </button>
                 </div>
             </div>
@@ -78,74 +68,31 @@
 
             $(document).ready(function () {
 
-                $('#CategoryId').select2({
-                    placeholder: "Category",
-                    minimumInputLength: 2,
-                    allowClear: true,
-                    delay: 250,
-                    cache: true,
-                    ajax: {
-                        url: "/Master/Select2Category",
-                        dataType: 'json',
-                        type: 'Get',
-                        data: function (params) {
-                            var query = {
-                                match: params.term,
-                                page: params.page || 1,
-                                pageSize: params.pageSize || 5
-                            }
-                            return query;
-                        },
-                        processResults: function (data, params) {
-                            console.log(params);
-                            return {
-                                results: data.items,
-                                page: params.page,
-                                pagination: {
-                                    more: (params.page * 5) < data.total_count
-                                }
-                            }
-                        },
-                    },
-                });
+                $("#categoryTable").hide();
 
-                var categoryName = ""
+                var categoryListData = '@CategoryListJson';
 
-                $('#CategoryId').on('change', function (e) {
-                    var optionSelected = $("option:selected", this);
-                    var CategoryId = this.value;
+                if (categoryListData !== "" || categoryListData !== undefined) {
 
-                    categoryName = this.innerText;
+                    var objCategoryList = JSON.parse(categoryListData.replace(/&quot;/g, '"'));
 
-                });
+                    var rowVal = "";
 
-                $('#ServiceName').on('focus', function (e) {
-                    var serviceNameText = $("#CompanyName").val() + " " + categoryName + " Service";
-                    $("#ServiceName").val(serviceNameText);
-                });
+                    $.each(objCategoryList, function (key, value) {
+                        console.log(key + ": " + value);
+
+                        rowVal += '<tr> <tb scope="row">' + key + '</tb> <td> ' + value.CategoryName + '</td></tr>';
+
+                        $("#categoryTable tbody").html(rowVal);
+
+                        $("#categoryTable").show();
+                    });
+                }
+
 
                 $("#btnsubmit").click(function (e) {
                     InsertUpdateCompany();
-
                 });
-
-                var Oid = "@Html.Raw(Model != null && !string.IsNullOrEmpty(Model.CompanyId) ? Model.CompanyId : "")";
-
-                 if (Oid !== "")
-                {
-                     var select2JsonData = '@Select2JSONData';
-
-                     if (select2JsonData !== "" || select2JsonData !== undefined) {
-
-                         var objSelect2Json = JSON.parse(select2JsonData.replace(/&quot;/g, '"')); //JSON.parse(select2JsonData);
-
-                         var categoryOption = new Option(objSelect2Json.text, objSelect2Json.id, false, false);
-                         $('#CategoryId').append(categoryOption).trigger('change');
-
-                     }
-
-
-                }
 
             });
 

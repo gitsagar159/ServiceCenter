@@ -146,7 +146,7 @@ namespace ServiceCenter.Controllers
                 var startRec = Convert.ToInt32(Request.Form.GetValues("start")?[0]);
                 var pageSize = Convert.ToInt32(Request.Form.GetValues("length")?[0]);
 
-                string ItemName = string.Empty, ItemKeyword = string.Empty;
+                string ItemName = string.Empty, ItemKeyword = string.Empty, Category = string.Empty, Company = string.Empty;
 
                 if (!string.IsNullOrEmpty(Request.Form["ItemName"]))
                     ItemName = Convert.ToString(Request.Form["ItemName"]).Trim();
@@ -154,11 +154,17 @@ namespace ServiceCenter.Controllers
                 if (!string.IsNullOrEmpty(Request.Form["ItemKeyword"]))
                     ItemKeyword = Convert.ToString(Request.Form["ItemKeyword"]).Trim();
 
+                if (!string.IsNullOrEmpty(Request.Form["Category"]))
+                    Category = Convert.ToString(Request.Form["Category"]).Trim();
+
+                if (!string.IsNullOrEmpty(Request.Form["Company"]))
+                    Company = Convert.ToString(Request.Form["Company"]).Trim();
+
 
                 ItemMasterListDataModel objItemMasterListDataModel = new ItemMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objItemMasterListDataModel = objJobService.GetItemList(order, orderDir.ToUpper(), startRec, pageSize, ItemName, ItemKeyword);
+                objItemMasterListDataModel = objJobService.GetItemList(order, orderDir.ToUpper(), startRec, pageSize, ItemName, Category, Company, ItemKeyword);
 
 
                 return Json(new
@@ -475,6 +481,39 @@ namespace ServiceCenter.Controllers
                 return false;
             }
         }
+
+        public JsonResult CompanyDD(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstCompany = new List<Select2>();
+
+            MasterService objMasterService = new MasterService();
+            lstCompany = objMasterService.GetCompanyList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstCompany,
+                total_count = lstCompany.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CategoryDD(string match, int page = 1, int pageSize = 5)
+        {
+            List<Select2> lstCategory = new List<Select2>();
+
+            MasterService objMasterService = new MasterService();
+            lstCategory = objMasterService.GetCategoryList(match);
+
+            ResultList<Select2> results = new ResultList<Select2>
+            {
+                items = lstCategory,
+                total_count = lstCategory.Count,
+            };
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region Ip Address
@@ -730,14 +769,11 @@ namespace ServiceCenter.Controllers
                 if (!string.IsNullOrEmpty(Request.Form["CategoryName"]))
                     CategoryName = Convert.ToString(Request.Form["CategoryName"]).Trim();
 
-                if (!string.IsNullOrEmpty(Request.Form["CategoryKeyword"]))
-                    CategoryKeyword = Convert.ToString(Request.Form["CategoryKeyword"]).Trim();
-
 
                 CategoryMasterListDataModel objCategoryMasterListDataModel = new CategoryMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objCategoryMasterListDataModel = objJobService.GetCategoryList(order, orderDir.ToUpper(), startRec, pageSize, CategoryName, CategoryKeyword);
+                objCategoryMasterListDataModel = objJobService.GetCategoryList(order, orderDir.ToUpper(), startRec, pageSize, CategoryName);
 
 
                 return Json(new
@@ -848,14 +884,10 @@ namespace ServiceCenter.Controllers
                 if (!string.IsNullOrEmpty(Request.Form["CompanyName"]))
                     CompanyName = Convert.ToString(Request.Form["CompanyName"]).Trim();
 
-                if (!string.IsNullOrEmpty(Request.Form["CategoryName"]))
-                    CategoryName = Convert.ToString(Request.Form["CategoryName"]).Trim();
-
-
                 CompanyMasterListDataModel objCompanyMasterListDataModel = new CompanyMasterListDataModel();
 
                 MasterService objJobService = new MasterService();
-                objCompanyMasterListDataModel = objJobService.GetCompanyList(order, orderDir.ToUpper(), startRec, pageSize, CompanyName, CategoryName);
+                objCompanyMasterListDataModel = objJobService.GetCompanyList(order, orderDir.ToUpper(), startRec, pageSize, CompanyName);
 
 
                 return Json(new
@@ -968,6 +1000,42 @@ namespace ServiceCenter.Controllers
             {
                 FileName = "PDF_Doc.pdf"
             };
+        }
+
+        #endregion
+
+        #region Privacy Policy
+
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
+
+        public ActionResult DeleteUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult DeleteUserAction(string MobileNo)
+        {
+            try
+            {
+                // Initialization.
+
+                ResponceModel objResponceModel = new ResponceModel();
+
+                MasterService objMasterService = new MasterService();
+                objResponceModel = objMasterService.GetUserStatusByMobileNo(MobileNo);
+
+
+                return Json(new { message = objResponceModel.Message, responce = objResponceModel.Responce }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Json(new { message = "Something went wrong", responce = false }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         #endregion

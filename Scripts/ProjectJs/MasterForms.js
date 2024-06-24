@@ -32,6 +32,70 @@
             },
         },
     });
+    /*
+
+    $('#Company').select2({
+        placeholder: "Company Name",
+        minimumInputLength: 3,
+        allowClear: true,
+        delay: 250,
+        cache: true,
+        ajax: {
+            url: "/Master/CompanyDD",
+            dataType: 'json',
+            type: 'Get',
+            data: function (params) {
+                var query = {
+                    match: params.term,
+                    page: params.page || 1,
+                    pageSize: params.pageSize || 5
+                }
+                return query;
+            },
+            processResults: function (data, params) {
+                console.log(params);
+                return {
+                    results: data.items,
+                    page: params.page,
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                }
+            },
+        },
+    });
+
+    $('#Category').select2({
+        placeholder: "Category Name",
+        minimumInputLength: 3,
+        allowClear: true,
+        delay: 250,
+        cache: true,
+        ajax: {
+            url: "/Master/CategoryDD",
+            dataType: 'json',
+            type: 'Get',
+            data: function (params) {
+                var query = {
+                    match: params.term,
+                    page: params.page || 1,
+                    pageSize: params.pageSize || 5
+                }
+                return query;
+            },
+            processResults: function (data, params) {
+                console.log(params);
+                return {
+                    results: data.items,
+                    page: params.page,
+                    pagination: {
+                        more: (params.page * 5) < data.total_count
+                    }
+                }
+            },
+        },
+    });
+    */
 
     
 
@@ -167,6 +231,8 @@ function InsertUpdateItem() {
         objItem.ItemId = $("#ItemId").val();
         objItem.ItemName = ItemName;
         objItem.TechnicianId = $("#Technician").val();
+        objItem.CategoryId = $("#CategoryId").val();
+        objItem.CompanyId = $("#CompanyId").val();
         objItem.ItemKeyword = ItemKeyword;
 
 

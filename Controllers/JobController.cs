@@ -90,8 +90,8 @@ namespace ServiceCenter.Controllers
         public ActionResult ServiceCallRegistation(CallRegistration callRegistration)
         {
 
-            CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.EstimateDate : " + callRegistration.EstimateDate);
-            CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.EstConfirmDate : " + callRegistration.EstConfirmDate);
+            //CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.EstimateDate : " + callRegistration.EstimateDate);
+            //CommonService.WriteTraceLog("JobController_ServiceCallRegistation -> callRegistration.EstConfirmDate : " + callRegistration.EstConfirmDate);
 
             string ErrorMsg = string.Empty;
 
@@ -103,7 +103,7 @@ namespace ServiceCenter.Controllers
 
                 ErrorMsg = message;
 
-                CommonService.WriteTraceLog("Invalid ModelState : " + ErrorMsg);
+                //CommonService.WriteTraceLog("Invalid ModelState : " + ErrorMsg);
 
             }
 
@@ -501,7 +501,7 @@ namespace ServiceCenter.Controllers
         [HttpPost]
         public JsonResult CreateNewCallFromBillDetails(BillDetails objBillDetails)
         {
-            CommonService.WriteTraceLog("Controller_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
+            //CommonService.WriteTraceLog("Controller_CreateNewCallFromBillDetails -> objBillDetails.InvoiceDate : " + objBillDetails.InvoiceDate);
 
             ResponceModel objResponceModel = new ResponceModel();
 

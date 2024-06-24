@@ -64,6 +64,11 @@ namespace ServiceCenter.Models
         public DateTime? ModifiedDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsDelete { get; set; }
+        public string CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        
     }
 
     public class ItemMasterListModel
@@ -71,9 +76,10 @@ namespace ServiceCenter.Models
         public int RowNo { get; set; }
         public string ItemId { get; set; }
         public string ItemName { get; set; }
-
         public string ItemKeyword { get; set; }
         public string Technician { get; set; }
+        public string CategoryName { get; set; }
+        public string CompanyName { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -284,10 +290,6 @@ namespace ServiceCenter.Models
     {
         public string CompanyId { get; set; }
         public string CompanyName { get; set; }
-        public string CategoryId { get; set; }
-        public string ServiceName { get; set; }
-        public decimal ServiceChargeLocal { get; set; }
-        public decimal ServiceChargeOutStation { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int ModifiedBy { get; set; }
@@ -296,6 +298,7 @@ namespace ServiceCenter.Models
         public bool IsDelete { get; set; }
         public string CategoryName { get; set; }
         public string Select2JSON { get; set; }
+        public string CategoryListJson { get; set; }
     }
 
     public class CompanyMasterListModel : CompanyMaster

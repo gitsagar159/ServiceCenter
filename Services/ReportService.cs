@@ -5177,9 +5177,9 @@ namespace ServiceCenter.Services
 
                 string strBody = SBEmailBody.ToString();
 
-                EmailService objEmailService = new EmailService();
+                GmailService objGmailService = new GmailService();
 
-                blnEmailSend = objEmailService.Sendmail(strToEmail, strBody, strSubject, ReportFileName);
+                blnEmailSend = objGmailService.SendMail(strToEmail, strBody, strSubject, ReportFileName);
 
                 if(blnEmailSend)
                 {
@@ -5192,7 +5192,7 @@ namespace ServiceCenter.Services
                     lstParam.AddRange(new SqlParameter[]
                              {
                                 new SqlParameter("@ReportId", ReportId),
-                                new SqlParameter("@LoginUserId", UserSesionDetail.id),
+                                new SqlParameter("@LoginUserId", UserSesionDetail != null ? UserSesionDetail.id : 0),
                              });
 
                     objBaseDAL.ExeccuteStoreCommand(strQuery, CommandType.Text, lstParam);

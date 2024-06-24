@@ -19,18 +19,31 @@
             <div class="card-body" style="padding: 3px 24px 0px 24px">
                 <form role="form">
                     <div class="row">
-                        <div class="col col-md-3">
+                        <div class="col col-md-2">
                             <div class="form-group">
                                 <label class="form-label">Item Name</label>
                                 <input type="text" class="form-control" name="ItemName" id="ItemName" placeholder="Item Name">
                             </div>
                         </div>
-                        <div class="col col-md-3">
+                        <div class="col col-md-2">
                             <div class="form-group">
-                                <label class="form-label">Item Keyword</label>
-                                <input type="text" class="form-control" name="ItemKeyword" id="ItemKeyword" placeholder="Item Keyword">
+                                <label class="form-label">Item Name</label>
+                                <input type="text" class="form-control" name="ItemName" id="ItemName" placeholder="Item Name">
                             </div>
                         </div>
+                        <div class="col col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-control" name="Category" id="Category"></select>
+                            </div>
+                        </div>
+                        <div class="col col-md-2">
+                            <div class="form-group">
+                                <label class="form-label">Company</label>
+                                <select class="form-control" name="Company" id="Company"></select>
+                            </div>
+                        </div>
+                        
                         <div class="col col-md-4 pt-4">
                             <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
                         </div>
@@ -61,6 +74,8 @@
                             <th>Item Name</th>
                             <th>Item Keywords</th>
                             <th>Technician</th>
+                            <th>Category</th>
+                            <th>Company</th>
                             <th>Status</th>
                             <th>Operation</th>
                         </tr>
@@ -95,6 +110,69 @@
                  */
                 //LoadJobListTable();
 
+                $('#Company').select2({
+                    placeholder: "Company Name",
+                    minimumInputLength: 3,
+                    allowClear: true,
+                    delay: 250,
+                    cache: true,
+                    ajax: {
+                        url: "/Master/CompanyDD",
+                        dataType: 'json',
+                        type: 'Get',
+                        data: function (params) {
+                            var query = {
+                                match: params.term,
+                                page: params.page || 1,
+                                pageSize: params.pageSize || 5
+                            }
+                            return query;
+                        },
+                        processResults: function (data, params) {
+                            console.log(params);
+                            return {
+                                results: data.items,
+                                page: params.page,
+                                pagination: {
+                                    more: (params.page * 5) < data.total_count
+                                }
+                            }
+                        },
+                    },
+                });
+
+                $('#Category').select2({
+                    placeholder: "Category Name",
+                    minimumInputLength: 3,
+                    allowClear: true,
+                    delay: 250,
+                    cache: true,
+                    ajax: {
+                        url: "/Master/CategoryDD",
+                        dataType: 'json',
+                        type: 'Get',
+                        data: function (params) {
+                            var query = {
+                                match: params.term,
+                                page: params.page || 1,
+                                pageSize: params.pageSize || 5
+                            }
+                            return query;
+                        },
+                        processResults: function (data, params) {
+                            console.log(params);
+                            return {
+                                results: data.items,
+                                page: params.page,
+                                pagination: {
+                                    more: (params.page * 5) < data.total_count
+                                }
+                            }
+                        },
+                    },
+                });
+
+
                 fnBindItemListData();
             });
 
@@ -121,8 +199,10 @@
                     {
                         "url": "/Master/GetItemList",
                         "data": function (d) {
-                            d.ItemName = $("#ItemName").val().trim();
-                            d.ItemKeyword = $("#ItemKeyword").val().trim();
+                            d.ItemName = $("#ItemName").val();
+                            d.ItemKeyword = $("#ItemKeyword").val();
+                            d.CategoryName = $("#Category").val();
+                            d.CompanyName = $("#Company").val();
                         },
                         "type": "POST",
                         "dataType": "JSON"
@@ -132,6 +212,8 @@
                         { "data": "ItemName", "autoWidth": true },
                         { "data": "ItemKeyword", "autoWidth": true },
                         { "data": "Technician", "autoWidth": true },
+                        { "data": "CategoryName", "autoWidth": true },
+                        { "data": "CompanyName", "autoWidth": true },
                         {
                             mRender: function (data, type, full) {
                                 if (full.IsActive === true) {

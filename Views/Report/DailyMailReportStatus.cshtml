@@ -37,7 +37,21 @@
                         <button type="submit" class="btn btn-primary" id="btnAdvanceSearch"><span class="fas fa-search"></span>&nbsp;&nbsp;Search</button>
                     </div>
 
+                    <div class="form-group mr-5">
+                        <button type="button" class="btn btn-secondary" id="btnMorningCalls" onclick="fnServiceCallRegistrationCall()"><span class="fas fa-mail-bulk"></span> &nbsp; 11:00 AM</button>
+                    </div>
+                    <div class="form-group mr-5">
+                        <button type="button" class="btn btn-secondary" id="btnNoonCalls" onclick="fnServiceCallRegistrationCall()"><span class="fas fa-mail-bulk"></span> &nbsp; 01:30 PM</button>
+                    </div>
+                    <div class="form-group mr-5">
+                        <button type="button" class="btn btn-secondary" id="btnAfterNoonCalls" onclick="fnServiceCallRegistrationCall()"><span class="fas fa-mail-bulk"></span> &nbsp; 4:15 PM</button>
+                    </div>
+                    <div class="form-group mr-5">
+                        <button type="button" class="btn btn-secondary" id="btnEveningCalls" onclick="fnServiceCallRegistrationCall()"><span class="fas fa-mail-bulk"></span> &nbsp; 05:50 PM</button>
+                    </div>
+
                 </form>
+               
             </div>
         </div>
 
@@ -193,6 +207,30 @@
                     }
                 });
 
+            }
+
+
+            function fnServiceCallRegistrationCall() {
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Email/SendCompanyCallRegistrationMail",
+                    //data: { ReportId: reportId },
+                    cache: false,
+                    success: function (result) {
+                        if (result !== null) {
+
+                            if (result.Success) {
+                                toastr["success"](result.ResponceMessage);
+                            }
+                            else {
+                                toastr["error"](result.ResponceMessage);
+                            }
+                        }
+                        table.draw();
+                    }
+                });
             }
 
         </script>

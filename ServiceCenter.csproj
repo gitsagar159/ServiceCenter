@@ -48,6 +48,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>packages\BouncyCastle.Cryptography.2.3.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="EASendMail, Version=7.9.1.1, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
       <HintPath>packages\EASendMail.7.9.1.1\lib\net472\EASendMail.dll</HintPath>
     </Reference>
@@ -98,15 +101,18 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Formats.Asn1, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Formats.Asn1.7.0.0\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Pkcs, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -197,6 +203,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HangfireJobController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,12 +221,15 @@
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\Data\BaseDAL.cs" />
     <Compile Include="Models\Data\SQLConnection.cs" />
+    <Compile Include="Models\MailModel.cs" />
     <Compile Include="Models\MasterModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CallRegisterService.cs" />
     <Compile Include="Services\CommonService.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\GmailService.cs" />
     <Compile Include="Services\JobService.cs" />
     <Compile Include="Services\MasterService.cs" />
     <Compile Include="Services\OldDataService.cs" />
@@ -289,6 +299,7 @@
     <Content Include="Content\assets\img\bg\7.jpg" />
     <Content Include="Content\assets\img\bg\8.jpg" />
     <Content Include="Content\assets\img\bg\9.jpg" />
+    <Content Include="Content\assets\img\KetanLogo.png" />
     <Content Include="Content\assets\img\lock.png" />
     <Content Include="Content\assets\img\login_logo.svg" />
     <Content Include="Content\assets\img\logo.png" />
@@ -854,12 +865,15 @@
     <Content Include="Views\Report\_TestReport.cshtml" />
     <Content Include="Views\Master\CompanyForm.cshtml" />
     <Content Include="Views\Master\CompanyList.cshtml" />
+    <Content Include="Views\Master\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Master\DeleteUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\ErrorLog\" />
     <Folder Include="Views\API\" />
     <Folder Include="Views\Area\" />
+    <Folder Include="Views\Email\" />
     <Folder Include="Views\HangfireJob\" />
   </ItemGroup>
   <ItemGroup>
